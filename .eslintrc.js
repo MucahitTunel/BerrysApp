@@ -1,9 +1,8 @@
 module.exports = {
   root: true,
-  extends: '@react-native-community',
+  extends: ['@react-native-community', 'prettier'],
   rules: {
-    semi: ['error', 'never'],
+    'no-await-in-loop': 2,
     'import/no-unresolved': 'off',
-    'no-underscore-dangle': 'off',
   },
 }
