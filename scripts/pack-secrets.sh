@@ -1,7 +1,7 @@
 ########################################################################################
 # Zip secrets archive, from the root of the project. Saves the location of the secrets #
 # for later unzipping.                                                                 #
-# Command: ./secrets-scripts/pack-secrets.sh -e <environment>                          #
+# Command: ./scripts/pack-secrets.sh -e <environment>                                  #
 ########################################################################################
 
 #! /bin/bash
@@ -12,7 +12,6 @@ set -e
 
 APP_ENV=""
 GREEN='\033[0;32m'
-
 
 while getopts ":e:" opt; do
   case $opt in
@@ -25,11 +24,10 @@ done
 
 source fastlane/.env.${APP_ENV}
 
-
-FILE_ROOT="${APP_ENV}_app_secrets_with_paths"
+FILE_ROOT="__secrets__/app_secrets_with_paths_${APP_ENV}"
 
 # Select files to put in the archive
-SECRETS_TO_PACK="fastlane/.env.${APP_ENV}.secret android/app/${GRADLE_KEYSTORE} android/app/${GOOGLE_SERVICES_FILE} ios/FonosMobile/${GOOGLE_PLIST_FILE}"
+SECRETS_TO_PACK="fastlane/.env.${APP_ENV}.secret android/app/${GRADLE_KEYSTORE}"
 
 # Create archive
 tar -cvzf $FILE_ROOT.tar.gz $SECRETS_TO_PACK

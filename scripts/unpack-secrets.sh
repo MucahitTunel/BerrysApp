@@ -1,6 +1,6 @@
 ########################################################################################
 # Unzip secrets archive, copying the secret files to the correct locations in the repo #
-# Command: ./secrets-scripts/unpack-secrets.sh -e <environment> -p <password>          # 
+# Command: ./scripts/unpack-secrets.sh -e <environment> -p <password>                  #
 ########################################################################################
 
 #! /bin/bash
@@ -10,7 +10,6 @@ set -e
 APP_ENV="test"
 SECRETS_PASSPHRASE=""
 GREEN='\033[0;32m'
-
 
 while getopts ":e:p:" opt; do
   case $opt in
@@ -24,7 +23,7 @@ while getopts ":e:p:" opt; do
 done
 
 # Select encrypted file
-FILE_ROOT="${APP_ENV}_app_secrets_with_paths"
+FILE_ROOT="__secrets__/app_secrets_with_paths_${APP_ENV}"
 
 ## Decrypt
 gpg --decrypt --passphrase $SECRETS_PASSPHRASE --batch $FILE_ROOT.tar.gz.gpg > $FILE_ROOT.tar.gz
