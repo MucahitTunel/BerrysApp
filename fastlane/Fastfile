@@ -1,0 +1,27 @@
+fastlane_require 'dotenv'
+
+### COMMON
+before_all do |lane, options|
+  Dotenv.load(".env.#{ENV['ENV']}.secret")
+end
+
+### IOS
+platform :ios do
+  lane :update_config do
+    xcodeproj = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
+    plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
+    update_app_identifier(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      app_identifier: ENV['IOS_APP_ID']
+    )
+    # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
+  end
+end
+
+###  ANDROID
+platform :android do
+  lane :update_config do
+    # sh("cp ../android/app/#{ENV['GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
+  end
+end

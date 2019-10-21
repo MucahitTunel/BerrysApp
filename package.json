@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator=\"iPhone 8\"",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
+    "app": "./scripts/app.sh",
     "pack-secrets": "./scripts/pack-secrets.sh",
     "unpack-secrets": "./scripts/unpack-secrets.sh"
   },
