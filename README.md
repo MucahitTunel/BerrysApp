@@ -4,6 +4,7 @@
 
 - [yarn](https://yarnpkg.com/en/)
 - [bundler](https://bundler.io/)
+- [gnupg](https://gnupg.org/download/)
 
 ### Installation
 

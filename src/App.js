@@ -8,7 +8,7 @@
 
 import React from 'react'
 
-import { useScreens } from 'react-native-screens'
+import {useScreens} from 'react-native-screens'
 useScreens()
 
 import AppNavigator from 'navigation/AppNavigator'
