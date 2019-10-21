@@ -4,11 +4,17 @@ module.exports = {
   plugins: ['import'],
   rules: {
     'no-await-in-loop': 2,
-    'import/no-unresolved': 'off',
+    'import/no-unresolved': [2, { commonjs: true, amd: true }],
   },
   settings: {
     "import/resolver": {
-      "babel-module": {}
+      "babel-module": {
+        alias: {
+          navigation: './src/navigation',
+          screens: './src/screens',
+        },
+        extensions: ['.js', '.native.js']
+      },
     }
-  },  
+  },
 }
