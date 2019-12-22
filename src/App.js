@@ -9,8 +9,8 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import { useScreens } from 'react-native-screens'
-useScreens()
+import { enableScreens } from 'react-native-screens'
+enableScreens()
 
 import AppNavigator from 'navigation/AppNavigator'
 import store from './store'
