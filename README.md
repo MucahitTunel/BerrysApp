@@ -1,4 +1,4 @@
-# README
+# ReactNativeBoilerplate
 
 ### Prerequisites
 
@@ -16,3 +16,6 @@
 ### Run
 - ios: `yarn app -o ios`
 - android: `yarn app -o android`
+
+### Docs
+- [Packages](./docs/packages.md)
