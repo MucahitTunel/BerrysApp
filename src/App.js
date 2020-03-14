@@ -6,14 +6,15 @@
  * @flow
  */
 
+import 'react-native-gesture-handler'
 import React from 'react'
 import { Provider } from 'react-redux'
-
 import { enableScreens } from 'react-native-screens'
-enableScreens()
 
 import AppNavigator from 'navigation/AppNavigator'
 import store from './store'
+
+enableScreens()
 
 const App = () => {
   return (
