@@ -19,3 +19,5 @@
 
 ### Docs
 - [Packages](./docs/packages.md)
+- [Environments](./docs/environments.md)
+- [Secrets](./docs/secrets.md)
