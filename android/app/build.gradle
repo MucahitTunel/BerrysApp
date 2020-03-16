@@ -155,10 +155,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(String.valueOf(System.getenv("GRADLE_KEYSTORE")))
-            storePassword System.getenv("GRADLE_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("GRADLE_KEYSTORE_ALIAS")
-            keyPassword System.getenv("GRADLE_KEYSTORE_ALIAS_PASSWORD")
+            storeFile file('release.keystore')
+            storePassword 'android'
+            keyAlias 'androidreleasekey'
+            keyPassword 'android'
         }
     }
     buildTypes {

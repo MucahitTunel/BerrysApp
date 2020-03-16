@@ -1,6 +1,12 @@
 fastlane_require 'dotenv'
 
 ### COMMON
+before_all do |lane, options|
+  get_app_version
+  set_build_numbers_to_current_timestamp
+  Dotenv.load(".env.#{ENV['ENV']}.secret")
+end
+
 lane :set_build_numbers_to_current_timestamp do |options|
   incremented_build_number = Time.now.to_i.to_s
   ENV['IOS_VERSION_BUILD_NUMBER'] = incremented_build_number
@@ -14,6 +20,15 @@ end
 
 ### IOS
 platform :ios do
+  lane :certificates do
+    match(
+      app_identifier: ENV['IOS_APP_ID'],
+      shallow_clone: true,
+      clone_branch_directly: true,
+      readonly: true
+    )
+  end
+
   lane :update_config do
     xcodeproj = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
     plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
@@ -22,6 +37,15 @@ platform :ios do
       plist_path: plist_path,
       app_identifier: ENV['IOS_APP_ID']
     )
+    update_info_plist(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      block: lambda { |plist|
+        plist['CFBundleName'] = ENV['IOS_APP_NAME']
+        plist['CFBundleDisplayName'] = ENV['IOS_APP_NAME']
+        plist['CFBundleShortVersionString'] = ENV['APP_VERSION']
+      },
+    )
     # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
   end
 end
@@ -29,6 +53,11 @@ end
 ###  ANDROID
 platform :android do
   lane :update_config do
+    update_android_strings(
+      block: lambda { |strings|
+        strings['app_name'] = ENV['GRADLE_APP_NAME']
+      }
+    )
     # sh("cp ../android/app/#{ENV['GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
   end
 end

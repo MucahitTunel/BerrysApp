@@ -62,3 +62,4 @@ fastlane/report.xml
 # Secrets
 google-services*.json
 GoogleService-Info*.plist
+*.secret

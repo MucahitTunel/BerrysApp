@@ -15,7 +15,25 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
+### set_build_numbers_to_current_timestamp
+```
+fastlane set_build_numbers_to_current_timestamp
+```
+
+### get_app_version
+```
+fastlane get_app_version
+```
+
+
+----
+
 ## iOS
+### ios certificates
+```
+fastlane ios certificates
+```
+
 ### ios update_config
 ```
 fastlane ios update_config

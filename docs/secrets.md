@@ -11,7 +11,7 @@ The following are example of workflows for secrets in `dev` environment:
 - enter the password (default: `dsv123!@#`)
 - all secrets will be unpacked to the correct location
 
-#### To add a new secret (e.g `MY_SECRET_FILE`)
+#### To add a new secret/update an existing secret (e.g `MY_SECRET_FILE`)
 - make sure you've fetched all current secrets
 - ignore the file in `.gitignore`
 - add the path of file to `SECRETS_TO_PACK` list (separate by a space) in `scripts/pack-secrets.sh`
