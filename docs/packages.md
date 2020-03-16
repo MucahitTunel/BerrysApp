@@ -17,19 +17,19 @@
     - react-native-screens
 
 ### DevDependencies
-- Babel
+- Babel (JavaScript compiler)
     - @babel/core
     - @babel/runtime
     - babel-jest
     - babel-plugin-module-resolver
     - metro-react-native-babel-preset
-- ESLint
+- ESLint (JavaScript linter)
     - eslint
     - eslint-config-prettier
     - eslint-import-resolver-babel-module
     - eslint-plugin-import
     - @react-native-community/eslint-config
-- Storybook
+- Storybook (for building UI components)
     - @storybook/addon-actions
     - @storybook/addon-knobs
     - @storybook/addon-ondevice-actions
@@ -40,5 +40,5 @@
     - jest
     - react-test-renderer
 - Others
-    - husky
-    - lint-staged
+    - husky (git hooks)
+    - lint-staged (run linters on git staged files)
