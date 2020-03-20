@@ -11,7 +11,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { enableScreens } from 'react-native-screens'
 
-import AppNavigator from 'navigation/AppNavigator'
+import AppNavigator from 'components/AppNavigator'
 import store from './state/store'
 
 enableScreens()

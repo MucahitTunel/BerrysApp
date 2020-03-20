@@ -7,8 +7,9 @@ module.exports = api => {
         'module-resolver',
         {
           alias: {
-            navigation: './src/navigation',
-            screens: './src/screens',
+            components: './src/components',
+            features: './src/features',
+            state: './src/state',
             storybook: './src/storybook',
           },
         },

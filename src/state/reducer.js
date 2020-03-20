@@ -1,5 +1,6 @@
-const initialState = {}
+import { combineReducers } from 'redux'
+import { counterReducer } from 'features/counter/counterSlice'
 
-export default (state = initialState, action) => {
-  return state
-}
+export default combineReducers({
+  counter: counterReducer,
+})
