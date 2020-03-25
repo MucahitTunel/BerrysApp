@@ -14,14 +14,18 @@ const Dummy = ({ navigation: { navigate } }) => {
   return (
     <View style={styles.container}>
       <View>
-        <TouchableOpacity onPress={() => goToScreen('StorybookUI')}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => goToScreen('StorybookUI')}>
           <Text>Storybook</Text>
         </TouchableOpacity>
       </View>
 
       <View>
-        <TouchableOpacity onPress={() => goToScreen('Counter')}>
-          <Text>Counter</Text>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => goToScreen('Counter')}>
+          <Text>Counter Example</Text>
         </TouchableOpacity>
       </View>
     </View>
