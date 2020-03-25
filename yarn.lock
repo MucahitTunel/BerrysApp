@@ -1431,21 +1431,6 @@
     react-native-modal-selector "^1.0.2"
     react-native-switch "^1.5.0"
 
-"@storybook/addon-ondevice-notes@^5.3.17":
-  version "5.3.17"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-ondevice-notes/-/addon-ondevice-notes-5.3.17.tgz#9564040dbedcc47d19440703f69168b1ff5541dc"
-  integrity sha512-+Yy5ugyDYvMbyOkHNZC5l5urGhaWypG4QOsHeeHz2W85EHhEctDfnpecQsYxGv2g8k7kraPV//N4ZA2yFeV3zw==
-  dependencies:
-    "@emotion/core" "^10.0.20"
-    "@storybook/addons" "5.3.17"
-    "@storybook/api" "5.3.17"
-    "@storybook/client-api" "5.3.17"
-    "@storybook/client-logger" "5.3.17"
-    "@storybook/core-events" "5.3.17"
-    core-js "^3.0.1"
-    prop-types "^15.7.2"
-    react-native-simple-markdown "^1.1.0"
-
 "@storybook/addons@5.3.17":
   version "5.3.17"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.3.17.tgz#8efab65904040b0b8578eedc9a5772dbcbf6fa83"
@@ -5577,7 +5562,7 @@ lodash.unescape@4.0.1:
   resolved "https://registry.yarnpkg.com/lodash.unescape/-/lodash.unescape-4.0.1.tgz#bf2249886ce514cda112fae9218cdc065211fc9c"
   integrity sha1-vyJJiGzlFM2hEvrpIYzcBlIR/Jw=
 
-lodash@^4.0.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5, lodash@^4.3.0:
+lodash@^4.0.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -7128,14 +7113,6 @@ react-native-screens@^2.3.0:
   dependencies:
     debounce "^1.2.0"
 
-react-native-simple-markdown@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-simple-markdown/-/react-native-simple-markdown-1.1.0.tgz#4d462f8ced26393c5230467420c61a50cc6a8095"
-  integrity sha1-TUYvjO0mOTxSMEZ0IMYaUMxqgJU=
-  dependencies:
-    lodash "^4.15.0"
-    simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"
-
 react-native-swipe-gestures@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.4.tgz#6a9c6613bfe06cd9014a36a2c4a09f719ff62451"
@@ -7870,10 +7847,6 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-
-"simple-markdown@git://github.com/CharlesMangwa/simple-markdown.git":
-  version "0.1.1"
-  resolved "git://github.com/CharlesMangwa/simple-markdown.git#33d963c760b8196bee01b1a5ba9974bc7f669af1"
 
 simple-plist@^1.0.0:
   version "1.0.0"

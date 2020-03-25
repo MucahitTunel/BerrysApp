@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react-native'
 import { withKnobs, object } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
 import Colors from 'constants/colors'
 import CenteredView from '../CenteredView'
 import AppButton from './index'
@@ -22,4 +23,7 @@ storiesOf('AppButton', module)
       text="purple"
     />
   ))
-  .add('knobs', () => <AppButton {...object('buttonProps', buttonProps)} />)
+  .add('with knobs', () => (
+    <AppButton {...object('buttonProps', buttonProps)} />
+  ))
+  .add('with actions', () => <AppButton onPress={action('button pressed')} />)
