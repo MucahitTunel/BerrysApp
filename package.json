@@ -24,7 +24,8 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.3.0",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
@@ -34,10 +35,10 @@
     "@storybook/addon-knobs": "^5.3.17",
     "@storybook/addon-ondevice-actions": "^5.3.17",
     "@storybook/addon-ondevice-knobs": "^5.3.17",
-    "@storybook/addon-ondevice-notes": "^5.3.17",
     "@storybook/react-native": "^5.3.17",
     "babel-jest": "^25.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-styled-components": "^1.10.7",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-import-resolver-babel-module": "^5.1.2",
