@@ -3,11 +3,13 @@ module.exports = api => {
   return {
     presets: ['module:metro-react-native-babel-preset'],
     plugins: [
+      'babel-plugin-styled-components',
       [
         'module-resolver',
         {
           alias: {
             components: './src/components',
+            constants: './src/constants',
             features: './src/features',
             state: './src/state',
             storybook: './src/storybook',
