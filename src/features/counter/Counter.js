@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text } from 'react-native'
+import AppButton from 'components/AppButton'
 import { increment, decrement } from './counterSlice'
+import CenteredView from '../../components/CenteredView'
 
 const Counter = () => {
   const dispatch = useDispatch()
@@ -9,21 +11,23 @@ const Counter = () => {
   const onClickIncrease = () => dispatch(increment())
   const onClickDecrease = () => dispatch(decrement())
   return (
-    <View>
+    <CenteredView>
       <View>
-        <TouchableOpacity>
-          <Text>{counter}</Text>
-        </TouchableOpacity>
+        <Text style={{ fontSize: 50, textAlign: 'center' }}>{counter}</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={onClickIncrease}>
-          <Text>Increase</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onClickDecrease}>
-          <Text>Decrease</Text>
-        </TouchableOpacity>
+        <AppButton
+          style={{ margin: 15 }}
+          onPress={onClickIncrease}
+          text="Increase"
+        />
+        <AppButton
+          style={{ margin: 15 }}
+          onPress={onClickDecrease}
+          text="Decrease"
+        />
       </View>
-    </View>
+    </CenteredView>
   )
 }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Colors from 'constants/colors'
@@ -18,11 +17,9 @@ const ButtonText = styled.Text`
   text-align: center;
 `
 
-const AppButton = props => (
-  <ButtonContainer
-    onPress={() => Alert.alert('Hi!')}
-    backgroundColor={props.backgroundColor}>
-    <ButtonText textColor={props.textColor}>{props.text}</ButtonText>
+const AppButton = ({ backgroundColor, textColor, text, ...rest }) => (
+  <ButtonContainer backgroundColor={backgroundColor} {...rest}>
+    <ButtonText textColor={textColor}>{text}</ButtonText>
   </ButtonContainer>
 )
 
