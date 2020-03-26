@@ -635,7 +635,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
 				PRODUCT_NAME = ReactNativeBoilerplate;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -654,7 +654,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
 				PRODUCT_NAME = ReactNativeBoilerplate;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

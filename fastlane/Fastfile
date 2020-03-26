@@ -4,7 +4,7 @@ fastlane_require 'dotenv'
 before_all do |lane, options|
   get_app_version
   set_build_numbers_to_current_timestamp
-  Dotenv.load(".env.#{ENV['ENV']}.secret")
+  Dotenv.load(".env.#{ENV['ENV']}")
 end
 
 lane :set_build_numbers_to_current_timestamp do |options|
@@ -55,7 +55,7 @@ platform :android do
   lane :update_config do
     update_android_strings(
       block: lambda { |strings|
-        strings['app_name'] = ENV['GRADLE_APP_NAME']
+        strings['app_name'] = ENV['ANDROID_APP_NAME']
       }
     )
     # sh("cp ../android/app/#{ENV['GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
