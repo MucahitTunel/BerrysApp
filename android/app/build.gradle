@@ -125,6 +125,7 @@ def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.reactnativeboiler
 def _appName = project.env.get("ANDROID_APP_NAME") ?: 'ReactNativeBoilerplate (dev)'
 def _versionCode = (project.env.get("ANDROID_VERSION_CODE") ?: "1") as Integer
 def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
+def _packageName = project.env.get("ANDROID_PACKAGE_NAME") ?: "com.reactnativeboilerplate"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -140,7 +141,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode _versionCode
         versionName _versionName
-        resValue "string", "build_config_package", "com.reactnativeboilerplate"
+        resValue "string", "build_config_package", _packageName
     }
     splits {
         abi {
