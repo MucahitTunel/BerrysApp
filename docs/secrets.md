@@ -1,6 +1,7 @@
 # Secrets
 
 In each [environment](./environments.md), some files are considered as "secrets", for example:
+- environment variables
 - Android keystore files
 - Firebase's google-services.json / GoogleService-Info.plist files
 

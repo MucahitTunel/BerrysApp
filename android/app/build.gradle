@@ -121,6 +121,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.reactnativeboilerplate.dev'
+def _appName = project.env.get("ANDROID_APP_NAME") ?: 'ReactNativeBoilerplate (dev)'
+def _versionCode = (project.env.get("ANDROID_VERSION_CODE") ?: "1") as Integer
+def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -130,11 +135,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.reactnativeboilerplate"
+        applicationId _applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode _versionCode
+        versionName _versionName
         resValue "string", "build_config_package", "com.reactnativeboilerplate"
     }
     splits {
@@ -147,18 +152,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(String.valueOf(project.env.get("GRADLE_KEYSTORE")))
+            storePassword project.env.get("GRADLE_KEYSTORE_PASSWORD")
+            keyAlias project.env.get("GRADLE_KEYSTORE_ALIAS")
+            keyPassword project.env.get("GRADLE_KEYSTORE_ALIAS_PASSWORD")
         }
-    }
-    signingConfigs {
         release {
-            storeFile file('release.keystore')
-            storePassword 'android'
-            keyAlias 'androidreleasekey'
-            keyPassword 'android'
+            storeFile file(String.valueOf(project.env.get("GRADLE_KEYSTORE")))
+            storePassword project.env.get("GRADLE_KEYSTORE_PASSWORD")
+            keyAlias project.env.get("GRADLE_KEYSTORE_ALIAS")
+            keyPassword project.env.get("GRADLE_KEYSTORE_ALIAS_PASSWORD")
         }
     }
     buildTypes {
@@ -171,7 +174,6 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "app_name", "ReactNativeBoilerplate"
         }
     }
     // applicationVariants are e.g. debug, release
