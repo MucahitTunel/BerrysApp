@@ -3,10 +3,12 @@
 ## Dependencies
 - React Native
     - react
+    - prop-types
     - react-native
 - Redux
     - redux
     - react-redux
+    - @reduxjs/toolkit: official, opinionated, batteries-included toolset for efficient Redux development
 - React Navigation
     - @react-navigation/native
     - @react-navigation/stack
@@ -15,6 +17,7 @@
     - react-native-reanimated
     - react-native-safe-area-context
     - react-native-screens
+- styled-components
 
 ### DevDependencies
 - Babel (JavaScript compiler)
@@ -34,7 +37,6 @@
     - @storybook/addon-knobs
     - @storybook/addon-ondevice-actions
     - @storybook/addon-ondevice-knobs
-    - @storybook/addon-ondevice-notes
     - @storybook/react-native
 - Testing
     - jest
