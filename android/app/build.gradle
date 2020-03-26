@@ -121,10 +121,10 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def _applicationId = System.getenv("ANDROID_APP_ID") ?: 'com.reactnativeboilerplate.dev'
-def _appName = System.getenv("ANDROID_APP_NAME") ?: 'ReactNativeBoilerplate (dev)'
-def _versionCode = (System.getenv("ANDROID_VERSION_CODE") ?: "1") as Integer
-def _versionName = System.getenv("APP_VERSION") ?: "0.0.1"
+def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.reactnativeboilerplate.dev'
+def _appName = project.env.get("ANDROID_APP_NAME") ?: 'ReactNativeBoilerplate (dev)'
+def _versionCode = (project.env.get("ANDROID_VERSION_CODE") ?: "1") as Integer
+def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -138,7 +138,7 @@ android {
         applicationId _applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode _versionCode.toInteger()
+        versionCode _versionCode
         versionName _versionName
         resValue "string", "build_config_package", "com.reactnativeboilerplate"
     }
@@ -152,22 +152,21 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file(String.valueOf(System.getenv("GRADLE_KEYSTORE")))
-            storePassword System.getenv("GRADLE_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("GRADLE_KEYSTORE_ALIAS")
-            keyPassword System.getenv("GRADLE_KEYSTORE_ALIAS_PASSWORD")
+            storeFile file(String.valueOf(project.env.get("GRADLE_KEYSTORE")))
+            storePassword project.env.get("GRADLE_KEYSTORE_PASSWORD")
+            keyAlias project.env.get("GRADLE_KEYSTORE_ALIAS")
+            keyPassword project.env.get("GRADLE_KEYSTORE_ALIAS_PASSWORD")
         }
         release {
-            storeFile file(String.valueOf(System.getenv("GRADLE_KEYSTORE")))
-            storePassword System.getenv("GRADLE_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("GRADLE_KEYSTORE_ALIAS")
-            keyPassword System.getenv("GRADLE_KEYSTORE_ALIAS_PASSWORD")
+            storeFile file(String.valueOf(project.env.get("GRADLE_KEYSTORE")))
+            storePassword project.env.get("GRADLE_KEYSTORE_PASSWORD")
+            keyAlias project.env.get("GRADLE_KEYSTORE_ALIAS")
+            keyPassword project.env.get("GRADLE_KEYSTORE_ALIAS_PASSWORD")
         }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            resValue "string", "app_name", _appName
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -175,7 +174,6 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "app_name", _appName
         }
     }
     // applicationVariants are e.g. debug, release
