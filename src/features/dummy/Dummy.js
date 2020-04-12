@@ -16,14 +16,6 @@ const Dummy = ({ navigation: { navigate } }) => {
       <View>
         <TouchableOpacity
           style={styles.item}
-          onPress={() => goToScreen('StorybookUI')}>
-          <Text>Storybook</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View>
-        <TouchableOpacity
-          style={styles.item}
           onPress={() => goToScreen('Counter')}>
           <Text>Counter Example</Text>
         </TouchableOpacity>
