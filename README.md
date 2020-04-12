@@ -9,8 +9,6 @@
 ### Installation
 
 - `yarn`
-- `bundle install`
-- `cd ios && bundle exec pod install --repo-update`
 - extract secrets for `dev` environment: `yarn unpack-secrets -e dev` (default password: `dsv123!@#`)
 
 ### Run
