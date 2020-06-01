@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import Colors from 'constants/colors'
 
 const ButtonContainer = styled.TouchableOpacity`
-	width: 100px;
-	height: 40px
-	padding: 12px;
-	border-radius: 10px;	
-	background-color: ${props => props.backgroundColor};
+  width: 100px;
+  height: 40px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: ${props => props.backgroundColor};
 `
 
 const ButtonText = styled.Text`

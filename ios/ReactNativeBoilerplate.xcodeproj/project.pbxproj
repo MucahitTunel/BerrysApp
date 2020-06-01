@@ -19,7 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* ReactNativeBoilerplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNativeBoilerplateTests.m */; };
 		3CEE6A6B8FECF77D79A67A5C /* libPods-ReactNativeBoilerplate-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 168A5E8C769161DCE003B7AD /* libPods-ReactNativeBoilerplate-tvOSTests.a */; };
 		4DF70EE5237D8F0B53B1E648 /* libPods-ReactNativeBoilerplate-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05EFD943F6C97F6CF1CDEF97 /* libPods-ReactNativeBoilerplate-tvOS.a */; };
-		7A50CDCA8A20D8B18E130200 /* libPods-ReactNativeBoilerplateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8EEE5428BD0FC5F4C6293D /* libPods-ReactNativeBoilerplateTests.a */; };
+		56F3B326D7FB556B4F4330A2 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,16 +57,19 @@
 		1F057E8E1F4CE3EAB254AB40 /* Pods-ReactNativeBoilerplate-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ReactNativeBoilerplate-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ReactNativeBoilerplate-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ReactNativeBoilerplate-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactNativeBoilerplate-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.release.xcconfig"; sourceTree = "<group>"; };
 		531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplateTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplateTests.release.xcconfig"; sourceTree = "<group>"; };
 		66F7D11CCE8E0EAB66F91C95 /* Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		6E8EEE5428BD0FC5F4C6293D /* libPods-ReactNativeBoilerplateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.debug.xcconfig"; sourceTree = "<group>"; };
+		B23C7B3E2484EEFF001903FB /* ReactNativeBoilerplate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeBoilerplate-Bridging-Header.h"; sourceTree = "<group>"; };
 		EBEB247EDD203B5D744497C2 /* Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ECD77B0C5AD25BE7498105BB /* Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEABB5700E671C5CA65F80F1 /* Pods-ReactNativeBoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplateTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A50CDCA8A20D8B18E130200 /* libPods-ReactNativeBoilerplateTests.a in Frameworks */,
+				56F3B326D7FB556B4F4330A2 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +135,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				B23C7B3E2484EEFF001903FB /* ReactNativeBoilerplate-Bridging-Header.h */,
 			);
 			name = ReactNativeBoilerplate;
 			sourceTree = "<group>";
@@ -144,7 +148,7 @@
 				0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */,
 				05EFD943F6C97F6CF1CDEF97 /* libPods-ReactNativeBoilerplate-tvOS.a */,
 				168A5E8C769161DCE003B7AD /* libPods-ReactNativeBoilerplate-tvOSTests.a */,
-				6E8EEE5428BD0FC5F4C6293D /* libPods-ReactNativeBoilerplateTests.a */,
+				F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -193,8 +197,9 @@
 				66F7D11CCE8E0EAB66F91C95 /* Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig */,
 				FEABB5700E671C5CA65F80F1 /* Pods-ReactNativeBoilerplateTests.debug.xcconfig */,
 				531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */,
+				32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */,
+				FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -285,12 +290,15 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1150;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -308,6 +316,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -446,7 +455,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactNativeBoilerplateTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -580,7 +589,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FEABB5700E671C5CA65F80F1 /* Pods-ReactNativeBoilerplateTests.debug.xcconfig */;
+			baseConfigurationReference = 32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -590,6 +599,10 @@
 				INFOPLIST_FILE = ReactNativeBoilerplateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -603,13 +616,17 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */;
+			baseConfigurationReference = FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ReactNativeBoilerplateTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -625,11 +642,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = ReactNativeBoilerplate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -637,6 +660,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
 				PRODUCT_NAME = ReactNativeBoilerplate;
+				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeBoilerplate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -645,10 +671,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = ReactNativeBoilerplate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -656,6 +688,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
 				PRODUCT_NAME = ReactNativeBoilerplate;
+				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeBoilerplate-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -675,6 +709,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ReactNativeBoilerplate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -703,6 +741,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ReactNativeBoilerplate-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -730,6 +772,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ReactNativeBoilerplate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -757,6 +803,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "ReactNativeBoilerplate-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -773,7 +823,9 @@
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -798,7 +850,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -808,6 +860,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -817,6 +870,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(inherited)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -826,7 +885,9 @@
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -863,6 +924,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)",
+					"$(inherited)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
