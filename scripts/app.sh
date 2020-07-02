@@ -3,7 +3,7 @@ APP_ENV="dev"
 APP_OS="ios"
 IOS_DEVICE="iPhone 8"
 
-while getopts ":e:o:t:d:m:" opt; do
+while getopts ":e:o:d:" opt; do
   case $opt in
     e) APP_ENV="$OPTARG"
     ;;
