@@ -9,6 +9,8 @@
     "app": "./scripts/app.sh",
     "pack-secrets": "./scripts/pack-secrets.sh",
     "unpack-secrets": "./scripts/unpack-secrets.sh",
+    "deploy": "./scripts/deploy.sh",
+    "match": "./scripts/match.sh",
     "preinstall": "node ./scripts/pre-install",
     "postinstall": "node ./scripts/post-install"
   },
