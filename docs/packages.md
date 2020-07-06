@@ -18,6 +18,8 @@
     - react-native-safe-area-context
     - react-native-screens
 - styled-components
+- axios: Promise-based HTTP client for the browser and node.js
+- @react-native-community/async-storage: an asynchronous, unencrypted, persistent, key-value storage system for React Native
 
 ### DevDependencies
 - Babel (JavaScript compiler)
