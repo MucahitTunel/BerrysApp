@@ -1,5 +1,7 @@
 fastlane_require 'dotenv'
 
+release_notes_command = "git log HEAD --pretty=format:\"%s\" -1"
+
 ### COMMON
 before_all do |lane, options|
   get_app_version
@@ -7,26 +9,64 @@ before_all do |lane, options|
   Dotenv.load(".env.#{ENV['ENV']}")
 end
 
-lane :set_build_numbers_to_current_timestamp do |options|
+lane :set_build_numbers_to_current_timestamp do
   incremented_build_number = Time.now.to_i.to_s
+  puts "incremented_build_number " + incremented_build_number
   ENV['IOS_VERSION_BUILD_NUMBER'] = incremented_build_number
   ENV['ANDROID_VERSION_CODE'] = incremented_build_number
 end
 
-lane :get_app_version do |options|
+lane :get_app_version do
   version = sh("node -p \"require(\'..\/package.json\').version\"")
+  puts "version " + version
   ENV['APP_VERSION'] = version
 end
 
 ### IOS
 platform :ios do
-  lane :certificates do
+  lane :certificates do |options|
     match(
       app_identifier: ENV['IOS_APP_ID'],
       shallow_clone: true,
       clone_branch_directly: true,
-      readonly: true
+      git_url: ENV['IOS_MATCH_GIT_URL'],
+      git_branch: ENV['IOS_MATCH_GIT_BRANCH'],
+      username: ENV['IOS_MATCH_USERNAME'],
+      team_id: ENV['IOS_MATCH_TEAM_ID'],
+      team_name: ENV['IOS_MATCH_TEAM_NAME'],
+      type: ENV['IOS_MATCH_TYPE'],
+      readonly: options[:readonly] || false,
     )
+  end
+
+  lane :build do
+    certificates(readonly: true)
+    xcodeproj = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
+    xcworkspace = "#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcworkspace"
+    plist_path = "#{ENV['IOS_PROJECT_NAME']}/Info.plist"
+    update_config
+    update_info_plist(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      block: lambda { |plist|
+        plist['CFBundleVersion'] = ENV['IOS_VERSION_BUILD_NUMBER']
+      },
+    )
+    profile_env_name = "sigh_#{ENV['IOS_APP_ID']}_#{ENV['IOS_MATCH_TYPE']}_profile-name"
+    gymOptions = ({
+      silent: true,
+      clean: true,
+      configuration: 'Release',
+      scheme: ENV['IOS_GYM_SCHEME'],
+      output_directory: ENV['IOS_GYM_OUTPUT_DIR'],
+      output_name: ENV['IOS_GYM_OUTPUT_NAME'],
+      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{ENV[profile_env_name]}' DEVELOPMENT_TEAM='#{ENV['IOS_TEAM_ID']}'"
+    }).merge(
+      File.directory?("../#{xcworkspace}") ?
+        {workspace: xcworkspace} :
+        {project: xcodeproj}
+    )
+    gym(gymOptions)
   end
 
   lane :update_config do
@@ -48,6 +88,34 @@ platform :ios do
     )
     # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
   end
+
+  lane :deploy_to_appcenter do
+    appcenter_upload(
+      api_token: ENV['APPCENTER_API_TOKEN'],
+      owner_name: ENV['APPCENTER_USERNAME'],
+      app_name: ENV['APPCENTER_IOS_APP_ID'],
+      file: ENV['IOS_IPA_PATH'],
+      release_notes: %x[#{release_notes_command}]
+    )
+  end
+
+  lane :deploy_to_testflight do
+    pilot(
+      username: ENV['IOS_APPLE_ID'],
+      app_identifier: ENV['IOS_APP_ID'],
+      ipa: ENV['IOS_IPA_PATH'],
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  lane :deploy do
+    build
+    if ENV['DEPLOYMENT_PLATFORM'] === 'appcenter' then
+      deploy_to_appcenter
+    elsif ENV['DEPLOYMENT_PLATFORM'] === 'appstore'
+      deploy_to_testflight
+    end
+  end
 end
 
 ###  ANDROID
@@ -59,5 +127,43 @@ platform :android do
       }
     )
     # sh("cp ../android/app/#{ENV['GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
+  end
+
+  lane :build do
+    update_config
+    gradle(
+      task: "assembleRelease",
+      project_dir: ENV['ANDROID_PROJECT_PATH']
+    )
+  end
+
+  lane :deploy_to_appcenter do
+    appcenter_upload(
+      api_token: ENV['APPCENTER_API_TOKEN'],
+      owner_name: ENV['APPCENTER_USERNAME'],
+      app_name: ENV['APPCENTER_ANDROID_APP_ID'],
+      file: ENV['ANDROID_APK_PATH'],
+      release_notes: %x[#{release_notes_command}]
+    )
+  end
+
+  lane :deploy_to_playstore do
+    supply(
+      package_name: ENV['ANDROID_APP_ID'],
+      track: 'internal',
+      apk: ENV['ANDROID_APK_PATH'],
+      json_key: ENV['ANDROID_PLAYSTORE_JSON_KEY_PATH'],
+      skip_upload_aab: true,
+      release_status: 'draft'
+    )
+  end
+
+  lane :deploy do
+    build
+    if ENV['DEPLOYMENT_PLATFORM'] === 'appcenter' then
+      deploy_to_appcenter
+    elsif ENV['DEPLOYMENT_PLATFORM'] === 'appstore' then
+      deploy_to_playstore
+    end
   end
 end
