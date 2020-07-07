@@ -34,9 +34,29 @@ fastlane get_app_version
 fastlane ios certificates
 ```
 
+### ios build
+```
+fastlane ios build
+```
+
 ### ios update_config
 ```
 fastlane ios update_config
+```
+
+### ios deploy_to_appcenter
+```
+fastlane ios deploy_to_appcenter
+```
+
+### ios deploy_to_testflight
+```
+fastlane ios deploy_to_testflight
+```
+
+### ios deploy
+```
+fastlane ios deploy
 ```
 
 
@@ -46,6 +66,26 @@ fastlane ios update_config
 ### android update_config
 ```
 fastlane android update_config
+```
+
+### android build
+```
+fastlane android build
+```
+
+### android deploy_to_appcenter
+```
+fastlane android deploy_to_appcenter
+```
+
+### android deploy_to_playstore
+```
+fastlane android deploy_to_playstore
+```
+
+### android deploy
+```
+fastlane android deploy
 ```
 
 

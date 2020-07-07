@@ -16,6 +16,7 @@
 - android: `yarn app -o android`
 
 ### Docs
+- [Getting Started](./docs/getting-started.md)
 - [Packages](./docs/packages.md)
 - [Environments](./docs/environments.md)
 - [Secrets](./docs/secrets.md)
