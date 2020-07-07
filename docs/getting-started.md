@@ -25,6 +25,7 @@ For example, your **production** app ID can be `com.tinder.app`. The other app I
 Replace all instances of `ReactNativeBoilerplate` with your project name, for example `TinderMobile`.
 
 ### Update app icons
+- Follow [this tutorial](https://medium.com/better-programming/react-native-add-app-icons-and-launch-screens-onto-ios-and-android-apps-3bfbc20b7d4c) to update iOS & Android app icons
 - // TODO use [fastlane-plugin-badge](https://github.com/HazAT/fastlane-plugin-badge) 
 
 ### Setup AppCenter apps (staging)
