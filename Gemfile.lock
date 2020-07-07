@@ -131,6 +131,7 @@ GEM
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-appcenter (1.8.1)
+    fastlane-plugin-load_json (0.0.1)
     fastlane-plugin-update_android_strings (0.1.0)
       ox
     ffi (1.13.1)
@@ -245,6 +246,7 @@ DEPENDENCIES
   cocoapods (= 1.9.3)
   fastlane
   fastlane-plugin-appcenter
+  fastlane-plugin-load_json
   fastlane-plugin-update_android_strings
 
 BUNDLED WITH

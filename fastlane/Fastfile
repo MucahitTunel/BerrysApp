@@ -17,7 +17,8 @@ lane :set_build_numbers_to_current_timestamp do
 end
 
 lane :get_app_version do
-  version = sh("node -p \"require(\'..\/package.json\').version\"")
+  package = load_json(json_path: "./package.json")
+  version = package["version"]
   puts "version " + version
   ENV['APP_VERSION'] = version
 end
