@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { View, StyleSheet, Linking, Alert } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
-// import SignUpModal from 'screens/SignUpModal'
+import SignUpModal from 'features/auth/SignUpModal'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
@@ -28,7 +27,7 @@ const Onboarding = () => {
   const [isVisibleSignInModal, setIsVisibleSignInModal] = useState(false)
   const [isVisibleSignUpModal, setIsVisibleSignUpModal] = useState(false)
   const openPrivacyPolicyLink = () =>
-    Linking.openURL('https://www.berrysapp.com/privacy-policy')
+    Linking.openURL(Constants.Misc.PrivacyPolicyURL)
   const openSignInModal = () => {
     setIsVisibleSignUpModal(false)
     setTimeout(() => {
@@ -119,11 +118,11 @@ const Onboarding = () => {
         openSignUpModal={openSignUpModal}
         openForgotPasswordModal={openForgotPasswordModal}
       />
-      {/*<SignUpModal*/}
-      {/*  isVisible={isVisibleSignUpModal}*/}
-      {/*  onClose={closeSignUpModal}*/}
-      {/*  openSignInModal={openSignInModal}*/}
-      {/*/>*/}
+      <SignUpModal
+        isVisible={isVisibleSignUpModal}
+        onClose={closeSignUpModal}
+        openSignInModal={openSignInModal}
+      />
     </LinearGradient>
   )
 }

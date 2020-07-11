@@ -11,12 +11,7 @@ import { AppIcon, AppInput, AppLink, AppButton, AppText } from 'components'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
-const SignInModal = ({
-  isVisible,
-  onClose,
-  openSignUpModal,
-  openForgotPasswordModal,
-}) => {
+const SignUpModal = ({ isVisible, onClose, openSignInModal }) => {
   const [country, setCountry] = useState(Constants.Misc.DefaultCountry)
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
@@ -27,7 +22,7 @@ const SignInModal = ({
       password,
       countryCode: country.cca2,
     }
-    // signIn(payload)
+    // signUp(payload)
     setSubmitting(false)
   }
   return (
@@ -46,7 +41,7 @@ const SignInModal = ({
           <TouchableOpacity onPress={onClose} style={Theme.Modal.closeBtn}>
             <AppIcon name="close" color={Constants.Colors.white} />
           </TouchableOpacity>
-          <AppText text="Sign In" style={Theme.Modal.header} />
+          <AppText style={Theme.Modal.header} text="Create A Free Account" />
           <View style={Theme.Modal.form}>
             <Formik
               initialValues={{ phoneNumber: '', password: '' }}
@@ -74,12 +69,12 @@ const SignInModal = ({
                     />
                     <View style={{ marginLeft: 6, flex: 1 }}>
                       <AppInput
-                        autoFocus
                         keyboardType={
                           Platform.OS === 'ios' ? 'number-pad' : 'numeric'
                         }
                         placeholder="Phone Number"
                         placeholderTextColor="rgba(255, 255, 255, 0.8)"
+                        autoFocus
                         onChange={handleChange('phoneNumber')}
                         value={values.phoneNumber}
                       />
@@ -92,14 +87,8 @@ const SignInModal = ({
                     onChange={handleChange('password')}
                     value={values.password}
                   />
-                  <AppLink
-                    style={{ marginBottom: 20, alignItems: 'flex-end' }}
-                    text="Forgot your password?"
-                    color={Constants.Colors.white}
-                    onPress={openForgotPasswordModal}
-                  />
                   <AppButton
-                    text="Sign In"
+                    text="Join Now"
                     isLoading={isSubmitting}
                     onPress={handleSubmit}
                   />
@@ -109,15 +98,15 @@ const SignInModal = ({
           </View>
           <View style={Theme.Modal.bottomView}>
             <AppText
-              text="Don`t have an account?"
+              text="Already have an account?"
               style={Theme.Modal.bottomText}
             />
             <AppLink
-              text="Sign Up"
+              text="Sign In"
               color={Constants.Colors.white}
               fontWeight="600"
               style={{ marginLeft: 4 }}
-              onPress={openSignUpModal}
+              onPress={openSignInModal}
             />
           </View>
         </View>
@@ -126,11 +115,10 @@ const SignInModal = ({
   )
 }
 
-SignInModal.propTypes = {
+SignUpModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  openSignUpModal: PropTypes.func.isRequired,
-  openForgotPasswordModal: PropTypes.func.isRequired,
+  openSignInModal: PropTypes.func.isRequired,
 }
 
-export default SignInModal
+export default SignUpModal
