@@ -3,7 +3,7 @@ import Config from 'react-native-config'
 import { createStackNavigator } from '@react-navigation/stack'
 import StorybookButton from 'components/AppButton/StorybookButton'
 import Constants from 'constants'
-import Onboarding from 'features/authentication/Onboarding'
+import Onboarding from 'features/auth/Onboarding'
 
 const Stack = createStackNavigator()
 
