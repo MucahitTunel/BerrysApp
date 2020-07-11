@@ -12,9 +12,14 @@
     "import/resolver": {
       "babel-module": {
         "alias": {
-          "navigation": "./src/navigation",
-          "screens": "./src/screens",
-          "storybook": "./src/storybook"
+          "assets": "./src/assets",
+          "components": "./src/components",
+          "constants": "./src/constants",
+          "features": "./src/features",
+          "services": "./src/services",
+          "state": "./src/state",
+          "storybook": "./src/storybook",
+          "theme": "./src/theme"
         },
         "extensions": [".js", ".native.js"]
       }
