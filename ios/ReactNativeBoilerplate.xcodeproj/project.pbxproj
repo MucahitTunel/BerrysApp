@@ -13,7 +13,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1F9EC23AB73C06C03EFA77DF /* libPods-ReactNativeBoilerplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */; };
+		4E6B86CC48184778978990BC /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E403D0848F8D4C409F4A1A7F /* icomoon.ttf */; };
+		5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */; };
 		56F3B326D7FB556B4F4330A2 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */; };
+		594928BF3063488EBD7F3CC8 /* icomoon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 399EA54E321F4A3FB977FD99 /* icomoon.svg */; };
+		9682D876ED5E418A9051C64B /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */; };
+		A9C6DA66B1A34191820574BC /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */; };
+		D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */ = {isa = PBXBuildFile; fileRef = 2F04990EB9024D4CA5AF2415 /* icomoon.woff */; };
+		FD5DD9C1A647430C91E4B32A /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */; };
+		FD979BD14A74410387EEFBC9 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +40,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ReactNativeBoilerplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNativeBoilerplateTests.m; sourceTree = "<group>"; };
 		05EFD943F6C97F6CF1CDEF97 /* libPods-ReactNativeBoilerplate-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* ReactNativeBoilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactNativeBoilerplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ReactNativeBoilerplate/AppDelegate.h; sourceTree = "<group>"; };
@@ -42,12 +51,19 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReactNativeBoilerplate/main.m; sourceTree = "<group>"; };
 		168A5E8C769161DCE003B7AD /* libPods-ReactNativeBoilerplate-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F057E8E1F4CE3EAB254AB40 /* Pods-ReactNativeBoilerplate-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		2F04990EB9024D4CA5AF2415 /* icomoon.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.woff; path = ../src/assets/fonts/icomoon.woff; sourceTree = "<group>"; };
 		32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
+		399EA54E321F4A3FB977FD99 /* icomoon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.svg; path = ../src/assets/fonts/icomoon.svg; sourceTree = "<group>"; };
 		3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.release.xcconfig"; sourceTree = "<group>"; };
 		531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplateTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplateTests.release.xcconfig"; sourceTree = "<group>"; };
 		66F7D11CCE8E0EAB66F91C95 /* Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.debug.xcconfig"; sourceTree = "<group>"; };
+		9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "FjallaOne-Regular.ttf"; path = "../src/assets/fonts/FjallaOne-Regular.ttf"; sourceTree = "<group>"; };
 		B23C7B3E2484EEFF001903FB /* ReactNativeBoilerplate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeBoilerplate-Bridging-Header.h"; sourceTree = "<group>"; };
+		DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
+		E403D0848F8D4C409F4A1A7F /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../src/assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
+		EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		EBEB247EDD203B5D744497C2 /* Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ECD77B0C5AD25BE7498105BB /* Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -138,6 +154,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D9AA529262526B561A9F56B4 /* Pods */,
+				9C7F9D74739140FCA8309B8E /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -151,6 +168,22 @@
 				00E356EE1AD99517003FC87E /* ReactNativeBoilerplateTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9C7F9D74739140FCA8309B8E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				399EA54E321F4A3FB977FD99 /* icomoon.svg */,
+				9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */,
+				E403D0848F8D4C409F4A1A7F /* icomoon.ttf */,
+				2F04990EB9024D4CA5AF2415 /* icomoon.woff */,
+				DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */,
+				20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */,
+				07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */,
+				EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		D9AA529262526B561A9F56B4 /* Pods */ = {
@@ -266,6 +299,14 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				594928BF3063488EBD7F3CC8 /* icomoon.svg in Resources */,
+				9682D876ED5E418A9051C64B /* FjallaOne-Regular.ttf in Resources */,
+				4E6B86CC48184778978990BC /* icomoon.ttf in Resources */,
+				D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */,
+				A9C6DA66B1A34191820574BC /* Lato-Black.ttf in Resources */,
+				FD979BD14A74410387EEFBC9 /* Lato-Bold.ttf in Resources */,
+				5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */,
+				FD5DD9C1A647430C91E4B32A /* Lato-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
