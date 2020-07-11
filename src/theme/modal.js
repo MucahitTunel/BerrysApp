@@ -47,7 +47,6 @@ export default StyleSheet.create({
   },
   phonePrefix: {
     fontSize: 17,
-    marginLeft: 10,
     marginTop: -10,
     color: 'rgba(255, 255, 255, 0.8)',
   },

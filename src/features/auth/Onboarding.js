@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Linking, Alert } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
+import SignInModal from 'features/auth/SignInModal'
+// import SignUpModal from 'screens/SignUpModal'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
-// import SignInModal from 'screens/SignInModal'
-// import SignUpModal from 'screens/SignUpModal'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
@@ -24,16 +24,27 @@ const styles = StyleSheet.create({
   },
 })
 
-const Onboarding = ({
-  isVisibleSignInModal,
-  isVisibleSignUpModal,
-  openSignInModal,
-  closeSignInModal,
-  openSignUpModal,
-  closeSignUpModal,
-  openForgotPasswordModal,
-  openPrivacyPolicyLink,
-}) => {
+const Onboarding = () => {
+  const [isVisibleSignInModal, setIsVisibleSignInModal] = useState(false)
+  const [isVisibleSignUpModal, setIsVisibleSignUpModal] = useState(false)
+  const openPrivacyPolicyLink = () =>
+    Linking.openURL('https://www.berrysapp.com/privacy-policy')
+  const openSignInModal = () => {
+    setIsVisibleSignUpModal(false)
+    setTimeout(() => {
+      setIsVisibleSignInModal(true)
+    }, 500)
+  }
+  const closeSignInModal = () => setIsVisibleSignInModal(false)
+  const openSignUpModal = () => {
+    setIsVisibleSignInModal(false)
+    setTimeout(() => {
+      setIsVisibleSignUpModal(true)
+    }, 500)
+  }
+  const closeSignUpModal = () => setIsVisibleSignUpModal(false)
+  const openForgotPasswordModal = () =>
+    Alert.alert('Sorry, the feature is still being developed')
   return (
     <LinearGradient
       style={{ flex: 1 }}
@@ -102,14 +113,12 @@ const Onboarding = ({
           />
         </View>
       </View>
-
-      {/*<SignInModal*/}
-      {/*  isVisible={isVisibleSignInModal}*/}
-      {/*  onClose={closeSignInModal}*/}
-      {/*  openSignUpModal={openSignUpModal}*/}
-      {/*  openForgotPasswordModal={openForgotPasswordModal}*/}
-      {/*/>*/}
-
+      <SignInModal
+        isVisible={isVisibleSignInModal}
+        onClose={closeSignInModal}
+        openSignUpModal={openSignUpModal}
+        openForgotPasswordModal={openForgotPasswordModal}
+      />
       {/*<SignUpModal*/}
       {/*  isVisible={isVisibleSignUpModal}*/}
       {/*  onClose={closeSignUpModal}*/}
@@ -117,20 +126,6 @@ const Onboarding = ({
       {/*/>*/}
     </LinearGradient>
   )
-}
-
-Onboarding.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }).isRequired,
-  isVisibleSignInModal: PropTypes.bool.isRequired,
-  isVisibleSignUpModal: PropTypes.bool.isRequired,
-  openSignInModal: PropTypes.func.isRequired,
-  closeSignInModal: PropTypes.func.isRequired,
-  openSignUpModal: PropTypes.func.isRequired,
-  closeSignUpModal: PropTypes.func.isRequired,
-  openForgotPasswordModal: PropTypes.func.isRequired,
-  openPrivacyPolicyLink: PropTypes.func.isRequired,
 }
 
 export default Onboarding
