@@ -7,7 +7,7 @@ import CenteredView from '../../components/CenteredView'
 
 const Counter = () => {
   const dispatch = useDispatch()
-  const counter = useSelector(state => state.counter)
+  const counter = useSelector((state) => state.counter)
   const onClickIncrease = () => dispatch(increment())
   const onClickDecrease = () => dispatch(decrement())
   return (

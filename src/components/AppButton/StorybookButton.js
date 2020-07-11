@@ -1,17 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Image, TouchableOpacity } from 'react-native'
 import styled from 'styled-components'
 import Config from 'react-native-config'
 import * as navigationService from 'services/navigation'
 
-const StorybookButton = () =>
-  ['dev', 'staging'].includes(Config.ENV) ? (
+const StorybookButton = ({ isHidden = false }) =>
+  !isHidden && ['dev', 'staging'].includes(Config.ENV) ? (
     <Button onPress={() => navigationService.navigate('Storybook', {})}>
       <ButtonImage
         source={{ uri: 'https://img.stackshare.io/service/4906/22632046.png' }}
       />
     </Button>
   ) : null
+
+StorybookButton.propTypes = {
+  isHidden: PropTypes.bool.isRequired,
+}
 
 const Button = styled(TouchableOpacity)`
   height: 50px;
@@ -28,4 +33,5 @@ const ButtonImage = styled(Image)`
   width: 50px;
   resize-mode: stretch;
 `
+
 export default StorybookButton

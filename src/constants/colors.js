@@ -10,4 +10,12 @@ export default {
   ERROR: '#f8333c',
   WARNING: '#ffba08',
   PURPLE: '#3c439d',
+  primary: '#f3244d',
+  primaryLight: '#ff6256',
+  gray: '#717880',
+  grayLight: '#d1d8df',
+  white: '#ffffff',
+  text: '#14171a',
+  blue: '#205eff',
+  textRed: '#ff4a5d',
 }

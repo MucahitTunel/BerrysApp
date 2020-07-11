@@ -13,7 +13,7 @@ const buttonProps = {
 }
 
 storiesOf('AppButton', module)
-  .addDecorator(storyFn => <CenteredView>{storyFn()}</CenteredView>)
+  .addDecorator((storyFn) => <CenteredView>{storyFn()}</CenteredView>)
   .addDecorator(withKnobs)
   .add('default', () => <AppButton />)
   .add('purple', () => (

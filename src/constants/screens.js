@@ -1,0 +1,16 @@
+export default {
+  Drawer: 'Drawer',
+  PhoneVerification: 'PhoneVerificationScreen',
+  Onboarding: 'OnboardingScreen',
+  SelectContacts: 'SelectContactsScreen',
+  Preview: 'PreviewScreen',
+  Main: 'MainScreen',
+  Answers: 'AnswersScreen',
+  BlockContacts: 'BlockContactsScreen',
+  Conversation: 'ConversationScreen',
+  Survey: 'SurveyScreen',
+  MessageContacts: 'MessageContactsScreen',
+  Messages: 'MessagesScreen',
+  Report: 'ReportScreen',
+  FollowContacts: 'FollowContactsScreen',
+}

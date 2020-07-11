@@ -1,38 +1,66 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import Colors from 'constants/colors'
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
+import Constants from 'constants'
+import Fonts from 'assets/fonts'
 
-const ButtonContainer = styled.TouchableOpacity`
-  width: 100px;
-  height: 40px;
-  padding: 12px;
-  border-radius: 10px;
-  background-color: ${props => props.backgroundColor};
-`
+const styles = StyleSheet.create({
+  btn: {
+    height: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText: {
+    fontFamily: Fonts.latoBold,
+    fontSize: Constants.Styles.FontSize.normal,
+  },
+})
 
-const ButtonText = styled.Text`
-  font-size: 15px;
-  color: ${props => props.textColor};
-  text-align: center;
-`
-
-const AppButton = ({ backgroundColor, textColor, text, ...rest }) => (
-  <ButtonContainer backgroundColor={backgroundColor} {...rest}>
-    <ButtonText textColor={textColor}>{text}</ButtonText>
-  </ButtonContainer>
+const AppButton = ({
+  text,
+  color,
+  backgroundColor,
+  borderRadius,
+  isLoading,
+  onPress,
+  error,
+  ...rest
+}) => (
+  <TouchableOpacity
+    style={[styles.btn, { backgroundColor, borderRadius }]}
+    onPress={!isLoading && !error && onPress}
+    activeOpacity={isLoading || error ? 1 : 0.7}
+    {...rest}>
+    {isLoading ? (
+      <ActivityIndicator />
+    ) : (
+      <Text style={[styles.btnText, { color }]}>{text}</Text>
+    )}
+  </TouchableOpacity>
 )
 
+export default AppButton
+
 AppButton.propTypes = {
-  backgroundColor: PropTypes.string,
-  textColor: PropTypes.string,
   text: PropTypes.string,
+  color: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  borderRadius: PropTypes.number,
+  isLoading: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+  error: PropTypes.string,
 }
 
 AppButton.defaultProps = {
-  backgroundColor: Colors.GRAY,
-  textColor: Colors.DARK,
-  text: 'default',
+  text: 'AppButton',
+  color: Constants.Colors.primary,
+  backgroundColor: Constants.Colors.WHITE,
+  borderRadius: Constants.Styles.BorderRadius.default,
+  isLoading: false,
+  error: '',
 }
-
-export default AppButton
