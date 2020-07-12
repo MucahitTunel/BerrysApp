@@ -1,7 +1,25 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import AsyncStorage from '@react-native-community/async-storage'
 import request from 'services/api'
+import NavigationService from 'services/navigation'
 import { formatPhoneNumber } from 'services/contacts/helpers'
+
+export const postSignIn = async (userData, isFromBoot = false) => {
+  try {
+    if (!isFromBoot) {
+      AsyncStorage.setItem('userData', JSON.stringify(userData))
+    }
+    // if (userData && userData.isNew) {
+    //   NavigationService.navigate(Constants.Screens.Survey)
+    // } else {
+    //   NavigationService.navigate(Constants.Screens.Main)
+    // }
+  } catch (e) {
+    console.log('ERROR - postSignIn')
+    console.log(e)
+  }
+}
 
 export const signIn = createAsyncThunk(
   'users/signIn',
@@ -22,9 +40,8 @@ export const signIn = createAsyncThunk(
       },
     })
     const { user: userData } = data
+    await postSignIn(userData)
     return userData
-    // put({ type: SIGN_IN_SUCCESS, payload: userData })
-    // call(postSignIn, userData)
   },
 )
 
