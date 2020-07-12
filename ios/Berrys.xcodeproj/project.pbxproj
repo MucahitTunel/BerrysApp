@@ -264,7 +264,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = V7DQ22ECH5;
+						DevelopmentTeam = CFA46LTYK2;
 						LastSwiftMigration = 1150;
 						ProvisioningStyle = Manual;
 					};
@@ -596,7 +596,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = V7DQ22ECH5;
+				DEVELOPMENT_TEAM = CFA46LTYK2;
 				INFOPLIST_FILE = Berrys/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -608,7 +608,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -628,7 +628,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V7DQ22ECH5;
+				DEVELOPMENT_TEAM = CFA46LTYK2;
 				INFOPLIST_FILE = Berrys/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -640,7 +640,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
