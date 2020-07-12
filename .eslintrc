@@ -19,7 +19,8 @@
           "services": "./src/services",
           "state": "./src/state",
           "storybook": "./src/storybook",
-          "theme": "./src/theme"
+          "theme": "./src/theme",
+          "utils": "./src/utils"
         },
         "extensions": [".js", ".native.js"]
       }

@@ -16,6 +16,7 @@ module.exports = (api) => {
             state: './src/state',
             storybook: './src/storybook',
             theme: './src/theme',
+            utils: './src/utils',
           },
         },
       ],
