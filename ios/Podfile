@@ -55,8 +55,8 @@ def flipper_post_install(installer)
   installer.pods_project.save
 end
 
-target 'ReactNativeBoilerplate' do
-  # Pods for ReactNativeBoilerplate
+target 'Berrys' do
+  # Pods for Berrys
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -87,7 +87,7 @@ target 'ReactNativeBoilerplate' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'ReactNativeBoilerplateTests' do
+  target 'BerrysTests' do
     inherit! :complete
     # Pods for testing
   end

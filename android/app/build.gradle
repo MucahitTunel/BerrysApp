@@ -120,11 +120,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.reactnativeboilerplate.dev'
-def _appName = project.env.get("ANDROID_APP_NAME") ?: 'ReactNativeBoilerplate (dev)'
+def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.berrys.nickapp.dev'
+def _appName = project.env.get("ANDROID_APP_NAME") ?: 'Berrys (dev)'
 def _versionCode = (project.env.get("ANDROID_VERSION_CODE") ?: "1") as Integer
 def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
-def _packageName = project.env.get("ANDROID_PACKAGE_NAME") ?: "com.reactnativeboilerplate"
+def _packageName = project.env.get("ANDROID_PACKAGE_NAME") ?: "com.berrys.nickapp"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ReactNativeBoilerplateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNativeBoilerplateTests.m */; };
+		00E356F31AD99517003FC87E /* BerrysTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BerrysTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1F9EC23AB73C06C03EFA77DF /* libPods-ReactNativeBoilerplate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */; };
+		1F9EC23AB73C06C03EFA77DF /* libPods-Berrys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC10A8E61DED30B2895083D /* libPods-Berrys.a */; };
 		4E6B86CC48184778978990BC /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E403D0848F8D4C409F4A1A7F /* icomoon.ttf */; };
 		5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */; };
-		56F3B326D7FB556B4F4330A2 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */; };
 		594928BF3063488EBD7F3CC8 /* icomoon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 399EA54E321F4A3FB977FD99 /* icomoon.svg */; };
 		9682D876ED5E418A9051C64B /* FjallaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */; };
 		A9C6DA66B1A34191820574BC /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */; };
 		D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */ = {isa = PBXBuildFile; fileRef = 2F04990EB9024D4CA5AF2415 /* icomoon.woff */; };
 		FD5DD9C1A647430C91E4B32A /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */; };
 		FD979BD14A74410387EEFBC9 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */; };
+		FF990A0699DFBB50C98C919B /* libPods-Berrys-BerrysTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,47 +30,49 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = ReactNativeBoilerplate;
+			remoteInfo = Berrys;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ReactNativeBoilerplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactNativeBoilerplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* BerrysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BerrysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ReactNativeBoilerplateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNativeBoilerplateTests.m; sourceTree = "<group>"; };
-		05EFD943F6C97F6CF1CDEF97 /* libPods-ReactNativeBoilerplate-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
-		0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* ReactNativeBoilerplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactNativeBoilerplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ReactNativeBoilerplate/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ReactNativeBoilerplate/AppDelegate.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* BerrysTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BerrysTests.m; sourceTree = "<group>"; };
+		05EFD943F6C97F6CF1CDEF97 /* libPods-Berrys-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
+		0AC10A8E61DED30B2895083D /* libPods-Berrys.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Berrys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Berrys.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Berrys/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Berrys/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ReactNativeBoilerplate/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ReactNativeBoilerplate/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReactNativeBoilerplate/main.m; sourceTree = "<group>"; };
-		168A5E8C769161DCE003B7AD /* libPods-ReactNativeBoilerplate-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F057E8E1F4CE3EAB254AB40 /* Pods-ReactNativeBoilerplate-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
-		2F04990EB9024D4CA5AF2415 /* icomoon.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.woff; path = ../src/assets/fonts/icomoon.woff; sourceTree = "<group>"; };
-		32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
-		399EA54E321F4A3FB977FD99 /* icomoon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.svg; path = ../src/assets/fonts/icomoon.svg; sourceTree = "<group>"; };
-		3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.release.xcconfig"; sourceTree = "<group>"; };
-		531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplateTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplateTests.release.xcconfig"; sourceTree = "<group>"; };
-		66F7D11CCE8E0EAB66F91C95 /* Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate.debug.xcconfig"; sourceTree = "<group>"; };
-		9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "FjallaOne-Regular.ttf"; path = "../src/assets/fonts/FjallaOne-Regular.ttf"; sourceTree = "<group>"; };
-		B23C7B3E2484EEFF001903FB /* ReactNativeBoilerplate-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ReactNativeBoilerplate-Bridging-Header.h"; sourceTree = "<group>"; };
-		DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
-		E403D0848F8D4C409F4A1A7F /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../src/assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
-		EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
-		EBEB247EDD203B5D744497C2 /* Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOS/Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		ECD77B0C5AD25BE7498105BB /* Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-tvOSTests/Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Berrys/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Berrys/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Berrys/main.m; sourceTree = "<group>"; };
+		168A5E8C769161DCE003B7AD /* libPods-Berrys-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F057E8E1F4CE3EAB254AB40 /* Pods-Berrys-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Berrys-tvOS/Pods-Berrys-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		2F04990EB9024D4CA5AF2415 /* icomoon.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.woff; path = ../src/assets/fonts/icomoon.woff; sourceTree = "<group>"; };
+		32678E74B1ABC5DFD6BF818C /* Pods-Berrys-BerrysTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-BerrysTests.debug.xcconfig"; path = "Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests.debug.xcconfig"; sourceTree = "<group>"; };
+		399EA54E321F4A3FB977FD99 /* icomoon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.svg; path = ../src/assets/fonts/icomoon.svg; sourceTree = "<group>"; };
+		3C60356CBC045D1D74A65DD3 /* Pods-Berrys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys.release.xcconfig"; path = "Target Support Files/Pods-Berrys/Pods-Berrys.release.xcconfig"; sourceTree = "<group>"; };
+		531D13B906D7195965E704C4 /* Pods-BerrysTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BerrysTests.release.xcconfig"; path = "Target Support Files/Pods-BerrysTests/Pods-BerrysTests.release.xcconfig"; sourceTree = "<group>"; };
+		5612032BFDFE870A832EE47F /* Pods-Berrys-BerrysTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-BerrysTests.debug.xcconfig"; path = "Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests.debug.xcconfig"; sourceTree = "<group>"; };
+		652B183153DD9DEB6264A975 /* Pods-Berrys-BerrysTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-BerrysTests.release.xcconfig"; path = "Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests.release.xcconfig"; sourceTree = "<group>"; };
+		66F7D11CCE8E0EAB66F91C95 /* Pods-Berrys-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Berrys-tvOSTests/Pods-Berrys-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		70823C766008D2C5BBA5DE8F /* Pods-Berrys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys.debug.xcconfig"; path = "Target Support Files/Pods-Berrys/Pods-Berrys.debug.xcconfig"; sourceTree = "<group>"; };
+		9A31806616CD42FEB03B46B5 /* FjallaOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FjallaOne-Regular.ttf"; path = "../src/assets/fonts/FjallaOne-Regular.ttf"; sourceTree = "<group>"; };
+		AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-BerrysTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Berrys-Bridging-Header.h"; sourceTree = "<group>"; };
+		DAD97140E4EC40FD91EA3D2D /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
+		E403D0848F8D4C409F4A1A7F /* icomoon.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.ttf; path = ../src/assets/fonts/icomoon.ttf; sourceTree = "<group>"; };
+		EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		EBEB247EDD203B5D744497C2 /* Pods-Berrys-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Berrys-tvOS/Pods-Berrys-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		ECD77B0C5AD25BE7498105BB /* Pods-Berrys-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Berrys-tvOSTests/Pods-Berrys-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FEABB5700E671C5CA65F80F1 /* Pods-ReactNativeBoilerplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplateTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplateTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig"; sourceTree = "<group>"; };
+		FEABB5700E671C5CA65F80F1 /* Pods-BerrysTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BerrysTests.debug.xcconfig"; path = "Target Support Files/Pods-BerrysTests/Pods-BerrysTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FF3496CA240A49604937E6E7 /* Pods-Berrys-BerrysTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-BerrysTests.release.xcconfig"; path = "Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56F3B326D7FB556B4F4330A2 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a in Frameworks */,
+				FF990A0699DFBB50C98C919B /* libPods-Berrys-BerrysTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,20 +88,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F9EC23AB73C06C03EFA77DF /* libPods-ReactNativeBoilerplate.a in Frameworks */,
+				1F9EC23AB73C06C03EFA77DF /* libPods-Berrys.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ReactNativeBoilerplateTests */ = {
+		00E356EF1AD99517003FC87E /* BerrysTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ReactNativeBoilerplateTests.m */,
+				00E356F21AD99517003FC87E /* BerrysTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ReactNativeBoilerplateTests;
+			path = BerrysTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -110,7 +112,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* ReactNativeBoilerplate */ = {
+		13B07FAE1A68108700A75B9A /* Berrys */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -120,9 +122,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				B23C7B3E2484EEFF001903FB /* ReactNativeBoilerplate-Bridging-Header.h */,
+				B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */,
 			);
-			name = ReactNativeBoilerplate;
+			name = Berrys;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -130,10 +132,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				0AC10A8E61DED30B2895083D /* libPods-ReactNativeBoilerplate.a */,
-				05EFD943F6C97F6CF1CDEF97 /* libPods-ReactNativeBoilerplate-tvOS.a */,
-				168A5E8C769161DCE003B7AD /* libPods-ReactNativeBoilerplate-tvOSTests.a */,
-				F987FC7C78A661D2AD9EF9F6 /* libPods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.a */,
+				0AC10A8E61DED30B2895083D /* libPods-Berrys.a */,
+				05EFD943F6C97F6CF1CDEF97 /* libPods-Berrys-tvOS.a */,
+				168A5E8C769161DCE003B7AD /* libPods-Berrys-tvOSTests.a */,
+				AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -148,9 +150,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* ReactNativeBoilerplate */,
+				13B07FAE1A68108700A75B9A /* Berrys */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ReactNativeBoilerplateTests */,
+				00E356EF1AD99517003FC87E /* BerrysTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D9AA529262526B561A9F56B4 /* Pods */,
@@ -164,8 +166,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ReactNativeBoilerplate.app */,
-				00E356EE1AD99517003FC87E /* ReactNativeBoilerplateTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Berrys.app */,
+				00E356EE1AD99517003FC87E /* BerrysTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,22 +185,23 @@
 				EA8D64931B4443A59482BCD7 /* Lato-Regular.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		D9AA529262526B561A9F56B4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */,
-				3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */,
-				EBEB247EDD203B5D744497C2 /* Pods-ReactNativeBoilerplate-tvOS.debug.xcconfig */,
-				1F057E8E1F4CE3EAB254AB40 /* Pods-ReactNativeBoilerplate-tvOS.release.xcconfig */,
-				ECD77B0C5AD25BE7498105BB /* Pods-ReactNativeBoilerplate-tvOSTests.debug.xcconfig */,
-				66F7D11CCE8E0EAB66F91C95 /* Pods-ReactNativeBoilerplate-tvOSTests.release.xcconfig */,
-				FEABB5700E671C5CA65F80F1 /* Pods-ReactNativeBoilerplateTests.debug.xcconfig */,
-				531D13B906D7195965E704C4 /* Pods-ReactNativeBoilerplateTests.release.xcconfig */,
-				32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */,
-				FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */,
+				70823C766008D2C5BBA5DE8F /* Pods-Berrys.debug.xcconfig */,
+				3C60356CBC045D1D74A65DD3 /* Pods-Berrys.release.xcconfig */,
+				EBEB247EDD203B5D744497C2 /* Pods-Berrys-tvOS.debug.xcconfig */,
+				1F057E8E1F4CE3EAB254AB40 /* Pods-Berrys-tvOS.release.xcconfig */,
+				ECD77B0C5AD25BE7498105BB /* Pods-Berrys-tvOSTests.debug.xcconfig */,
+				66F7D11CCE8E0EAB66F91C95 /* Pods-Berrys-tvOSTests.release.xcconfig */,
+				FEABB5700E671C5CA65F80F1 /* Pods-BerrysTests.debug.xcconfig */,
+				531D13B906D7195965E704C4 /* Pods-BerrysTests.release.xcconfig */,
+				32678E74B1ABC5DFD6BF818C /* Pods-Berrys-BerrysTests.debug.xcconfig */,
+				FF3496CA240A49604937E6E7 /* Pods-Berrys-BerrysTests.release.xcconfig */,
+				5612032BFDFE870A832EE47F /* Pods-Berrys-BerrysTests.debug.xcconfig */,
+				652B183153DD9DEB6264A975 /* Pods-Berrys-BerrysTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -206,9 +209,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ReactNativeBoilerplateTests */ = {
+		00E356ED1AD99517003FC87E /* BerrysTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ReactNativeBoilerplateTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BerrysTests" */;
 			buildPhases = (
 				DD1C02E6F5DAC2B6333EB1BF /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -221,14 +224,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ReactNativeBoilerplateTests;
-			productName = ReactNativeBoilerplateTests;
-			productReference = 00E356EE1AD99517003FC87E /* ReactNativeBoilerplateTests.xctest */;
+			name = BerrysTests;
+			productName = BerrysTests;
+			productReference = 00E356EE1AD99517003FC87E /* BerrysTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* ReactNativeBoilerplate */ = {
+		13B07F861A680F5B00A75B9A /* Berrys */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ReactNativeBoilerplate" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Berrys" */;
 			buildPhases = (
 				4D6E4FE114F2278E0280D3DE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -242,9 +245,9 @@
 			);
 			dependencies = (
 			);
-			name = ReactNativeBoilerplate;
-			productName = ReactNativeBoilerplate;
-			productReference = 13B07F961A680F5B00A75B9A /* ReactNativeBoilerplate.app */;
+			name = Berrys;
+			productName = Berrys;
+			productReference = 13B07F961A680F5B00A75B9A /* Berrys.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +270,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ReactNativeBoilerplate" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Berrys" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -281,8 +284,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ReactNativeBoilerplate */,
-				00E356ED1AD99517003FC87E /* ReactNativeBoilerplateTests */,
+				13B07F861A680F5B00A75B9A /* Berrys */,
+				00E356ED1AD99517003FC87E /* BerrysTests */,
 			);
 		};
 /* End PBXProject section */
@@ -335,7 +338,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -374,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4D6E4FE114F2278E0280D3DE /* [CP] Check Pods Manifest.lock */ = {
@@ -392,7 +395,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactNativeBoilerplate-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Berrys-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -405,7 +408,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -444,7 +447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativeBoilerplate/Pods-ReactNativeBoilerplate-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DD1C02E6F5DAC2B6333EB1BF /* [CP] Check Pods Manifest.lock */ = {
@@ -462,7 +465,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Berrys-BerrysTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -495,7 +498,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ReactNativeBoilerplateTests.m in Sources */,
+				00E356F31AD99517003FC87E /* BerrysTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,7 +516,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ReactNativeBoilerplate */;
+			target = 13B07F861A680F5B00A75B9A /* Berrys */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -525,7 +528,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = ReactNativeBoilerplate;
+			path = Berrys;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -533,14 +536,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32678E74B1ABC5DFD6BF818C /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.debug.xcconfig */;
+			baseConfigurationReference = 5612032BFDFE870A832EE47F /* Pods-Berrys-BerrysTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ReactNativeBoilerplateTests/Info.plist;
+				INFOPLIST_FILE = BerrysTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -554,17 +557,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReactNativeBoilerplate.app/ReactNativeBoilerplate";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF3496CA240A49604937E6E7 /* Pods-ReactNativeBoilerplate-ReactNativeBoilerplateTests.release.xcconfig */;
+			baseConfigurationReference = 652B183153DD9DEB6264A975 /* Pods-Berrys-BerrysTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ReactNativeBoilerplateTests/Info.plist;
+				INFOPLIST_FILE = BerrysTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -578,13 +581,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReactNativeBoilerplate.app/ReactNativeBoilerplate";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70823C766008D2C5BBA5DE8F /* Pods-ReactNativeBoilerplate.debug.xcconfig */;
+			baseConfigurationReference = 70823C766008D2C5BBA5DE8F /* Pods-Berrys.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -594,7 +597,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = V7DQ22ECH5;
-				INFOPLIST_FILE = ReactNativeBoilerplate/Info.plist;
+				INFOPLIST_FILE = Berrys/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -605,10 +608,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
-				PRODUCT_NAME = ReactNativeBoilerplate;
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.reactnativeboilerplate.staging";
-				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeBoilerplate-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
+				PRODUCT_NAME = Berrys;
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging";
+				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -617,7 +620,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C60356CBC045D1D74A65DD3 /* Pods-ReactNativeBoilerplate.release.xcconfig */;
+			baseConfigurationReference = 3C60356CBC045D1D74A65DD3 /* Pods-Berrys.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -626,7 +629,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V7DQ22ECH5;
-				INFOPLIST_FILE = ReactNativeBoilerplate/Info.plist;
+				INFOPLIST_FILE = Berrys/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -637,10 +640,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.reactnativeboilerplate.dev;
-				PRODUCT_NAME = ReactNativeBoilerplate;
-				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.reactnativeboilerplate.staging";
-				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeBoilerplate-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
+				PRODUCT_NAME = Berrys;
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging";
+				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -765,7 +768,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ReactNativeBoilerplateTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BerrysTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -774,7 +777,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ReactNativeBoilerplate" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Berrys" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -783,7 +786,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ReactNativeBoilerplate" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Berrys" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

@@ -1,4 +1,4 @@
-# ReactNativeBoilerplate
+# Berrys
 
 ### Prerequisites
 
