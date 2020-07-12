@@ -2,20 +2,20 @@ import { Platform, PermissionsAndroid } from 'react-native'
 import Contacts from 'react-native-contacts'
 import forEach from 'lodash/forEach'
 import uniqueId from 'lodash/uniqueId'
-import DeviceInfo from 'react-native-device-info'
+import * as RNLocalize from 'react-native-localize'
 import { parsePhoneNumber } from 'libphonenumber-js/max'
 
 export const formatPhoneNumber = (phone, countryCode) => {
   const DEVICE_COUNTRY_FALLBACK = 'US'
   try {
-    let userLocaleCountryCode = DeviceInfo.getDeviceCountry()
-    if (!userLocaleCountryCode) {
-      userLocaleCountryCode = countryCode || DEVICE_COUNTRY_FALLBACK
+    let code = countryCode
+    if (!code) {
+      const deviceLocaleCountryCode = RNLocalize.getCountry()
+      code = deviceLocaleCountryCode
+        ? deviceLocaleCountryCode
+        : DEVICE_COUNTRY_FALLBACK
     }
-    const phoneNumber = parsePhoneNumber(
-      `Phone: ${phone}`,
-      userLocaleCountryCode,
-    )
+    const phoneNumber = parsePhoneNumber(`Phone: ${phone}`, code)
     return {
       number: phoneNumber.number,
       isValid: phoneNumber.isValid(),

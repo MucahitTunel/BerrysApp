@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Platform } from 'react-native'
 import Modal from 'react-native-modal'
@@ -8,6 +9,7 @@ import { Formik } from 'formik'
 import Theme from 'theme'
 import Constants from 'constants'
 import { AppIcon, AppInput, AppLink, AppButton, AppText } from 'components'
+import { signIn } from 'features/auth/authSlice'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
@@ -18,6 +20,7 @@ const SignInModal = ({
   openForgotPasswordModal,
 }) => {
   const [country, setCountry] = useState(Constants.Misc.DefaultCountry)
+  const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
     const { phoneNumber, password } = values
@@ -27,7 +30,7 @@ const SignInModal = ({
       password,
       countryCode: country.cca2,
     }
-    // signIn(payload)
+    dispatch(signIn(payload))
     setSubmitting(false)
   }
   return (
