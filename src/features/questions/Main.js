@@ -128,6 +128,8 @@ const QuestionItem = ({
   )
 }
 
+QuestionItem.propTypes = {}
+
 const Main = () => {
   const questions = []
   const loading = false

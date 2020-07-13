@@ -6,6 +6,7 @@ import AppLink from './AppLink'
 import AppText from './AppText'
 import Loading from './Loading'
 import Avatar from './Avatar'
+import Header from './Header'
 
 export {
   AppButton,
@@ -16,4 +17,5 @@ export {
   AppText,
   Loading,
   Avatar,
+  Header,
 }

@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Config from 'react-native-config'
 import { createStackNavigator } from '@react-navigation/stack'
+import { Header } from 'components'
+import { MenuButton, MessagesButton } from 'components/NavButton'
 import StorybookButton from 'components/AppButton/StorybookButton'
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
@@ -28,7 +30,19 @@ const RootNavigator = () => {
     <Stack.Navigator screenOptions={storyBookNavigator}>
       {user ? (
         <>
-          <Stack.Screen name={Constants.Screens.Onboarding} component={Main} />
+          <Stack.Screen
+            name={Constants.Screens.Onboarding}
+            component={Main}
+            options={({ navigation, route }) => ({
+              header: () => (
+                <Header
+                  title="points"
+                  headerLeft={<MenuButton />}
+                  headerRight={<MessagesButton />}
+                />
+              ),
+            })}
+          />
         </>
       ) : (
         <>
