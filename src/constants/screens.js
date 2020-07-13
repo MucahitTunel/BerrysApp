@@ -1,6 +1,7 @@
 export default {
   Drawer: 'Drawer',
   PhoneVerification: 'PhoneVerificationScreen',
+  Splash: 'SplashScreen',
   Onboarding: 'OnboardingScreen',
   SelectContacts: 'SelectContactsScreen',
   Preview: 'PreviewScreen',

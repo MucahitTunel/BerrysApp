@@ -21,6 +21,19 @@ export const postSignIn = async (userData, isFromBoot = false) => {
   }
 }
 
+export const authBoot = createAsyncThunk('users/authBoot', async () => {
+  const userDataString = await AsyncStorage.getItem('userData')
+  const userData = JSON.parse(userDataString)
+  if (userData) {
+    // const channel = pusher.subscribe(userData._id)
+    // channel.bind('POINTS_UPDATED', data => {
+    //   store.dispatch({ type: UPDATE_POINTS, payload: data.points })
+    // })
+    await postSignIn(userData)
+  }
+  return userData
+})
+
 export const signIn = createAsyncThunk(
   'users/signIn',
   async ({ phoneNumber, password, countryCode }) => {
@@ -51,6 +64,7 @@ const authSlice = createSlice({
     user: null,
     points: 0,
     loading: false,
+    booting: true,
   },
   reducers: {
     setUser: (state, action) => (state.user = action.payload),
@@ -62,6 +76,17 @@ const authSlice = createSlice({
     [signIn.fulfilled]: (state, action) => {
       state.user = action.payload
       state.loading = false
+    },
+    [authBoot.pending]: (state) => {
+      state.booting = true
+    },
+    [authBoot.fulfilled]: (state, action) => {
+      state.booting = false
+      state.user = action.payload
+    },
+    [authBoot.rejected]: (state) => {
+      state.booting = false
+      state.user = null
     },
   },
 })
