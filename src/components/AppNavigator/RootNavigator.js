@@ -6,7 +6,7 @@ import StorybookButton from 'components/AppButton/StorybookButton'
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
-import Dummy from '../../features/dummy/Dummy'
+import Main from 'features/questions/Main'
 
 const Stack = createStackNavigator()
 
@@ -28,7 +28,7 @@ const RootNavigator = () => {
     <Stack.Navigator screenOptions={storyBookNavigator}>
       {user ? (
         <>
-          <Stack.Screen name="Dummy" component={Dummy} />
+          <Stack.Screen name={Constants.Screens.Onboarding} component={Main} />
         </>
       ) : (
         <>

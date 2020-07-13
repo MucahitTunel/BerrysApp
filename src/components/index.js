@@ -4,5 +4,16 @@ import AppImage from './AppImage'
 import AppInput from './AppInput'
 import AppLink from './AppLink'
 import AppText from './AppText'
+import Loading from './Loading'
+import Avatar from './Avatar'
 
-export { AppButton, AppIcon, AppImage, AppInput, AppLink, AppText }
+export {
+  AppButton,
+  AppIcon,
+  AppImage,
+  AppInput,
+  AppLink,
+  AppText,
+  Loading,
+  Avatar,
+}
