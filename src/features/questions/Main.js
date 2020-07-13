@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -15,6 +15,7 @@ import { Avatar, AppIcon, AppText, AppInput, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
+import { getQuestions } from 'features/questions/questionsSlice'
 
 const swipeoutBtns = [
   {
@@ -25,8 +26,8 @@ const swipeoutBtns = [
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.heightScreen,
-    width: Constants.Dimensions.widthScreen,
+    height: Constants.Dimensions.Height,
+    width: Constants.Dimensions.Width,
     backgroundColor: Constants.Colors.grayLight,
     flex: 1,
   },
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 14,
     marginLeft: 16,
-    width: Constants.Dimensions.widthScreen - 32,
+    width: Constants.Dimensions.Width - 32,
   },
   inputView: {
     padding: 16,
@@ -80,7 +81,7 @@ const QuestionItem = ({
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
       right={swipeoutBtns}
       backgroundColor="transparent"
-      buttonWidth={Constants.Dimensions.widthScreen - 10}>
+      buttonWidth={Constants.Dimensions.Width - 10}>
       <TouchableOpacity
         style={styles.questionItem}
         onPress={() => onPressQuestion(_id)}>
@@ -128,15 +129,25 @@ const QuestionItem = ({
   )
 }
 
-QuestionItem.propTypes = {}
+QuestionItem.propTypes = {
+  question: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    comments: PropTypes.number.isRequired,
+    totalVotes: PropTypes.number.isRequired,
+    createdAt: PropTypes.number.isRequired,
+    flaggedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }),
+}
 
 const Main = () => {
-  const questions = []
-  const loading = false
-
-  const getQuestions = () => {}
+  const dispatch = useDispatch()
+  const questions = useSelector((state) => state.questions)
+  const { data, loading } = questions
+  useEffect(() => {
+    dispatch(getQuestions())
+  }, [dispatch])
   const onSubmit = () => {}
-
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
@@ -163,9 +174,9 @@ const Main = () => {
         )}
       </Formik>
       <View style={styles.flatListView}>
-        {loading && !questions.length && <Loading />}
+        {loading && !data.length && <Loading />}
         <FlatList
-          data={questions}
+          data={data}
           renderItem={({ item }) => <QuestionItem question={item} />}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
