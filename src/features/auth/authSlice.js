@@ -2,7 +2,6 @@ import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-community/async-storage'
 import request from 'services/api'
-import NavigationService from 'services/navigation'
 import { formatPhoneNumber } from 'services/contacts/helpers'
 
 export const postSignIn = async (userData, isFromBoot = false) => {
@@ -21,7 +20,7 @@ export const postSignIn = async (userData, isFromBoot = false) => {
   }
 }
 
-export const authBoot = createAsyncThunk('users/authBoot', async () => {
+export const authBoot = createAsyncThunk('auth/boot', async () => {
   const userDataString = await AsyncStorage.getItem('userData')
   const userData = JSON.parse(userDataString)
   if (userData) {
@@ -34,8 +33,12 @@ export const authBoot = createAsyncThunk('users/authBoot', async () => {
   return userData
 })
 
+export const logout = createAsyncThunk('auth/logout', async () => {
+  await AsyncStorage.removeItem('userData')
+})
+
 export const signIn = createAsyncThunk(
-  'users/signIn',
+  'auth/signIn',
   async ({ phoneNumber, password, countryCode }) => {
     const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
     if (!isValid) {
@@ -66,9 +69,7 @@ const authSlice = createSlice({
     loading: false,
     booting: true,
   },
-  reducers: {
-    setUser: (state, action) => (state.user = action.payload),
-  },
+  reducers: {},
   extraReducers: {
     [signIn.pending]: (state) => {
       state.loading = true
@@ -86,6 +87,9 @@ const authSlice = createSlice({
     },
     [authBoot.rejected]: (state) => {
       state.booting = false
+      state.user = null
+    },
+    [logout.fulfilled]: (state) => {
       state.user = null
     },
   },

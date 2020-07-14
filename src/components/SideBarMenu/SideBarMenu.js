@@ -5,6 +5,8 @@ import { AppText, Avatar, AppLink } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
+import { useDispatch } from 'react-redux'
+import { logout } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   infoView: {
@@ -29,7 +31,8 @@ const styles = StyleSheet.create({
 })
 
 const SideBarMenu = ({ activeItemKey, navigation }) => {
-  const onPressLogout = () => {}
+  const dispatch = useDispatch()
+  const onPressLogout = () => dispatch(logout())
 
   const navigateToScreen = (routeName) => {
     navigation.closeDrawer()

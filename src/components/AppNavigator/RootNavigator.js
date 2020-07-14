@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Header, SideBarMenu } from 'components'
@@ -44,7 +43,7 @@ const RootNavigator = () => {
       <Drawer.Screen name={Constants.Screens.MainStack} component={MainStack} />
     </Drawer.Navigator>
   ) : (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name={Constants.Screens.Onboarding}
         component={Onboarding}
