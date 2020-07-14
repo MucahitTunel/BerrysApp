@@ -165,7 +165,7 @@ const Main = () => {
               multiline
               onChange={handleChange('question')}
               value={values.question}
-              autoFocus
+              // autoFocus
             />
             <TouchableOpacity onPress={handleSubmit}>
               <AppIcon name="send" color={Constants.Colors.primaryLight} />
@@ -181,7 +181,7 @@ const Main = () => {
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}
-          onRefresh={() => getQuestions()}
+          onRefresh={() => dispatch(getQuestions())}
         />
       </View>
     </View>
