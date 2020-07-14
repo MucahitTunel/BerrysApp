@@ -14,4 +14,5 @@ export default {
   Messages: 'MessagesScreen',
   Report: 'ReportScreen',
   FollowContacts: 'FollowContactsScreen',
+  MainStack: 'MainStack',
 }

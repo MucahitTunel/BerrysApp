@@ -7,6 +7,7 @@ import AppText from './AppText'
 import Loading from './Loading'
 import Avatar from './Avatar'
 import Header from './Header'
+import SideBarMenu from './SideBarMenu'
 
 export {
   AppButton,
@@ -18,4 +19,5 @@ export {
   Loading,
   Avatar,
   Header,
+  SideBarMenu,
 }
