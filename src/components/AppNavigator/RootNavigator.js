@@ -9,6 +9,7 @@ import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
 import Main from 'features/questions/Main'
 import FollowContacts from 'features/contacts/FollowContacts'
+import Report from 'features/report/Report'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -48,6 +49,23 @@ const FollowContactsStack = () => (
   </Stack.Navigator>
 )
 
+const ReportStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Constants.Screens.Report}
+      component={Report}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Report & Feedback"
+            headerLeft={<MenuButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+)
+
 const RootNavigator = () => {
   const auth = useSelector((state) => state.auth)
   const { user, booting } = auth
@@ -62,6 +80,10 @@ const RootNavigator = () => {
       <Drawer.Screen
         name={Constants.Screens.FollowContactsStack}
         component={FollowContactsStack}
+      />
+      <Drawer.Screen
+        name={Constants.Screens.ReportStack}
+        component={ReportStack}
       />
     </Drawer.Navigator>
   ) : (
