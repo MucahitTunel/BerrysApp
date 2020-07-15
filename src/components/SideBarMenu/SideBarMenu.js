@@ -75,14 +75,17 @@ const SideBarMenu = ({ activeItemKey, navigation }) => {
           <TouchableOpacity
             style={[
               styles.menuItem,
-              activeItemKey === 'FollowContactsStack' && styles.menuItemActive,
+              activeItemKey === Constants.Screens.FollowContactsStack &&
+                styles.menuItemActive,
             ]}
-            onPress={() => navigateToScreen('FollowContactsStack')}>
+            onPress={() =>
+              navigateToScreen(Constants.Screens.FollowContactsStack)
+            }>
             <AppText
               text="Unfollow contacts"
               fontSize={Constants.Styles.FontSize.large}
               color={
-                activeItemKey === 'FollowContactsStack'
+                activeItemKey === Constants.Screens.FollowContactsStack
                   ? Constants.Colors.primary
                   : Constants.Colors.text
               }
@@ -91,14 +94,15 @@ const SideBarMenu = ({ activeItemKey, navigation }) => {
           <TouchableOpacity
             style={[
               styles.menuItem,
-              activeItemKey === 'ReportStack' && styles.menuItemActive,
+              activeItemKey === Constants.Screens.ReportStack &&
+                styles.menuItemActive,
             ]}
-            onPress={() => navigateToScreen('ReportStack')}>
+            onPress={() => navigateToScreen(Constants.Screens.ReportStack)}>
             <AppText
               text="Report"
               fontSize={Constants.Styles.FontSize.large}
               color={
-                activeItemKey === 'ReportStack'
+                activeItemKey === Constants.Screens.ReportStack
                   ? Constants.Colors.primary
                   : Constants.Colors.text
               }

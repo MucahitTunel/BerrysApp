@@ -8,6 +8,7 @@ import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
 import Main from 'features/questions/Main'
+import FollowContacts from 'features/contacts/FollowContacts'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -17,12 +18,29 @@ const MainStack = () => (
     <Stack.Screen
       name={Constants.Screens.Main}
       component={Main}
-      options={({ navigation, route }) => ({
+      options={({ navigation }) => ({
         header: () => (
           <Header
             title="points"
-            headerLeft={<MenuButton />}
-            headerRight={<MessagesButton />}
+            headerLeft={<MenuButton navigation={navigation} />}
+            headerRight={<MessagesButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+)
+
+const FollowContactsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Constants.Screens.FollowContacts}
+      component={FollowContacts}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Unfollow users and dont see their questions"
+            headerLeft={<MenuButton navigation={navigation} />}
           />
         ),
       })}
@@ -41,6 +59,10 @@ const RootNavigator = () => {
       initialRouteName={Constants.Screens.Main}
       drawerContent={(props) => <SideBarMenu {...props} />}>
       <Drawer.Screen name={Constants.Screens.MainStack} component={MainStack} />
+      <Drawer.Screen
+        name={Constants.Screens.FollowContactsStack}
+        component={FollowContactsStack}
+      />
     </Drawer.Navigator>
   ) : (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -8,6 +8,7 @@ import Loading from './Loading'
 import Avatar from './Avatar'
 import Header from './Header'
 import SideBarMenu from './SideBarMenu'
+import ContactsList from './ContactsList'
 
 export {
   AppButton,
@@ -20,4 +21,5 @@ export {
   Avatar,
   Header,
   SideBarMenu,
+  ContactsList,
 }

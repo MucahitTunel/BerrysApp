@@ -14,4 +14,6 @@ export default {
   Report: 'ReportScreen',
   FollowContacts: 'FollowContactsScreen',
   MainStack: 'MainStack',
+  FollowContactsStack: 'FollowContactsStack',
+  ReportStack: 'ReportStack',
 }

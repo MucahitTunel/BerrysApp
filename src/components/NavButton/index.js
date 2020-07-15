@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { AppIcon } from 'components'
@@ -27,15 +28,15 @@ export const MessagesBackButton = (navigation) => (
   </TouchableOpacity>
 )
 
-export const MessagesButton = (navigation) => (
+export const MessagesButton = ({ navigation }) => (
   <TouchableOpacity
-    onPress={() => navigation.navigation.navigate(Constants.Screens.Messages)}>
+    onPress={() => navigation.navigate(Constants.Screens.Messages)}>
     <AppIcon name="chat" color={Constants.Colors.white} />
   </TouchableOpacity>
 )
 
-export const MenuButton = (navigation) => (
-  <TouchableOpacity onPress={() => navigation.navigation.toggleDrawer()}>
+export const MenuButton = ({ navigation }) => (
+  <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
     <AppIcon name="menu" color={Constants.Colors.white} />
   </TouchableOpacity>
 )
