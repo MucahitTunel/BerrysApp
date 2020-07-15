@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   SectionList,
 } from 'react-native'
-import { useIsFocused } from '@react-navigation/native'
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
 import { AppText, AppIcon, AppButton } from 'components'
@@ -55,8 +54,7 @@ const ContactsList = ({
   submitText,
   onPressSubmit,
 }) => {
-  // const allContacts = useSelector((state) => state.contacts.data)
-  const allContacts = []
+  const allContacts = useSelector((state) => state.contacts.data)
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
     allContacts.filter((c) => !!c[checkCondition]),
