@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
 
@@ -15,6 +16,7 @@ export const submitReport = createAsyncThunk(
         message,
       },
     })
+    return Alert.alert('Success', 'Your report has been successfully sent')
   },
 )
 
