@@ -18,6 +18,23 @@ export const getQuestions = createAsyncThunk(
   },
 )
 
+export const hideQuestion = createAsyncThunk(
+  'questions/hide',
+  async (questionId, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'question/hide',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        questionId,
+      },
+    })
+    return questionId
+  },
+)
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState: {
@@ -34,6 +51,9 @@ const questionsSlice = createSlice({
     [getQuestions.fulfilled]: (state, action) => {
       state.data = action.payload
       state.loading = false
+    },
+    [hideQuestion.fulfilled]: (state, action) => {
+      state.data = state.data.filter((q) => q._id !== action.payload)
     },
   },
 })

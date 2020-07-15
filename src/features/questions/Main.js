@@ -15,7 +15,7 @@ import { Avatar, AppIcon, AppText, AppInput, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
-import { getQuestions } from 'features/questions/questionsSlice'
+import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 
 const swipeoutBtns = [
@@ -72,11 +72,16 @@ const QuestionItem = ({
   },
 }) => {
   const user = useSelector((state) => state.auth.user)
+  const dispatch = useDispatch()
   if (!user) return null
   const { phoneNumber } = user
   const isFlagged = flaggedBy.includes(phoneNumber)
   const onPressQuestion = () => {}
-  const onRemoveQuestion = () => {}
+  const onRemoveQuestion = (direction, _id) => {
+    if (direction === 'right') {
+      dispatch(hideQuestion(_id))
+    }
+  }
   return (
     <Swipeout
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
