@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { Image, TouchableOpacity } from 'react-native'
 import styled from 'styled-components'
 import Config from 'react-native-config'
-import * as navigationService from 'services/navigation'
+import * as NavigationService from 'services/navigation'
 
 const StorybookButton = ({ isHidden = false }) =>
   !isHidden && ['dev', 'staging'].includes(Config.ENV) ? (
-    <Button onPress={() => navigationService.navigate('Storybook', {})}>
+    <Button onPress={() => NavigationService.navigate('Storybook', {})}>
       <ButtonImage
         source={{ uri: 'https://img.stackshare.io/service/4906/22632046.png' }}
       />

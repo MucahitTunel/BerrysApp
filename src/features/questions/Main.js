@@ -15,7 +15,9 @@ import { Avatar, AppIcon, AppText, AppInput, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
+import * as NavigationService from 'services/navigation'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
+import { setAskQuestion } from 'features/questions/questionSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 
 const swipeoutBtns = [
@@ -154,7 +156,14 @@ const Main = () => {
     dispatch(getQuestions())
     dispatch(loadContacts())
   }, [dispatch])
-  const onSubmit = () => {}
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true)
+    const { question } = values
+    dispatch(setAskQuestion(question))
+    resetForm({})
+    setSubmitting(false)
+    // NavigationService.navigate(Constants.Screens.SelectContacts)
+  }
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )

@@ -41,9 +41,7 @@ const questionsSlice = createSlice({
     data: [],
     loading: false,
   },
-  reducers: {
-    setUser: (state, action) => (state.user = action.payload),
-  },
+  reducers: {},
   extraReducers: {
     [getQuestions.pending]: (state) => {
       state.loading = true
