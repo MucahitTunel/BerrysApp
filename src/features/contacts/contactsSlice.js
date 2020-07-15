@@ -45,6 +45,10 @@ const contactsSlice = createSlice({
       state.loading = false
       state.data = action.payload
     },
+    [saveContacts.fulfilled]: (state, action) => {
+      state.loading = false
+      state.data = action.payload
+    },
   },
 })
 

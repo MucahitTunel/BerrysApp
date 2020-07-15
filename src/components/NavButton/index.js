@@ -4,26 +4,21 @@ import { TouchableOpacity } from 'react-native'
 import { AppIcon } from 'components'
 import Constants from 'constants'
 
-export const BackButton = (navigation) => (
-  <TouchableOpacity onPress={() => navigation.navigation.navigation.goBack()}>
+export const BackButton = ({ navigation }) => (
+  <TouchableOpacity onPress={() => navigation.goBack()}>
     <AppIcon name="chevron-left" color={Constants.Colors.white} />
   </TouchableOpacity>
 )
 
-export const MainBackButton = (navigation) => (
-  <TouchableOpacity
-    onPress={() =>
-      navigation.navigation.navigation.navigate(Constants.Screens.Main)
-    }>
+export const MainBackButton = ({ navigation }) => (
+  <TouchableOpacity onPress={() => navigation.navigate(Constants.Screens.Main)}>
     <AppIcon name="chevron-left" color={Constants.Colors.white} />
   </TouchableOpacity>
 )
 
-export const MessagesBackButton = (navigation) => (
+export const MessagesBackButton = ({ navigation }) => (
   <TouchableOpacity
-    onPress={() =>
-      navigation.navigation.navigation.navigate(Constants.Screens.Messages)
-    }>
+    onPress={() => navigation.navigate(Constants.Screens.Messages)}>
     <AppIcon name="chevron-left" color={Constants.Colors.white} />
   </TouchableOpacity>
 )
@@ -42,28 +37,22 @@ export const MenuButton = ({ navigation }) => (
 )
 
 // the 3 dots button
-export const AnswerRightButton = (navigation) => {
+export const AnswerRightButton = ({ navigation }) => {
   return (
     <TouchableOpacity
       style={{ padding: 10 }}
-      onPress={() =>
-        navigation.navigation.navigation.state.params.handleSave()
-      }>
+      onPress={() => navigation.state.params.handleSave()}>
       <AppIcon name="more-vertical" size={22} color={Constants.Colors.white} />
     </TouchableOpacity>
   )
 }
 
 // the Messages's Compose button
-export const ComposeButton = (navigation) => {
+export const ComposeButton = ({ navigation }) => {
   return (
     <TouchableOpacity
       style={{ padding: 10 }}
-      onPress={() =>
-        navigation.navigation.navigation.navigate(
-          Constants.Screens.MessageContacts,
-        )
-      }>
+      onPress={() => navigation.navigate(Constants.Screens.MessageContacts)}>
       <AppIcon name="plus" size={22} color={Constants.Colors.white} />
     </TouchableOpacity>
   )

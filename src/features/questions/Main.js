@@ -162,7 +162,7 @@ const Main = () => {
     dispatch(setAskQuestion(question))
     resetForm({})
     setSubmitting(false)
-    // NavigationService.navigate(Constants.Screens.SelectContacts)
+    NavigationService.navigate(Constants.Screens.SelectContacts)
   }
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
