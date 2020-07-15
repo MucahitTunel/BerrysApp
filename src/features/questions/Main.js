@@ -16,6 +16,7 @@ import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import { getQuestions } from 'features/questions/questionsSlice'
+import { loadContacts } from 'features/contacts/contactsSlice'
 
 const swipeoutBtns = [
   {
@@ -146,6 +147,7 @@ const Main = () => {
   const { data, loading } = questions
   useEffect(() => {
     dispatch(getQuestions())
+    dispatch(loadContacts())
   }, [dispatch])
   const onSubmit = () => {}
   const renderEmpty = () => (

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const SideBarMenu = ({ activeItemKey, navigation }) => {
+const SideBarMenu = ({ navigation }) => {
   const dispatch = useDispatch()
   const onPressLogout = () => dispatch(logout())
 
@@ -56,56 +56,32 @@ const SideBarMenu = ({ activeItemKey, navigation }) => {
       <View style={styles.menuView}>
         <View>
           <TouchableOpacity
-            style={[
-              styles.menuItem,
-              activeItemKey === Constants.Screens.MainStack &&
-                styles.menuItemActive,
-            ]}
+            style={styles.menuItem}
             onPress={() => navigateToScreen(Constants.Screens.MainStack)}>
             <AppText
               text="Main"
               fontSize={Constants.Styles.FontSize.large}
-              color={
-                activeItemKey === Constants.Screens.MainStack
-                  ? Constants.Colors.primary
-                  : Constants.Colors.text
-              }
+              color={Constants.Colors.text}
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[
-              styles.menuItem,
-              activeItemKey === Constants.Screens.FollowContactsStack &&
-                styles.menuItemActive,
-            ]}
+            style={styles.menuItem}
             onPress={() =>
               navigateToScreen(Constants.Screens.FollowContactsStack)
             }>
             <AppText
               text="Unfollow contacts"
               fontSize={Constants.Styles.FontSize.large}
-              color={
-                activeItemKey === Constants.Screens.FollowContactsStack
-                  ? Constants.Colors.primary
-                  : Constants.Colors.text
-              }
+              color={Constants.Colors.text}
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[
-              styles.menuItem,
-              activeItemKey === Constants.Screens.ReportStack &&
-                styles.menuItemActive,
-            ]}
+            style={styles.menuItem}
             onPress={() => navigateToScreen(Constants.Screens.ReportStack)}>
             <AppText
               text="Report"
               fontSize={Constants.Styles.FontSize.large}
-              color={
-                activeItemKey === Constants.Screens.ReportStack
-                  ? Constants.Colors.primary
-                  : Constants.Colors.text
-              }
+              color={Constants.Colors.text}
             />
           </TouchableOpacity>
         </View>
@@ -127,7 +103,6 @@ SideBarMenu.propTypes = {
     dispatch: PropTypes.func.isRequired,
     navigate: PropTypes.func.isRequired,
   }).isRequired,
-  activeItemKey: PropTypes.string.isRequired,
 }
 
 export default SideBarMenu

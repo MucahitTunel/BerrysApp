@@ -2,22 +2,17 @@ import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-community/async-storage'
 import request from 'services/api'
-import { formatPhoneNumber } from 'services/contacts/helpers'
+import { formatPhoneNumber } from '../contacts/helpers'
 
 export const postSignIn = async (userData, isFromBoot = false) => {
-  try {
-    if (!isFromBoot) {
-      AsyncStorage.setItem('userData', JSON.stringify(userData))
-    }
-    // if (userData && userData.isNew) {
-    //   NavigationService.navigate(Constants.Screens.Survey)
-    // } else {
-    //   NavigationService.navigate(Constants.Screens.Main)
-    // }
-  } catch (e) {
-    console.log('ERROR - postSignIn')
-    console.log(e)
+  if (!isFromBoot) {
+    AsyncStorage.setItem('userData', JSON.stringify(userData))
   }
+  // if (userData && userData.isNew) {
+  //   NavigationService.navigate(Constants.Screens.Survey)
+  // } else {
+  //   NavigationService.navigate(Constants.Screens.Main)
+  // }
 }
 
 export const authBoot = createAsyncThunk('auth/boot', async () => {
