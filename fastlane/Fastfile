@@ -56,7 +56,6 @@ platform :ios do
         plist['CFBundleVersion'] = ENV['IOS_VERSION_BUILD_NUMBER']
       },
     )
-    profile_env_name = "sigh_#{ENV['IOS_APP_ID']}_#{ENV['IOS_MATCH_TYPE']}_profile-name"
     gymOptions = ({
       silent: true,
       clean: true,
@@ -89,11 +88,16 @@ platform :ios do
         plist['CFBundleShortVersionString'] = ENV['APP_VERSION']
       },
     )
+    # update app identifier for BerrysShare
     update_app_identifier(
       xcodeproj: xcodeproj,
       plist_path: "BerrysShare/Info.plist",
       app_identifier: "#{ENV['IOS_APP_ID']}.BerrysShare"
     )
+    host_app_id_def = "let hostAppBundleIdentifier"
+    host_app_id_updated = "let hostAppBundleIdentifier = \\\"#{ENV['IOS_APP_ID']}\\\""
+    puts "host_app_id_updated " + host_app_id_updated
+    sh("sed -i '' \"s|.*#{host_app_id_def}.*|#{host_app_id_updated}|\" ../ios/BerrysShare/ShareViewController.swift")
     # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
   end
 
