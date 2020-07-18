@@ -19,6 +19,26 @@ import * as NavigationService from 'services/navigation'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { setAskQuestion } from 'features/questions/questionSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
+import store from 'state/store'
+
+ReceiveSharingIntent.getReceivedFiles(
+  (files) => {
+    // files returns as JSON Array example
+    //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
+    console.log('files')
+    console.log(files)
+    const weblink = files && files.length && files[0] && files[0].weblink
+    console.log('weblink', weblink)
+    store.dispatch(setAskQuestion(weblink))
+  },
+  (error) => {
+    console.log(error)
+  },
+)
+
+// To clear Intents
+ReceiveSharingIntent.clearReceivedFiles()
 
 const swipeoutBtns = [
   {
@@ -151,6 +171,7 @@ QuestionItem.propTypes = {
 const Main = () => {
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
+  const question = useSelector((state) => state.question.question)
   const { data, loading } = questions
   useEffect(() => {
     dispatch(getQuestions())
@@ -171,7 +192,10 @@ const Main = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <Formik initialValues={{ question: '' }} onSubmit={onSubmit}>
+      <Formik
+        enableReinitialize
+        initialValues={{ question }}
+        onSubmit={onSubmit}>
         {({ values, handleChange, handleSubmit }) => (
           <View style={styles.inputView}>
             <Avatar source={Images.defaultAvatar} size={50} />
