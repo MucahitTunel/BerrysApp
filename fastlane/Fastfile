@@ -27,7 +27,10 @@ end
 platform :ios do
   lane :certificates do |options|
     match(
-      app_identifier: ENV['IOS_APP_ID'],
+      app_identifier: [
+        ENV['IOS_APP_ID'],
+        "#{ENV['IOS_APP_ID']}.BerrysShare"
+      ],
       shallow_clone: true,
       clone_branch_directly: true,
       git_url: ENV['IOS_MATCH_GIT_URL'],
@@ -61,7 +64,6 @@ platform :ios do
       scheme: ENV['IOS_GYM_SCHEME'],
       output_directory: ENV['IOS_GYM_OUTPUT_DIR'],
       output_name: ENV['IOS_GYM_OUTPUT_NAME'],
-      xcargs: "PROVISIONING_PROFILE_SPECIFIER='#{ENV[profile_env_name]}' DEVELOPMENT_TEAM='#{ENV['IOS_TEAM_ID']}'"
     }).merge(
       File.directory?("../#{xcworkspace}") ?
         {workspace: xcworkspace} :

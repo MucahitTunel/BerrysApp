@@ -6,6 +6,7 @@
 	<array>
 		<string>group.com.berrys.nickapp</string>
 		<string>group.com.berrys.nickapp.dev</string>
+		<string>group.com.berrys.nickapp.staging</string>
 	</array>
 </dict>
 </plist>
