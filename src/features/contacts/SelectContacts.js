@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import * as NavigationService from 'services/navigation'
 import { ContactsList } from 'components'
 import Constants from 'constants'
-import { setAskContacts } from 'features/questions/questionSlice'
+import { setAskContacts } from 'features/questions/askSlice'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()

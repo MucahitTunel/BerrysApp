@@ -4,6 +4,7 @@ import { authReducer } from 'features/auth/authSlice'
 import { questionsReducer } from 'features/questions/questionsSlice'
 import { contactsReducer } from 'features/contacts/contactsSlice'
 import { reportReducer } from 'features/report/reportSlice'
+import { askReducer } from 'features/questions/askSlice'
 import { questionReducer } from 'features/questions/questionSlice'
 
 export default combineReducers({
@@ -13,4 +14,5 @@ export default combineReducers({
   contacts: contactsReducer,
   report: reportReducer,
   question: questionReducer,
+  ask: askReducer,
 })

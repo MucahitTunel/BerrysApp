@@ -4,7 +4,7 @@ import { View, StatusBar, StyleSheet, FlatList } from 'react-native'
 import Constants from 'constants'
 import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton } from 'components'
-import { askQuestion } from 'features/questions/questionSlice'
+import { askQuestion } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 })
 
 const Preview = () => {
-  const ask = useSelector((state) => state.question)
+  const ask = useSelector((state) => state.ask)
   const dispatch = useDispatch()
   const onConfirmQuestion = () => dispatch(askQuestion())
   const renderContact = (contact) => {

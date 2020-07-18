@@ -11,15 +11,16 @@ import {
 import { Formik } from 'formik'
 import moment from 'moment'
 import Swipeout from 'react-native-swipeout'
+import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import { Avatar, AppIcon, AppText, AppInput, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
-import { setAskQuestion } from 'features/questions/questionSlice'
+import { getQuestion } from 'features/questions/questionSlice'
+import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
-import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import store from 'state/store'
 
 ReceiveSharingIntent.getReceivedFiles(
@@ -98,7 +99,10 @@ const QuestionItem = ({
   if (!user) return null
   const { phoneNumber } = user
   const isFlagged = flaggedBy.includes(phoneNumber)
-  const onPressQuestion = () => {}
+  const onPressQuestion = (questionId) => {
+    dispatch(getQuestion(questionId))
+    NavigationService.navigate(Constants.Screens.Answers)
+  }
   const onRemoveQuestion = (direction, _id) => {
     if (direction === 'right') {
       dispatch(hideQuestion(_id))
@@ -171,7 +175,7 @@ QuestionItem.propTypes = {
 const Main = () => {
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
-  const question = useSelector((state) => state.question.question)
+  const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
   useEffect(() => {
     dispatch(getQuestions())

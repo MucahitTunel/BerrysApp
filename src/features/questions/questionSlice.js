@@ -1,54 +1,34 @@
-import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
-import Constants from 'constants'
-import * as NavigationService from 'services/navigation'
-import { getQuestions } from './questionsSlice'
 
-export const askQuestion = createAsyncThunk(
-  'question/ask',
-  async (_, { getState, dispatch }) => {
+export const getQuestion = createAsyncThunk(
+  'question/get',
+  async (questionId, { getState }) => {
     const state = getState()
     const user = state.auth.user
-    const ask = state.question
-    const { question, contacts } = ask
-    await request({
-      method: 'POST',
-      url: 'question/add',
-      data: {
-        content: question,
-        contacts,
-        userPhoneNumber: user.phoneNumber,
-      },
+    const { data } = await request({
+      method: 'GET',
+      url: 'question',
+      params: { questionId, userPhoneNumber: user.phoneNumber },
     })
-    dispatch(getQuestions())
-    Alert.alert('Success', 'Your question has been submitted!')
-    NavigationService.navigate(Constants.Screens.Main)
+    const { question } = data
+    return question
   },
 )
 
 const questionSlice = createSlice({
   name: 'question',
   initialState: {
-    question: null,
-    contacts: [],
+    data: null,
     loading: false,
   },
-  reducers: {
-    setAskQuestion: (state, action) => {
-      state.question = action.payload
-    },
-    setAskContacts: (state, action) => {
-      state.contacts = action.payload
-    },
-  },
+  reducers: {},
   extraReducers: {
-    [askQuestion.pending]: (state) => {
+    [getQuestion.pending]: (state) => {
       state.loading = true
     },
-    [askQuestion.fulfilled]: (state) => {
-      state.question = null
-      state.contacts = []
+    [getQuestion.fulfilled]: (state, action) => {
+      state.data = action.payload
       state.loading = false
     },
   },
@@ -56,5 +36,5 @@ const questionSlice = createSlice({
 
 export const {
   reducer: questionReducer,
-  actions: { setAskQuestion, setAskContacts },
+  actions: {},
 } = questionSlice

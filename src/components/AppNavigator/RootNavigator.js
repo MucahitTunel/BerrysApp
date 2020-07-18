@@ -3,7 +3,12 @@ import { useSelector } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Header, SideBarMenu } from 'components'
-import { MenuButton, MessagesButton, BackButton } from 'components/NavButton'
+import {
+  MenuButton,
+  MessagesButton,
+  BackButton,
+  AnswerRightButton,
+} from 'components/NavButton'
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
@@ -12,6 +17,7 @@ import FollowContacts from 'features/contacts/FollowContacts'
 import Report from 'features/report/Report'
 import SelectContacts from 'features/contacts/SelectContacts'
 import Preview from 'features/questions/Preview'
+import Answers from 'features/questions/Answers'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -27,6 +33,18 @@ const MainStack = () => (
             title="points"
             headerLeft={<MenuButton navigation={navigation} />}
             headerRight={<MessagesButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Constants.Screens.Answers}
+      component={Answers}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            headerLeft={<BackButton navigation={navigation} />}
+            headerRight={<AnswerRightButton navigation={navigation} />}
           />
         ),
       })}
