@@ -89,6 +89,11 @@ platform :ios do
         plist['CFBundleShortVersionString'] = ENV['APP_VERSION']
       },
     )
+    update_app_identifier(
+      xcodeproj: xcodeproj,
+      plist_path: "BerrysShare/Info.plist",
+      app_identifier: "#{ENV['IOS_APP_ID']}.BerrysShare"
+    )
     # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
   end
 
