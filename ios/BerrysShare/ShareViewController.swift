@@ -15,8 +15,7 @@ import Photos
 
 class ShareViewController: SLComposeServiceViewController {
   // TODO: IMPORTANT: This should be your host app bundle identifier
-  // TODO XIN
-  let hostAppBundleIdentifier = "com.berrys.nickapp.dev"
+let hostAppBundleIdentifier = "com.berrys.nickapp.staging"
   let sharedKey = "ShareKey"
   var sharedMedia: [SharedMediaFile] = []
   var sharedText: [String] = []
