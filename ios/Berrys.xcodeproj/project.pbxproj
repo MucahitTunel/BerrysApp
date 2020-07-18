@@ -782,6 +782,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -812,6 +816,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -23,12 +23,14 @@ const os = require('os')
     cwd: 'ios',
     onlyPlatforms: ['darwin'],
   },
+
+  { command: './scripts/get-ip.sh' },
 ]
   .filter(
     ({ onlyPlatforms }) =>
       !onlyPlatforms || onlyPlatforms.includes(os.platform()),
   )
-  .forEach(commandAndOptions => {
+  .forEach((commandAndOptions) => {
     const { command, onlyPlatform: _, ...options } = commandAndOptions
     try {
       childProcess.execSync(command, {
