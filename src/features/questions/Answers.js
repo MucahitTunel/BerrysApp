@@ -27,6 +27,7 @@ import {
   voteComment as voteCommentAction,
   voteQuestion as voteQuestionAction,
   getQuestion,
+  flagQuestion,
 } from 'features/questions/questionSlice'
 
 const styles = StyleSheet.create({
@@ -194,7 +195,8 @@ const Answers = () => {
   const upVoteQuestion = () => voteQuestion(1, question._id)
   const downVoteQuestion = () => voteQuestion(-1, question._id)
   const refreshQuestion = (questionId) => dispatch(getQuestion(questionId))
-  const onPressFlagQuestion = () => {}
+  const onPressFlagQuestion = (value) =>
+    dispatch(flagQuestion({ value, question }))
   const onPressMessageBtn = () => {}
 
   const renderEmpty = () => (

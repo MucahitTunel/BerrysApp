@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
 
@@ -46,6 +47,28 @@ export const voteQuestion = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
         value,
         questionId,
+      },
+    })
+    dispatch(getQuestion(questionId))
+  },
+)
+
+export const flagQuestion = createAsyncThunk(
+  'question/vote',
+  async ({ value, question }, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { _id: questionId, phoneNumber } = question
+    if (phoneNumber === user.phoneNumber) {
+      return Alert.alert('Warning', "You can't flag your own questions")
+    }
+    await request({
+      method: 'POST',
+      url: 'question/flag',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        questionId,
+        value,
       },
     })
     dispatch(getQuestion(questionId))
