@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -21,7 +22,7 @@ import {
   AppButton,
   Loading,
 } from 'components'
-import { ModalTheme } from 'theme'
+import Theme from 'theme'
 
 const styles = StyleSheet.create({
   container: {
@@ -94,77 +95,81 @@ const styles = StyleSheet.create({
   },
 })
 
-const Answers = (props) => {
-  const {
-    onSubmit,
-    loading,
-    question,
-    upVoteQuestion,
-    downVoteQuestion,
-    refreshQuestion,
-    isFlagModalVisible,
-    setIsFlagModalVisible,
-    isMessageModalVisible,
-    setIsMessageModalVisible,
-    user,
-    onPressFlagQuestion,
-    onPressMessageBtn,
-  } = props
-
-  const renderComment = (comment) => {
-    const { _id, name, createdAt, content, totalVotes = 0 } = comment
-    const { upVoteComment, downVoteComment, onPressUser } = props
-    return (
-      <View style={styles.questionItem}>
+const Comment = ({ comment }) => {
+  const { _id, name, createdAt, content, totalVotes = 0 } = comment
+  const upVoteComment = () => {}
+  const downVoteComment = () => {}
+  const onPressUser = () => {}
+  return (
+    <View style={styles.questionItem}>
+      <TouchableOpacity onPress={() => onPressUser(comment)}>
+        <Avatar size={50} />
+      </TouchableOpacity>
+      <View
+        style={{
+          flex: 1,
+          marginLeft: 10,
+        }}>
         <TouchableOpacity onPress={() => onPressUser(comment)}>
-          <Avatar size={50} />
+          <AppText
+            text={name}
+            color={Constants.Colors.blue}
+            fontFamily={Fonts.latoBold}
+            style={{ marginBottom: 5 }}
+          />
         </TouchableOpacity>
-        <View
-          style={{
-            flex: 1,
-            marginLeft: 10,
-          }}>
-          <TouchableOpacity onPress={() => onPressUser(comment)}>
+        <AppText text={content} fontSize={Constants.Styles.FontSize.large} />
+        <View style={styles.headerAnswerView}>
+          <View style={styles.headerAnswerInner}>
             <AppText
-              text={name}
-              color={Constants.Colors.blue}
-              fontFamily={Fonts.latoBold}
-              style={{ marginBottom: 5 }}
+              text={moment(createdAt).fromNow()}
+              color={Constants.Colors.gray}
+              style={{ marginRight: 14 }}
+              fontSize={Constants.Styles.FontSize.medium}
             />
-          </TouchableOpacity>
-          <AppText text={content} fontSize={Constants.Styles.FontSize.large} />
-          <View style={styles.headerAnswerView}>
-            <View style={styles.headerAnswerInner}>
-              <AppText
-                text={moment(createdAt).fromNow()}
-                color={Constants.Colors.gray}
-                style={{ marginRight: 14 }}
-                fontSize={Constants.Styles.FontSize.medium}
-              />
-              <AppText text={`${totalVotes}`} color={Constants.Colors.gray} />
-              <TouchableOpacity
-                style={{ padding: 5 }}
-                onPress={() => upVoteComment(_id)}>
-                <AppIcon name="like" size={16} color={Constants.Colors.gray} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  padding: 5,
-                  marginRight: 5,
-                }}
-                onPress={() => downVoteComment(_id)}>
-                <AppIcon
-                  name="unlike"
-                  size={16}
-                  color={Constants.Colors.gray}
-                />
-              </TouchableOpacity>
-            </View>
+            <AppText text={`${totalVotes}`} color={Constants.Colors.gray} />
+            <TouchableOpacity
+              style={{ padding: 5 }}
+              onPress={() => upVoteComment(_id)}>
+              <AppIcon name="like" size={16} color={Constants.Colors.gray} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                padding: 5,
+                marginRight: 5,
+              }}
+              onPress={() => downVoteComment(_id)}>
+              <AppIcon name="unlike" size={16} color={Constants.Colors.gray} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-    )
-  }
+    </View>
+  )
+}
+
+Comment.propTypes = {
+  comment: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    content: PropTypes.string,
+    createdAt: PropTypes.number,
+    totalVotes: PropTypes.number,
+  }),
+}
+
+const Answers = () => {
+  const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
+  const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
+  const user = useSelector((state) => state.auth.user)
+  const question = useSelector((state) => state.question.data)
+  const loading = useSelector((state) => state.question.loading)
+  const onSubmit = () => {}
+  const upVoteQuestion = () => {}
+  const downVoteQuestion = () => {}
+  const refreshQuestion = () => {}
+  const onPressFlagQuestion = () => {}
+  const onPressMessageBtn = () => {}
 
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no answer yet" />
@@ -215,7 +220,7 @@ const Answers = (props) => {
       <View style={styles.flatListView}>
         <FlatList
           data={question.comments}
-          renderItem={({ item }) => renderComment(item)}
+          renderItem={({ item }) => <Comment comment={item} />}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}
@@ -258,14 +263,14 @@ const Answers = (props) => {
       {/* Flag the question modal */}
       <Modal
         isVisible={isFlagModalVisible}
-        style={[ModalTheme.modalView]}
+        style={[Theme.Modal.modalView]}
         animationInTiming={300}
         animationOutTiming={300}>
-        <View style={ModalTheme.modalInnerView}>
+        <View style={Theme.Modal.modalInnerView}>
           <View style={styles.modalBackdrop}>
             <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
           </View>
-          <View style={[ModalTheme.modalInnerView, styles.modalInnerView]}>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text={flagButtonText}
@@ -285,14 +290,14 @@ const Answers = (props) => {
       {/* Flag the question modal */}
       <Modal
         isVisible={isMessageModalVisible}
-        style={[ModalTheme.modalView]}
+        style={[Theme.Modal.modalView]}
         animationInTiming={300}
         animationOutTiming={300}>
-        <View style={ModalTheme.modalInnerView}>
+        <View style={Theme.Modal.modalInnerView}>
           <View style={styles.modalBackdrop}>
             <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
           </View>
-          <View style={[ModalTheme.modalInnerView, styles.modalInnerView]}>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text="Message"
@@ -313,45 +318,9 @@ const Answers = (props) => {
 }
 
 Answers.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
-  question: PropTypes.shape({
-    _id: PropTypes.string,
-    content: PropTypes.string,
-    createdAt: PropTypes.number,
-    comments: PropTypes.arrayOf(PropTypes.object),
-    totalVotes: PropTypes.number,
-    isAbleToAnswer: PropTypes.bool,
-    flaggedBy: PropTypes.arrayOf(PropTypes.string),
-  }),
-  upVoteQuestion: PropTypes.func.isRequired,
-  downVoteQuestion: PropTypes.func.isRequired,
-  upVoteComment: PropTypes.func.isRequired,
-  downVoteComment: PropTypes.func.isRequired,
-  refreshQuestion: PropTypes.func.isRequired,
   navigation: PropTypes.shape({
     setParams: PropTypes.func,
   }).isRequired,
-  setIsFlagModalVisible: PropTypes.func.isRequired,
-  isFlagModalVisible: PropTypes.bool.isRequired,
-  setIsMessageModalVisible: PropTypes.func.isRequired,
-  isMessageModalVisible: PropTypes.bool.isRequired,
-  onPressFlagQuestion: PropTypes.func.isRequired,
-  onPressUser: PropTypes.func.isRequired,
-  onPressMessageBtn: PropTypes.func.isRequired,
-}
-
-Answers.defaultProps = {
-  question: {
-    _id: '_id',
-    content: '...',
-    createdAt: Number(moment().format('x')),
-    comments: [],
-    totalVotes: 0,
-    isAbleToAnswer: false,
-    flaggedBy: [],
-  },
 }
 
 export default Answers
