@@ -75,6 +75,24 @@ export const flagQuestion = createAsyncThunk(
   },
 )
 
+export const submitComment = createAsyncThunk(
+  'comment/submit',
+  async ({ comment, questionId }, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'comment',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        comment,
+        questionId,
+      },
+    })
+    dispatch(getQuestion(questionId))
+  },
+)
+
 const questionSlice = createSlice({
   name: 'question',
   initialState: {

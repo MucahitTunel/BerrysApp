@@ -30,6 +30,7 @@ import {
   voteQuestion as voteQuestionAction,
   getQuestion,
   flagQuestion,
+  submitComment,
 } from 'features/questions/questionSlice'
 
 const styles = StyleSheet.create({
@@ -195,7 +196,17 @@ const Answers = ({ navigation }) => {
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
-  const onSubmit = () => {}
+  const onSubmit = (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true)
+    const { comment } = values
+    const payload = {
+      comment,
+      questionId: question._id,
+    }
+    dispatch(submitComment(payload))
+    resetForm({})
+    setSubmitting(false)
+  }
   const voteQuestion = (value, questionId) =>
     dispatch(
       voteQuestionAction({
