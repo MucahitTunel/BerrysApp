@@ -125,7 +125,7 @@ const QuestionItem = ({
               fontSize={Constants.Styles.FontSize.large}
             />
             {isFlagged && (
-              <AppIcon name="flag" color={Constants.olors.primary} size={20} />
+              <AppIcon name="flag" color={Constants.Colors.primary} size={20} />
             )}
           </View>
           <View

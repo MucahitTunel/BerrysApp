@@ -103,7 +103,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const Comment = ({ comment, question, user, setIsMessageModalVisible }) => {
+const Comment = ({
+  comment,
+  question,
+  user,
+  setComment,
+  setIsMessageModalVisible,
+}) => {
   const { _id, name, createdAt, content, totalVotes = 0 } = comment
   const dispatch = useDispatch()
   const voteComment = (value, questionId, commentId) =>
@@ -122,6 +128,7 @@ const Comment = ({ comment, question, user, setIsMessageModalVisible }) => {
     const { userPhoneNumber } = comment
     if (phoneNumber !== userPhoneNumber) {
       setIsMessageModalVisible(true)
+      setComment(comment)
     }
   }
   return (
@@ -177,11 +184,13 @@ Comment.propTypes = {
   comment: PropTypes.objectOf(PropTypes.any).isRequired,
   question: PropTypes.objectOf(PropTypes.any).isRequired,
   setIsMessageModalVisible: PropTypes.func.isRequired,
+  setComment: PropTypes.func.isRequired,
 }
 
 const Answers = ({ navigation }) => {
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
+  const [comment, setComment] = useState(null)
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
@@ -199,7 +208,16 @@ const Answers = ({ navigation }) => {
   const refreshQuestion = (questionId) => dispatch(getQuestion(questionId))
   const onPressFlagQuestion = (value) =>
     dispatch(flagQuestion({ value, question }))
-  const onPressMessageBtn = () => {}
+  const onPressMessageBtn = () => {
+    const { phoneNumber } = user
+    const { userPhoneNumber } = comment
+    if (phoneNumber !== userPhoneNumber) {
+      console.log('joinRoomFromQuestionPage')
+      // TODO XIN
+      // joinRoomFromQuestionPage(userPhoneNumber, question._id)
+    }
+    setIsMessageModalVisible(false)
+  }
 
   useLayoutEffect(() => {
     // Have to move this logic here because
@@ -274,6 +292,7 @@ const Answers = ({ navigation }) => {
               question={question}
               user={user}
               setIsMessageModalVisible={setIsMessageModalVisible}
+              setComment={setComment}
             />
           )}
           keyExtractor={(item) => item._id}
@@ -315,7 +334,7 @@ const Answers = ({ navigation }) => {
         </Formik>
       </View>
 
-      {/* Flag the question modal */}
+      {/* Flag question modal */}
       <Modal
         isVisible={isFlagModalVisible}
         style={[Theme.Modal.modalView]}
@@ -342,7 +361,7 @@ const Answers = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Flag the question modal */}
+      {/* Message user modal */}
       <Modal
         isVisible={isMessageModalVisible}
         style={[Theme.Modal.modalView]}
