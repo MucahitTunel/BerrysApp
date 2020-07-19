@@ -23,7 +23,11 @@ import {
   Loading,
 } from 'components'
 import Theme from 'theme'
-import { voteComment as voteCommentAction } from 'features/questions/questionSlice'
+import {
+  voteComment as voteCommentAction,
+  voteQuestion as voteQuestionAction,
+  getQuestion,
+} from 'features/questions/questionSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -178,10 +182,18 @@ const Answers = () => {
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
+  const dispatch = useDispatch()
   const onSubmit = () => {}
-  const upVoteQuestion = () => {}
-  const downVoteQuestion = () => {}
-  const refreshQuestion = () => {}
+  const voteQuestion = (value, questionId) =>
+    dispatch(
+      voteQuestionAction({
+        value,
+        questionId,
+      }),
+    )
+  const upVoteQuestion = () => voteQuestion(1, question._id)
+  const downVoteQuestion = () => voteQuestion(-1, question._id)
+  const refreshQuestion = (questionId) => dispatch(getQuestion(questionId))
   const onPressFlagQuestion = () => {}
   const onPressMessageBtn = () => {}
 
