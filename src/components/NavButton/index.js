@@ -37,11 +37,9 @@ export const MenuButton = ({ navigation }) => (
 )
 
 // the 3 dots button
-export const AnswerRightButton = ({ navigation }) => {
+export const AnswerRightButton = ({ onPressDots }) => {
   return (
-    <TouchableOpacity
-      style={{ padding: 10 }}
-      onPress={() => navigation.state.params.handleSave()}>
+    <TouchableOpacity style={{ padding: 10 }} onPress={onPressDots}>
       <AppIcon name="more-vertical" size={22} color={Constants.Colors.white} />
     </TouchableOpacity>
   )

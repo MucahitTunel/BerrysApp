@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -21,7 +21,9 @@ import {
   AppInput,
   AppButton,
   Loading,
+  Header,
 } from 'components'
+import { AnswerRightButton, BackButton } from 'components/NavButton'
 import Theme from 'theme'
 import {
   voteComment as voteCommentAction,
@@ -177,7 +179,7 @@ Comment.propTypes = {
   setIsMessageModalVisible: PropTypes.func.isRequired,
 }
 
-const Answers = () => {
+const Answers = ({ navigation }) => {
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const user = useSelector((state) => state.auth.user)
@@ -198,6 +200,24 @@ const Answers = () => {
   const onPressFlagQuestion = (value) =>
     dispatch(flagQuestion({ value, question }))
   const onPressMessageBtn = () => {}
+
+  useLayoutEffect(() => {
+    // Have to move this logic here because
+    // https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+    // eslint-disable-next-line react/prop-types
+    navigation.setOptions({
+      header: () => (
+        <Header
+          headerLeft={<BackButton navigation={navigation} />}
+          headerRight={
+            <AnswerRightButton
+              onPressDots={() => setIsFlagModalVisible(true)}
+            />
+          }
+        />
+      ),
+    })
+  }, [navigation])
 
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no answer yet" />
