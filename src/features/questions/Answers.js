@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -23,6 +23,7 @@ import {
   Loading,
 } from 'components'
 import Theme from 'theme'
+import { voteComment as voteCommentAction } from 'features/questions/questionSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -95,11 +96,27 @@ const styles = StyleSheet.create({
   },
 })
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, question, user, setIsMessageModalVisible }) => {
   const { _id, name, createdAt, content, totalVotes = 0 } = comment
-  const upVoteComment = () => {}
-  const downVoteComment = () => {}
-  const onPressUser = () => {}
+  const dispatch = useDispatch()
+  const voteComment = (value, questionId, commentId) =>
+    dispatch(
+      voteCommentAction({
+        value,
+        commentId,
+        questionId,
+      }),
+    )
+  const upVoteComment = (commentId) => voteComment(1, question._id, commentId)
+  const downVoteComment = (commentId) =>
+    voteComment(-1, question._id, commentId)
+  const onPressUser = () => {
+    const { phoneNumber } = user
+    const { userPhoneNumber } = comment
+    if (phoneNumber !== userPhoneNumber) {
+      setIsMessageModalVisible(true)
+    }
+  }
   return (
     <View style={styles.questionItem}>
       <TouchableOpacity onPress={() => onPressUser(comment)}>
@@ -149,13 +166,10 @@ const Comment = ({ comment }) => {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    content: PropTypes.string,
-    createdAt: PropTypes.number,
-    totalVotes: PropTypes.number,
-  }),
+  user: PropTypes.objectOf(PropTypes.any).isRequired,
+  comment: PropTypes.objectOf(PropTypes.any).isRequired,
+  question: PropTypes.objectOf(PropTypes.any).isRequired,
+  setIsMessageModalVisible: PropTypes.func.isRequired,
 }
 
 const Answers = () => {
@@ -220,7 +234,14 @@ const Answers = () => {
       <View style={styles.flatListView}>
         <FlatList
           data={question.comments}
-          renderItem={({ item }) => <Comment comment={item} />}
+          renderItem={({ item }) => (
+            <Comment
+              comment={item}
+              question={question}
+              user={user}
+              setIsMessageModalVisible={setIsMessageModalVisible}
+            />
+          )}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}
