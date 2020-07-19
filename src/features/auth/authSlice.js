@@ -1,13 +1,24 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-community/async-storage'
+import Pusher from 'pusher-js/react-native'
+import Config from 'react-native-config'
 import request from 'services/api'
 import { formatPhoneNumber } from '../contacts/helpers'
+
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true
+
+export const pusher = new Pusher(Config.PUSHER_CHANNELS_APP_KEY, {
+  cluster: Config.PUSHER_CHANNELS_APP_CLUSTER,
+  forceTLS: true,
+})
 
 export const postSignIn = async (userData, isFromBoot = false) => {
   if (!isFromBoot) {
     AsyncStorage.setItem('userData', JSON.stringify(userData))
   }
+  // TODO XIN Survey Screen
   // if (userData && userData.isNew) {
   //   NavigationService.navigate(Constants.Screens.Survey)
   // } else {
@@ -15,21 +26,37 @@ export const postSignIn = async (userData, isFromBoot = false) => {
   // }
 }
 
-export const authBoot = createAsyncThunk('auth/boot', async () => {
-  const userDataString = await AsyncStorage.getItem('userData')
-  const userData = JSON.parse(userDataString)
-  if (userData) {
-    // const channel = pusher.subscribe(userData._id)
-    // channel.bind('POINTS_UPDATED', data => {
-    //   store.dispatch({ type: UPDATE_POINTS, payload: data.points })
-    // })
-    await postSignIn(userData)
-  }
-  return userData
-})
+export const authBoot = createAsyncThunk(
+  'auth/boot',
+  async (_, { dispatch }) => {
+    const userDataString = await AsyncStorage.getItem('userData')
+    const userData = JSON.parse(userDataString)
+    if (userData) {
+      const channel = pusher.subscribe(userData._id)
+      channel.bind('POINTS_UPDATED', (data) => {
+        dispatch(updatePoints(data.points))
+      })
+      await postSignIn(userData)
+      dispatch(getUser(userData.phoneNumber))
+    }
+    return userData
+  },
+)
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AsyncStorage.removeItem('userData')
+})
+
+export const getUser = createAsyncThunk('auth/getUser', async (phoneNumber) => {
+  const { data } = await request({
+    method: 'GET',
+    url: 'account/get-user',
+    params: {
+      phoneNumber: phoneNumber,
+    },
+  })
+  const { user } = data
+  return user
 })
 
 export const signIn = createAsyncThunk(
@@ -60,11 +87,17 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    points: 0,
     loading: false,
     booting: true,
   },
-  reducers: {},
+  reducers: {
+    updatePoints: (state, action) => {
+      state.user = {
+        ...state.user,
+        points: action.payload,
+      }
+    },
+  },
   extraReducers: {
     [signIn.pending]: (state) => {
       state.loading = true
@@ -87,10 +120,13 @@ const authSlice = createSlice({
     [logout.fulfilled]: (state) => {
       state.user = null
     },
+    [getUser.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
   },
 })
 
 export const {
   reducer: authReducer,
-  actions: {},
+  actions: { updatePoints },
 } = authSlice
