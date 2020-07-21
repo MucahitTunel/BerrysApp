@@ -5,6 +5,21 @@ import request from 'services/api'
 import { pusher } from 'features/auth/authSlice'
 import Constants from 'constants'
 
+const roomSortFunction = (room1, room2) => {
+  const { lastMessage: lastMessage1, createdAt: createdAt1 } = room1
+  const { lastMessage: lastMessage2, createdAt: createdAt2 } = room2
+  if (
+    lastMessage1 &&
+    lastMessage2 &&
+    lastMessage1.createdAt &&
+    lastMessage2.createdAt
+  ) {
+    return lastMessage2.createdAt - lastMessage1.createdAt
+  } else {
+    return createdAt2 - createdAt1
+  }
+}
+
 export const joinRoom = createAsyncThunk(
   'messages/joinRoom',
   async (
@@ -35,7 +50,7 @@ export const joinRoom = createAsyncThunk(
 
 export const getRooms = createAsyncThunk(
   'messages/getRooms',
-  async (_, { getState }) => {
+  async (_, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const currentRooms = state.messages.rooms
@@ -51,19 +66,22 @@ export const getRooms = createAsyncThunk(
     rooms.forEach((room) => {
       const channel = pusher.subscribe(room._id)
       channel.bind('MESSAGE_RECEIVED', (d) => {
-        const roomsUpdated = rooms.map((r) => {
-          if (r.id === room.id) {
-            return {
-              ...r,
-              lastMessage: d.message,
+        const roomsUpdated = rooms
+          .map((r) => {
+            if (r._id === room._id) {
+              return {
+                ...r,
+                lastMessage: d.message,
+              }
+            } else {
+              return r
             }
-          }
-          return r
-        })
-        setRooms(roomsUpdated)
+          })
+          .sort(roomSortFunction)
+        dispatch(setRooms(roomsUpdated))
       })
     })
-    return rooms
+    return rooms.sort(roomSortFunction)
   },
 )
 
