@@ -7,9 +7,7 @@ export const getConversationName = (room) => {
   const { data: customData, createdBy, members, createdAt } = room
   const state = store.getState()
   const {
-    app: {
-      contacts: { data = [] },
-    },
+    contacts: { data = [] },
     auth: { user },
   } = state
   const { phoneNumber } = user
