@@ -80,6 +80,7 @@ const Conversation = ({ navigation }) => {
   useEffect(() => {
     if (room && room._id) {
       const title = getConversationName(room)
+      console.log('title', title)
       navigation.setOptions({
         header: () => (
           <Header

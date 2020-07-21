@@ -9,6 +9,7 @@ import {
   BackButton,
   MainBackButton,
   ComposeButton,
+  MessagesBackButton,
 } from 'components/NavButton'
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
@@ -21,6 +22,7 @@ import Preview from 'features/questions/Preview'
 import Answers from 'features/questions/Answers'
 import Messages from 'features/messages/Messages'
 import Conversation from 'features/messages/Conversation'
+import MessageContacts from 'features/messages/MessageContacts'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -81,6 +83,18 @@ const MainStack = () => (
     <Stack.Screen
       name={Constants.Screens.Conversation}
       component={Conversation}
+    />
+    <Stack.Screen
+      name={Constants.Screens.MessageContacts}
+      component={MessageContacts}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Select a contact to send messages"
+            headerLeft={<MessagesBackButton navigation={navigation} />}
+          />
+        ),
+      })}
     />
   </Stack.Navigator>
 )

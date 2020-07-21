@@ -32,6 +32,7 @@ import {
   flagQuestion,
   submitComment,
 } from 'features/questions/questionSlice'
+import { joinRoom } from 'features/messages/messagesSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -223,9 +224,13 @@ const Answers = ({ navigation }) => {
     const { phoneNumber } = user
     const { userPhoneNumber } = comment
     if (phoneNumber !== userPhoneNumber) {
-      console.log('joinRoomFromQuestionPage')
-      // TODO XIN
-      // joinRoomFromQuestionPage(userPhoneNumber, question._id)
+      dispatch(
+        joinRoom({
+          phoneNumber: userPhoneNumber,
+          questionId: question._id,
+          isFromQuestionPage: true,
+        }),
+      )
     }
     setIsMessageModalVisible(false)
   }
