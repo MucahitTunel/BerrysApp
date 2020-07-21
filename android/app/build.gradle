@@ -127,6 +127,10 @@ def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
 def _packageName = project.env.get("ANDROID_PACKAGE_NAME") ?: "com.berrys.nickapp"
 
 android {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
