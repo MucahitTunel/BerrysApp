@@ -14,6 +14,7 @@ import {
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
+import PhoneVerification from 'features/auth/PhoneVerification'
 import Main from 'features/questions/Main'
 import FollowContacts from 'features/contacts/FollowContacts'
 import Report from 'features/report/Report'
@@ -134,12 +135,12 @@ const ReportStack = () => (
 )
 
 const RootNavigator = () => {
-  const auth = useSelector((state) => state.auth)
-  const { user, booting } = auth
+  const auth = useSelector((state) => state.auth) || {}
+  const { user, booting = true } = auth
   if (booting) {
     return <Splash />
   }
-  return user ? (
+  return user && !user.isVerifying ? (
     <Drawer.Navigator
       initialRouteName={Constants.Screens.Main}
       drawerContent={(props) => <SideBarMenu {...props} />}>
@@ -158,6 +159,10 @@ const RootNavigator = () => {
       <Stack.Screen
         name={Constants.Screens.Onboarding}
         component={Onboarding}
+      />
+      <Stack.Screen
+        name={Constants.Screens.PhoneVerification}
+        component={PhoneVerification}
       />
     </Stack.Navigator>
   )

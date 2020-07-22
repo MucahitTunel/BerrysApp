@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux'
-import { counterReducer } from 'features/counter/counterSlice'
+import { combineReducers } from '@reduxjs/toolkit'
 import { authReducer } from 'features/auth/authSlice'
+import { counterReducer } from 'features/counter/counterSlice'
 import { questionsReducer } from 'features/questions/questionsSlice'
 import { contactsReducer } from 'features/contacts/contactsSlice'
 import { reportReducer } from 'features/report/reportSlice'
@@ -9,8 +9,8 @@ import { questionReducer } from 'features/questions/questionSlice'
 import { messagesReducer } from 'features/messages/messagesSlice'
 
 export default combineReducers({
-  counter: counterReducer,
   auth: authReducer,
+  counter: counterReducer,
   questions: questionsReducer,
   contacts: contactsReducer,
   report: reportReducer,

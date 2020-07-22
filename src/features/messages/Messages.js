@@ -11,7 +11,7 @@ import {
 import Constants from 'constants'
 import { Avatar, AppText, AppIcon, Loading } from 'components'
 import * as NavigationService from 'services/navigation'
-import { getConversationName } from 'utils'
+import getConversationName from 'utils/get-conversation-name'
 import { getRooms, setRoom } from 'features/messages/messagesSlice'
 
 moment.locale('en', {

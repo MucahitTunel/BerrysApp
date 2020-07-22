@@ -1,7 +1,4 @@
-import random from 'lodash/random'
 import store from 'state/store'
-
-export const generateVerificationCode = () => String(random(100000, 999999))
 
 export const getConversationName = (room) => {
   const { data: customData, createdBy, members, createdAt } = room
@@ -28,3 +25,5 @@ export const getConversationName = (room) => {
   }
   return otherUserPhoneNumber
 }
+
+export default getConversationName

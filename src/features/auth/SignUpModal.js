@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Platform } from 'react-native'
+import { useDispatch } from 'react-redux'
 import Modal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
@@ -8,11 +9,13 @@ import { Formik } from 'formik'
 import Theme from 'theme'
 import Constants from 'constants'
 import { AppIcon, AppInput, AppLink, AppButton, AppText } from 'components'
+import { signUp } from 'features/auth/authSlice'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
 const SignUpModal = ({ isVisible, onClose, openSignInModal }) => {
   const [country, setCountry] = useState(Constants.Misc.DefaultCountry)
+  const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
     const { phoneNumber, password } = values
@@ -22,8 +25,9 @@ const SignUpModal = ({ isVisible, onClose, openSignInModal }) => {
       password,
       countryCode: country.cca2,
     }
-    // signUp(payload)
+    dispatch(signUp(payload))
     setSubmitting(false)
+    onClose()
   }
   return (
     <Modal

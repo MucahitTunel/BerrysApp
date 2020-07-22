@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Pusher from 'pusher-js/react-native'
 import Config from 'react-native-config'
 import request from 'services/api'
+import Constants from 'constants'
+import * as NavigationService from 'services/navigation'
+import generateVerificationCode from 'utils/generate-verification-code'
 import { formatPhoneNumber } from '../contacts/helpers'
 
 // Enable pusher logging - don't include this in production
@@ -83,6 +86,112 @@ export const signIn = createAsyncThunk(
   },
 )
 
+export const signUp = createAsyncThunk(
+  'auth/signUp',
+  async ({ phoneNumber, password, countryCode }) => {
+    const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
+    if (!isValid) {
+      return Alert.alert(
+        'Error',
+        `Cannot parse this phone number: ${phoneNumber}`,
+      )
+    }
+    const { data } = await request({
+      method: 'POST',
+      url: 'account/check-phone-number',
+      data: {
+        phoneNumber: number,
+        service: Constants.Services.PhoneNumber,
+      },
+    })
+    const { isExisted } = data
+    if (isExisted) {
+      const error = new Error('The phone number already exists')
+      Alert.alert('Error', error.message)
+      throw error
+    } else {
+      const verifyCode = generateVerificationCode()
+      await request({
+        method: 'POST',
+        url: 'account/send-verify-sms',
+        data: {
+          phoneNumber: number,
+          verifyCode,
+        },
+      })
+      const userData = {
+        phoneNumber: number,
+        password,
+        verifyCode,
+        service: Constants.Services.PhoneNumber,
+        isVerifying: true,
+      }
+      NavigationService.navigate(Constants.Screens.PhoneVerification)
+      return userData
+    }
+  },
+)
+
+export const verifyPhoneNumber = createAsyncThunk(
+  'auth/verifyPhoneNumber',
+  async ({ verifyCode }, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { verifyCode: actualVerifyCode } = user
+    const isMatched = verifyCode === actualVerifyCode
+    if (!isMatched) {
+      const error = new Error('Wrong verification code')
+      Alert.alert('Error', error.message)
+      throw error
+    } else {
+      dispatch(createAccount(user))
+    }
+  },
+)
+
+export const createAccount = createAsyncThunk(
+  'auth/createAccount',
+  async (user) => {
+    const { data } = await request({
+      method: 'POST',
+      url: 'account/create',
+      data: {
+        user,
+      },
+    })
+    const userData = data.user
+    await postSignIn(userData)
+    return userData
+  },
+)
+
+export const resendVerifyCode = createAsyncThunk(
+  'auth/resendVerifyCode',
+  async (_, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { phoneNumber } = user
+    const newVerifyCode = generateVerificationCode()
+    const newUserData = {
+      ...user,
+      verifyCode: newVerifyCode,
+    }
+    await request({
+      method: 'POST',
+      url: 'account/send-verify-sms',
+      data: {
+        phoneNumber,
+        verifyCode: newVerifyCode,
+      },
+    })
+    Alert.alert(
+      'The new verification code has been sent to your phone number',
+      null,
+    )
+    return newUserData
+  },
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -106,6 +215,13 @@ const authSlice = createSlice({
       state.user = action.payload
       state.loading = false
     },
+    [signUp.pending]: (state) => {
+      state.loading = true
+    },
+    [signUp.fulfilled]: (state, action) => {
+      state.user = action.payload
+      state.loading = false
+    },
     [authBoot.pending]: (state) => {
       state.booting = true
     },
@@ -121,6 +237,12 @@ const authSlice = createSlice({
       state.user = null
     },
     [getUser.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [resendVerifyCode.fulfilled]: (state, action) => {
+      state.user = action.payload
+    },
+    [createAccount.fulfilled]: (state, action) => {
       state.user = action.payload
     },
   },
