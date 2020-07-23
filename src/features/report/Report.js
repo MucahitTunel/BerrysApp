@@ -1,12 +1,15 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { View, StatusBar, StyleSheet } from 'react-native'
+import { View, StatusBar, StyleSheet, Animated } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import KeyboardListener from 'react-native-keyboard-listener'
+
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
 import { AppInput, AppButton } from 'components'
 import { submitReport } from 'features/report/reportSlice'
+import { showKeyboard, hideKeyBoard } from 'utils'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +31,7 @@ const styles = StyleSheet.create({
 })
 
 const Report = () => {
+  const keyboardHeight = new Animated.Value(0)
   const dispatch = useDispatch()
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
@@ -42,8 +46,13 @@ const Report = () => {
     setSubmitting(false)
   }
   return (
-    <View style={[styles.container]}>
+    <Animated.View
+      style={[styles.container, { paddingBottom: keyboardHeight }]}>
       <StatusBar barStyle="light-content" />
+      <KeyboardListener
+        onWillShow={(event) => showKeyboard(event, keyboardHeight)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight)}
+      />
       <Formik
         initialValues={{ email: '', message: '' }}
         onSubmit={onSubmit}
@@ -95,7 +104,7 @@ const Report = () => {
           </React.Fragment>
         )}
       </Formik>
-    </View>
+    </Animated.View>
   )
 }
 

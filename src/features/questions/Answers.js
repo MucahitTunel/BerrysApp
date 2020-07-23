@@ -7,6 +7,7 @@ import {
   FlatList,
   StatusBar,
   StyleSheet,
+  Animated,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -33,6 +34,8 @@ import {
   submitComment,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
+import KeyboardListener from 'react-native-keyboard-listener'
+import { hideKeyBoard, showKeyboard } from 'utils'
 
 const styles = StyleSheet.create({
   container: {
@@ -190,6 +193,7 @@ Comment.propTypes = {
 }
 
 const Answers = ({ navigation }) => {
+  const keyboardHeight = new Animated.Value(0)
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [comment, setComment] = useState(null)
@@ -262,8 +266,13 @@ const Answers = ({ navigation }) => {
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[styles.container, { paddingBottom: keyboardHeight }]}>
       <StatusBar barStyle="light-content" />
+      <KeyboardListener
+        onWillShow={(event) => showKeyboard(event, keyboardHeight)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight)}
+      />
       <View style={styles.headerView}>
         <View style={{ flexDirection: 'row' }}>
           <AppText
@@ -403,7 +412,7 @@ const Answers = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </Animated.View>
   )
 }
 
