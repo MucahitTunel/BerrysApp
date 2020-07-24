@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Animated,
+  Keyboard,
 } from 'react-native'
 import moment from 'moment'
 import { AppText, AppIcon, AppInput, Header, Avatar } from 'components'
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
 })
 
 const Conversation = ({ navigation }) => {
-  const keyboardHeight = useRef(new Animated.Value(0))
+  let keyboardHeight = useRef(new Animated.Value(0))
   let listRef = useRef(null)
   const dispatch = useDispatch()
   const [message, setMessage] = useState(null)
@@ -120,6 +121,8 @@ const Conversation = ({ navigation }) => {
     const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
     const msg = `${user.phoneNumber}: ${message}`
     sendPushNotification(otherUserNumber, msg)
+    keyboardHeight.current = new Animated.Value(0)
+    Keyboard.dismiss()
   }
   const sendPushNotification = (phoneNumber, message) => {
     dispatch(sendPushNotificationAction({ phoneNumber, message }))

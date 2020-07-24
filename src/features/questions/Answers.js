@@ -8,6 +8,7 @@ import {
   StatusBar,
   StyleSheet,
   Animated,
+  Keyboard,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -193,7 +194,7 @@ Comment.propTypes = {
 }
 
 const Answers = ({ navigation }) => {
-  const keyboardHeight = useRef(new Animated.Value(0))
+  let keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [comment, setComment] = useState(null)
@@ -211,6 +212,8 @@ const Answers = ({ navigation }) => {
     dispatch(submitComment(payload))
     resetForm({})
     setSubmitting(false)
+    keyboardHeight.current = new Animated.Value(0)
+    Keyboard.dismiss()
   }
   const voteQuestion = (value, questionId) =>
     dispatch(

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, StatusBar, StyleSheet, Animated } from 'react-native'
+import { View, StatusBar, StyleSheet, Animated, Keyboard } from 'react-native'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import KeyboardListener from 'react-native-keyboard-listener'
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 })
 
 const Report = () => {
-  const keyboardHeight = useRef(new Animated.Value(0))
+  let keyboardHeight = useRef(new Animated.Value(0))
   const dispatch = useDispatch()
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
@@ -44,6 +44,8 @@ const Report = () => {
     dispatch(submitReport(payload))
     resetForm({})
     setSubmitting(false)
+    keyboardHeight.current = new Animated.Value(0)
+    Keyboard.dismiss()
   }
   return (
     <Animated.View
