@@ -24,6 +24,7 @@ import Answers from 'features/questions/Answers'
 import Messages from 'features/messages/Messages'
 import Conversation from 'features/messages/Conversation'
 import MessageContacts from 'features/messages/MessageContacts'
+import Survey from 'features/auth/Survey'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -37,6 +38,18 @@ const MainStack = () => (
         header: () => (
           <Header
             title="points"
+            headerLeft={<MenuButton navigation={navigation} />}
+            headerRight={<MessagesButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Constants.Screens.Survey}
+      component={Survey}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
             headerLeft={<MenuButton navigation={navigation} />}
             headerRight={<MessagesButton navigation={navigation} />}
           />

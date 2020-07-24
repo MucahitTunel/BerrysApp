@@ -19,14 +19,19 @@ export const pusher = new Pusher(Config.PUSHER_CHANNELS_APP_KEY, {
 
 export const postSignIn = async (userData, isFromBoot = false) => {
   if (!isFromBoot) {
-    AsyncStorage.setItem('userData', JSON.stringify(userData))
+    await AsyncStorage.setItem('userData', JSON.stringify(userData))
   }
-  // TODO XIN Survey Screen
-  // if (userData && userData.isNew) {
-  //   NavigationService.navigate(Constants.Screens.Survey)
-  // } else {
-  //   NavigationService.navigate(Constants.Screens.Main)
-  // }
+  setTimeout(() => {
+    if (userData && userData.isNew) {
+      NavigationService.navigate(Constants.Screens.MainStack, {
+        screen: Constants.Screens.Survey,
+      })
+    } else {
+      NavigationService.navigate(Constants.Screens.MainStack, {
+        screen: Constants.Screens.Main,
+      })
+    }
+  }, 500)
 }
 
 export const authBoot = createAsyncThunk(
@@ -189,6 +194,23 @@ export const resendVerifyCode = createAsyncThunk(
       null,
     )
     return newUserData
+  },
+)
+
+export const submitSurvey = createAsyncThunk(
+  'auth/submitSurvey',
+  async ({ value }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'survey',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        value,
+      },
+    })
+    NavigationService.navigate(Constants.Screens.Main)
   },
 )
 
