@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -193,7 +193,7 @@ Comment.propTypes = {
 }
 
 const Answers = ({ navigation }) => {
-  const keyboardHeight = new Animated.Value(0)
+  const keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [comment, setComment] = useState(null)
@@ -267,11 +267,11 @@ const Answers = ({ navigation }) => {
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   return (
     <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight }]}>
+      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
       <StatusBar barStyle="light-content" />
       <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight)}
+        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
       />
       <View style={styles.headerView}>
         <View style={{ flexDirection: 'row' }}>

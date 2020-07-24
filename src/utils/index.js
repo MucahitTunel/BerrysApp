@@ -1,7 +1,7 @@
 import { Animated } from 'react-native'
 
 export const showKeyboard = (event, keyboardHeight) => {
-  console.log('keyboardHeight', event.endCoordinates.height)
+  console.log('showKeyboard', event.endCoordinates.height)
   Animated.parallel([
     Animated.timing(keyboardHeight, {
       duration: event.duration,
@@ -11,7 +11,7 @@ export const showKeyboard = (event, keyboardHeight) => {
 }
 
 export const hideKeyBoard = (event, keyboardHeight) => {
-  console.log('keyboardHeight', event.endCoordinates.height)
+  console.log('hideKeyBoard', event.endCoordinates.height)
   Animated.parallel([
     Animated.timing(keyboardHeight, {
       duration: event.duration,

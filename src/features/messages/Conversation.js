@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 })
 
 const Conversation = ({ navigation }) => {
-  const keyboardHeight = new Animated.Value(0)
+  const keyboardHeight = useRef(new Animated.Value(0))
   let listRef = useRef(null)
   const dispatch = useDispatch()
   const [message, setMessage] = useState(null)
@@ -161,11 +161,11 @@ const Conversation = ({ navigation }) => {
   }
   return (
     <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight }]}>
+      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
       <StatusBar barStyle="light-content" />
       <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight)}
+        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
       />
       <View style={styles.contentView}>
         <FlatList

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { View, StatusBar, StyleSheet, Animated } from 'react-native'
 import { Formik } from 'formik'
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 })
 
 const Report = () => {
-  const keyboardHeight = new Animated.Value(0)
+  const keyboardHeight = useRef(new Animated.Value(0))
   const dispatch = useDispatch()
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
@@ -47,11 +47,11 @@ const Report = () => {
   }
   return (
     <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight }]}>
+      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
       <StatusBar barStyle="light-content" />
       <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight)}
+        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
       />
       <Formik
         initialValues={{ email: '', message: '' }}
