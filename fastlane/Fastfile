@@ -113,7 +113,7 @@ platform :ios do
 
   lane :deploy_to_testflight do
     pilot(
-      username: ENV['IOS_APPLE_ID'],
+      username: ENV['IOS_MATCH_USERNAME'],
       app_identifier: ENV['IOS_APP_ID'],
       ipa: ENV['IOS_IPA_PATH'],
       skip_waiting_for_build_processing: true
