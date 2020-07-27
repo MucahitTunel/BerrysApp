@@ -50,6 +50,7 @@
     "react-native-vector-icons": "^7.0.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.1.1",
     "yup": "^0.29.1"
   },
