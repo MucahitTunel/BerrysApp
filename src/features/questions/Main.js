@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  View,
-  TouchableOpacity,
   FlatList,
   StatusBar,
   StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
-import { Avatar, AppIcon, AppText, AppInput, Loading } from 'components'
+import { AppIcon, AppInput, AppText, Avatar, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
@@ -22,6 +22,8 @@ import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
+import RNUrlPreview from 'react-native-url-preview'
+import debounce from 'lodash/random'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -81,6 +83,11 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.Colors.white,
     marginTop: 10,
     flex: 1,
+  },
+  removeQuestionUrlBtn: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
   },
 })
 
@@ -157,6 +164,17 @@ const QuestionItem = ({
           <AppIcon name="chevron-right" size={20} />
         </View>
       </TouchableOpacity>
+      <RNUrlPreview
+        containerStyle={{
+          paddingHorizontal: 16,
+          borderBottomColor: Constants.Colors.grayLight,
+          borderBottomWidth: 1,
+          backgroundColor: Constants.Colors.BACKGROUND,
+        }}
+        text={
+          'https://developer.aliyun.com/mirror/npm/package/react-native-url-preview'
+        }
+      />
     </Swipeout>
   )
 }
@@ -177,11 +195,15 @@ const Main = () => {
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
+  const [showPreviewUrl, setShowPreviewUrl] = useState(false)
+  const [questionUrl, setQuestionUrl] = useState(null)
+  const [checkUrl, setCheckUrl] = useState(true)
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
   }, [dispatch])
   const onSubmit = (values, { setSubmitting, resetForm }) => {
+    setCheckUrl(true)
     setSubmitting(true)
     const { question } = values
     dispatch(setAskQuestion(question))
@@ -189,9 +211,40 @@ const Main = () => {
     setSubmitting(false)
     NavigationService.navigate(Constants.Screens.SelectContacts)
   }
+
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
+
+  const checkURL = (str) => {
+    if (!checkUrl) {
+      return
+    }
+
+    if (str === '') {
+      setCheckUrl(true)
+    }
+
+    const pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i',
+    ) // fragment locator
+    setShowPreviewUrl(!!pattern.test(str))
+    if (pattern.test(str)) {
+      setQuestionUrl(str)
+    }
+  }
+
+  const removeQuestionUrl = () => {
+    setQuestionUrl(null)
+    setShowPreviewUrl(false)
+    setCheckUrl(false)
+  }
 
   return (
     <View style={styles.container}>
@@ -200,14 +253,17 @@ const Main = () => {
         enableReinitialize
         initialValues={{ question }}
         onSubmit={onSubmit}>
-        {({ values, handleChange, handleSubmit }) => (
+        {({ values, handleChange, handleSubmit, setFieldValue }) => (
           <View style={styles.inputView}>
             <Avatar source={Images.defaultAvatar} size={50} />
             <AppInput
               style={styles.input}
               placeholder="Ask from people in your circles, anonymously..."
               multiline
-              onChange={handleChange('question')}
+              onChange={(value) => {
+                setFieldValue('question', value)
+                debounce(checkURL(value), 1000)
+              }}
               value={values.question}
               // autoFocus
             />
@@ -217,6 +273,16 @@ const Main = () => {
           </View>
         )}
       </Formik>
+      {!!showPreviewUrl && (
+        <View>
+          <RNUrlPreview text={questionUrl} />
+          <TouchableOpacity
+            onPress={removeQuestionUrl}
+            style={styles.removeQuestionUrlBtn}>
+            <AppIcon name="close" color={Constants.Colors.gray} />
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.flatListView}>
         {loading && !data.length && <Loading />}
         <FlatList
