@@ -222,9 +222,7 @@ const Main = () => {
   }, [dispatch])
   useEffect(() => {
     const url = checkURL(question)
-    if (url) {
-      setQuestionUrl(url)
-    }
+    setQuestionUrl(url)
   }, [question])
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
@@ -262,9 +260,7 @@ const Main = () => {
               onChange={(value) => {
                 setFieldValue('question', value)
                 const url = checkURL(value)
-                if (url) {
-                  setQuestionUrl(url)
-                }
+                setQuestionUrl(url)
               }}
               value={values.question}
               // autoFocus
@@ -278,11 +274,11 @@ const Main = () => {
       {questionUrl && (
         <View>
           <RNUrlPreview text={questionUrl} />
-          <TouchableOpacity
-            onPress={removeQuestionUrl}
-            style={styles.removeQuestionUrlBtn}>
-            <AppIcon name="close" color={Constants.Colors.gray} />
-          </TouchableOpacity>
+          {/*<TouchableOpacity*/}
+          {/*  onPress={removeQuestionUrl}*/}
+          {/*  style={styles.removeQuestionUrlBtn}>*/}
+          {/*  <AppIcon name="close" color={Constants.Colors.gray} />*/}
+          {/*</TouchableOpacity>*/}
         </View>
       )}
       <View style={styles.flatListView}>
