@@ -23,7 +23,6 @@ import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import RNUrlPreview from 'react-native-url-preview'
-import debounce from 'lodash/random'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -115,6 +114,8 @@ const QuestionItem = ({
       dispatch(hideQuestion(_id))
     }
   }
+
+  const url = checkURL(content)
   return (
     <Swipeout
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
@@ -164,17 +165,17 @@ const QuestionItem = ({
           <AppIcon name="chevron-right" size={20} />
         </View>
       </TouchableOpacity>
-      <RNUrlPreview
-        containerStyle={{
-          paddingHorizontal: 16,
-          borderBottomColor: Constants.Colors.grayLight,
-          borderBottomWidth: 1,
-          backgroundColor: Constants.Colors.BACKGROUND,
-        }}
-        text={
-          'https://developer.aliyun.com/mirror/npm/package/react-native-url-preview'
-        }
-      />
+      {url && (
+        <RNUrlPreview
+          containerStyle={{
+            paddingHorizontal: 16,
+            borderBottomColor: Constants.Colors.grayLight,
+            borderBottomWidth: 1,
+            backgroundColor: Constants.Colors.BACKGROUND,
+          }}
+          text={url}
+        />
+      )}
     </Swipeout>
   )
 }
@@ -190,20 +191,42 @@ QuestionItem.propTypes = {
   }),
 }
 
+const checkURL = (str) => {
+  const pattern = new RegExp(
+    '(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?',
+    'i',
+  ) // fragment locator
+  const isMatch = pattern.test(str)
+  if (isMatch) {
+    const res = str.match(pattern)
+    const url = res && res.length && res[0]
+    return url
+  }
+  return null
+}
+
 const Main = () => {
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
-  const [showPreviewUrl, setShowPreviewUrl] = useState(false)
   const [questionUrl, setQuestionUrl] = useState(null)
-  const [checkUrl, setCheckUrl] = useState(true)
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
   }, [dispatch])
+  useEffect(() => {
+    const url = checkURL(question)
+    if (url) {
+      setQuestionUrl(url)
+    }
+  }, [question])
   const onSubmit = (values, { setSubmitting, resetForm }) => {
-    setCheckUrl(true)
     setSubmitting(true)
     const { question } = values
     dispatch(setAskQuestion(question))
@@ -216,35 +239,11 @@ const Main = () => {
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
-  const checkURL = (str) => {
-    if (!checkUrl) {
-      return
-    }
-
-    if (str === '') {
-      setCheckUrl(true)
-    }
-
-    const pattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i',
-    ) // fragment locator
-    setShowPreviewUrl(!!pattern.test(str))
-    if (pattern.test(str)) {
-      setQuestionUrl(str)
-    }
-  }
-
   const removeQuestionUrl = () => {
     setQuestionUrl(null)
-    setShowPreviewUrl(false)
-    setCheckUrl(false)
   }
+
+  console.log('> questionUrl', questionUrl)
 
   return (
     <View style={styles.container}>
@@ -262,7 +261,10 @@ const Main = () => {
               multiline
               onChange={(value) => {
                 setFieldValue('question', value)
-                debounce(checkURL(value), 1000)
+                const url = checkURL(value)
+                if (url) {
+                  setQuestionUrl(url)
+                }
               }}
               value={values.question}
               // autoFocus
@@ -273,7 +275,7 @@ const Main = () => {
           </View>
         )}
       </Formik>
-      {!!showPreviewUrl && (
+      {questionUrl && (
         <View>
           <RNUrlPreview text={questionUrl} />
           <TouchableOpacity
