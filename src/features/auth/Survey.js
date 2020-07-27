@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, StatusBar, TouchableOpacity, StyleSheet } from 'react-native'
-import { AppText, AppIcon, AppButton } from 'components'
+import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { AppButton, AppIcon, AppText } from 'components'
 import Constants from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
@@ -121,12 +121,24 @@ const Survey = () => {
               <AppIcon
                 name={item.icon}
                 size={40}
-                color={Constants.Colors.text}
+                color={
+                  option === item.value
+                    ? Constants.Colors.WHITE
+                    : Constants.Colors.text
+                }
               />
               <AppText
                 text={item.name.toUpperCase()}
                 fontSize={12}
-                style={styles.surveyItemText}
+                style={[
+                  styles.surveyItemText,
+                  {
+                    color:
+                      option === item.value
+                        ? Constants.Colors.WHITE
+                        : Constants.Colors.text,
+                  },
+                ]}
               />
             </TouchableOpacity>
           )
