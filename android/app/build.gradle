@@ -3,6 +3,7 @@ apply plugin: "com.android.application"
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
+import groovy.json.JsonSlurper
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -120,10 +121,27 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+def getVersionName() {
+    def inputFile = new File("$rootDir/../package.json")
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    def res = packageJson["version"]
+    println "getVersionName"
+    println res
+    return res
+}
+
+def getVersionCode() {
+    def millis = System.currentTimeMillis()
+    def res = (millis / 1000).round()
+    println "getVersionCode"
+    println res
+    return res
+}
+
 def _applicationId = project.env.get("ANDROID_APP_ID") ?: 'com.berrys.nickapp.dev'
 def _appName = project.env.get("ANDROID_APP_NAME") ?: 'Berrys (dev)'
-def _versionCode = (project.env.get("ANDROID_VERSION_CODE") ?: "1") as Integer
-def _versionName = project.env.get("APP_VERSION") ?: "0.0.1"
+def _versionCode = (getVersionCode() ?: 1) as Integer
+def _versionName = getVersionName() ?: "0.0.1"
 def _packageName = project.env.get("ANDROID_PACKAGE_NAME") ?: "com.berrys.nickapp"
 
 android {

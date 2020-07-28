@@ -162,7 +162,7 @@ platform :android do
   lane :deploy_to_playstore do
     supply(
       package_name: ENV['ANDROID_APP_ID'],
-      track: 'internal',
+      track: 'alpha',
       apk: ENV['ANDROID_APK_PATH'],
       json_key: ENV['ANDROID_PLAYSTORE_JSON_KEY_PATH'],
       skip_upload_aab: true,
