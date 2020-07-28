@@ -59,11 +59,8 @@ const styles = StyleSheet.create({
   questionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomColor: Constants.Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingVertical: 14,
-    marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
+    padding: 12,
+    backgroundColor: Constants.Colors.white,
   },
   inputView: {
     padding: 16,
@@ -78,9 +75,8 @@ const styles = StyleSheet.create({
     fontSize: Constants.Styles.FontSize.large,
   },
   flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
-    marginTop: 10,
+    paddingTop: 12,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   removeQuestionUrlBtn: {
@@ -118,6 +114,12 @@ const QuestionItem = ({
   const url = checkURL(content)
   return (
     <Swipeout
+      style={{
+        marginBottom: 8,
+        width: Constants.Dimensions.Width - 24,
+        marginLeft: 12,
+        borderRadius: 8,
+      }}
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
       right={swipeoutBtns}
       backgroundColor="transparent"
@@ -126,11 +128,13 @@ const QuestionItem = ({
         style={styles.questionItem}
         onPress={() => onPressQuestion(_id)}>
         <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <AppText
               style={{ marginRight: 5 }}
               text={content}
               fontSize={Constants.Styles.FontSize.large}
+              fontFamily={Fonts.latoBold}
             />
             {isFlagged && (
               <AppIcon name="flag" color={Constants.Colors.primary} size={20} />
@@ -139,16 +143,23 @@ const QuestionItem = ({
           <View
             style={{
               flexDirection: 'row',
+              justifyContent: 'space-between',
               marginTop: 16,
             }}>
+            <View style={{ flexDirection: 'row' }}>
+              <AppText
+                text={`${comments}  answers`}
+                color={Constants.Colors.gray}
+                fontFamily={Fonts.latoBold}
+                style={{ marginRight: 14 }}
+              />
+              <AppText
+                text={`${totalVotes}  votes`}
+                color={Constants.Colors.gray}
+              />
+            </View>
             <AppText
-              text={`${comments}  answers`}
-              color={Constants.Colors.gray}
-              fontFamily={Fonts.latoBold}
-              style={{ marginRight: 14 }}
-            />
-            <AppText
-              text={`${totalVotes}  votes`}
+              text={moment(createdAt).fromNow()}
               color={Constants.Colors.gray}
             />
           </View>
@@ -158,10 +169,6 @@ const QuestionItem = ({
             marginLeft: 16,
             flexDirection: 'row',
           }}>
-          <AppText
-            text={moment(createdAt).fromNow()}
-            color={Constants.Colors.gray}
-          />
           <AppIcon name="chevron-right" size={20} />
         </View>
       </TouchableOpacity>
@@ -169,10 +176,19 @@ const QuestionItem = ({
         <RNUrlPreview
           containerStyle={{
             paddingHorizontal: 16,
-            borderBottomColor: Constants.Colors.grayLight,
-            borderBottomWidth: 1,
-            backgroundColor: Constants.Colors.BACKGROUND,
+            backgroundColor: Constants.Colors.white,
+            borderTopColor: Constants.Colors.grayLight,
+            borderTopWidth: 1,
           }}
+          imageStyle={{
+            width: 100,
+          }}
+          faviconStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 30,
+          }}
+          titleNumberOfLines={1}
           text={url}
         />
       )}
@@ -237,10 +253,6 @@ const Main = () => {
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
-  const removeQuestionUrl = () => {
-    setQuestionUrl(null)
-  }
-
   console.log('> questionUrl', questionUrl)
 
   return (
@@ -274,11 +286,6 @@ const Main = () => {
       {questionUrl && (
         <View>
           <RNUrlPreview text={questionUrl} />
-          {/*<TouchableOpacity*/}
-          {/*  onPress={removeQuestionUrl}*/}
-          {/*  style={styles.removeQuestionUrlBtn}>*/}
-          {/*  <AppIcon name="close" color={Constants.Colors.gray} />*/}
-          {/*</TouchableOpacity>*/}
         </View>
       )}
       <View style={styles.flatListView}>
