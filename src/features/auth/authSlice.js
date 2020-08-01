@@ -214,6 +214,22 @@ export const submitSurvey = createAsyncThunk(
   },
 )
 
+export const updatePushToken = createAsyncThunk(
+  'auth/updatePushToken',
+  async ({ pushToken }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'account/push-token',
+      data: {
+        pushToken,
+        userId: user._id,
+      },
+    })
+  },
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
