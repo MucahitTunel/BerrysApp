@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Alert,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -238,15 +237,15 @@ const Main = () => {
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
-    const onReceived = () => (notification) =>
+    const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)
-    const onOpened = () => (openResult) => {
+    const onOpened = (openResult) => {
       console.log(`Message: ${openResult.notification.payload.body}`)
       console.log(`Data: ${openResult.notification.payload.additionalData}`)
       console.log(`isActive: ${openResult.notification.isAppInFocus}`)
       console.log(`openResult: ${openResult}`)
     }
-    const onIds = () => async (device) => {
+    const onIds = async (device) => {
       console.log(`Device info: ${JSON.stringify(device)}`)
       if (device && device.userId) {
         console.log('device.userId', device.userId)
@@ -254,7 +253,6 @@ const Main = () => {
         dispatch(updatePushToken({ pushToken: device.userId }))
       }
     }
-
     OneSignal.setLogLevel(6, 0)
     OneSignal.inFocusDisplaying(2)
     OneSignal.init(Config.ONESIGNAL_APP_ID, {
@@ -288,7 +286,7 @@ const Main = () => {
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
-  console.log('> questionUrl', questionUrl)
+  // console.log('> questionUrl', questionUrl)
 
   return (
     <View style={styles.container}>
