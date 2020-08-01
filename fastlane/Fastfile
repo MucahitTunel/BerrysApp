@@ -29,7 +29,8 @@ platform :ios do
     match(
       app_identifier: [
         ENV['IOS_APP_ID'],
-        "#{ENV['IOS_APP_ID']}.BerrysShare"
+        "#{ENV['IOS_APP_ID']}.BerrysShare",
+        "#{ENV['IOS_APP_ID']}.OneSignalNotificationServiceExtension"
       ],
       shallow_clone: true,
       clone_branch_directly: true,
@@ -93,6 +94,11 @@ platform :ios do
       xcodeproj: xcodeproj,
       plist_path: "BerrysShare/Info.plist",
       app_identifier: "#{ENV['IOS_APP_ID']}.BerrysShare"
+    )
+    update_app_identifier(
+      xcodeproj: xcodeproj,
+      plist_path: "OneSignalNotificationServiceExtension/Info.plist",
+      app_identifier: "#{ENV['IOS_APP_ID']}.OneSignalNotificationServiceExtension"
     )
     host_app_id_def = "let hostAppBundleIdentifier"
     host_app_id_updated = "let hostAppBundleIdentifier = \\\"#{ENV['IOS_APP_ID']}\\\""

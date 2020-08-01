@@ -55,6 +55,10 @@ def flipper_post_install(installer)
   installer.pods_project.save
 end
 
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignal', '>= 2.9.3', '< 3.0'
+end
+
 target 'Berrys' do
   # Pods for Berrys
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
@@ -86,6 +90,8 @@ target 'Berrys' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
   target 'BerrysTests' do
     inherit! :complete

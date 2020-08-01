@@ -12,11 +12,14 @@ import { Formik } from 'formik'
 import moment from 'moment'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
+import OneSignal from 'react-native-onesignal'
+import Config from 'react-native-config'
 import { AppIcon, AppInput, AppText, Avatar, Loading } from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
+import { updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
@@ -110,7 +113,6 @@ const QuestionItem = ({
       dispatch(hideQuestion(_id))
     }
   }
-
   const url = checkURL(content)
   return (
     <Swipeout
@@ -235,6 +237,37 @@ const Main = () => {
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
+    const onReceived = (notification) =>
+      console.log(`Notification received: ${notification}`)
+    const onOpened = (openResult) => {
+      console.log(`Message: ${openResult.notification.payload.body}`)
+      console.log(`Data: ${openResult.notification.payload.additionalData}`)
+      console.log(`isActive: ${openResult.notification.isAppInFocus}`)
+      console.log(`openResult: ${openResult}`)
+    }
+    const onIds = async (device) => {
+      console.log(`Device info: ${JSON.stringify(device)}`)
+      if (device && device.userId) {
+        console.log('device.userId', device.userId)
+        // save device.userId to database
+        dispatch(updatePushToken({ pushToken: device.userId }))
+      }
+    }
+    OneSignal.setLogLevel(6, 0)
+    OneSignal.inFocusDisplaying(2)
+    OneSignal.init(Config.ONESIGNAL_APP_ID, {
+      kOSSettingsKeyAutoPrompt: true,
+      kOSSettingsKeyInAppLaunchURL: false,
+      kOSSettingsKeyInFocusDisplayOption: 2,
+    })
+    OneSignal.addEventListener('received', onReceived)
+    OneSignal.addEventListener('opened', onOpened)
+    OneSignal.addEventListener('ids', onIds)
+    return () => {
+      OneSignal.removeEventListener('received', onReceived)
+      OneSignal.removeEventListener('opened', onOpened)
+      OneSignal.removeEventListener('ids', onIds)
+    }
   }, [dispatch])
   useEffect(() => {
     const url = checkURL(question)
@@ -253,7 +286,7 @@ const Main = () => {
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
-  console.log('> questionUrl', questionUrl)
+  // console.log('> questionUrl', questionUrl)
 
   return (
     <View style={styles.container}>
