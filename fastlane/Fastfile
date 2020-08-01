@@ -29,7 +29,8 @@ platform :ios do
     match(
       app_identifier: [
         ENV['IOS_APP_ID'],
-        "#{ENV['IOS_APP_ID']}.BerrysShare"
+        "#{ENV['IOS_APP_ID']}.BerrysShare",
+        "#{ENV['IOS_APP_ID']}.OneSignalNotificationServiceExtension"
       ],
       shallow_clone: true,
       clone_branch_directly: true,

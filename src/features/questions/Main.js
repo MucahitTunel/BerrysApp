@@ -256,7 +256,7 @@ const Main = () => {
     OneSignal.setLogLevel(6, 0)
     OneSignal.inFocusDisplaying(2)
     OneSignal.init(Config.ONESIGNAL_APP_ID, {
-      kOSSettingsKeyAutoPrompt: false,
+      kOSSettingsKeyAutoPrompt: true,
       kOSSettingsKeyInAppLaunchURL: false,
       kOSSettingsKeyInFocusDisplayOption: 2,
     })
