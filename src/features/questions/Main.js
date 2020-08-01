@@ -251,7 +251,7 @@ const Main = () => {
       if (device && device.userId) {
         console.log('device.userId', device.userId)
         // save device.userId to database
-        // dispatch(updatePushToken({ pushToken: device.userId }))
+        dispatch(updatePushToken({ pushToken: device.userId }))
       }
     }
 
@@ -265,9 +265,7 @@ const Main = () => {
     OneSignal.addEventListener('received', onReceived)
     OneSignal.addEventListener('opened', onOpened)
     OneSignal.addEventListener('ids', onIds)
-    console.log('mount')
     return () => {
-      console.log('unmount')
       OneSignal.removeEventListener('received', onReceived)
       OneSignal.removeEventListener('opened', onOpened)
       OneSignal.removeEventListener('ids', onIds)
