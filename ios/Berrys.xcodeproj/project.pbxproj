@@ -821,7 +821,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -854,7 +854,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -888,7 +888,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.OneSignalNotificationServiceExtension;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -918,7 +922,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.OneSignalNotificationServiceExtension;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DFB_SONARKIT_ENABLED=1",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
