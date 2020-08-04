@@ -1,3 +1,3 @@
 export default {
-  PhoneNumber: 'PhoneNumber',
+  PhoneNumber: 'phoneNumber',
 }
