@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   contentView: {
     flex: 1,
-    paddingTop: 16,
+    paddingTop: 6,
   },
   messageItemOuter: {
     marginBottom: 4,
@@ -71,6 +71,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
   },
+  descriptionBox: {
+    backgroundColor: Constants.Colors.white,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  description: {
+    marginLeft: 8,
+    color: Constants.Colors.primaryLight,
+    textAlign: 'center',
+    fontSize: 14,
+  },
 })
 
 const Conversation = ({ navigation }) => {
@@ -81,10 +92,11 @@ const Conversation = ({ navigation }) => {
   const user = useSelector((state) => state.auth.user)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
+  const description = getConversationName(room).description
 
   useEffect(() => {
     if (room && room._id) {
-      const title = getConversationName(room)
+      const title = getConversationName(room).title
       navigation.setOptions({
         header: () => (
           <Header
@@ -170,6 +182,9 @@ const Conversation = ({ navigation }) => {
         onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
         onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
       />
+      <View style={styles.descriptionBox}>
+        <AppText text={description} style={styles.description} />
+      </View>
       <View style={styles.contentView}>
         <FlatList
           inverted

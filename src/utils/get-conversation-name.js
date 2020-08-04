@@ -15,12 +15,19 @@ export const getConversationName = (room) => {
   if (shouldShowAnonymous) {
     const milli = String(new Date(createdAt).getTime())
     const number = milli.substr(phoneNumber.length - 3)
-    return `Anonymous ${number}`
+    return {
+      title: `Anonymous ${number}`,
+      description: "You're anonymous and your identity won't be revealed",
+    }
   }
   if (data && data.length) {
     const contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
     if (contact && contact.name) {
-      return contact.name
+      return {
+        title: contact.name,
+        description:
+          "You're not anonymous. Your friend wants to talk specifically with you",
+      }
     }
   }
   return otherUserPhoneNumber

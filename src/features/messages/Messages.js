@@ -86,7 +86,7 @@ export const Messages = () => {
       lastMessage && user.phoneNumber === lastMessage.userPhoneNumber
     const time = (lastMessage && lastMessage.createdAt) || Date.now()
     const timeText = moment(time).fromNow()
-    const title = getConversationName(conversation)
+    const title = getConversationName(conversation).title
     return (
       <TouchableOpacity
         style={styles.conversationItemOuter}
