@@ -29,6 +29,23 @@ import Survey from 'features/auth/Survey'
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
+const SurveyStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Constants.Screens.Survey}
+      component={Survey}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            headerLeft={<MenuButton navigation={navigation} />}
+            headerRight={<MessagesButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+)
+
 const MainStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -38,18 +55,6 @@ const MainStack = () => (
         header: () => (
           <Header
             title="points"
-            headerLeft={<MenuButton navigation={navigation} />}
-            headerRight={<MessagesButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Constants.Screens.Survey}
-      component={Survey}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
             headerLeft={<MenuButton navigation={navigation} />}
             headerRight={<MessagesButton navigation={navigation} />}
           />
@@ -152,6 +157,9 @@ const RootNavigator = () => {
   const { user, booting = true } = auth
   if (booting) {
     return <Splash />
+  }
+  if (user && user.isNew) {
+    return <SurveyStack />
   }
   return user && !user.isVerifying ? (
     <Drawer.Navigator

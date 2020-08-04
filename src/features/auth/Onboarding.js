@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Linking, Alert } from 'react-native'
+import { View, StyleSheet, Linking } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
-import SignUpModal from 'features/auth/SignUpModal'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
+import { useSelector } from 'react-redux'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
@@ -24,33 +24,24 @@ const styles = StyleSheet.create({
 })
 
 const Onboarding = () => {
+  const loading = useSelector((state) => state.auth.loading)
+  const user = useSelector((state) => state.auth.user)
   const [isVisibleSignInModal, setIsVisibleSignInModal] = useState(false)
-  const [isVisibleSignUpModal, setIsVisibleSignUpModal] = useState(false)
   const openPrivacyPolicyLink = () =>
     Linking.openURL(Constants.Misc.PrivacyPolicyURL)
   const openSignInModal = () => {
-    setIsVisibleSignUpModal(false)
     setTimeout(() => {
       setIsVisibleSignInModal(true)
     }, 500)
   }
   const closeSignInModal = () => setIsVisibleSignInModal(false)
-  const openSignUpModal = () => {
-    setIsVisibleSignInModal(false)
-    setTimeout(() => {
-      setIsVisibleSignUpModal(true)
-    }, 500)
-  }
-  const closeSignUpModal = () => setIsVisibleSignUpModal(false)
-  const openForgotPasswordModal = () =>
-    Alert.alert('Sorry, the feature is still being developed')
   return (
     <LinearGradient
       style={{ flex: 1 }}
       colors={linearGradient}
       start={{ x: 0.5, y: 0.25 }}
       end={{ x: 0.5, y: 0.75 }}>
-      <View style={{ flex: 8.2 }}>
+      <View style={{ flex: 3 }}>
         <Swiper
           showsButtons={false}
           loop={false}
@@ -88,18 +79,13 @@ const Onboarding = () => {
           </View>
         </Swiper>
       </View>
-      <View style={{ flex: 3 }}>
+      <View style={{ flex: 1 }}>
         <View style={styles.btnView}>
           <AppButton
-            text="SIGN IN"
+            text="CONTINUE"
             borderRadius={Constants.Styles.BorderRadius.large}
             onPress={openSignInModal}
-          />
-          <View style={{ height: 10 }} />
-          <AppButton
-            text="SIGN UP"
-            borderRadius={Constants.Styles.BorderRadius.large}
-            onPress={openSignUpModal}
+            isLoading={loading || (user && user.isVerifying)}
           />
         </View>
         <View style={styles.linkView}>
@@ -115,13 +101,6 @@ const Onboarding = () => {
       <SignInModal
         isVisible={isVisibleSignInModal}
         onClose={closeSignInModal}
-        openSignUpModal={openSignUpModal}
-        openForgotPasswordModal={openForgotPasswordModal}
-      />
-      <SignUpModal
-        isVisible={isVisibleSignUpModal}
-        onClose={closeSignUpModal}
-        openSignInModal={openSignInModal}
       />
     </LinearGradient>
   )

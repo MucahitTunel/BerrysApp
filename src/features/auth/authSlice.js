@@ -21,17 +21,6 @@ export const postSignIn = async (userData, isFromBoot = false) => {
   if (!isFromBoot) {
     await AsyncStorage.setItem('userData', JSON.stringify(userData))
   }
-  setTimeout(() => {
-    if (userData && userData.isNew) {
-      NavigationService.navigate(Constants.Screens.MainStack, {
-        screen: Constants.Screens.Survey,
-      })
-    } else {
-      NavigationService.navigate(Constants.Screens.MainStack, {
-        screen: Constants.Screens.Main,
-      })
-    }
-  }, 500)
 }
 
 export const authBoot = createAsyncThunk(
@@ -69,7 +58,7 @@ export const getUser = createAsyncThunk('auth/getUser', async (phoneNumber) => {
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async ({ phoneNumber, password, countryCode }) => {
+  async ({ phoneNumber, countryCode }) => {
     const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
     if (!isValid) {
       return Alert.alert(
@@ -77,63 +66,23 @@ export const signIn = createAsyncThunk(
         `Cannot parse this phone number: ${phoneNumber}`,
       )
     }
-    const { data } = await request({
+    const verifyCode = generateVerificationCode()
+    await request({
       method: 'POST',
-      url: 'account/login-with-phone-number',
+      url: 'account/send-verify-sms',
       data: {
         phoneNumber: number,
-        password,
-      },
-    })
-    const { user: userData } = data
-    await postSignIn(userData)
-    return userData
-  },
-)
-
-export const signUp = createAsyncThunk(
-  'auth/signUp',
-  async ({ phoneNumber, password, countryCode }) => {
-    const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
-    if (!isValid) {
-      return Alert.alert(
-        'Error',
-        `Cannot parse this phone number: ${phoneNumber}`,
-      )
-    }
-    const { data } = await request({
-      method: 'POST',
-      url: 'account/check-phone-number',
-      data: {
-        phoneNumber: number,
-        service: Constants.Services.PhoneNumber,
-      },
-    })
-    const { isExisted } = data
-    if (isExisted) {
-      const error = new Error('The phone number already exists')
-      Alert.alert('Error', error.message)
-      throw error
-    } else {
-      const verifyCode = generateVerificationCode()
-      await request({
-        method: 'POST',
-        url: 'account/send-verify-sms',
-        data: {
-          phoneNumber: number,
-          verifyCode,
-        },
-      })
-      const userData = {
-        phoneNumber: number,
-        password,
         verifyCode,
-        service: Constants.Services.PhoneNumber,
-        isVerifying: true,
-      }
-      NavigationService.navigate(Constants.Screens.PhoneVerification)
-      return userData
+      },
+    })
+    const userData = {
+      phoneNumber: number,
+      verifyCode,
+      service: Constants.Services.PhoneNumber,
+      isVerifying: true,
     }
+    NavigationService.navigate(Constants.Screens.PhoneVerification)
+    return userData
   },
 )
 
@@ -210,7 +159,9 @@ export const submitSurvey = createAsyncThunk(
         value,
       },
     })
-    NavigationService.navigate(Constants.Screens.Main)
+    setTimeout(() => {
+      NavigationService.navigate(Constants.Screens.Main)
+    }, 1000)
   },
 )
 
@@ -253,13 +204,6 @@ const authSlice = createSlice({
       state.user = action.payload
       state.loading = false
     },
-    [signUp.pending]: (state) => {
-      state.loading = true
-    },
-    [signUp.fulfilled]: (state, action) => {
-      state.user = action.payload
-      state.loading = false
-    },
     [authBoot.pending]: (state) => {
       state.booting = true
     },
@@ -282,6 +226,12 @@ const authSlice = createSlice({
     },
     [createAccount.fulfilled]: (state, action) => {
       state.user = action.payload
+    },
+    [submitSurvey.fulfilled]: (state) => {
+      state.user = {
+        ...state.user,
+        isNew: false,
+      }
     },
   },
 })
