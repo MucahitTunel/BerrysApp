@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, Platform } from 'react-native'
 import Modal from 'react-native-modal'
@@ -8,30 +8,25 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { Formik } from 'formik'
 import Theme from 'theme'
 import Constants from 'constants'
-import { AppIcon, AppInput, AppLink, AppButton, AppText } from 'components'
+import { AppIcon, AppInput, AppButton, AppText } from 'components'
 import { signIn } from 'features/auth/authSlice'
 
 const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
 
-const SignInModal = ({
-  isVisible,
-  onClose,
-  openSignUpModal,
-  openForgotPasswordModal,
-}) => {
+const SignInModal = ({ isVisible, onClose }) => {
   const [country, setCountry] = useState(Constants.Misc.DefaultCountry)
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
-    const { phoneNumber, password } = values
+    const { phoneNumber } = values
     const formattedPhoneNumber = `+${country.callingCode}${phoneNumber}`
     const payload = {
       phoneNumber: formattedPhoneNumber,
-      password,
       countryCode: country.cca2,
     }
     dispatch(signIn(payload))
     setSubmitting(false)
+    onClose()
   }
   return (
     <Modal
@@ -51,9 +46,7 @@ const SignInModal = ({
           </TouchableOpacity>
           <AppText text="Sign In" style={Theme.Modal.header} />
           <View style={Theme.Modal.form}>
-            <Formik
-              initialValues={{ phoneNumber: '', password: '' }}
-              onSubmit={onSubmit}>
+            <Formik initialValues={{ phoneNumber: '' }} onSubmit={onSubmit}>
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <React.Fragment>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -88,19 +81,6 @@ const SignInModal = ({
                       />
                     </View>
                   </View>
-                  <AppInput
-                    placeholder="Password"
-                    placeholderTextColor="rgba(255, 255, 255, 0.8)"
-                    secureTextEntry
-                    onChange={handleChange('password')}
-                    value={values.password}
-                  />
-                  <AppLink
-                    style={{ marginBottom: 20, alignItems: 'flex-end' }}
-                    text="Forgot your password?"
-                    color={Constants.Colors.white}
-                    onPress={openForgotPasswordModal}
-                  />
                   <AppButton
                     text="Sign In"
                     isLoading={isSubmitting}
@@ -109,19 +89,6 @@ const SignInModal = ({
                 </React.Fragment>
               )}
             </Formik>
-          </View>
-          <View style={Theme.Modal.bottomView}>
-            <AppText
-              text="Don`t have an account?"
-              style={Theme.Modal.bottomText}
-            />
-            <AppLink
-              text="Sign Up"
-              color={Constants.Colors.white}
-              fontWeight="600"
-              style={{ marginLeft: 4 }}
-              onPress={openSignUpModal}
-            />
           </View>
         </View>
       </LinearGradient>
@@ -132,8 +99,6 @@ const SignInModal = ({
 SignInModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  openSignUpModal: PropTypes.func.isRequired,
-  openForgotPasswordModal: PropTypes.func.isRequired,
 }
 
 export default SignInModal
