@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
 } from 'react-native'
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
@@ -33,8 +33,8 @@ const AppButton = ({
 }) => (
   <TouchableOpacity
     style={[styles.btn, { backgroundColor, borderRadius }]}
-    onPress={!isLoading && !error && onPress}
-    activeOpacity={isLoading || error ? 1 : 0.7}
+    onPress={onPress}
+    activeOpacity={isLoading || !!error ? 1 : 0.7}
     {...rest}>
     {isLoading ? (
       <ActivityIndicator />

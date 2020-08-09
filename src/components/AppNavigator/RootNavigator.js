@@ -4,12 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { Header, SideBarMenu } from 'components'
 import {
-  MenuButton,
-  MessagesButton,
   BackButton,
-  MainBackButton,
   ComposeButton,
+  MainBackButton,
+  MenuButton,
   MessagesBackButton,
+  MessagesButton,
 } from 'components/NavButton'
 import Constants from 'constants'
 import Onboarding from 'features/auth/Onboarding'
@@ -25,6 +25,7 @@ import Messages from 'features/messages/Messages'
 import Conversation from 'features/messages/Conversation'
 import MessageContacts from 'features/messages/MessageContacts'
 import Survey from 'features/auth/Survey'
+import Suggestions from 'features/auth/Suggestions'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -32,14 +33,11 @@ const Drawer = createDrawerNavigator()
 const SurveyStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.Survey}
+      name={Constants.Screens.Suggestions}
       component={Survey}
       options={({ navigation }) => ({
         header: () => (
-          <Header
-            headerLeft={<MenuButton navigation={navigation} />}
-            headerRight={<MessagesButton navigation={navigation} />}
-          />
+          <Header headerRight={<MessagesButton navigation={navigation} />} />
         ),
       })}
     />
@@ -113,6 +111,13 @@ const MainStack = () => (
             headerLeft={<MessagesBackButton navigation={navigation} />}
           />
         ),
+      })}
+    />
+    <Stack.Screen
+      name={Constants.Screens.Suggestions}
+      component={Suggestions}
+      options={() => ({
+        header: () => <Header title="What others are asking?" />,
       })}
     />
   </Stack.Navigator>

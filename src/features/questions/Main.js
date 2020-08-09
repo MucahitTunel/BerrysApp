@@ -276,10 +276,12 @@ const Main = () => {
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
-    dispatch(setAskQuestion(question))
-    resetForm({})
-    setSubmitting(false)
-    NavigationService.navigate(Constants.Screens.SelectContacts)
+    if (question) {
+      dispatch(setAskQuestion(question))
+      resetForm({})
+      setSubmitting(false)
+      NavigationService.navigate(Constants.Screens.SelectContacts)
+    }
   }
 
   const renderEmpty = () => (
@@ -295,7 +297,7 @@ const Main = () => {
         enableReinitialize
         initialValues={{ question }}
         onSubmit={onSubmit}>
-        {({ values, handleChange, handleSubmit, setFieldValue }) => (
+        {({ values, handleSubmit, setFieldValue }) => (
           <View style={styles.inputView}>
             <Avatar source={Images.defaultAvatar} size={50} />
             <AppInput
@@ -310,8 +312,17 @@ const Main = () => {
               value={values.question}
               // autoFocus
             />
-            <TouchableOpacity onPress={handleSubmit}>
-              <AppIcon name="send" color={Constants.Colors.primaryLight} />
+            <TouchableOpacity
+              onPress={handleSubmit}
+              activeOpacity={values.question ? 0.7 : 1}>
+              <AppIcon
+                name="send"
+                color={
+                  values.question
+                    ? Constants.Colors.primaryLight
+                    : Constants.Colors.grayLight
+                }
+              />
             </TouchableOpacity>
           </View>
         )}
