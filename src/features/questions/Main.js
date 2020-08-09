@@ -437,14 +437,17 @@ const Main = () => {
         style={[Theme.Modal.modalView]}
         animationInTiming={300}
         animationOutTiming={300}>
-        <View style={[{ paddingTop: 90, paddingBottom: 40, flex: 1 }]}>
-          <Animated.View
-            style={[
-              Theme.Modal.modalInnerView,
-              styles.modalInnerView,
-              { paddingBottom: keyboardHeight.current },
-            ]}>
-            <View style={{ alignItems: 'center', paddingVertical: 18 }}>
+        <Animated.View
+          style={[
+            {
+              paddingTop: 40,
+              flex: 1,
+              maxHeight: Constants.Dimensions.Height - 60,
+              paddingBottom: keyboardHeight.current,
+            },
+          ]}>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            <View style={{ alignItems: 'center', paddingVertical: 10 }}>
               <AppText
                 text="What other are asking?"
                 fontFamily={Fonts.latoBold}
@@ -461,6 +464,9 @@ const Main = () => {
                 loop={false}
                 paginationStyle={{
                   right: -6,
+                  top: 40,
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
                 }}>
                 {QUESTIONS.map((question, index) => (
                   <View
@@ -468,7 +474,7 @@ const Main = () => {
                     style={{
                       backgroundColor: Constants.Colors.white,
                       padding: 16,
-                      flex: 1,
+                      height: 160,
                     }}>
                     <AppInput
                       secondary
@@ -481,11 +487,7 @@ const Main = () => {
                   </View>
                 ))}
               </Slick>
-              <View
-                style={{
-                  padding: 16,
-                  backgroundColor: Constants.Colors.white,
-                }}>
+              <View style={{ padding: 16, paddingTop: 10 }}>
                 <AppButton
                   onPress={sendQuestionFromModal}
                   text="Select Friends to Ask"
@@ -496,14 +498,14 @@ const Main = () => {
                 <View style={{ alignItems: 'center', marginTop: 16 }}>
                   <AppLink
                     text="Skip"
-                    color={Constants.Colors.primary}
+                    color={Constants.Colors.gray}
                     onPress={() => setSuggestionModalVisible(false)}
                   />
                 </View>
               </View>
             </React.Fragment>
-          </Animated.View>
-        </View>
+          </View>
+        </Animated.View>
       </Modal>
     </View>
   )
