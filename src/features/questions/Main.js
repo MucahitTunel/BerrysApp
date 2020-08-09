@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
+  Animated,
   FlatList,
   StatusBar,
   StyleSheet,
@@ -10,11 +11,22 @@ import {
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
+import RNUrlPreview from 'react-native-url-preview'
+import Modal from 'react-native-modal'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
-import { AppIcon, AppInput, AppText, Avatar, Loading } from 'components'
+import KeyboardListener from 'react-native-keyboard-listener'
+import {
+  AppButton,
+  AppIcon,
+  AppInput,
+  AppLink,
+  AppText,
+  Avatar,
+  Loading,
+} from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
@@ -25,7 +37,17 @@ import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
-import RNUrlPreview from 'react-native-url-preview'
+import Theme from 'theme'
+import { hideKeyBoard, showKeyboard } from 'utils'
+import Slick from 'react-native-slick'
+
+const QUESTIONS = [
+  'Do you think Trump will be reelected again?',
+  'Mr. President, what is your second-term agenda',
+  'Do you know Trump?',
+  'Do you want Trump reelected again?',
+  'What do you think about Trump?',
+]
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -86,6 +108,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 8,
+  },
+  modalBackdrop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+  },
+  modalInnerView: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    backgroundColor: Constants.Colors.white,
+    width: Constants.Dimensions.Width - 32,
+    marginLeft: 16,
+    paddingTop: 12,
+    borderRadius: 8,
+  },
+  modalInput: {
+    padding: 20,
+    paddingTop: 16,
+    marginBottom: 10,
+    fontSize: Constants.Styles.FontSize.large,
+    fontFamily: Fonts.latoRegular,
+    height: 50,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: Constants.Colors.grayLight,
+    flex: 1,
   },
 })
 
@@ -229,11 +280,15 @@ const checkURL = (str) => {
 }
 
 const Main = () => {
+  let keyboardHeight = useRef(new Animated.Value(0))
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
   const [questionUrl, setQuestionUrl] = useState(null)
+  const [isSuggestionModalVisible, setSuggestionModalVisible] = useState(false)
+  const [questionFromModal, setQuestionFromModal] = useState(QUESTIONS[0])
+  const [prevIndex, setPrevIndex] = useState(0)
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
@@ -272,7 +327,11 @@ const Main = () => {
   useEffect(() => {
     const url = checkURL(question)
     setQuestionUrl(url)
-  }, [question])
+    if (!questions.length) {
+      setSuggestionModalVisible(true)
+    }
+  }, [questions, question])
+
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
@@ -284,15 +343,43 @@ const Main = () => {
     }
   }
 
+  const sendQuestionFromModal = () => {
+    if (questionFromModal) {
+      dispatch(setAskQuestion(questionFromModal))
+      NavigationService.navigate(Constants.Screens.SelectContacts)
+      setSuggestionModalVisible(false)
+    }
+  }
+
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
+
+  const onMomentumScrollEnd = (e, state, context) => {
+    const currentIndex = state.index + 1
+    if (currentIndex >= prevIndex) {
+      setQuestionFromModal(
+        QUESTIONS[
+          state.index === QUESTIONS.length - 1
+            ? state.index - 1
+            : state.index + 1
+        ],
+      )
+    } else {
+      setQuestionFromModal(QUESTIONS[state.index - 1])
+    }
+    setPrevIndex(currentIndex - 1)
+  }
 
   // console.log('> questionUrl', questionUrl)
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
+      <KeyboardListener
+        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
+      />
       <Formik
         enableReinitialize
         initialValues={{ question }}
@@ -343,6 +430,81 @@ const Main = () => {
           onRefresh={() => dispatch(getQuestions())}
         />
       </View>
+
+      {/*Suggestion Modal*/}
+      <Modal
+        isVisible={isSuggestionModalVisible}
+        style={[Theme.Modal.modalView]}
+        animationInTiming={300}
+        animationOutTiming={300}>
+        <View style={[{ paddingTop: 90, paddingBottom: 40, flex: 1 }]}>
+          <Animated.View
+            style={[
+              Theme.Modal.modalInnerView,
+              styles.modalInnerView,
+              { paddingBottom: keyboardHeight.current },
+            ]}>
+            <View style={{ alignItems: 'center', paddingVertical: 18 }}>
+              <AppText
+                text="What other are asking?"
+                fontFamily={Fonts.latoBold}
+                fontSize={18}
+              />
+            </View>
+            <React.Fragment>
+              <Slick
+                horizontal={false}
+                showsButtons={false}
+                activeDotColor={Constants.Colors.primaryLight}
+                dotColor={Constants.Colors.grayLight}
+                onMomentumScrollEnd={onMomentumScrollEnd}
+                loop={false}
+                paginationStyle={{
+                  right: -6,
+                }}>
+                {QUESTIONS.map((question, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      backgroundColor: Constants.Colors.white,
+                      padding: 16,
+                      flex: 1,
+                    }}>
+                    <AppInput
+                      secondary
+                      multiline
+                      placeholder="Enter your question..."
+                      style={styles.modalInput}
+                      onChange={(value) => setQuestionFromModal(value)}
+                      value={questionFromModal}
+                    />
+                  </View>
+                ))}
+              </Slick>
+              <View
+                style={{
+                  padding: 16,
+                  backgroundColor: Constants.Colors.white,
+                }}>
+                <AppButton
+                  onPress={sendQuestionFromModal}
+                  text="Select Friends to Ask"
+                  backgroundColor={Constants.Colors.primary}
+                  color={Constants.Colors.white}
+                  borderRadius={Constants.Styles.BorderRadius.small}
+                />
+                <View style={{ alignItems: 'center', marginTop: 16 }}>
+                  <AppLink
+                    text="Skip"
+                    color={Constants.Colors.primary}
+                    onPress={() => setSuggestionModalVisible(false)}
+                  />
+                </View>
+              </View>
+            </React.Fragment>
+          </Animated.View>
+        </View>
+      </Modal>
     </View>
   )
 }

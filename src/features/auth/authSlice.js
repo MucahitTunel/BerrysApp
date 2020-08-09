@@ -160,7 +160,7 @@ export const submitSurvey = createAsyncThunk(
       },
     })
     setTimeout(() => {
-      NavigationService.navigate(Constants.Screens.Suggestions)
+      NavigationService.navigate(Constants.Screens.Main)
     }, 1000)
   },
 )
