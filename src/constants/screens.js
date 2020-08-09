@@ -16,5 +16,4 @@ export default {
   MainStack: 'MainStack',
   FollowContactsStack: 'FollowContactsStack',
   ReportStack: 'ReportStack',
-  Suggestions: 'SuggestionsScreen',
 }
