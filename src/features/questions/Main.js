@@ -397,7 +397,6 @@ const Main = () => {
                 setQuestionUrl(url)
               }}
               value={values.question}
-              // autoFocus
             />
             <TouchableOpacity
               onPress={handleSubmit}
@@ -449,7 +448,7 @@ const Main = () => {
           <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
             <View style={{ alignItems: 'center', paddingVertical: 10 }}>
               <AppText
-                text="What other are asking?"
+                text="What others are asking?"
                 fontFamily={Fonts.latoBold}
                 fontSize={18}
               />
@@ -483,6 +482,7 @@ const Main = () => {
                       style={styles.modalInput}
                       onChange={(value) => setQuestionFromModal(value)}
                       value={questionFromModal}
+                      autoFocus
                     />
                   </View>
                 ))}
