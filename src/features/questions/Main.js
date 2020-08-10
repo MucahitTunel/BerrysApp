@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  Animated,
   FlatList,
   StatusBar,
   StyleSheet,
@@ -17,7 +16,6 @@ import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
-import KeyboardListener from 'react-native-keyboard-listener'
 import {
   AppButton,
   AppIcon,
@@ -38,12 +36,11 @@ import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import Theme from 'theme'
-import { hideKeyBoard, showKeyboard } from 'utils'
 import Slick from 'react-native-slick'
 
 const QUESTIONS = [
   'Do you think Trump will be reelected again?',
-  'Mr. President, what is your second-term agenda',
+  'Mr. President, what is your second-term agenda?',
   'Do you know Trump?',
   'Do you want Trump reelected again?',
   'What do you think about Trump?',
@@ -280,7 +277,6 @@ const checkURL = (str) => {
 }
 
 const Main = () => {
-  let keyboardHeight = useRef(new Animated.Value(0))
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
@@ -376,10 +372,6 @@ const Main = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
-      />
       <Formik
         enableReinitialize
         initialValues={{ question }}
@@ -436,13 +428,13 @@ const Main = () => {
         style={[Theme.Modal.modalView]}
         animationInTiming={300}
         animationOutTiming={300}>
-        <Animated.View
+        <View
           style={[
             {
               paddingTop: 40,
               flex: 1,
               maxHeight: Constants.Dimensions.Height - 60,
-              paddingBottom: keyboardHeight.current,
+              paddingBottom: 260,
             },
           ]}>
           <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
@@ -505,7 +497,7 @@ const Main = () => {
               </View>
             </React.Fragment>
           </View>
-        </Animated.View>
+        </View>
       </Modal>
     </View>
   )
