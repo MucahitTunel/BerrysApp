@@ -280,7 +280,6 @@ const Main = () => {
   const [popularQuestions, setPopularQuestions] = useState(
     surveysList[0].popularQuestions,
   )
-  const [prevIndex, setPrevIndex] = useState(0)
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
@@ -356,20 +355,8 @@ const Main = () => {
 
   const onPressSkip = () => dispatch(setUserIsNew(false))
 
-  const onMomentumScrollEnd = (e, state, context) => {
-    const currentIndex = state.index + 1
-    if (currentIndex >= prevIndex) {
-      setQuestionFromModal(
-        popularQuestions[
-          state.index === popularQuestions.length - 1
-            ? state.index - 1
-            : state.index + 1
-        ],
-      )
-    } else {
-      setQuestionFromModal(popularQuestions[state.index - 1])
-    }
-    setPrevIndex(currentIndex - 1)
+  const onIndexChanged = (index) => {
+    setQuestionFromModal(popularQuestions[index])
   }
 
   // console.log('> questionUrl', questionUrl)
@@ -457,7 +444,7 @@ const Main = () => {
                 showsButtons={false}
                 activeDotColor={Constants.Colors.primaryLight}
                 dotColor={Constants.Colors.grayLight}
-                onMomentumScrollEnd={onMomentumScrollEnd}
+                onIndexChanged={onIndexChanged}
                 loop={false}
                 paginationStyle={{
                   right: -6,
@@ -465,9 +452,9 @@ const Main = () => {
                   alignItems: 'flex-start',
                   justifyContent: 'flex-start',
                 }}>
-                {popularQuestions.map((question, index) => (
+                {popularQuestions.map((q, index) => (
                   <View
-                    key={index}
+                    key={`${index}_${q}`}
                     style={{
                       backgroundColor: Constants.Colors.white,
                       padding: 16,
