@@ -151,6 +151,9 @@ export const submitSurvey = createAsyncThunk(
   async ({ value }, { getState }) => {
     const state = getState()
     const user = state.auth.user
+    setTimeout(() => {
+      NavigationService.navigate(Constants.Screens.Main)
+    }, 1000)
     await request({
       method: 'POST',
       url: 'survey',
@@ -159,9 +162,6 @@ export const submitSurvey = createAsyncThunk(
         value,
       },
     })
-    setTimeout(() => {
-      NavigationService.navigate(Constants.Screens.Main)
-    }, 1000)
   },
 )
 
