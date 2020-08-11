@@ -155,7 +155,7 @@ const RootNavigator = () => {
   if (booting) {
     return <Splash />
   }
-  if (user && user.isNew) {
+  if (user && user.isNew && !user.survey) {
     return <SurveyStack />
   }
   return user && !user.isVerifying ? (

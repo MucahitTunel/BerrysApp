@@ -154,7 +154,7 @@ export const submitSurvey = createAsyncThunk(
     setTimeout(() => {
       NavigationService.navigate(Constants.Screens.Main)
     }, 1000)
-    await request({
+    request({
       method: 'POST',
       url: 'survey',
       data: {
@@ -162,6 +162,7 @@ export const submitSurvey = createAsyncThunk(
         value,
       },
     })
+    return value
   },
 )
 
@@ -193,6 +194,12 @@ const authSlice = createSlice({
       state.user = {
         ...state.user,
         points: action.payload,
+      }
+    },
+    setUserIsNew: (state, action) => {
+      state.user = {
+        ...state.user,
+        isNew: action.payload,
       }
     },
   },
@@ -227,10 +234,10 @@ const authSlice = createSlice({
     [createAccount.fulfilled]: (state, action) => {
       state.user = action.payload
     },
-    [submitSurvey.fulfilled]: (state) => {
+    [submitSurvey.fulfilled]: (state, action) => {
       state.user = {
         ...state.user,
-        isNew: false,
+        survey: action.payload,
       }
     },
   },
@@ -238,5 +245,5 @@ const authSlice = createSlice({
 
 export const {
   reducer: authReducer,
-  actions: { updatePoints },
+  actions: { updatePoints, setUserIsNew },
 } = authSlice

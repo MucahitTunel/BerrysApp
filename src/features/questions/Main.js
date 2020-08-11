@@ -29,7 +29,7 @@ import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { updatePushToken } from 'features/auth/authSlice'
+import { updatePushToken, setUserIsNew } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
@@ -37,14 +37,7 @@ import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import Theme from 'theme'
 import Slick from 'react-native-slick'
-
-const QUESTIONS = [
-  'Do you think Trump will be reelected again?',
-  'Mr. President, what is your second-term agenda?',
-  'Do you know Trump?',
-  'Do you want Trump reelected again?',
-  'What do you think about Trump?',
-]
+import surveysList from '../auth/surveysList'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -278,12 +271,15 @@ const checkURL = (str) => {
 
 const Main = () => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
   const [questionUrl, setQuestionUrl] = useState(null)
-  const [isSuggestionModalVisible, setSuggestionModalVisible] = useState(false)
-  const [questionFromModal, setQuestionFromModal] = useState(QUESTIONS[0])
+  const [questionFromModal, setQuestionFromModal] = useState(null)
+  const [popularQuestions, setPopularQuestions] = useState(
+    surveysList[0].popularQuestions,
+  )
   const [prevIndex, setPrevIndex] = useState(0)
   useEffect(() => {
     dispatch(getQuestions())
@@ -323,10 +319,15 @@ const Main = () => {
   useEffect(() => {
     const url = checkURL(question)
     setQuestionUrl(url)
-    if (!questions.length) {
-      setSuggestionModalVisible(true)
-    }
   }, [questions, question])
+  useEffect(() => {
+    const defaultSurveyValue = surveysList[0].value
+    const { survey = defaultSurveyValue } = user
+    const surveyQuestions = surveysList.find((x) => x.value === survey)
+      .popularQuestions
+    setPopularQuestions(surveyQuestions || surveysList[0].popularQuestions)
+    setQuestionFromModal(surveyQuestions[0])
+  }, [user])
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
@@ -341,9 +342,11 @@ const Main = () => {
 
   const sendQuestionFromModal = () => {
     if (questionFromModal) {
+      dispatch(setUserIsNew(false))
       dispatch(setAskQuestion(questionFromModal))
-      NavigationService.navigate(Constants.Screens.SelectContacts)
-      setSuggestionModalVisible(false)
+      setTimeout(() => {
+        NavigationService.navigate(Constants.Screens.SelectContacts)
+      }, 1000)
     }
   }
 
@@ -351,23 +354,26 @@ const Main = () => {
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
+  const onPressSkip = () => dispatch(setUserIsNew(false))
+
   const onMomentumScrollEnd = (e, state, context) => {
     const currentIndex = state.index + 1
     if (currentIndex >= prevIndex) {
       setQuestionFromModal(
-        QUESTIONS[
-          state.index === QUESTIONS.length - 1
+        popularQuestions[
+          state.index === popularQuestions.length - 1
             ? state.index - 1
             : state.index + 1
         ],
       )
     } else {
-      setQuestionFromModal(QUESTIONS[state.index - 1])
+      setQuestionFromModal(popularQuestions[state.index - 1])
     }
     setPrevIndex(currentIndex - 1)
   }
 
   // console.log('> questionUrl', questionUrl)
+  const isSuggestionsModalVisible = user.isNew && !question
 
   return (
     <View style={styles.container}>
@@ -424,7 +430,7 @@ const Main = () => {
 
       {/*Suggestion Modal*/}
       <Modal
-        isVisible={isSuggestionModalVisible}
+        isVisible={isSuggestionsModalVisible}
         style={[Theme.Modal.modalView]}
         animationInTiming={300}
         animationOutTiming={300}>
@@ -459,7 +465,7 @@ const Main = () => {
                   alignItems: 'flex-start',
                   justifyContent: 'flex-start',
                 }}>
-                {QUESTIONS.map((question, index) => (
+                {popularQuestions.map((question, index) => (
                   <View
                     key={index}
                     style={{
@@ -491,7 +497,7 @@ const Main = () => {
                   <AppLink
                     text="Skip"
                     color={Constants.Colors.gray}
-                    onPress={() => setSuggestionModalVisible(false)}
+                    onPress={onPressSkip}
                   />
                 </View>
               </View>
