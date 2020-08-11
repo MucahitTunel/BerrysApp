@@ -1,6 +1,6 @@
 {
   "name": "Berrys",
-  "version": "1.0.158",
+  "version": "1.0.159",
   "private": true,
   "scripts": {
     "start": "react-native start",
