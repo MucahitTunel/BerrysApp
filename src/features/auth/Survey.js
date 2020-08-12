@@ -5,6 +5,7 @@ import { AppButton, AppIcon, AppText } from 'components'
 import Constants from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
+import surveysList from './surveysList'
 
 const styles = StyleSheet.create({
   container: {
@@ -44,87 +45,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 })
-
-const surveysList = [
-  {
-    id: 1,
-    icon: 'opinion',
-    name: 'Opinion',
-    value: 'Opinion',
-    size: 40,
-    marginBottom: 10,
-  },
-  {
-    id: 2,
-    icon: 'recommendation',
-    name: 'Recommen-dation',
-    value: 'Recommendation',
-    size: 40,
-    marginBottom: 10,
-  },
-  {
-    id: 3,
-    icon: 'advice',
-    name: 'Advice',
-    value: 'Advice',
-    size: 40,
-    marginBottom: 10,
-  },
-  {
-    id: 4,
-    icon: 'about-someone',
-    name: 'About Someone',
-    value: 'About Someone',
-    size: 40,
-    marginBottom: 10,
-  },
-  // {
-  //   id: 5,
-  //   icon: 'about-something',
-  //   name: 'About Something',
-  //   value: 'About Something',
-  // },
-  {
-    id: 6,
-    icon: 'how-to',
-    name: 'How-to',
-    value: 'How-to',
-    size: 50,
-    marginBottom: 0,
-  },
-  {
-    id: 8,
-    icon: 'taboo',
-    name: 'Taboo',
-    value: 'Taboo',
-    size: 30,
-    marginBottom: 10,
-  },
-  {
-    id: 9,
-    icon: 'political',
-    name: 'Political',
-    value: 'Political',
-    size: 30,
-    marginBottom: 10,
-  },
-  {
-    id: 10,
-    icon: 'financial',
-    name: 'Financial',
-    value: 'Financial',
-    size: 30,
-    marginBottom: 10,
-  },
-  {
-    id: 7,
-    icon: 'others',
-    name: 'Other',
-    value: 'Other',
-    size: 40,
-    marginBottom: 0,
-  },
-]
 
 const Survey = () => {
   const dispatch = useDispatch()

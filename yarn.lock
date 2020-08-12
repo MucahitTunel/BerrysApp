@@ -7883,6 +7883,13 @@ react-native-screens@^2.9.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.9.0.tgz#ead2843107ba00fee259aa377582e457c74f1f3b"
   integrity sha512-5MaiUD6HA3nzY3JbVI8l3V7pKedtxQF3d8qktTVI0WmWXTI4QzqOU8r8fPVvfKo3MhOXwhWBjr+kQ7DZaIQQeg==
 
+react-native-slick@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-slick/-/react-native-slick-1.6.0.tgz#f0f95e154ea2e1a4c9a0d2646b1b830d39bb9348"
+  integrity sha512-+bnEoJkHYPVKbNi44cwe1/r3RzqK6tKK1tnblCTzr4LMHPY5JctWqtWl8ENN4RUP3fPdF8s/xSKqwLiZ/4gmxg==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-swipe-gestures@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.4.tgz#6a9c6613bfe06cd9014a36a2c4a09f719ff62451"

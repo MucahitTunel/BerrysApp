@@ -10,22 +10,34 @@ import {
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
+import RNUrlPreview from 'react-native-url-preview'
+import Modal from 'react-native-modal'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
-import { AppIcon, AppInput, AppText, Avatar, Loading } from 'components'
+import {
+  AppButton,
+  AppIcon,
+  AppInput,
+  AppLink,
+  AppText,
+  Avatar,
+  Loading,
+} from 'components'
 import Constants from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { updatePushToken } from 'features/auth/authSlice'
+import { updatePushToken, setUserIsNew } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
-import RNUrlPreview from 'react-native-url-preview'
+import Theme from 'theme'
+import Slick from 'react-native-slick'
+import surveysList from '../auth/surveysList'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -86,6 +98,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 8,
+  },
+  modalBackdrop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+  },
+  modalInnerView: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    backgroundColor: Constants.Colors.white,
+    width: Constants.Dimensions.Width - 32,
+    marginLeft: 16,
+    paddingTop: 12,
+    borderRadius: 8,
+  },
+  modalInput: {
+    padding: 20,
+    paddingTop: 16,
+    marginBottom: 10,
+    fontSize: Constants.Styles.FontSize.large,
+    fontFamily: Fonts.latoRegular,
+    height: 50,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: Constants.Colors.grayLight,
+    flex: 1,
   },
 })
 
@@ -230,10 +271,15 @@ const checkURL = (str) => {
 
 const Main = () => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading } = questions
   const [questionUrl, setQuestionUrl] = useState(null)
+  const [questionFromModal, setQuestionFromModal] = useState(null)
+  const [popularQuestions, setPopularQuestions] = useState(
+    surveysList[0].popularQuestions,
+  )
   useEffect(() => {
     dispatch(getQuestions())
     dispatch(loadContacts())
@@ -272,7 +318,16 @@ const Main = () => {
   useEffect(() => {
     const url = checkURL(question)
     setQuestionUrl(url)
-  }, [question])
+  }, [questions, question])
+  useEffect(() => {
+    const defaultSurveyValue = surveysList[0].value
+    const { survey = defaultSurveyValue } = user
+    const surveyQuestions = surveysList.find((x) => x.value === survey)
+      .popularQuestions
+    setPopularQuestions(surveyQuestions || surveysList[0].popularQuestions)
+    setQuestionFromModal(surveyQuestions[0])
+  }, [user])
+
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
@@ -284,11 +339,28 @@ const Main = () => {
     }
   }
 
+  const sendQuestionFromModal = () => {
+    if (questionFromModal) {
+      dispatch(setUserIsNew(false))
+      dispatch(setAskQuestion(questionFromModal))
+      setTimeout(() => {
+        NavigationService.navigate(Constants.Screens.SelectContacts)
+      }, 1000)
+    }
+  }
+
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
   )
 
+  const onPressSkip = () => dispatch(setUserIsNew(false))
+
+  const onIndexChanged = (index) => {
+    setQuestionFromModal(popularQuestions[index])
+  }
+
   // console.log('> questionUrl', questionUrl)
+  const isSuggestionsModalVisible = user.isNew && !question
 
   return (
     <View style={styles.container}>
@@ -310,7 +382,6 @@ const Main = () => {
                 setQuestionUrl(url)
               }}
               value={values.question}
-              // autoFocus
             />
             <TouchableOpacity
               onPress={handleSubmit}
@@ -343,6 +414,84 @@ const Main = () => {
           onRefresh={() => dispatch(getQuestions())}
         />
       </View>
+
+      {/*Suggestion Modal*/}
+      <Modal
+        isVisible={isSuggestionsModalVisible}
+        style={[Theme.Modal.modalView]}
+        animationInTiming={300}
+        animationOutTiming={300}>
+        <View
+          style={[
+            {
+              paddingTop: 40,
+              flex: 1,
+              maxHeight: Constants.Dimensions.Height - 60,
+              paddingBottom: 260,
+            },
+          ]}>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            <View style={{ alignItems: 'center', paddingVertical: 10 }}>
+              <AppText
+                text="What others are asking?"
+                fontFamily={Fonts.latoBold}
+                fontSize={18}
+              />
+            </View>
+            <React.Fragment>
+              <Slick
+                horizontal={false}
+                showsButtons={false}
+                activeDotColor={Constants.Colors.primaryLight}
+                dotColor={Constants.Colors.grayLight}
+                onIndexChanged={onIndexChanged}
+                loop={false}
+                paginationStyle={{
+                  right: -6,
+                  top: 40,
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                }}>
+                {popularQuestions.map((q, index) => (
+                  <View
+                    key={`${index}_${q}`}
+                    style={{
+                      backgroundColor: Constants.Colors.white,
+                      padding: 16,
+                      height: 160,
+                    }}>
+                    <AppInput
+                      secondary
+                      multiline
+                      placeholder="Enter your question..."
+                      style={styles.modalInput}
+                      onChange={(value) => setQuestionFromModal(value)}
+                      value={questionFromModal}
+                      autoFocus
+                    />
+                  </View>
+                ))}
+              </Slick>
+              <View style={{ padding: 16, paddingTop: 10 }}>
+                <AppButton
+                  onPress={sendQuestionFromModal}
+                  text="Select Friends to Ask"
+                  backgroundColor={Constants.Colors.primary}
+                  color={Constants.Colors.white}
+                  borderRadius={Constants.Styles.BorderRadius.small}
+                />
+                <View style={{ alignItems: 'center', marginTop: 16 }}>
+                  <AppLink
+                    text="Skip"
+                    color={Constants.Colors.gray}
+                    onPress={onPressSkip}
+                  />
+                </View>
+              </View>
+            </React.Fragment>
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }

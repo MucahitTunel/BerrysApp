@@ -25,7 +25,6 @@ import Messages from 'features/messages/Messages'
 import Conversation from 'features/messages/Conversation'
 import MessageContacts from 'features/messages/MessageContacts'
 import Survey from 'features/auth/Survey'
-import Suggestions from 'features/auth/Suggestions'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -33,7 +32,7 @@ const Drawer = createDrawerNavigator()
 const SurveyStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.Suggestions}
+      name={Constants.Screens.Survey}
       component={Survey}
       options={({ navigation }) => ({
         header: () => (
@@ -113,13 +112,6 @@ const MainStack = () => (
         ),
       })}
     />
-    <Stack.Screen
-      name={Constants.Screens.Suggestions}
-      component={Suggestions}
-      options={() => ({
-        header: () => <Header title="What others are asking?" />,
-      })}
-    />
   </Stack.Navigator>
 )
 
@@ -163,7 +155,7 @@ const RootNavigator = () => {
   if (booting) {
     return <Splash />
   }
-  if (user && user.isNew) {
+  if (user && user.isNew && !user.survey) {
     return <SurveyStack />
   }
   return user && !user.isVerifying ? (
