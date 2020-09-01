@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, StatusBar, StyleSheet, FlatList } from 'react-native'
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native'
 import Constants from 'constants'
 import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton } from 'components'
-import { askQuestion } from 'features/questions/askSlice'
+import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -30,8 +36,12 @@ const styles = StyleSheet.create({
 
 const Preview = () => {
   const ask = useSelector((state) => state.ask)
+  const [isAnonymously, setAnonymously] = useState(true)
   const dispatch = useDispatch()
-  const onConfirmQuestion = () => dispatch(askQuestion())
+  const onConfirmQuestion = () => {
+    dispatch(setAskAnonymously(isAnonymously))
+    dispatch(askQuestion())
+  }
   const renderContact = (contact) => {
     return (
       <View
@@ -48,6 +58,9 @@ const Preview = () => {
         />
       </View>
     )
+  }
+  const toggleAnonymously = () => {
+    setAnonymously(!isAnonymously)
   }
   return (
     <View style={styles.container}>
@@ -77,6 +90,24 @@ const Preview = () => {
               keyExtractor={(item) => item.phoneNumber}
             />
           </View>
+        </View>
+        <View style={{ paddingTop: 10 }}>
+          <TouchableOpacity
+            style={styles.contactItem}
+            onPress={toggleAnonymously}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppIcon
+                name={isAnonymously ? 'checkbox' : 'checkbox-outline'}
+                color={Constants.Colors.primary}
+              />
+              <AppText
+                style={{ marginLeft: 10 }}
+                text="Ask Anonymously"
+                color={Constants.Colors.text}
+                fontSize={Constants.Styles.FontSize.large}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{ padding: 10, backgroundColor: Constants.Colors.white }}>

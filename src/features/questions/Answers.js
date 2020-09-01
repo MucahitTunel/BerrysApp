@@ -197,6 +197,7 @@ const Answers = ({ navigation }) => {
   let keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
+  const [isAnonymously, setAnonymously] = useState(true)
   const [comment, setComment] = useState(null)
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
@@ -204,10 +205,11 @@ const Answers = ({ navigation }) => {
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
-    const { comment } = values
+    const { cmt } = values
     const payload = {
-      comment,
+      comment: cmt,
       questionId: question._id,
+      isAnonymously,
     }
     dispatch(submitComment(payload))
     resetForm({})
@@ -360,6 +362,30 @@ const Answers = ({ navigation }) => {
             </View>
           )}
         </Formik>
+        <View
+          style={{
+            padding: 10,
+            backgroundColor: 'white',
+            borderTopWidth: 1,
+            borderTopColor: Constants.Colors.grayLight,
+          }}>
+          <TouchableOpacity
+            style={styles.contactItem}
+            onPress={() => setAnonymously(!isAnonymously)}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppIcon
+                name={isAnonymously ? 'checkbox' : 'checkbox-outline'}
+                color={Constants.Colors.primary}
+              />
+              <AppText
+                style={{ marginLeft: 10 }}
+                text="Ask Anonymously"
+                color={Constants.Colors.text}
+                fontSize={Constants.Styles.FontSize.large}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Flag question modal */}
