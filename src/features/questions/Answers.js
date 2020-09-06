@@ -14,6 +14,9 @@ import { Formik } from 'formik'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
+import KeyboardListener from 'react-native-keyboard-listener'
+import { hideKeyBoard, showKeyboard } from 'utils'
+
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
 import {
@@ -35,8 +38,9 @@ import {
   submitComment,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import KeyboardListener from 'react-native-keyboard-listener'
-import { hideKeyBoard, showKeyboard } from 'utils'
+import * as NavigationService from 'services/navigation'
+import AskingModal from './AskingModal'
+import { ASK_MY_QUESTION } from 'constants/services'
 
 const styles = StyleSheet.create({
   container: {
@@ -106,6 +110,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
+  },
+  askBtn: {
+    padding: 10,
+    backgroundColor: Constants.Colors.white,
+    borderTopWidth: 1,
+    borderColor: Constants.Colors.grayLight,
   },
 })
 
@@ -199,10 +209,14 @@ const Answers = ({ navigation }) => {
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [isAnonymously, setAnonymously] = useState(true)
   const [comment, setComment] = useState(null)
+  const [showAskingModal, setShowAskingModal] = useState(false)
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
+  console.log('question', question)
+  const isMyQuestion =
+    !!question && question.userPhoneNumber === user.phoneNumber
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { cmt } = values
@@ -242,6 +256,13 @@ const Answers = ({ navigation }) => {
       )
     }
     setIsMessageModalVisible(false)
+  }
+  const goToContactList = () => {
+    setShowAskingModal(false)
+    NavigationService.navigate(Constants.Screens.SelectContacts, {
+      isAsking: true,
+      type: ASK_MY_QUESTION,
+    })
   }
 
   useLayoutEffect(() => {
@@ -313,6 +334,17 @@ const Answers = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+      {isMyQuestion && (
+        <View style={styles.askBtn}>
+          <AppButton
+            onPress={() => setShowAskingModal(true)}
+            text="Ask My Question"
+            backgroundColor={Constants.Colors.primary}
+            color={Constants.Colors.white}
+            borderRadius={Constants.Styles.BorderRadius.small}
+          />
+        </View>
+      )}
       <View style={styles.flatListView}>
         <FlatList
           data={question.comments}
@@ -379,7 +411,7 @@ const Answers = ({ navigation }) => {
               />
               <AppText
                 style={{ marginLeft: 10 }}
-                text="Ask Anonymously"
+                text="Answer Anonymously"
                 color={Constants.Colors.text}
                 fontSize={Constants.Styles.FontSize.large}
               />
@@ -441,6 +473,14 @@ const Answers = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+
+      {/*Asking Modal*/}
+      <AskingModal
+        isModalVisible={showAskingModal}
+        setModalVisible={(value) => setShowAskingModal(value)}
+        onGoToContactList={goToContactList}
+        fromMain={false}
+      />
     </Animated.View>
   )
 }
