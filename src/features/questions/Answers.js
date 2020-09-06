@@ -214,7 +214,6 @@ const Answers = ({ navigation }) => {
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
-  console.log('question', question)
   const isMyQuestion =
     !!question && question.userPhoneNumber === user.phoneNumber
   const onSubmit = (values, { setSubmitting, resetForm }) => {
@@ -368,7 +367,7 @@ const Answers = ({ navigation }) => {
           borderTopColor: Constants.Colors.grayLight,
           borderTopWidth: 1,
         }}>
-        <Formik initialValues={{ comment: '' }} onSubmit={onSubmit}>
+        <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
           {({ values, handleChange, handleSubmit }) => (
             <View style={styles.inputView}>
               <AppInput
@@ -380,8 +379,8 @@ const Answers = ({ navigation }) => {
                 }
                 editable={question.isAbleToAnswer}
                 multiline
-                onChange={handleChange('comment')}
-                value={values.comment}
+                onChange={handleChange('cmt')}
+                value={values.cmt}
               />
               <TouchableOpacity
                 style={{
