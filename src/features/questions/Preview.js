@@ -36,10 +36,9 @@ const styles = StyleSheet.create({
 
 const Preview = () => {
   const ask = useSelector((state) => state.ask)
-  const [isAnonymously, setAnonymously] = useState(true)
+  const { isAnonymous } = ask
   const dispatch = useDispatch()
   const onConfirmQuestion = () => {
-    dispatch(setAskAnonymously(isAnonymously))
     dispatch(askQuestion())
   }
   const renderContact = (contact) => {
@@ -60,7 +59,7 @@ const Preview = () => {
     )
   }
   const toggleAnonymously = () => {
-    setAnonymously(!isAnonymously)
+    dispatch(setAskAnonymously(!isAnonymous))
   }
   return (
     <View style={styles.container}>
@@ -97,7 +96,7 @@ const Preview = () => {
             onPress={toggleAnonymously}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppIcon
-                name={isAnonymously ? 'checkbox' : 'checkbox-outline'}
+                name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
                 color={Constants.Colors.primary}
               />
               <AppText
