@@ -77,7 +77,7 @@ export const flagQuestion = createAsyncThunk(
 
 export const submitComment = createAsyncThunk(
   'comment/submit',
-  async ({ comment, questionId, isAnonymously }, { getState, dispatch }) => {
+  async ({ comment, questionId, isAnonymous }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     await request({
@@ -87,6 +87,7 @@ export const submitComment = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
         comment,
         questionId,
+        isAnonymous,
       },
     })
     dispatch(getQuestion(questionId))

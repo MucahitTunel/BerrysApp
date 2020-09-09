@@ -126,7 +126,15 @@ const Comment = ({
   setComment,
   setIsMessageModalVisible,
 }) => {
-  const { _id, name, createdAt, content, totalVotes = 0 } = comment
+  const {
+    _id,
+    name,
+    createdAt,
+    content,
+    totalVotes = 0,
+    isAnonymous,
+    userPhoneNumber,
+  } = comment
   const dispatch = useDispatch()
   const voteComment = (value, questionId, commentId) =>
     dispatch(
@@ -159,7 +167,7 @@ const Comment = ({
         }}>
         <TouchableOpacity onPress={() => onPressUser(comment)}>
           <AppText
-            text={name}
+            text={isAnonymous ? name : userPhoneNumber}
             color={Constants.Colors.blue}
             fontFamily={Fonts.latoBold}
             style={{ marginBottom: 5 }}
@@ -207,7 +215,7 @@ const Answers = ({ navigation }) => {
   let keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
-  const [isAnonymously, setAnonymously] = useState(true)
+  const [isAnonymous, setIsAnonymous] = useState(true)
   const [comment, setComment] = useState(null)
   const [showAskingModal, setShowAskingModal] = useState(false)
   const user = useSelector((state) => state.auth.user)
@@ -222,7 +230,7 @@ const Answers = ({ navigation }) => {
     const payload = {
       comment: cmt,
       questionId: question._id,
-      isAnonymously,
+      isAnonymous,
     }
     dispatch(submitComment(payload))
     resetForm({})
@@ -402,10 +410,10 @@ const Answers = ({ navigation }) => {
           }}>
           <TouchableOpacity
             style={styles.contactItem}
-            onPress={() => setAnonymously(!isAnonymously)}>
+            onPress={() => setIsAnonymous(!isAnonymous)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppIcon
-                name={isAnonymously ? 'checkbox' : 'checkbox-outline'}
+                name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
                 color={Constants.Colors.primary}
               />
               <AppText
