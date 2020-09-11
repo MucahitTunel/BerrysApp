@@ -17,4 +17,5 @@ export default {
   FollowContactsStack: 'FollowContactsStack',
   ReportStack: 'ReportStack',
   RequestContactsToAsk: 'RequestContactsToAskScreen',
+  RequestToAsk: 'RequestToAskScreen',
 }

@@ -16,7 +16,6 @@ import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
 import {
@@ -38,7 +37,6 @@ import {
   submitComment,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import AskMyQuestionModal from './AskMyQuestionModal'
 
 const styles = StyleSheet.create({
   container: {
@@ -215,13 +213,10 @@ const Answers = ({ navigation }) => {
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [isAnonymous, setIsAnonymous] = useState(true)
   const [comment, setComment] = useState(null)
-  const [showAskingModal, setShowAskingModal] = useState(false)
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
-  const isMyQuestion =
-    !!question && question.userPhoneNumber === user.phoneNumber
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { cmt } = values
@@ -331,15 +326,6 @@ const Answers = ({ navigation }) => {
             <AppIcon name="unlike" size={16} color={Constants.Colors.gray} />
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.askBtn}>
-        <AppButton
-          onPress={() => setShowAskingModal(true)}
-          text="Ask My Question"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
-        />
       </View>
       <View style={styles.flatListView}>
         <FlatList
@@ -469,12 +455,6 @@ const Answers = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-
-      {/*AskMyQuestion Modal*/}
-      <AskMyQuestionModal
-        isModalVisible={showAskingModal}
-        setModalVisible={(value) => setShowAskingModal(value)}
-      />
     </Animated.View>
   )
 }

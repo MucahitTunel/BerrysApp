@@ -26,6 +26,7 @@ import Messages from 'features/messages/Messages'
 import Conversation from 'features/messages/Conversation'
 import MessageContacts from 'features/messages/MessageContacts'
 import Survey from 'features/auth/Survey'
+import RequestToAsk from 'features/questions/RequestToAsk'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -60,6 +61,10 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen name={Constants.Screens.Answers} component={Answers} />
+    <Stack.Screen
+      name={Constants.Screens.RequestToAsk}
+      component={RequestToAsk}
+    />
     <Stack.Screen
       name={Constants.Screens.SelectContacts}
       component={SelectContacts}

@@ -13,8 +13,8 @@ export const getQuestions = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
       },
     })
-    const { questions } = data
-    return questions
+    const { questions, requestsToAsk } = data
+    return { questions, requestsToAsk }
   },
 )
 
@@ -39,6 +39,7 @@ const questionsSlice = createSlice({
   name: 'questions',
   initialState: {
     data: [],
+    requestsToAsk: [],
     loading: false,
   },
   reducers: {},
@@ -47,7 +48,8 @@ const questionsSlice = createSlice({
       state.loading = true
     },
     [getQuestions.fulfilled]: (state, action) => {
-      state.data = action.payload
+      state.data = action.payload.questions
+      state.requestsToAsk = action.payload.requestsToAsk
       state.loading = false
     },
     [hideQuestion.fulfilled]: (state, action) => {

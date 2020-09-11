@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Animated } from 'react-native'
+import { View, StyleSheet, Animated, Alert } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import Constants from 'constants'
@@ -90,8 +91,10 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
-  const onSubmit = () => {}
+const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
+  const onSubmit = () => {
+    Alert.alert('Warning', 'The feature is being developed')
+  }
   return (
     <Modal
       isVisible={isModalVisible}
@@ -105,7 +108,7 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={styles.content}>
             <AppText
-              text="Ask your question from ???"
+              text={`Ask ${request.requester} your question`}
               fontSize={Constants.Styles.FontSize.xLarge}
               style={{ marginBottom: 30, textAlign: 'center' }}
             />
@@ -126,11 +129,11 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
   )
 }
 
-AskMeAnythingModal.propTypes = {
+AskMyQuestionModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
   onGoToContactList: PropTypes.func,
   fromMain: PropTypes.bool,
 }
 
-export default AskMeAnythingModal
+export default AskMyQuestionModal

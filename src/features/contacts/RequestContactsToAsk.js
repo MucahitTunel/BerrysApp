@@ -1,10 +1,8 @@
 import React from 'react'
 import { Alert } from 'react-native'
 import { useDispatch } from 'react-redux'
-import * as NavigationService from 'services/navigation'
 import { ContactsList } from 'components'
-import Constants from 'constants'
-import { setAskContacts } from 'features/questions/askSlice'
+import { requestToAsk } from 'features/auth/authSlice'
 
 const RequestContactsToAsk = (props) => {
   const dispatch = useDispatch()
@@ -16,8 +14,7 @@ const RequestContactsToAsk = (props) => {
         `You have to select at least ${MIN_NUM_CONTACTS} contacts in order to proceed`,
       )
     }
-    dispatch(setAskContacts(contacts))
-    return NavigationService.navigate(Constants.Screens.Preview)
+    dispatch(requestToAsk(contacts))
   }
 
   return (

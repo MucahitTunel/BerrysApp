@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -135,6 +136,53 @@ const styles = StyleSheet.create({
     borderColor: Constants.Colors.grayLight,
   },
 })
+
+const RequestToAsk = ({ request }) => {
+  const { requester } = request
+  const user = useSelector((state) => state.auth.user)
+  if (!user) return null
+  const onPressRequestToAsk = () => {
+    NavigationService.navigate(Constants.Screens.RequestToAsk, {
+      request,
+    })
+  }
+  const title = `${requester} invited you to ask him a question anonymously`
+  return (
+    <Swipeout
+      style={{
+        marginBottom: 8,
+        width: Constants.Dimensions.Width - 24,
+        marginLeft: 12,
+        borderRadius: 8,
+      }}
+      backgroundColor="transparent"
+      buttonWidth={Constants.Dimensions.Width - 10}>
+      <TouchableOpacity
+        style={styles.questionItem}
+        onPress={() => onPressRequestToAsk()}>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <AppText
+              style={{ marginRight: 5 }}
+              color={Constants.Colors.primary}
+              text={title}
+              fontSize={Constants.Styles.FontSize.large}
+              fontFamily={Fonts.latoBold}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: 16,
+            flexDirection: 'row',
+          }}>
+          <AppIcon name="chevron-right" size={20} />
+        </View>
+      </TouchableOpacity>
+    </Swipeout>
+  )
+}
 
 const QuestionItem = ({
   question: {
@@ -280,7 +328,7 @@ const Main = () => {
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
-  const { data, loading } = questions
+  const { data, loading, requestsToAsk } = questions
   const [questionUrl, setQuestionUrl] = useState(null)
   const [questionFromModal, setQuestionFromModal] = useState(null)
   const [popularQuestions, setPopularQuestions] = useState(
@@ -367,11 +415,29 @@ const Main = () => {
     setQuestionFromModal(popularQuestions[index])
   }
 
-  const openAskingModal = () => {
-    setShowAskingModal(true)
+  const onPressAskMeAnything = () => {
+    if (user && user.name) {
+      setShowAskingModal(false)
+      NavigationService.navigate(Constants.Screens.RequestContactsToAsk)
+    } else {
+      setShowAskingModal(true)
+    }
   }
 
   const isSuggestionsModalVisible = user.isNew && !question
+
+  const renderItem = ({ item }) => {
+    switch (item.type) {
+      case 'question': {
+        return <QuestionItem question={item} />
+      }
+      case 'request-to-ask': {
+        return <RequestToAsk request={item} />
+      }
+      default:
+        return null
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -417,7 +483,7 @@ const Main = () => {
 
       <View style={styles.askBtn}>
         <TouchableOpacity
-          onPress={openAskingModal}
+          onPress={onPressAskMeAnything}
           style={{
             height: 48,
             alignItems: 'center',
@@ -434,8 +500,8 @@ const Main = () => {
       <View style={styles.flatListView}>
         {loading && !data.length && <Loading />}
         <FlatList
-          data={data}
-          renderItem={({ item }) => <QuestionItem question={item} />}
+          data={[...requestsToAsk, ...data]}
+          renderItem={renderItem}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}

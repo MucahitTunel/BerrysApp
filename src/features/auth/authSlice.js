@@ -184,7 +184,7 @@ export const updatePushToken = createAsyncThunk(
 
 export const updateName = createAsyncThunk(
   'auth/updateName',
-  async ({ name }, { getState }) => {
+  async ({ name }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     await request({
@@ -195,6 +195,31 @@ export const updateName = createAsyncThunk(
         userId: user._id,
       },
     })
+    dispatch(getUser(user.phoneNumber))
+  },
+)
+
+export const requestToAsk = createAsyncThunk(
+  'requestToAsk/submit',
+  async (contacts, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const receivers = contacts
+      .filter((c) => c.isSelected)
+      .map((c) => ({ phoneNumber: c.phoneNumber }))
+    await request({
+      method: 'POST',
+      url: 'account/request-to-ask',
+      data: {
+        receivers,
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    Alert.alert(
+      'Success',
+      'The selected contacts are requested to ask you a question',
+    )
+    NavigationService.navigate(Constants.Screens.Main)
   },
 )
 
