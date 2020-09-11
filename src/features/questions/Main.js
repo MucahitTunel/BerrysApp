@@ -38,8 +38,7 @@ import store from 'state/store'
 import Theme from 'theme'
 import Slick from 'react-native-slick'
 import surveysList from '../auth/surveysList'
-import AskingModal from './AskingModal'
-import { ASK_ME_ANYTHING } from 'constants/services'
+import AskMeAnythingModal from './AskMeAnythingModal'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -131,7 +130,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   askBtn: {
-    padding: 10,
     backgroundColor: Constants.Colors.white,
     borderTopWidth: 1,
     borderColor: Constants.Colors.grayLight,
@@ -373,16 +371,6 @@ const Main = () => {
     setShowAskingModal(true)
   }
 
-  const goToContactList = (name) => {
-    setShowAskingModal(false)
-    NavigationService.navigate(Constants.Screens.SelectContacts, {
-      isAsking: true,
-      type: ASK_ME_ANYTHING,
-      name,
-    })
-  }
-
-  // console.log('> questionUrl', questionUrl)
   const isSuggestionsModalVisible = user.isNew && !question
 
   return (
@@ -426,14 +414,22 @@ const Main = () => {
           <RNUrlPreview text={questionUrl} />
         </View>
       )}
+
       <View style={styles.askBtn}>
-        <AppButton
+        <TouchableOpacity
           onPress={openAskingModal}
-          text="Ask Me Everything"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
-        />
+          style={{
+            height: 48,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <AppText
+            text="Ask Me Everything"
+            color={Constants.Colors.primary}
+            fontFamily={Fonts.latoBold}
+            fontSize={Constants.Styles.FontSize.normal}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.flatListView}>
         {loading && !data.length && <Loading />}
@@ -525,12 +521,10 @@ const Main = () => {
         </View>
       </Modal>
 
-      {/*Asking Modal*/}
-      <AskingModal
+      {/* AskMeAnything Modal */}
+      <AskMeAnythingModal
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
-        onGoToContactList={(name) => goToContactList(name)}
-        fromMain
       />
     </View>
   )

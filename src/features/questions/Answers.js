@@ -38,9 +38,7 @@ import {
   submitComment,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import * as NavigationService from 'services/navigation'
-import AskingModal from './AskingModal'
-import { ASK_MY_QUESTION } from 'constants/services'
+import AskMyQuestionModal from './AskMyQuestionModal'
 
 const styles = StyleSheet.create({
   container: {
@@ -264,13 +262,6 @@ const Answers = ({ navigation }) => {
     }
     setIsMessageModalVisible(false)
   }
-  const goToContactList = () => {
-    setShowAskingModal(false)
-    NavigationService.navigate(Constants.Screens.SelectContacts, {
-      isAsking: true,
-      type: ASK_MY_QUESTION,
-    })
-  }
 
   useLayoutEffect(() => {
     // Have to move this logic here because
@@ -481,12 +472,10 @@ const Answers = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/*Asking Modal*/}
-      <AskingModal
+      {/*AskMyQuestion Modal*/}
+      <AskMyQuestionModal
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
-        onGoToContactList={goToContactList}
-        fromMain={false}
       />
     </Animated.View>
   )

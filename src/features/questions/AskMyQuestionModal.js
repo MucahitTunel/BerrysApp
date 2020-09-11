@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
-import { AppInput, AppButton, AppText } from 'components'
+import { AppButton, AppText } from 'components'
 import Theme from 'theme'
-import { ASK_ME_ANYTHING } from 'constants/services'
 
 const styles = StyleSheet.create({
   container: {
@@ -91,24 +90,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskingModal = ({
-  isModalVisible,
-  setModalVisible,
-  onGoToContactList,
-  fromMain,
-}) => {
-  const [name, setName] = useState('')
-  const handleGoToContactList = () => {
-    if (!name && fromMain) {
-      return
-    }
-    if (fromMain) {
-      onGoToContactList(name)
-      setName('')
-    } else {
-      onGoToContactList(name)
-    }
-  }
+const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
+  const onSubmit = () => {}
   return (
     <Modal
       isVisible={isModalVisible}
@@ -121,27 +104,18 @@ const AskingModal = ({
         </View>
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={styles.content}>
-            {fromMain ? (
-              <AppInput
-                style={styles.input}
-                placeholder="Type your name"
-                onChange={(value) => setName(value)}
-                value={name}
-              />
-            ) : (
-              <AppText
-                text="Ask your question from Xin"
-                fontSize={Constants.Styles.FontSize.xLarge}
-                style={{ marginBottom: 30, textAlign: 'center' }}
-              />
-            )}
+            <AppText
+              text="Ask your question from ???"
+              fontSize={Constants.Styles.FontSize.xLarge}
+              style={{ marginBottom: 30, textAlign: 'center' }}
+            />
             <View style={styles.actions}>
               <AppButton
                 text="Submit"
                 backgroundColor={Constants.Colors.primary}
                 color={Constants.Colors.white}
-                onPress={handleGoToContactList}
-                activeOpacity={name ? 0.2 : 1}
+                onPress={onSubmit}
+                activeOpacity={1}
               />
               <AppButton text="Close" onPress={() => setModalVisible(false)} />
             </View>
@@ -152,11 +126,11 @@ const AskingModal = ({
   )
 }
 
-AskingModal.propTypes = {
+AskMeAnythingModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
   onGoToContactList: PropTypes.func,
   fromMain: PropTypes.bool,
 }
 
-export default AskingModal
+export default AskMeAnythingModal
