@@ -182,6 +182,22 @@ export const updatePushToken = createAsyncThunk(
   },
 )
 
+export const updateName = createAsyncThunk(
+  'auth/updateName',
+  async ({ name }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'account/name',
+      data: {
+        name,
+        userId: user._id,
+      },
+    })
+  },
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {

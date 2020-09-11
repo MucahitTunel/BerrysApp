@@ -332,17 +332,15 @@ const Answers = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      {isMyQuestion && (
-        <View style={styles.askBtn}>
-          <AppButton
-            onPress={() => setShowAskingModal(true)}
-            text="Ask My Question"
-            backgroundColor={Constants.Colors.primary}
-            color={Constants.Colors.white}
-            borderRadius={Constants.Styles.BorderRadius.small}
-          />
-        </View>
-      )}
+      <View style={styles.askBtn}>
+        <AppButton
+          onPress={() => setShowAskingModal(true)}
+          text="Ask My Question"
+          backgroundColor={Constants.Colors.primary}
+          color={Constants.Colors.white}
+          borderRadius={Constants.Styles.BorderRadius.small}
+        />
+      </View>
       <View style={styles.flatListView}>
         <FlatList
           data={question.comments}

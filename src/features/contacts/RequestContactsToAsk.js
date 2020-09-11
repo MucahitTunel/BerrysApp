@@ -6,7 +6,7 @@ import { ContactsList } from 'components'
 import Constants from 'constants'
 import { setAskContacts } from 'features/questions/askSlice'
 
-const SelectContacts = (props) => {
+const RequestContactsToAsk = (props) => {
   const dispatch = useDispatch()
   const onPressSubmit = (contacts) => {
     const MIN_NUM_CONTACTS = 3
@@ -29,4 +29,4 @@ const SelectContacts = (props) => {
   )
 }
 
-export default SelectContacts
+export default RequestContactsToAsk

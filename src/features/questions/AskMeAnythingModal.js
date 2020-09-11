@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
@@ -7,6 +8,8 @@ import Constants from 'constants'
 import Fonts from 'assets/fonts'
 import { AppInput, AppButton, AppText } from 'components'
 import Theme from 'theme'
+import * as NavigationService from 'services/navigation'
+import { updateName } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -92,8 +95,14 @@ const styles = StyleSheet.create({
 })
 
 const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
+  const dispatch = useDispatch()
   const [name, setName] = useState('')
-  const onSubmit = () => {}
+  const onSubmit = () => {
+    dispatch(updateName({ name }))
+    setName('')
+    setModalVisible(false)
+    NavigationService.navigate(Constants.Screens.RequestContactsToAsk)
+  }
   return (
     <Modal
       isVisible={isModalVisible}

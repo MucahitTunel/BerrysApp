@@ -19,6 +19,7 @@ import Main from 'features/questions/Main'
 import FollowContacts from 'features/contacts/FollowContacts'
 import Report from 'features/report/Report'
 import SelectContacts from 'features/contacts/SelectContacts'
+import RequestContactsToAsk from 'features/contacts/RequestContactsToAsk'
 import Preview from 'features/questions/Preview'
 import Answers from 'features/questions/Answers'
 import Messages from 'features/messages/Messages'
@@ -78,6 +79,18 @@ const MainStack = () => (
         header: () => (
           <Header
             title="Preview"
+            headerLeft={<BackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Constants.Screens.RequestContactsToAsk}
+      component={RequestContactsToAsk}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="People who'll be requested via SMS to ask you a question"
             headerLeft={<BackButton navigation={navigation} />}
           />
         ),

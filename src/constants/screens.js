@@ -16,4 +16,5 @@ export default {
   MainStack: 'MainStack',
   FollowContactsStack: 'FollowContactsStack',
   ReportStack: 'ReportStack',
+  RequestContactsToAsk: 'RequestContactsToAskScreen',
 }
