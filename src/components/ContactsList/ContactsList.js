@@ -53,11 +53,29 @@ const ContactsList = ({
   singleSelect,
   submitText,
   onPressSubmit,
+  route,
 }) => {
   const allContacts = useSelector((state) => state.contacts.data)
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
-    allContacts.filter((c) => !!c[checkCondition]),
+    allContacts
+      .map((c) => {
+        if (
+          route &&
+          route.params &&
+          route.params.requester &&
+          route.params.requester.phoneNumber === c.phoneNumber
+        ) {
+          return {
+            ...c,
+            isSelected: true,
+          }
+        }
+        return c
+      })
+      .filter((c) => {
+        return !!c[checkCondition]
+      }),
   )
   const onChangeSearchText = (value) => setSearchText(value)
   const onSelectContact = (item) => {
@@ -220,7 +238,9 @@ const ContactsList = ({
       />
       <View style={{ padding: 10, backgroundColor: Constants.Colors.white }}>
         <AppButton
-          onPress={() => onPressSubmit(contacts)}
+          onPress={() =>
+            onPressSubmit(contacts.filter((c) => c[checkCondition]))
+          }
           text={submitText}
           backgroundColor={Constants.Colors.primary}
           color={Constants.Colors.white}
@@ -237,12 +257,14 @@ ContactsList.propTypes = {
   checkCondition: PropTypes.string.isRequired,
   singleSelect: PropTypes.bool,
   onPressSubmit: PropTypes.func.isRequired,
+  route: PropTypes.object.isRequired,
 }
 
 ContactsList.defaultProps = {
   showRightText: false,
   submitText: 'Submit',
   singleSelect: false,
+  route: {},
 }
 
 export default ContactsList

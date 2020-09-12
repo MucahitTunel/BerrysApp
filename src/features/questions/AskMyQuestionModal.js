@@ -99,13 +99,15 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
   const contacts = useSelector((state) => state.contacts.data)
   const [question, setQuestion] = useState('')
   const onSubmit = () => {
-    const contact = contacts.find(
+    const requester = contacts.find(
       (c) => c.phoneNumber === request.userPhoneNumber,
     )
     dispatch(setAskQuestion(question))
     setModalVisible(false)
     setQuestion('')
-    NavigationService.navigate(Constants.Screens.SelectContacts)
+    NavigationService.navigate(Constants.Screens.SelectContacts, {
+      requester,
+    })
   }
   return (
     <Modal
