@@ -59,11 +59,6 @@ const ContactsList = ({
   const [contacts, setContacts] = useState(
     allContacts.filter((c) => !!c[checkCondition]),
   )
-  // const isFocused = useIsFocused()
-  // if (!isFocused) {
-  //   const originalContacts = allContacts.filter((c) => !!c[checkCondition])
-  //   setContacts(originalContacts)
-  // }
   const onChangeSearchText = (value) => setSearchText(value)
   const onSelectContact = (item) => {
     const existed = contacts.find((c) => c.phoneNumber === item.phoneNumber)
@@ -191,7 +186,6 @@ const ContactsList = ({
     const group = e.name[0]
     // if there is no property in accumulator with this letter create it
     if (!r[group]) {
-      // eslint-disable-next-line no-param-reassign
       r[group] = { key: group, children: [e] }
     }
     // if there is push current element to children array for that letter

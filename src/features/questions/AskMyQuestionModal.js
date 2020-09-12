@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Animated, Alert } from 'react-native'
+import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import Constants from 'constants'
 import Fonts from 'assets/fonts'
-import { AppButton, AppText } from 'components'
+import { AppButton, AppText, AppInput } from 'components'
 import Theme from 'theme'
+import { setAskQuestion } from 'features/questions/askSlice'
+import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -92,8 +95,17 @@ const styles = StyleSheet.create({
 })
 
 const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
+  const dispatch = useDispatch()
+  const contacts = useSelector((state) => state.contacts.data)
+  const [question, setQuestion] = useState('')
   const onSubmit = () => {
-    Alert.alert('Warning', 'The feature is being developed')
+    const contact = contacts.find(
+      (c) => c.phoneNumber === request.userPhoneNumber,
+    )
+    dispatch(setAskQuestion(question))
+    setModalVisible(false)
+    setQuestion('')
+    NavigationService.navigate(Constants.Screens.SelectContacts)
   }
   return (
     <Modal
@@ -111,6 +123,12 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
               text={`Ask ${request.requester} your question`}
               fontSize={Constants.Styles.FontSize.xLarge}
               style={{ marginBottom: 30, textAlign: 'center' }}
+            />
+            <AppInput
+              style={styles.input}
+              placeholder="Type your question"
+              onChange={(value) => setQuestion(value)}
+              value={question}
             />
             <View style={styles.actions}>
               <AppButton
