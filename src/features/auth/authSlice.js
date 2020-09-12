@@ -215,10 +215,12 @@ export const requestToAsk = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
       },
     })
-    Alert.alert(
-      'Success',
-      `You invited ${receivers.length} people to ask you their questions`,
-    )
+    setTimeout(() => {
+      Alert.alert(
+        'Success',
+        `You invited ${receivers.length} people to ask you their questions`,
+      )
+    }, 500)
     NavigationService.navigate(Constants.Screens.Main)
   },
 )
