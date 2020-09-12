@@ -490,7 +490,7 @@ const Main = () => {
             justifyContent: 'center',
           }}>
           <AppText
-            text="Ask Me Everything"
+            text="Ask Me Anything"
             color={Constants.Colors.primary}
             fontFamily={Fonts.latoBold}
             fontSize={Constants.Styles.FontSize.normal}

@@ -217,7 +217,7 @@ export const requestToAsk = createAsyncThunk(
     })
     Alert.alert(
       'Success',
-      'The selected contacts are requested to ask you a question',
+      `You invited ${receivers.length} people to ask you their questions`,
     )
     NavigationService.navigate(Constants.Screens.Main)
   },

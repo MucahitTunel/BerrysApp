@@ -95,7 +95,7 @@ const MainStack = () => (
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="People who'll be requested via SMS to ask you a question"
+            title="People who'll be requested to ask you a question"
             headerLeft={<BackButton navigation={navigation} />}
           />
         ),
