@@ -106,6 +106,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
     setModalVisible(false)
     setQuestion('')
     NavigationService.navigate(Constants.Screens.SelectContacts, {
+      request,
       requester,
     })
   }

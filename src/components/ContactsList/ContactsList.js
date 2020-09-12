@@ -55,6 +55,7 @@ const ContactsList = ({
   onPressSubmit,
   route,
 }) => {
+  const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
@@ -239,7 +240,10 @@ const ContactsList = ({
       <View style={{ padding: 10, backgroundColor: Constants.Colors.white }}>
         <AppButton
           onPress={() =>
-            onPressSubmit(contacts.filter((c) => c[checkCondition]))
+            onPressSubmit(
+              contacts.filter((c) => c[checkCondition]),
+              request,
+            )
           }
           text={submitText}
           backgroundColor={Constants.Colors.primary}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   View,
@@ -11,6 +11,7 @@ import Constants from 'constants'
 import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   container: {
@@ -34,12 +35,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const Preview = () => {
+const Preview = ({ route }) => {
+  const requestToAsk = route && route.params && route.params.requestToAsk
   const ask = useSelector((state) => state.ask)
   const { isAnonymous } = ask
   const dispatch = useDispatch()
   const onConfirmQuestion = () => {
-    dispatch(askQuestion())
+    dispatch(askQuestion(requestToAsk))
   }
   const renderContact = (contact) => {
     return (
@@ -120,6 +122,14 @@ const Preview = () => {
       </View>
     </View>
   )
+}
+
+Preview.propTypes = {
+  route: PropTypes.object.isRequired,
+}
+
+Preview.defaultProps = {
+  route: {},
 }
 
 export default Preview

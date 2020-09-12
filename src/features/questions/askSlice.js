@@ -7,7 +7,7 @@ import { getQuestions } from './questionsSlice'
 
 export const askQuestion = createAsyncThunk(
   'ask/submit',
-  async (_, { getState, dispatch }) => {
+  async (requestToAsk, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const { question, contacts, isAnonymous } = state.ask
@@ -19,6 +19,7 @@ export const askQuestion = createAsyncThunk(
         contacts,
         userPhoneNumber: user.phoneNumber,
         isAnonymous,
+        requestToAsk,
       },
     })
     dispatch(getQuestions())

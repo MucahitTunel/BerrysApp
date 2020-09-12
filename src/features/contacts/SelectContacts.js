@@ -8,7 +8,7 @@ import { setAskContacts } from 'features/questions/askSlice'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
-  const onPressSubmit = (contacts) => {
+  const onPressSubmit = (contacts, request) => {
     const MIN_NUM_CONTACTS = 3
     if (contacts.length < MIN_NUM_CONTACTS) {
       return Alert.alert(
@@ -17,7 +17,9 @@ const SelectContacts = (props) => {
       )
     }
     dispatch(setAskContacts(contacts))
-    return NavigationService.navigate(Constants.Screens.Preview)
+    return NavigationService.navigate(Constants.Screens.Preview, {
+      requestToAsk: request,
+    })
   }
 
   return (
