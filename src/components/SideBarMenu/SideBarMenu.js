@@ -67,6 +67,17 @@ const SideBarMenu = ({ navigation }) => {
           <TouchableOpacity
             style={styles.menuItem}
             onPress={() =>
+              navigateToScreen(Constants.Screens.ImportGmailContactsStack)
+            }>
+            <AppText
+              text="Import Gmail contacts"
+              fontSize={Constants.Styles.FontSize.large}
+              color={Constants.Colors.text}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() =>
               navigateToScreen(Constants.Screens.FollowContactsStack)
             }>
             <AppText

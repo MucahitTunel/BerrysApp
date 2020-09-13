@@ -18,4 +18,6 @@ export default {
   ReportStack: 'ReportStack',
   RequestContactsToAsk: 'RequestContactsToAskScreen',
   RequestToAsk: 'RequestToAskScreen',
+  ImportGmailContacts: 'ImportGmailContactsScreen',
+  ImportGmailContactsStack: 'ImportGmailContactsStack',
 }

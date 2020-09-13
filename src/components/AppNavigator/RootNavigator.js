@@ -17,6 +17,7 @@ import Splash from 'features/auth/Splash'
 import PhoneVerification from 'features/auth/PhoneVerification'
 import Main from 'features/questions/Main'
 import FollowContacts from 'features/contacts/FollowContacts'
+import ImportGmailContacts from 'features/contacts/ImportGmailContacts'
 import Report from 'features/report/Report'
 import SelectContacts from 'features/contacts/SelectContacts'
 import RequestContactsToAsk from 'features/contacts/RequestContactsToAsk'
@@ -133,6 +134,23 @@ const MainStack = () => (
   </Stack.Navigator>
 )
 
+const ImportGmailContactsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Constants.Screens.ImportGmailContacts}
+      component={ImportGmailContacts}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Import Gmail Contacts"
+            headerLeft={<MenuButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+)
+
 const FollowContactsStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -181,6 +199,10 @@ const RootNavigator = () => {
       initialRouteName={Constants.Screens.Main}
       drawerContent={(props) => <SideBarMenu {...props} />}>
       <Drawer.Screen name={Constants.Screens.MainStack} component={MainStack} />
+      <Drawer.Screen
+        name={Constants.Screens.ImportGmailContactsStack}
+        component={ImportGmailContactsStack}
+      />
       <Drawer.Screen
         name={Constants.Screens.FollowContactsStack}
         component={FollowContactsStack}
