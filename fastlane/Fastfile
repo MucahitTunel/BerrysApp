@@ -151,7 +151,8 @@ platform :android do
         strings['app_name'] = ENV['ANDROID_APP_NAME']
       }
     )
-    # sh("cp ../android/app/#{ENV['GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
+    # select google-services.json file
+    sh("cp ../android/app/#{ENV['ANDROID_GOOGLE_SERVICES_FILE']} ../android/app/google-services.json")
   end
 
   lane :build do
