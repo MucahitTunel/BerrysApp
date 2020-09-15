@@ -95,6 +95,7 @@ platform :ios do
       plist_path: "BerrysShare/Info.plist",
       app_identifier: "#{ENV['IOS_APP_ID']}.BerrysShare"
     )
+    # update app identifier for OneSignalNotificationServiceExtension
     update_app_identifier(
       xcodeproj: xcodeproj,
       plist_path: "OneSignalNotificationServiceExtension/Info.plist",
@@ -104,7 +105,13 @@ platform :ios do
     host_app_id_updated = "let hostAppBundleIdentifier = \\\"#{ENV['IOS_APP_ID']}\\\""
     puts "host_app_id_updated " + host_app_id_updated
     sh("sed -i '' \"s|.*#{host_app_id_def}.*|#{host_app_id_updated}|\" ../ios/BerrysShare/ShareViewController.swift")
-    # sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
+    # select GoogleService-Info.plist file
+    sh("cp ../ios/#{ENV['IOS_PROJECT_NAME']}/#{ENV['IOS_GOOGLE_PLIST_FILE']} ../ios/#{ENV['IOS_PROJECT_NAME']}/GoogleService-Info.plist")
+    # update URL schemes (for google login configuration)
+    update_url_schemes(
+      path: "ios/#{ENV['IOS_PROJECT_NAME']}/Info.plist",
+      url_schemes: ["#{ENV['GOOGLE_REVERSE_CLIENT_ID']}"]
+    )
   end
 
   lane :deploy_to_appcenter do

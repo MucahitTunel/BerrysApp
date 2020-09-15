@@ -93,6 +93,8 @@ target 'Berrys' do
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
+  pod 'GoogleSignIn', '~> 5.0.2'
+
   target 'BerrysTests' do
     inherit! :complete
     # Pods for testing

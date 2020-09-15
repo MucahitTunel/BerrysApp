@@ -18,6 +18,7 @@
 		22FEA2DF24C2F07C00DF1261 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FEA2DE24C2F07C00DF1261 /* ShareViewController.swift */; };
 		22FEA2E224C2F07C00DF1261 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FEA2E024C2F07C00DF1261 /* MainInterface.storyboard */; };
 		22FEA2E624C2F07C00DF1261 /* BerrysShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 22FEA2DC24C2F07C00DF1261 /* BerrysShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		22FF2DAB250E9EF4002E082D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22FF2DAA250E9EF4002E082D /* GoogleService-Info.plist */; };
 		313A08E644640C9EBAB8FFE1 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E21B28C2063DCB7FEDEC299 /* libPods-OneSignalNotificationServiceExtension.a */; };
 		4E6B86CC48184778978990BC /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E403D0848F8D4C409F4A1A7F /* icomoon.ttf */; };
 		5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07FFF44C4F284C8F86C8AB27 /* Lato-Light.ttf */; };
@@ -96,6 +97,7 @@
 		22FEA2E124C2F07C00DF1261 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		22FEA2E324C2F07C00DF1261 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22FEA2EB24C2F10200DF1261 /* BerrysShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BerrysShare.entitlements; sourceTree = "<group>"; };
+		22FF2DAA250E9EF4002E082D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Berrys/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2F04990EB9024D4CA5AF2415 /* icomoon.woff */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.woff; path = ../src/assets/fonts/icomoon.woff; sourceTree = "<group>"; };
 		32678E74B1ABC5DFD6BF818C /* Pods-Berrys-BerrysTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-BerrysTests.debug.xcconfig"; path = "Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests.debug.xcconfig"; sourceTree = "<group>"; };
 		399EA54E321F4A3FB977FD99 /* icomoon.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = icomoon.svg; path = ../src/assets/fonts/icomoon.svg; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */,
+				22FF2DAA250E9EF4002E082D /* GoogleService-Info.plist */,
 			);
 			name = Berrys;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */,
 				A9C6DA66B1A34191820574BC /* Lato-Black.ttf in Resources */,
 				FD979BD14A74410387EEFBC9 /* Lato-Bold.ttf in Resources */,
+				22FF2DAB250E9EF4002E082D /* GoogleService-Info.plist in Resources */,
 				5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */,
 				FD5DD9C1A647430C91E4B32A /* Lato-Regular.ttf in Resources */,
 			);
@@ -495,6 +499,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -514,6 +519,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -587,6 +593,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -606,6 +613,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
