@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StatusBar, StyleSheet, View, Text } from 'react-native'
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -18,19 +18,22 @@ const styles = StyleSheet.create({
 })
 
 const ImportGmailContacts = () => {
+  const [userInfo, setUserInfo] = useState(null)
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/contacts.readonly'],
       webClientId: Config.GOOGLE_WEB_CLIENT_ID,
     })
   })
+
   const onPressLoginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices()
-      const userInfo = await GoogleSignin.signIn()
-      console.log('userInfo')
-      console.log(userInfo)
+      const info = await GoogleSignin.signIn()
+      setUserInfo(info)
     } catch (error) {
+      console.log('ERROR - onPressLoginWithGoogle')
+      console.log(error)
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -42,10 +45,20 @@ const ImportGmailContacts = () => {
       }
     }
   }
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <GoogleSigninButton onPress={onPressLoginWithGoogle} />
+      <View>
+        <Text>userInfo</Text>
+      </View>
+      {userInfo && (
+        <View>
+          <Text>{JSON.stringify(userInfo)}</Text>
+          <Text>{userInfo.idToken}</Text>
+        </View>
+      )}
     </View>
   )
 }
