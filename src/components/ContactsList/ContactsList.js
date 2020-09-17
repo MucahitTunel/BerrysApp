@@ -80,13 +80,24 @@ const ContactsList = ({
   )
   const onChangeSearchText = (value) => setSearchText(value)
   const onSelectContact = (item) => {
-    const existed = contacts.find((c) => c.phoneNumber === item.phoneNumber)
+    const existed = contacts.find(
+      (c) =>
+        (c.phoneNumber &&
+          item.phoneNumber &&
+          c.phoneNumber === item.phoneNumber) ||
+        (c.email && item.email && c.email === item.email),
+    )
     const newValue = !item[checkCondition]
     let res
     if (!singleSelect) {
       if (existed) {
         res = contacts.map((c) => {
-          if (c.phoneNumber === item.phoneNumber) {
+          if (
+            (c.phoneNumber &&
+              item.phoneNumber &&
+              c.phoneNumber === item.phoneNumber) ||
+            (c.email && item.email && c.email === item.email)
+          ) {
             return {
               ...c,
               [checkCondition]: newValue,
@@ -181,13 +192,21 @@ const ContactsList = ({
   if (searchText) {
     searchRes = allContacts.filter((c) => {
       const regex = new RegExp(searchText, 'gmi')
-      return regex.test(c.name) || regex.test(c.phoneNumber)
+      return (
+        regex.test(c.name) || regex.test(c.phoneNumber) || regex.test(c.email)
+      )
     })
   } else {
     searchRes = allContacts
   }
   const contactsToRender = searchRes.map((contact) => {
-    const existed = contacts.find((c) => c.phoneNumber === contact.phoneNumber)
+    const existed = contacts.find(
+      (c) =>
+        (c.phoneNumber &&
+          contact.phoneNumber &&
+          c.phoneNumber === contact.phoneNumber) ||
+        (c.email && contact.email && c.email === contact.email),
+    )
     return existed || contact
   })
   const activeContacts = contactsToRender.filter((c) => !!c.isAppUser)
