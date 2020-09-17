@@ -218,13 +218,14 @@ const ContactsList = ({
   })
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
+  const placeholder = `Search in ${allContacts.length} contacts ...`
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.searchView}>
         <AppIcon name="search" color={Constants.Colors.gray} size={20} />
         <TextInput
-          placeholder="Search..."
+          placeholder={placeholder}
           style={styles.searchInput}
           value={searchText}
           onChangeText={onChangeSearchText}
