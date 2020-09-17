@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { StatusBar, StyleSheet, View, Text } from 'react-native'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { StatusBar, StyleSheet, View } from 'react-native'
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -7,18 +8,20 @@ import {
 } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
 import Constants from 'constants'
+import { fetchContactsFromGoogle } from 'features/contacts/contactsSlice'
 
 const styles = StyleSheet.create({
   container: {
     height: Constants.Dimensions.Height,
     width: Constants.Dimensions.Width,
     backgroundColor: Constants.Colors.grayLight,
+    alignItems: 'center',
     flex: 1,
   },
 })
 
 const ImportGmailContacts = () => {
-  const [userInfo, setUserInfo] = useState(null)
+  const dispatch = useDispatch()
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/contacts.readonly'],
@@ -29,8 +32,10 @@ const ImportGmailContacts = () => {
   const onPressLoginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices()
-      const info = await GoogleSignin.signIn()
-      setUserInfo(info)
+      await GoogleSignin.signIn()
+      const tokens = await GoogleSignin.getTokens()
+      const { accessToken } = tokens
+      dispatch(fetchContactsFromGoogle(accessToken))
     } catch (error) {
       console.log('ERROR - onPressLoginWithGoogle')
       console.log(error)
@@ -50,15 +55,6 @@ const ImportGmailContacts = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <GoogleSigninButton onPress={onPressLoginWithGoogle} />
-      <View>
-        <Text>userInfo</Text>
-      </View>
-      {userInfo && (
-        <View>
-          <Text>{JSON.stringify(userInfo)}</Text>
-          <Text>{userInfo.idToken}</Text>
-        </View>
-      )}
     </View>
   )
 }

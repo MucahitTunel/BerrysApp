@@ -29,13 +29,14 @@ const handleError = (e) => {
   throw error
 }
 
-const request = async ({ url, method, data, params }) => {
+const request = async ({ url, method, data, params, headers }) => {
   try {
     const res = await instance.request({
       method,
       url,
       data,
       params,
+      headers,
     })
     return res
   } catch (e) {
