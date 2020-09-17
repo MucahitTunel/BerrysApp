@@ -204,21 +204,19 @@ export const requestToAsk = createAsyncThunk(
   async (contacts, { getState }) => {
     const state = getState()
     const user = state.auth.user
-    const receivers = contacts
-      .filter((c) => c.isSelected)
-      .map((c) => ({ phoneNumber: c.phoneNumber }))
+    const selectedContacts = contacts.filter((c) => c.isSelected)
     await request({
       method: 'POST',
       url: 'account/request-to-ask',
       data: {
-        receivers,
+        contacts: selectedContacts,
         userPhoneNumber: user.phoneNumber,
       },
     })
     setTimeout(() => {
       Alert.alert(
         'Success',
-        `You invited ${receivers.length} people to ask you their questions`,
+        `You invited ${selectedContacts.length} people to ask you their questions`,
       )
     }, 500)
     NavigationService.navigate(Constants.Screens.Main)
