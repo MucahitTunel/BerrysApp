@@ -69,9 +69,9 @@ export const fetchContactsFromGoogle = createAsyncThunk(
     const allContacts = [...allConnections, ...allOtherContacts]
     const gmailContacts = allContacts.map((c) => {
       const { names, phoneNumbers, emailAddresses } = c
-      const name = names?.[0]?.displayName
       const phoneNumber = phoneNumbers?.[0]?.canonicalForm
       const email = emailAddresses?.[0]?.value
+      const name = names?.[0]?.displayName || email
       return {
         name,
         phoneNumber,
