@@ -7,6 +7,21 @@ import { getQuestions } from 'features/questions/questionsSlice'
 import { getPhoneBookContacts, formatContacts } from './helpers'
 import uniqueId from 'lodash/uniqueId'
 
+const getOtherContacts = async (accessToken, pageToken) => {
+  const { data } = await request({
+    method: 'GET',
+    url: 'https://people.googleapis.com/v1/otherContacts',
+    params: {
+      readMask: 'names,emailAddresses,phoneNumbers',
+      pageSize: 1000,
+      pageToken,
+    },
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+  const { otherContacts, nextPageToken } = data
+  return { otherContacts, nextPageToken }
+}
+
 const getConnections = async (accessToken, pageToken) => {
   const { data } = await request({
     method: 'GET',
@@ -27,6 +42,7 @@ export const fetchContactsFromGoogle = createAsyncThunk(
   async (accessToken, { getState, dispatch }) => {
     const state = getState()
     const contacts = state.contacts.data
+    // fetch connections
     const allConnections = []
     let connections = []
     let nextPageToken = null
@@ -39,7 +55,19 @@ export const fetchContactsFromGoogle = createAsyncThunk(
       totalItems = data.totalItems
       allConnections.push(...connections)
     } while (nextPageToken && allConnections.length < totalItems)
-    const gmailContacts = allConnections.map((c) => {
+    // fetch other contacts
+    const allOtherContacts = []
+    nextPageToken = null
+    let otherContacts = []
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      const data = await getOtherContacts(accessToken, nextPageToken)
+      otherContacts = data.otherContacts
+      nextPageToken = data.nextPageToken
+      allOtherContacts.push(...otherContacts)
+    } while (nextPageToken)
+    const allContacts = [...allConnections, ...allOtherContacts]
+    const gmailContacts = allContacts.map((c) => {
       const { names, phoneNumbers, emailAddresses } = c
       const name = names?.[0]?.displayName
       const phoneNumber = phoneNumbers?.[0]?.canonicalForm

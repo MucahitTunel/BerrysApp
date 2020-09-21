@@ -24,7 +24,10 @@ const ImportGmailContacts = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/contacts.readonly'],
+      scopes: [
+        'https://www.googleapis.com/auth/contacts.readonly',
+        'https://www.googleapis.com/auth/contacts.other.readonly',
+      ],
       webClientId: Config.GOOGLE_WEB_CLIENT_ID,
     })
   })
