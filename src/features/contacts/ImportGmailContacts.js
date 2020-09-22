@@ -35,10 +35,13 @@ const ImportGmailContacts = () => {
   const onPressLoginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices()
-      await GoogleSignin.signIn()
+      const userInfo = await GoogleSignin.signIn()
+      const {
+        user: { email },
+      } = userInfo
       const tokens = await GoogleSignin.getTokens()
       const { accessToken } = tokens
-      dispatch(fetchContactsFromGoogle(accessToken))
+      dispatch(fetchContactsFromGoogle({ accessToken, email }))
     } catch (error) {
       console.log('ERROR - onPressLoginWithGoogle')
       console.log(error)

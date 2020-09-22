@@ -6,6 +6,7 @@ import * as NavigationService from 'services/navigation'
 import { getQuestions } from 'features/questions/questionsSlice'
 import { getPhoneBookContacts, formatContacts } from './helpers'
 import uniqueId from 'lodash/uniqueId'
+import uniqBy from 'lodash/uniqBy'
 
 const getOtherContacts = async (accessToken, pageToken) => {
   const { data } = await request({
@@ -39,7 +40,7 @@ const getConnections = async (accessToken, pageToken) => {
 
 export const fetchContactsFromGoogle = createAsyncThunk(
   'contacts/fetchFromGoogle',
-  async (accessToken, { getState, dispatch }) => {
+  async ({ accessToken, email: userEmail }, { getState, dispatch }) => {
     const state = getState()
     const contacts = state.contacts.data
     // fetch connections
@@ -76,6 +77,10 @@ export const fetchContactsFromGoogle = createAsyncThunk(
         name,
         phoneNumber,
         email,
+        data: {
+          userEmail,
+          isGmailContact: true,
+        },
       }
     })
     const newContactsPhoneNumber = gmailContacts.filter((gc) => {
@@ -96,11 +101,11 @@ export const fetchContactsFromGoogle = createAsyncThunk(
       }),
     )
     if (newContacts.length === 0) {
-      Alert.alert('Warning', 'No new contacts found from Google')
+      Alert.alert('Warning', 'No contacts found from Google')
     } else {
       Alert.alert(
         'Success',
-        `Successfully updated ${newContacts.length} new contacts from Google`,
+        `Successfully updated ${newContacts.length} contacts from Google`,
       )
     }
     dispatch(saveContacts(newContacts))
