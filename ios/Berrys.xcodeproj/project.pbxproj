@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* BerrysTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BerrysTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1F9EC23AB73C06C03EFA77DF /* libPods-Berrys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC10A8E61DED30B2895083D /* libPods-Berrys.a */; };
@@ -17,6 +16,7 @@
 		220F33F52543FC6F00C4012F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220F33F42543FC6F00C4012F /* File.swift */; };
 		227EA57C24D51B29003DDD4B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227EA57B24D51B29003DDD4B /* NotificationService.swift */; };
 		227EA58024D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 227EA57924D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		22BD859E254452E40055129E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22BD859D254452E40055129E /* LaunchScreen.storyboard */; };
 		22FEA2DF24C2F07C00DF1261 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FEA2DE24C2F07C00DF1261 /* ShareViewController.swift */; };
 		22FEA2E224C2F07C00DF1261 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22FEA2E024C2F07C00DF1261 /* MainInterface.storyboard */; };
 		22FEA2E624C2F07C00DF1261 /* BerrysShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 22FEA2DC24C2F07C00DF1261 /* BerrysShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -83,7 +83,6 @@
 		13B07F961A680F5B00A75B9A /* Berrys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Berrys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Berrys/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Berrys/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Berrys/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Berrys/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Berrys/main.m; sourceTree = "<group>"; };
@@ -96,6 +95,7 @@
 		227EA57924D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		227EA57B24D51B29003DDD4B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		227EA57D24D51B29003DDD4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22BD859D254452E40055129E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Berrys/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22FEA2D724C2D45A00DF1261 /* Berrys.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Berrys.entitlements; path = Berrys/Berrys.entitlements; sourceTree = "<group>"; };
 		22FEA2DC24C2F07C00DF1261 /* BerrysShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BerrysShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		22FEA2DE24C2F07C00DF1261 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -186,13 +186,13 @@
 		13B07FAE1A68108700A75B9A /* Berrys */ = {
 			isa = PBXGroup;
 			children = (
+				22BD859D254452E40055129E /* LaunchScreen.storyboard */,
 				22FEA2D724C2D45A00DF1261 /* Berrys.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */,
 				22FF2DAA250E9EF4002E082D /* GoogleService-Info.plist */,
@@ -456,7 +456,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				594928BF3063488EBD7F3CC8 /* icomoon.svg in Resources */,
 				9682D876ED5E418A9051C64B /* FjallaOne-Regular.ttf in Resources */,
 				4E6B86CC48184778978990BC /* icomoon.ttf in Resources */,
@@ -465,6 +464,7 @@
 				FD979BD14A74410387EEFBC9 /* Lato-Bold.ttf in Resources */,
 				22FF2DAB250E9EF4002E082D /* GoogleService-Info.plist in Resources */,
 				5612CB6B981F4526B7BE34E1 /* Lato-Light.ttf in Resources */,
+				22BD859E254452E40055129E /* LaunchScreen.storyboard in Resources */,
 				FD5DD9C1A647430C91E4B32A /* Lato-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +525,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -545,6 +546,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -619,6 +621,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -639,6 +642,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -745,15 +749,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = Berrys;
-			sourceTree = "<group>";
-		};
 		22FEA2E024C2F07C00DF1261 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
