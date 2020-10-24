@@ -13,6 +13,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1F9EC23AB73C06C03EFA77DF /* libPods-Berrys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC10A8E61DED30B2895083D /* libPods-Berrys.a */; };
+		220F33EE2543FC3100C4012F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220F33ED2543FC3100C4012F /* File.swift */; };
+		220F33F52543FC6F00C4012F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220F33F42543FC6F00C4012F /* File.swift */; };
 		227EA57C24D51B29003DDD4B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227EA57B24D51B29003DDD4B /* NotificationService.swift */; };
 		227EA58024D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 227EA57924D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22FEA2DF24C2F07C00DF1261 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FEA2DE24C2F07C00DF1261 /* ShareViewController.swift */; };
@@ -88,6 +90,9 @@
 		168A5E8C769161DCE003B7AD /* libPods-Berrys-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F057E8E1F4CE3EAB254AB40 /* Pods-Berrys-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Berrys-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Berrys-tvOS/Pods-Berrys-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		20D0E0784F684334B7E536B9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		220F33ED2543FC3100C4012F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = Berrys/File.swift; sourceTree = "<group>"; };
+		220F33F32543FC6F00C4012F /* BerrysTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BerrysTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		220F33F42543FC6F00C4012F /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		227EA57924D51B29003DDD4B /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		227EA57B24D51B29003DDD4B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		227EA57D24D51B29003DDD4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -164,6 +169,8 @@
 			children = (
 				00E356F21AD99517003FC87E /* BerrysTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
+				220F33F42543FC6F00C4012F /* File.swift */,
+				220F33F32543FC6F00C4012F /* BerrysTests-Bridging-Header.h */,
 			);
 			path = BerrysTests;
 			sourceTree = "<group>";
@@ -189,6 +196,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */,
 				22FF2DAA250E9EF4002E082D /* GoogleService-Info.plist */,
+				220F33ED2543FC3100C4012F /* File.swift */,
 			);
 			name = Berrys;
 			sourceTree = "<group>";
@@ -393,6 +401,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1210;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -685,6 +694,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* BerrysTests.m in Sources */,
+				220F33F52543FC6F00C4012F /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,6 +703,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				220F33EE2543FC3100C4012F /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,7 +769,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5612032BFDFE870A832EE47F /* Pods-Berrys-BerrysTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -777,6 +790,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BerrysTests/BerrysTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Debug;
@@ -785,7 +801,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 652B183153DD9DEB6264A975 /* Pods-Berrys-BerrysTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = BerrysTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -801,6 +819,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BerrysTests/BerrysTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Release;
