@@ -1,8 +1,24 @@
 import React from 'react'
-import { Alert } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { ContactsList } from 'components'
+import { ContactsList, AppButton } from 'components'
 import { requestToAsk } from 'features/auth/authSlice'
+import Constants from 'constants'
+
+const styles = StyleSheet.create({
+  container: {
+    height: Constants.Dimensions.Height,
+    width: Constants.Dimensions.Width,
+    backgroundColor: Constants.Colors.grayLight,
+    flex: 1,
+  },
+  footer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    backgroundColor: Constants.Colors.white,
+  },
+})
 
 const RequestContactsToAsk = (props) => {
   const dispatch = useDispatch()
@@ -18,11 +34,22 @@ const RequestContactsToAsk = (props) => {
   }
 
   return (
-    <ContactsList
-      onPressSubmit={onPressSubmit}
-      checkCondition="isSelected"
-      {...props}
-    />
+    <View style={styles.container}>
+      <ContactsList
+        onPressSubmit={onPressSubmit}
+        checkCondition="isSelected"
+        {...props}
+      />
+      <View style={styles.footer}>
+        <AppButton
+          onPress={() => {}}
+          text="Copy URL"
+          backgroundColor={Constants.Colors.primary}
+          color={Constants.Colors.white}
+          borderRadius={Constants.Styles.BorderRadius.small}
+        />
+      </View>
+    </View>
   )
 }
 
