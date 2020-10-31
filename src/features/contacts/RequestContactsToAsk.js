@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
-import { useDispatch } from 'react-redux'
+import Clipboard from '@react-native-community/clipboard'
+import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList, AppButton } from 'components'
 import { requestToAsk } from 'features/auth/authSlice'
 import Constants from 'constants'
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 })
 
 const RequestContactsToAsk = (props) => {
+  const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
   const onPressSubmit = (contacts) => {
     const MIN_NUM_CONTACTS = 3
@@ -32,6 +34,11 @@ const RequestContactsToAsk = (props) => {
     }
     dispatch(requestToAsk(contacts))
   }
+  const onPressCopyURL = () => {
+    const url = `https://api.berrysapp.com/app/chat/${user._id}`
+    Clipboard.setString(url)
+    Alert.alert('Success', 'The URL has been copied to clipboard')
+  }
 
   return (
     <View style={styles.container}>
@@ -42,7 +49,7 @@ const RequestContactsToAsk = (props) => {
       />
       <View style={styles.footer}>
         <AppButton
-          onPress={() => {}}
+          onPress={onPressCopyURL}
           text="Copy URL"
           backgroundColor={Constants.Colors.primary}
           color={Constants.Colors.white}
