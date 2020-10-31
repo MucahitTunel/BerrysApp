@@ -92,7 +92,8 @@ const Conversation = ({ navigation }) => {
   const user = useSelector((state) => state.auth.user)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
-  const description = getConversationName(room).description
+  const description =
+    room && room._id ? getConversationName(room).description : 'description'
 
   useEffect(() => {
     if (room && room._id) {

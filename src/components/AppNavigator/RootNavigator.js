@@ -28,6 +28,7 @@ import Conversation from 'features/messages/Conversation'
 import MessageContacts from 'features/messages/MessageContacts'
 import Survey from 'features/auth/Survey'
 import RequestToAsk from 'features/questions/RequestToAsk'
+import DirectMessage from 'features/messages/DirectMessage'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -130,6 +131,10 @@ const MainStack = () => (
           />
         ),
       })}
+    />
+    <Stack.Screen
+      name={Constants.Screens.DirectMessage}
+      component={DirectMessage}
     />
   </Stack.Navigator>
 )

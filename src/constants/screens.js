@@ -20,4 +20,5 @@ export default {
   RequestToAsk: 'RequestToAskScreen',
   ImportGmailContacts: 'ImportGmailContactsScreen',
   ImportGmailContactsStack: 'ImportGmailContactsStack',
+  DirectMessage: 'DirectMessageScreen',
 }

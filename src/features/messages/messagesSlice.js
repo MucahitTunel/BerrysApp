@@ -20,6 +20,30 @@ const roomSortFunction = (room1, room2) => {
   }
 }
 
+export const directMessage = createAsyncThunk(
+  'messages/directMessage',
+  async ({ userId }, { dispatch }) => {
+    const { data } = await request({
+      method: 'GET',
+      url: '/account/get-user-phone-number',
+      params: {
+        userId,
+      },
+    })
+    const { user } = data
+    if (user && user.phoneNumber) {
+      dispatch(
+        joinRoom({
+          phoneNumber: user.phoneNumber,
+        }),
+      )
+    } else {
+      Alert.alert('Error', `Cannot get phone number for user with ID ${userId}`)
+    }
+    return true
+  },
+)
+
 export const joinRoom = createAsyncThunk(
   'messages/joinRoom',
   async (
