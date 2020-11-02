@@ -6,14 +6,15 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:api.berrysapp.com?mode=developer</string>
+		<string>applinks:api.berrysapp.com</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.berrys.nickapp</string>
 		<string>group.com.berrys.nickapp.dev</string>
-		<string>group.com.berrys.nickapp.staging</string>
 		<string>group.com.berrys.nickapp.onesignal</string>
+		<string>group.com.berrys.nickapp.staging</string>
+		<string>group.com.berrys.nickapp.shareextension</string>
 	</array>
 </dict>
 </plist>

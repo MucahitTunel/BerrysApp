@@ -28,9 +28,7 @@ platform :ios do
   lane :certificates do |options|
     match(
       app_identifier: [
-        ENV['IOS_APP_ID'],
-        "#{ENV['IOS_APP_ID']}.BerrysShare",
-        "#{ENV['IOS_APP_ID']}.OneSignalNotificationServiceExtension"
+        ENV['IOS_APP_ID']
       ],
       shallow_clone: true,
       clone_branch_directly: true,

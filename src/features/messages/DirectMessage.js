@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { View, Text, StyleSheet } from 'react-native'
 import { directMessage } from 'features/messages/messagesSlice'
+import { Loading } from 'components'
 import Constants from 'constants'
 import PropTypes from 'prop-types'
 
@@ -24,10 +25,9 @@ const DirectMessage = ({ route }) => {
   }, [route, dispatch])
   return (
     <View style={styles.container}>
-      <Text style={{ padding: 50 }}>
-        Navigating to conversation with user "
-        {route && route.params && route.params.userId}" ...
-      </Text>
+      <View style={{ padding: 30 }}>
+        <Loading />
+      </View>
     </View>
   )
 }
