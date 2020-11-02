@@ -135,6 +135,7 @@ const MainStack = () => (
     <Stack.Screen
       name={Constants.Screens.DirectMessage}
       component={DirectMessage}
+      options={{ headerShown: false }}
     />
   </Stack.Navigator>
 )
@@ -199,36 +200,43 @@ const RootNavigator = () => {
   if (user && user.isNew && !user.survey) {
     return <SurveyStack />
   }
-  return user && !user.isVerifying ? (
-    <Drawer.Navigator
-      initialRouteName={Constants.Screens.Main}
-      drawerContent={(props) => <SideBarMenu {...props} />}>
-      <Drawer.Screen name={Constants.Screens.MainStack} component={MainStack} />
-      <Drawer.Screen
-        name={Constants.Screens.ImportGmailContactsStack}
-        component={ImportGmailContactsStack}
-      />
-      <Drawer.Screen
-        name={Constants.Screens.FollowContactsStack}
-        component={FollowContactsStack}
-      />
-      <Drawer.Screen
-        name={Constants.Screens.ReportStack}
-        component={ReportStack}
-      />
-    </Drawer.Navigator>
-  ) : (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        name={Constants.Screens.Onboarding}
-        component={Onboarding}
-      />
-      <Stack.Screen
-        name={Constants.Screens.PhoneVerification}
-        component={PhoneVerification}
-      />
-    </Stack.Navigator>
-  )
+  if (user && !user.isVerifying) {
+    return (
+      <Drawer.Navigator
+        initialRouteName={Constants.Screens.MainStack}
+        drawerContent={(props) => <SideBarMenu {...props} />}>
+        <Drawer.Screen
+          name={Constants.Screens.MainStack}
+          component={MainStack}
+        />
+        <Drawer.Screen
+          name={Constants.Screens.ImportGmailContactsStack}
+          component={ImportGmailContactsStack}
+        />
+        <Drawer.Screen
+          name={Constants.Screens.FollowContactsStack}
+          component={FollowContactsStack}
+        />
+        <Drawer.Screen
+          name={Constants.Screens.ReportStack}
+          component={ReportStack}
+        />
+      </Drawer.Navigator>
+    )
+  } else {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name={Constants.Screens.Onboarding}
+          component={Onboarding}
+        />
+        <Stack.Screen
+          name={Constants.Screens.PhoneVerification}
+          component={PhoneVerification}
+        />
+      </Stack.Navigator>
+    )
+  }
 }
 
 export default RootNavigator

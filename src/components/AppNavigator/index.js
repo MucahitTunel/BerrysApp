@@ -21,7 +21,7 @@ const AppNavigator = () => {
     // Custom function to subscribe to incoming links
     subscribe(listener) {
       // First, you may want to do the default deep link handling
-      const onReceiveURL = ({ url }: { url: string }) => {
+      const onReceiveURL = ({ url }) => {
         console.log('onReceiveURL', url)
         listener(url)
       }
@@ -34,11 +34,14 @@ const AppNavigator = () => {
         Linking.removeEventListener('url', onReceiveURL)
       }
     },
-
     config: {
       // Deep link configuration
       screens: {
-        [Constants.Screens.DirectMessage]: 'app/chat/:userId',
+        [Constants.Screens.MainStack]: {
+          screens: {
+            [Constants.Screens.DirectMessage]: 'app/chat/:userId',
+          },
+        },
       },
     },
   }

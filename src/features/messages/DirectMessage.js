@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { directMessage } from 'features/messages/messagesSlice'
 import { Loading } from 'components'
 import Constants from 'constants'
@@ -25,7 +25,7 @@ const DirectMessage = ({ route }) => {
   }, [route, dispatch])
   return (
     <View style={styles.container}>
-      <View style={{ padding: 30 }}>
+      <View style={{ paddingTop: 100 }}>
         <Loading />
       </View>
     </View>
