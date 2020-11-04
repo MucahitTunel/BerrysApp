@@ -27,7 +27,7 @@ source fastlane/.env.${APP_ENV}
 FILE_ROOT="__secrets__/app_secrets_with_paths_${APP_ENV}"
 
 # Select files to put in the archive
-SECRETS_TO_PACK="fastlane/.env.${APP_ENV} android/app/${GRADLE_KEYSTORE}"
+SECRETS_TO_PACK="fastlane/.env.${APP_ENV} android/app/${GRADLE_KEYSTORE} ios/${IOS_PROJECT_NAME}/${IOS_GOOGLE_PLIST_FILE} android/app/${ANDROID_GOOGLE_SERVICES_FILE}"
 
 # Create archive
 tar -cvzf $FILE_ROOT.tar.gz $SECRETS_TO_PACK
