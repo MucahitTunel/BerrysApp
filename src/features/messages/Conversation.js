@@ -132,8 +132,8 @@ const Conversation = ({ navigation }) => {
     )
     setMessage('')
     const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
-    const msg = `${user.phoneNumber}: ${message}`
-    sendPushNotification(otherUserNumber, msg)
+    // const msg = `${user.phoneNumber}: ${message}`
+    sendPushNotification(otherUserNumber, message)
     keyboardHeight.current = new Animated.Value(0)
     Keyboard.dismiss()
   }
