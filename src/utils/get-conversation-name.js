@@ -19,6 +19,9 @@ export const getConversationName = (room) => {
   const otherUserPhoneNumber = members.find((m) => m !== user.phoneNumber)
   const isRoomCreator = phoneNumber === createdBy
   const isFromQuestionPage = customData && customData.isFromQuestionPage
+  const isFromContactsList = customData && customData.isFromContactsList
+  const linkOwnerName = customData && customData.linkOwnerName
+  const isFromAskMeAnything = customData && customData.isFromAskMeAnything
   const number = getNumberFromCreatedAt(phoneNumber, createdAt)
   if (isFromQuestionPage) {
     // conversation starts from Question page
@@ -26,7 +29,8 @@ export const getConversationName = (room) => {
       title: `Anonymous ${number}`,
       description: anonymous,
     }
-  } else {
+  }
+  if (isFromContactsList) {
     // conversation starts by 1 user (roomCreator)
     if (isRoomCreator) {
       // this is the room creator
@@ -41,6 +45,37 @@ export const getConversationName = (room) => {
       }
     } else {
       // not a room creator
+      return {
+        title: `Anonymous ${number}`,
+        description: notAnonymous,
+      }
+    }
+  }
+  if (isFromAskMeAnything) {
+    // conversation starts by 1 user (roomCreator)
+    if (isRoomCreator) {
+      // this is the room creator or the asker
+      if (linkOwnerName) {
+        return {
+          title: linkOwnerName,
+          description: anonymous,
+        }
+      } else if (data && data.length) {
+        const contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
+        if (contact && contact.name) {
+          return {
+            title: contact.name,
+            description: anonymous,
+          }
+        }
+      } else {
+        return {
+          title: 'UNKNOWN',
+          description: anonymous,
+        }
+      }
+    } else {
+      // this is the ask me anything link owner
       return {
         title: `Anonymous ${number}`,
         description: notAnonymous,

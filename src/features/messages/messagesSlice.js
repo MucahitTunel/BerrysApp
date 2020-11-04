@@ -25,7 +25,7 @@ export const directMessage = createAsyncThunk(
   async ({ userId }, { dispatch }) => {
     const { data } = await request({
       method: 'GET',
-      url: '/account/get-user-phone-number',
+      url: '/account/get-user-by-id',
       params: {
         userId,
       },
@@ -35,6 +35,8 @@ export const directMessage = createAsyncThunk(
       dispatch(
         joinRoom({
           phoneNumber: user.phoneNumber,
+          isFromAskMeAnything: true,
+          linkOwnerName: user.name,
         }),
       )
     } else {
@@ -47,7 +49,14 @@ export const directMessage = createAsyncThunk(
 export const joinRoom = createAsyncThunk(
   'messages/joinRoom',
   async (
-    { phoneNumber, isFromQuestionPage = false, questionId },
+    {
+      phoneNumber,
+      questionId,
+      isFromQuestionPage = false,
+      linkOwnerName,
+      isFromAskMeAnything = false,
+      isFromContactsList = false,
+    },
     { getState },
   ) => {
     const state = getState()
@@ -62,8 +71,11 @@ export const joinRoom = createAsyncThunk(
       data: {
         phoneNumber,
         userPhoneNumber: user.phoneNumber,
-        isFromQuestionPage,
         questionId,
+        isFromQuestionPage,
+        linkOwnerName,
+        isFromAskMeAnything,
+        isFromContactsList,
       },
     })
     const { room } = data

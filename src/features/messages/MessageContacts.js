@@ -17,6 +17,7 @@ const MessageContacts = (props) => {
     dispatch(
       joinRoom({
         phoneNumber: contact.phoneNumber,
+        isFromContactsList: true,
       }),
     )
   }
