@@ -6,14 +6,12 @@ import Fonts from 'assets/fonts'
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingHorizontal: 20,
-    marginBottom: 10,
+    paddingHorizontal: 10,
     borderRadius: 2,
-    fontSize: Styles.FontSize.large,
+    fontSize: Styles.FontSize.xLarge,
     color: Colors.white,
-    fontFamily: Fonts.latoRegular,
-    height: 50,
+    fontFamily: Fonts.euclidCircularARegular,
+    height: 56,
   },
 })
 

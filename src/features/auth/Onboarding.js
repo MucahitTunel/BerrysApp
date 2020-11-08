@@ -88,11 +88,12 @@ const Onboarding = () => {
                   <AppImage source={slide.image} width={190} height={194} />
                 </View>
                 <View style={Theme.Slider.textView}>
-                  <AppText text={slide.title} style={Theme.Slider.itemTitle} />
-                  <AppText
-                    text={slide.description}
-                    style={Theme.Slider.itemDescription}
-                  />
+                  <AppText text={slide.title} style={Theme.Slider.itemTitle}>
+                    {slide.title}
+                  </AppText>
+                  <AppText style={Theme.Slider.itemDescription}>
+                    {slide.description}
+                  </AppText>
                 </View>
               </View>
             )

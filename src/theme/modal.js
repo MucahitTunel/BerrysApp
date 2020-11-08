@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { Dimensions, Colors, Styles } from 'constants'
+import Fonts from 'assets/fonts'
 
 export default StyleSheet.create({
   modalView: {
@@ -10,6 +11,11 @@ export default StyleSheet.create({
   modalInnerView: {
     height: Dimensions.Height,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   closeBtn: {
     position: 'absolute',
     top: 10,
@@ -17,14 +23,8 @@ export default StyleSheet.create({
     padding: 10,
     zIndex: 1,
   },
-  header: {
-    color: Colors.white,
-    fontSize: Styles.FontSize.xLarge,
-    textAlign: 'center',
-    marginTop: 20,
-  },
   form: {
-    marginTop: 80,
+    marginTop: 54,
     marginBottom: 20,
   },
   bottomView: {
@@ -46,8 +46,9 @@ export default StyleSheet.create({
     fontStyle: 'italic',
   },
   phonePrefix: {
-    fontSize: 17,
-    marginTop: -10,
-    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: Styles.FontSize.xLarge,
+    color: Colors.white,
+    fontFamily: Fonts.euclidCircularAMedium,
+    marginRight: 4,
   },
 })

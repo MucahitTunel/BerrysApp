@@ -34,7 +34,15 @@ const styles = StyleSheet.create({
   },
 })
 
-const AppButton = ({ text, textStyle, icon, onPress, style, disabled }) => (
+const AppButton = ({
+  text,
+  textStyle,
+  icon,
+  iconSize,
+  onPress,
+  disabled,
+  style,
+}) => (
   <ScaleTouchable
     disabled={disabled}
     onPress={onPress}
@@ -44,8 +52,10 @@ const AppButton = ({ text, textStyle, icon, onPress, style, disabled }) => (
       icon && !text && styles.btnIcon,
       style,
     ]}>
-    {icon ? <AppIcon name={icon} color={Colors.white} /> : null}
-    {text ? <AppText text={text} style={[styles.btnText, textStyle]} /> : null}
+    {icon ? <AppIcon name={icon} color={Colors.white} size={iconSize} /> : null}
+    {text ? (
+      <AppText style={[styles.btnText, textStyle]}>{text}</AppText>
+    ) : null}
   </ScaleTouchable>
 )
 
@@ -54,6 +64,7 @@ export default AppButton
 AppButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   icon: PropTypes.string,
+  iconSize: PropTypes.number,
   text: PropTypes.string,
   color: PropTypes.string,
   error: PropTypes.string,

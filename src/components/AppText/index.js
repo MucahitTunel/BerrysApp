@@ -1,17 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Text } from 'react-native'
-import { Colors, Styles } from 'constants'
+import { Text as RNText } from 'react-native'
+import { Styles } from 'constants'
 import Fonts from 'assets/fonts'
 
-const AppText = ({ text, color, fontSize, fontFamily, style }) => (
-  <Text style={[{ color, fontSize, fontFamily }, style]}>{text}</Text>
+const AppText = ({ color, fontSize, fontFamily, children, style }) => (
+  <RNText style={[{ color, fontSize, fontFamily }, style]}>{children}</RNText>
 )
 
 export default AppText
 
 AppText.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string,
   fontSize: PropTypes.number,
   fontFamily: PropTypes.string,
@@ -19,11 +18,11 @@ AppText.propTypes = {
     PropTypes.objectOf(PropTypes.any),
     PropTypes.arrayOf(PropTypes.object),
   ]),
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
 }
 
 AppText.defaultProps = {
-  text: '',
-  color: Colors.text,
   fontSize: Styles.FontSize.large,
   fontFamily: Fonts.euclidCircularARegular,
   style: {},
