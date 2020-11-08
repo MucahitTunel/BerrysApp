@@ -32,30 +32,13 @@ const styles = {
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     paddingHorizontal: 16,
-  },
-  modalBtn: {
-    backgroundColor: Colors.white,
-    borderRadius: 2,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  modalBtnText: {
-    fontWeight: 'bold',
-    color: Colors.textRed,
+    borderRightWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   bottomView: {
     marginTop: 24,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  bottomBtn: {
-    fontWeight: '700',
-    color: Colors.white,
-    marginLeft: 5,
   },
 }
 
@@ -109,13 +92,12 @@ const PhoneVerification = () => {
           </Formik>
 
           <View style={styles.bottomView}>
-            <TouchableOpacity onPress={onPressResendCode}>
-              <AppLink
-                text="Resend verification code"
-                color={Colors.white}
-                textStyle={{ fontSize: Styles.FontSize.large }}
-              />
-            </TouchableOpacity>
+            <AppLink
+              text="Resend verification code"
+              color={Colors.white}
+              textStyle={{ fontSize: Styles.FontSize.large }}
+              onPress={onPressResendCode}
+            />
           </View>
         </View>
       </LinearGradient>

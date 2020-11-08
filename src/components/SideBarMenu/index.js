@@ -1,12 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { AppText, Avatar, AppLink } from 'components'
 import { Colors, Screens, Styles } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import { useDispatch } from 'react-redux'
 import { logout } from 'features/auth/authSlice'
+
+const menu = [
+  {
+    name: 'Main',
+    screen: Screens.MainStack,
+  },
+  {
+    name: 'Import Gmail contacts',
+    screen: Screens.ImportGmailContactsStack,
+  },
+  {
+    name: 'Unfollow contacts',
+    screen: Screens.FollowContactsStack,
+  },
+  {
+    name: 'Report',
+    screen: Screens.ReportStack,
+  },
+]
 
 const styles = StyleSheet.create({
   infoView: {
@@ -45,52 +64,24 @@ const SideBarMenu = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <View style={styles.infoView}>
         <Avatar source={Images.defaultAvatar} size={60} />
-        <AppText
-          text="Anonymous"
-          color={Colors.white}
-          fontSize={Styles.FontSize.large}
-          fontFamily={Fonts.latoBold}
-          style={{ marginTop: 10 }}
-        />
+        <AppText color={Colors.white} style={{ marginTop: 10 }}>
+          Anonymous
+        </AppText>
       </View>
       <View style={styles.menuView}>
         <View>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => navigateToScreen(Screens.MainStack)}>
-            <AppText
-              text="Main"
-              fontSize={Styles.FontSize.large}
-              color={Colors.text}
+          {menu.map((item) => (
+            <AppLink
+              key={item.name}
+              text={item.name}
+              textStyle={{
+                fontFamily: Fonts.euclidCircularARegular,
+                fontSize: Styles.FontSize.large,
+              }}
+              style={styles.menuItem}
+              onPress={() => navigateToScreen(item.screen)}
             />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => navigateToScreen(Screens.ImportGmailContactsStack)}>
-            <AppText
-              text="Import Gmail contacts"
-              fontSize={Styles.FontSize.large}
-              color={Colors.text}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => navigateToScreen(Screens.FollowContactsStack)}>
-            <AppText
-              text="Unfollow contacts"
-              fontSize={Styles.FontSize.large}
-              color={Colors.text}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => navigateToScreen(Screens.ReportStack)}>
-            <AppText
-              text="Report"
-              fontSize={Styles.FontSize.large}
-              color={Colors.text}
-            />
-          </TouchableOpacity>
+          ))}
         </View>
         <View style={{ alignItems: 'center' }}>
           <AppLink

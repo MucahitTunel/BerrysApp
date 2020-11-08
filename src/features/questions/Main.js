@@ -25,12 +25,13 @@ import {
   AppText,
   Avatar,
   Loading,
+  ScaleTouchable,
 } from 'components'
-import { Dimensions, Colors, Styles, Screens } from 'constants'
+import { Colors, Dimensions, Screens, Styles } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { updatePushToken, setUserIsNew } from 'features/auth/authSlice'
+import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
@@ -40,6 +41,7 @@ import Theme from 'theme'
 import Slick from 'react-native-slick'
 import surveysList from '../auth/surveysList'
 import AskMeAnythingModal from './AskMeAnythingModal'
+import { AppImage } from '../../components'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -62,7 +64,8 @@ ReceiveSharingIntent.clearReceivedFiles()
 const swipeoutBtns = [
   {
     text: 'Hide',
-    backgroundColor: Colors.textRed,
+    backgroundColor: Colors.primary,
+    fontFamily: Fonts.euclidCircularAMedium,
   },
 ]
 
@@ -70,13 +73,15 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.grayLight,
+    backgroundColor: Colors.background,
     flex: 1,
   },
   questionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: 16,
+    paddingTop: 10,
+    paddingRight: 12,
     backgroundColor: Colors.white,
   },
   inputView: {
@@ -88,11 +93,11 @@ const styles = StyleSheet.create({
   input: {
     marginHorizontal: 10,
     flex: 1,
-    fontFamily: Fonts.latoRegular,
     fontSize: Styles.FontSize.large,
+    color: Colors.gray,
   },
   flatListView: {
-    paddingTop: 12,
+    paddingTop: 4,
     backgroundColor: 'transparent',
     flex: 1,
   },
@@ -123,7 +128,6 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     marginBottom: 10,
     fontSize: Styles.FontSize.large,
-    fontFamily: Fonts.latoRegular,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
@@ -131,45 +135,82 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   askBtn: {
-    backgroundColor: Colors.white,
-    borderTopWidth: 1,
-    borderColor: Colors.grayLight,
+    height: 48,
+    paddingHorizontal: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 24,
+    width: 182,
+    left: (Dimensions.Width - 182) / 2,
+  },
+  sendBtn: {
+    height: 25,
+    width: 56,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sendBtnDisabled: {
+    backgroundColor: Colors.grayLight,
+  },
+  sendBtnText: {
+    fontSize: 13,
+    fontFamily: Fonts.euclidCircularAMedium,
+    marginLeft: 4,
   },
 })
 
 const RequestToAsk = ({ request }) => {
   const { requester } = request
   const user = useSelector((state) => state.auth.user)
-  if (!user) return null
+  if (!user || !requester) return null
   const onPressRequestToAsk = () => {
     NavigationService.navigate(Screens.RequestToAsk, {
       request,
     })
   }
-  const title = `${requester} invited you to ask him a question anonymously`
   return (
     <Swipeout
-      style={{
-        marginBottom: 8,
-        width: Dimensions.Width - 24,
-        marginLeft: 12,
-        borderRadius: 8,
-      }}
+      style={{ marginTop: 4 }}
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
-      <TouchableOpacity
+      <ScaleTouchable
         style={styles.questionItem}
         onPress={() => onPressRequestToAsk()}>
         <View style={{ flex: 1 }}>
           <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: 'rgba(235, 84, 80, 0.19)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 10,
+              }}>
+              <AppImage source={Images.message} width={17} height={15} />
+            </View>
             <AppText
-              style={{ marginRight: 5 }}
-              color={Colors.primary}
-              text={title}
-              fontSize={Styles.FontSize.large}
-              fontFamily={Fonts.latoBold}
-            />
+              style={{
+                marginRight: 5,
+                lineHeight: 20,
+                flex: 1,
+                flexWrap: 'wrap',
+              }}
+              fontSize={Styles.FontSize.normal}>
+              {`You got invited by `}{' '}
+              <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>
+                {requester}
+              </AppText>{' '}
+              {` to ask your questions anonymously`}
+            </AppText>
           </View>
         </View>
         <View
@@ -177,9 +218,9 @@ const RequestToAsk = ({ request }) => {
             marginLeft: 16,
             flexDirection: 'row',
           }}>
-          <AppIcon name="chevron-right" size={20} />
+          <AppIcon name="chevron-right" size={20} color={Colors.primary} />
         </View>
-      </TouchableOpacity>
+      </ScaleTouchable>
     </Swipeout>
   )
 }
@@ -211,64 +252,61 @@ const QuestionItem = ({
   const url = checkURL(content)
   return (
     <Swipeout
-      style={{
-        marginBottom: 8,
-        width: Dimensions.Width - 24,
-        marginLeft: 12,
-        borderRadius: 8,
-      }}
+      style={{ marginBottom: 4 }}
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
       right={swipeoutBtns}
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
-      <TouchableOpacity
+      <ScaleTouchable
         style={styles.questionItem}
         onPress={() => onPressQuestion(_id)}>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <AppText
-              style={{ marginRight: 5 }}
-              text={content}
-              fontSize={Styles.FontSize.large}
-              fontFamily={Fonts.latoBold}
-            />
-            {isFlagged && (
-              <AppIcon name="flag" color={Colors.primary} size={20} />
-            )}
+        {isFlagged && (
+          <View style={{ position: 'absolute', right: 20, top: 10 }}>
+            <AppIcon name="flag" color={Colors.primary} size={20} />
           </View>
+        )}
+        <View style={{ flex: 1 }}>
+          <AppText style={{ marginRight: 5 }} fontSize={Styles.FontSize.large}>
+            {content}
+          </AppText>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 16,
+              marginTop: 12,
             }}>
-            <View style={{ flexDirection: 'row' }}>
-              <AppText
-                text={`${comments}  answers`}
-                color={Colors.gray}
-                fontFamily={Fonts.latoBold}
-                style={{ marginRight: 14 }}
-              />
-              <AppText text={`${totalVotes}  votes`} color={Colors.gray} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppText fontSize={15} style={{ marginRight: 38 }}>
+                {comments}
+                <AppText
+                  fontSize={15}
+                  color={Colors.gray}>{`  answers`}</AppText>
+              </AppText>
+              <AppText fontSize={15} style={{ marginRight: 38 }}>
+                {totalVotes}
+                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
+              </AppText>
             </View>
-            <AppText text={moment(createdAt).fromNow()} color={Colors.gray} />
           </View>
         </View>
         <View
           style={{
             marginLeft: 16,
             flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <AppIcon name="chevron-right" size={20} />
+          <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+            {moment(createdAt).fromNow()}
+          </AppText>
+          <AppIcon name="chevron-right" size={20} color={Colors.grayLight} />
         </View>
-      </TouchableOpacity>
+      </ScaleTouchable>
       {url && (
         <RNUrlPreview
           containerStyle={{
             paddingHorizontal: 16,
             backgroundColor: Colors.white,
-            borderTopColor: Colors.grayLight,
+            borderTopColor: Colors.background,
             borderTopWidth: 1,
           }}
           imageStyle={{
@@ -401,7 +439,7 @@ const Main = () => {
   }
 
   const renderEmpty = () => (
-    <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
+    <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
   )
 
   const onPressSkip = () => dispatch(setUserIsNew(false))
@@ -421,18 +459,7 @@ const Main = () => {
 
   const isSuggestionsModalVisible = user.isNew && !question
 
-  const renderItem = ({ item }) => {
-    switch (item.type) {
-      case 'question': {
-        return <QuestionItem question={item} />
-      }
-      case 'request-to-ask': {
-        return <RequestToAsk request={item} />
-      }
-      default:
-        return null
-    }
-  }
+  const renderItem = ({ item }) => <QuestionItem question={item} />
 
   return (
     <View style={styles.container}>
@@ -455,14 +482,18 @@ const Main = () => {
               }}
               value={values.question}
             />
-            <TouchableOpacity
+            <AppButton
+              text="Post"
+              textStyle={styles.sendBtnText}
+              icon="send"
+              iconSize={12}
+              disabled={!values.question}
+              style={[
+                styles.sendBtn,
+                !values.question && styles.sendBtnDisabled,
+              ]}
               onPress={handleSubmit}
-              activeOpacity={values.question ? 0.7 : 1}>
-              <AppIcon
-                name="send"
-                color={values.question ? Colors.primaryLight : Colors.grayLight}
-              />
-            </TouchableOpacity>
+            />
           </View>
         )}
       </Formik>
@@ -471,34 +502,27 @@ const Main = () => {
           <RNUrlPreview text={questionUrl} />
         </View>
       )}
-
-      <View style={styles.askBtn}>
-        <TouchableOpacity
-          onPress={onPressAskMeAnything}
-          style={{
-            height: 48,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <AppText
-            text="Ask Me Anything"
-            color={Colors.primary}
-            fontFamily={Fonts.latoBold}
-            fontSize={Styles.FontSize.normal}
-          />
-        </TouchableOpacity>
-      </View>
+      <RequestToAsk request={requestsToAsk} />
       <View style={styles.flatListView}>
         {loading && !data.length && <Loading />}
         <FlatList
-          data={[...requestsToAsk, ...data]}
+          data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}
           onRefresh={() => dispatch(getQuestions())}
+          contentContainerStyle={{ paddingBottom: 80 }}
         />
       </View>
+      <AppButton
+        text="Ask Me"
+        textStyle={{ marginLeft: 16 }}
+        icon="message-dot"
+        iconSize={20}
+        onPress={onPressAskMeAnything}
+        style={styles.askBtn}
+      />
 
       {/*Suggestion Modal*/}
       <Modal
@@ -517,11 +541,7 @@ const Main = () => {
           ]}>
           <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
             <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-              <AppText
-                text="What others are asking?"
-                fontFamily={Fonts.latoBold}
-                fontSize={18}
-              />
+              <AppText fontSize={18}>What others are asking?</AppText>
             </View>
             <React.Fragment>
               <Slick

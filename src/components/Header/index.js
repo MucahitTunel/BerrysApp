@@ -16,18 +16,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    paddingTop: 20,
   },
   headerText: {
-    fontSize: Styles.FontSize.large,
+    fontSize: Styles.FontSize.xLarge,
+    fontFamily: Fonts.euclidCircularAMedium,
     color: Colors.white,
-    fontFamily: Fonts.latoBold,
   },
 })
 
 const Header = ({ title, headerRight, headerLeft }) => {
   const user = useSelector((state) => state.auth.user)
   const points = user && !!user.points ? user.points : 0
-  const titleText = title === 'points' ? `${points} points` : title
+  const titleText = title === 'points' ? `${points} Points` : title
   return (
     <LinearGradient
       style={[styles.header]}
@@ -35,7 +36,7 @@ const Header = ({ title, headerRight, headerLeft }) => {
       start={{ x: 0.25, y: 0.5 }}
       end={{ x: 0.75, y: 0.5 }}>
       {headerLeft}
-      <AppText text={titleText} style={styles.headerText} />
+      <AppText style={styles.headerText}>{titleText}</AppText>
       {headerRight}
     </LinearGradient>
   )

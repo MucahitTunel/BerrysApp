@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, Platform, Linking } from 'react-native'
+import { View, Platform, Linking, StyleSheet } from 'react-native'
 import Modal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
@@ -20,7 +20,29 @@ import { signIn } from 'features/auth/authSlice'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 
-const linearGradient = [Colors.primary, 'rgb(235, 67, 75)']
+const linearGradient = [Colors.primary, Colors.primaryLight]
+
+const styles = StyleSheet.create({
+  countryPickerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.44)',
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    height: 56,
+    borderRadius: 7,
+    padding: 10,
+    marginBottom: 24,
+    marginTop: 48,
+  },
+  flagWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRightWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    paddingRight: 10,
+  },
+})
 
 const SignInModal = ({ isVisible, onClose }) => {
   const [country, setCountry] = useState(Misc.DefaultCountry)
@@ -79,27 +101,8 @@ const SignInModal = ({ isVisible, onClose }) => {
             <Formik initialValues={{ phoneNumber: '' }} onSubmit={onSubmit}>
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <React.Fragment>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: 'rgba(255, 255, 255, 0.44)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                      height: 56,
-                      borderRadius: 7,
-                      padding: 10,
-                      marginBottom: 24,
-                      marginTop: 48,
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        borderRightWidth: 1,
-                        borderColor: 'rgba(255, 255, 255, 0.3)',
-                        paddingRight: 10,
-                      }}>
+                  <View style={styles.countryPickerWrapper}>
+                    <View style={styles.flagWrapper}>
                       <CountryPicker
                         onSelect={(value) => setCountry(value)}
                         countryCode={country.cca2}

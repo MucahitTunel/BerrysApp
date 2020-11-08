@@ -1,11 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Text as RNText } from 'react-native'
+import { Text as RNText, StyleSheet } from 'react-native'
 import { Styles } from 'constants'
 import Fonts from 'assets/fonts'
 
+const styles = StyleSheet.create({
+  text: {
+    lineHeight: 24,
+  },
+})
+
 const AppText = ({ color, fontSize, fontFamily, children, style }) => (
-  <RNText style={[{ color, fontSize, fontFamily }, style]}>{children}</RNText>
+  <RNText style={[styles.text, { color, fontSize, fontFamily }, style]}>
+    {children}
+  </RNText>
 )
 
 export default AppText

@@ -1,55 +1,56 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
 import { AppIcon } from 'components'
 import { Colors, Screens } from 'constants'
+import { ScaleTouchable, AppImage } from 'components'
+import Images from 'assets/images'
 
 export const BackButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.goBack()}>
+  <ScaleTouchable onPress={() => navigation.goBack()}>
     <AppIcon name="chevron-left" color={Colors.white} />
-  </TouchableOpacity>
+  </ScaleTouchable>
 )
 
 export const MainBackButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate(Screens.Main)}>
+  <ScaleTouchable onPress={() => navigation.navigate(Screens.Main)}>
     <AppIcon name="chevron-left" color={Colors.white} />
-  </TouchableOpacity>
+  </ScaleTouchable>
 )
 
 export const MessagesBackButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate(Screens.Messages)}>
+  <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
     <AppIcon name="chevron-left" color={Colors.white} />
-  </TouchableOpacity>
+  </ScaleTouchable>
 )
 
 export const MessagesButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.navigate(Screens.Messages)}>
+  <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
     <AppIcon name="chat" color={Colors.white} />
-  </TouchableOpacity>
+  </ScaleTouchable>
 )
 
 export const MenuButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-    <AppIcon name="menu" color={Colors.white} />
-  </TouchableOpacity>
+  <ScaleTouchable onPress={() => navigation.toggleDrawer()}>
+    <AppImage source={Images.menu} width={28} height={14} />
+  </ScaleTouchable>
 )
 
 // the 3 dots button
 export const AnswerRightButton = ({ onPressDots }) => {
   return (
-    <TouchableOpacity style={{ padding: 10 }} onPress={onPressDots}>
+    <ScaleTouchable style={{ padding: 10 }} onPress={onPressDots}>
       <AppIcon name="more-vertical" size={22} color={Colors.white} />
-    </TouchableOpacity>
+    </ScaleTouchable>
   )
 }
 
 // the Messages's Compose button
 export const ComposeButton = ({ navigation }) => {
   return (
-    <TouchableOpacity
+    <ScaleTouchable
       style={{ padding: 10 }}
       onPress={() => navigation.navigate(Screens.MessageContacts)}>
       <AppIcon name="plus" size={22} color={Colors.white} />
-    </TouchableOpacity>
+    </ScaleTouchable>
   )
 }

@@ -22,15 +22,22 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   btnSecondary: {
-    width: 50,
+    height: 50,
     borderRadius: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     ...Theme.shadow,
+    shadowColor: 'rgba(235, 86, 81, 0.3)',
   },
   btnIcon: {
     width: 54,
     height: 54,
     borderRadius: 27,
     ...Theme.shadow,
+  },
+  btnDisabled: {
+    shadowOpacity: 0,
   },
 })
 
@@ -50,6 +57,7 @@ const AppButton = ({
       styles.btn,
       icon && styles.btnSecondary,
       icon && !text && styles.btnIcon,
+      disabled && styles.btnDisabled,
       style,
     ]}>
     {icon ? <AppIcon name={icon} color={Colors.white} size={iconSize} /> : null}

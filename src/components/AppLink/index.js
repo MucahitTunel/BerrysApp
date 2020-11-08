@@ -23,17 +23,16 @@ const AppLink = ({ text, textStyle, color, onPress, style }) => (
 export default AppLink
 
 AppLink.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
   color: PropTypes.string,
-  onPress: PropTypes.func,
   style: PropTypes.objectOf(PropTypes.any),
   textStyle: PropTypes.objectOf(PropTypes.any),
+  onPress: PropTypes.func,
 }
 
 // Default values for props
 AppLink.defaultProps = {
-  text: 'AppLink',
-  onPress: () => {},
   style: {},
   textStyle: {},
+  onPress: () => {},
 }
