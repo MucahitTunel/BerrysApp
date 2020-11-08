@@ -91,7 +91,11 @@ const ScaleTouchable = ({
       onPressOut={() => {
         SCALE.pressOutAnimation(scaleInAnimated)
       }}
-      style={[style, SCALE.getScaleTransformationStyle(scaleInAnimated)]}
+      style={[
+        style,
+        SCALE.getScaleTransformationStyle(scaleInAnimated),
+        disabled && { opacity: 0.8 },
+      ]}
       {...rest}>
       <Fragment>{children}</Fragment>
     </Component>

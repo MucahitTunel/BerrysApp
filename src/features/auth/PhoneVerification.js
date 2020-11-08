@@ -1,11 +1,12 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Formik } from 'formik'
 import LinearGradient from 'react-native-linear-gradient'
-import { AppInput } from 'components'
-import { Colors, Dimensions } from 'constants'
 import { useDispatch } from 'react-redux'
+import { AppInput, AppButton, AppText, AppLink } from 'components'
+import { Colors, Dimensions, Styles } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
+import Fonts from 'assets/fonts'
 
 const linearGradientColors = [Colors.primary, Colors.primaryLight]
 
@@ -25,17 +26,12 @@ const styles = {
     marginTop: 20,
   },
   form: {
-    marginTop: 80,
+    marginTop: 40,
     marginBottom: 20,
   },
   input: {
-    height: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    borderRadius: 2,
-    fontSize: 16,
-    color: Colors.white,
+    paddingHorizontal: 16,
   },
   modalBtn: {
     backgroundColor: Colors.white,
@@ -50,7 +46,7 @@ const styles = {
     color: Colors.textRed,
   },
   bottomView: {
-    marginTop: 20,
+    marginTop: 24,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
@@ -81,7 +77,12 @@ const PhoneVerification = () => {
         end={{ x: 0.75, y: 0.5 }}
         style={{ flex: 1, padding: 20, paddingTop: 40 }}>
         <View style={styles.modalInnerView}>
-          <Text style={styles.header}>Enter verification code</Text>
+          <AppText
+            fontSize={28}
+            fontFamily={Fonts.euclidCircularASemiBold}
+            color={Colors.white}>
+            Verification
+          </AppText>
           <Formik initialValues={{ verifyCode: '' }} onSubmit={onSubmit}>
             {({ values, handleChange, handleSubmit, isSubmitting }) => (
               <React.Fragment>
@@ -95,22 +96,25 @@ const PhoneVerification = () => {
                     value={values.verifyCode}
                   />
                 </View>
-                <TouchableOpacity
-                  style={styles.modalBtn}
+                <AppButton
+                  text={!isSubmitting && 'Submit'}
+                  style={{ backgroundColor: Colors.white }}
+                  textStyle={{ color: Colors.primary }}
+                  disabled={isSubmitting || !values.verifyCode}
                   onPress={() => !isSubmitting && handleSubmit()}>
-                  {isSubmitting ? (
-                    <ActivityIndicator />
-                  ) : (
-                    <Text style={styles.modalBtnText}>Submit</Text>
-                  )}
-                </TouchableOpacity>
+                  {isSubmitting && <ActivityIndicator />}
+                </AppButton>
               </React.Fragment>
             )}
           </Formik>
 
           <View style={styles.bottomView}>
             <TouchableOpacity onPress={onPressResendCode}>
-              <Text style={styles.bottomBtn}>Resend verification code</Text>
+              <AppLink
+                text="Resend verification code"
+                color={Colors.white}
+                textStyle={{ fontSize: Styles.FontSize.large }}
+              />
             </TouchableOpacity>
           </View>
         </View>

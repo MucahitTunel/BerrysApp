@@ -129,7 +129,7 @@ const SignInModal = ({ isVisible, onClose }) => {
                   </View>
                   <AppButton
                     text="Sign In"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !values.phoneNumber}
                     onPress={handleSubmit}
                     style={{ backgroundColor: Colors.white }}
                     textStyle={{ color: Colors.primary }}
