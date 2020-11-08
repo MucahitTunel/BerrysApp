@@ -2,7 +2,7 @@ import React from 'react'
 import { Linking, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { navigationRef } from 'services/navigation'
-import Constants from 'constants'
+import { Screens } from 'constants'
 import RootNavigator from './RootNavigator'
 
 const AppNavigator = () => {
@@ -37,9 +37,9 @@ const AppNavigator = () => {
     config: {
       // Deep link configuration
       screens: {
-        [Constants.Screens.MainStack]: {
+        [Screens.MainStack]: {
           screens: {
-            [Constants.Screens.DirectMessage]: 'app/chat/:userId',
+            [Screens.DirectMessage]: 'app/chat/:userId',
           },
         },
       },

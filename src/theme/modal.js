@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 
 export default StyleSheet.create({
   modalView: {
     margin: 0,
-    width: Constants.Dimensions.Width,
-    height: Constants.Dimensions.Height,
+    width: Dimensions.Width,
+    height: Dimensions.Height,
   },
   modalInnerView: {
-    height: Constants.Dimensions.Height,
+    height: Dimensions.Height,
   },
   closeBtn: {
     position: 'absolute',
@@ -18,8 +18,8 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   header: {
-    color: Constants.Colors.white,
-    fontSize: Constants.Styles.FontSize.xLarge,
+    color: Colors.white,
+    fontSize: Styles.FontSize.xLarge,
     textAlign: 'center',
     marginTop: 20,
   },
@@ -35,14 +35,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   bottomText: {
-    color: Constants.Colors.white,
-    fontSize: Constants.Styles.FontSize.normal,
+    color: Colors.white,
+    fontSize: Styles.FontSize.normal,
   },
   error: {
     textAlign: 'center',
     marginBottom: 10,
     fontSize: 13,
-    color: Constants.Colors.white,
+    color: Colors.white,
     fontStyle: 'italic',
   },
   phonePrefix: {

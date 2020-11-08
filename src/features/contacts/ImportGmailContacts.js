@@ -7,14 +7,14 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
-import Constants from 'constants'
+import { Dimensions, Colors } from 'constants'
 import { fetchContactsFromGoogle } from 'features/contacts/contactsSlice'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     alignItems: 'center',
     flex: 1,
   },

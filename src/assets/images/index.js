@@ -1,11 +1,15 @@
+import logo from './logo.png'
 import logoWhite from './logo-white.png'
 import defaultAvatar from './default-avatar.png'
-import onboarding2 from './onboarding2.png'
-import onboarding3 from './onboarding3.png'
+import carousel1 from './carousel-1.png'
+import carousel2 from './carousel-2.png'
+import carousel3 from './carousel-3.png'
 
 export default {
+  logo,
   logoWhite,
   defaultAvatar,
-  onboarding2,
-  onboarding3,
+  carousel1,
+  carousel2,
+  carousel3,
 }

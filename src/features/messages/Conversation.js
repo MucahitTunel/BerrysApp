@@ -13,7 +13,7 @@ import {
 import moment from 'moment'
 import { AppText, AppIcon, AppInput, Header, Avatar } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
-import Constants from 'constants'
+import { Dimensions, Colors } from 'constants'
 import { pusher } from 'features/auth/authSlice'
 import {
   getMessages,
@@ -26,9 +26,9 @@ import { hideKeyBoard, showKeyboard } from 'utils'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.background,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.background,
     flex: 1,
   },
   contentView: {
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
     width: '80%',
   },
   myMessageItemInner: {
-    backgroundColor: Constants.Colors.primaryLight,
+    backgroundColor: Colors.primaryLight,
     borderWidth: 0,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
@@ -72,13 +72,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   descriptionBox: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
   description: {
     marginLeft: 8,
-    color: Constants.Colors.primaryLight,
+    color: Colors.primaryLight,
     textAlign: 'center',
     fontSize: 14,
   },
@@ -159,16 +159,12 @@ const Conversation = ({ navigation }) => {
           <AppText
             text={content}
             fontSize={16}
-            color={
-              isMyMessage ? Constants.Colors.white : Constants.Colors.black
-            }
+            color={isMyMessage ? Colors.white : Colors.black}
           />
           <View style={styles.messageItemTime}>
             <AppText
               text={moment(msg.createdAt).format('HH:mm')}
-              color={
-                isMyMessage ? Constants.Colors.white : Constants.Colors.gray
-              }
+              color={isMyMessage ? Colors.white : Colors.gray}
             />
           </View>
         </View>
@@ -202,7 +198,7 @@ const Conversation = ({ navigation }) => {
           flexDirection: 'row',
           alignItems: 'center',
           borderTopWidth: 1,
-          borderTopColor: Constants.Colors.grayLight,
+          borderTopColor: Colors.grayLight,
         }}>
         <AppInput
           style={styles.input}
@@ -216,9 +212,7 @@ const Conversation = ({ navigation }) => {
           onPress={message ? onSendMessage : () => {}}>
           <AppIcon
             name="send"
-            color={
-              message ? Constants.Colors.primary : Constants.Colors.grayLight
-            }
+            color={message ? Colors.primary : Colors.grayLight}
           />
         </TouchableOpacity>
       </View>

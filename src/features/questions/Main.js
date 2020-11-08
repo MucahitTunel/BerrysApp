@@ -26,7 +26,7 @@ import {
   Avatar,
   Loading,
 } from 'components'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles, Screens } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
@@ -62,26 +62,26 @@ ReceiveSharingIntent.clearReceivedFiles()
 const swipeoutBtns = [
   {
     text: 'Hide',
-    backgroundColor: Constants.Colors.textRed,
+    backgroundColor: Colors.textRed,
   },
 ]
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   questionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flex: 1,
     fontFamily: Fonts.latoRegular,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
   },
   flatListView: {
     paddingTop: 12,
@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    backgroundColor: Constants.Colors.white,
-    width: Constants.Dimensions.Width - 32,
+    backgroundColor: Colors.white,
+    width: Dimensions.Width - 32,
     marginLeft: 16,
     paddingTop: 12,
     borderRadius: 8,
@@ -122,18 +122,18 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 16,
     marginBottom: 10,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
     fontFamily: Fonts.latoRegular,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
     flex: 1,
   },
   askBtn: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     borderTopWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
   },
 })
 
@@ -142,7 +142,7 @@ const RequestToAsk = ({ request }) => {
   const user = useSelector((state) => state.auth.user)
   if (!user) return null
   const onPressRequestToAsk = () => {
-    NavigationService.navigate(Constants.Screens.RequestToAsk, {
+    NavigationService.navigate(Screens.RequestToAsk, {
       request,
     })
   }
@@ -151,12 +151,12 @@ const RequestToAsk = ({ request }) => {
     <Swipeout
       style={{
         marginBottom: 8,
-        width: Constants.Dimensions.Width - 24,
+        width: Dimensions.Width - 24,
         marginLeft: 12,
         borderRadius: 8,
       }}
       backgroundColor="transparent"
-      buttonWidth={Constants.Dimensions.Width - 10}>
+      buttonWidth={Dimensions.Width - 10}>
       <TouchableOpacity
         style={styles.questionItem}
         onPress={() => onPressRequestToAsk()}>
@@ -165,9 +165,9 @@ const RequestToAsk = ({ request }) => {
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <AppText
               style={{ marginRight: 5 }}
-              color={Constants.Colors.primary}
+              color={Colors.primary}
               text={title}
-              fontSize={Constants.Styles.FontSize.large}
+              fontSize={Styles.FontSize.large}
               fontFamily={Fonts.latoBold}
             />
           </View>
@@ -201,7 +201,7 @@ const QuestionItem = ({
   const isFlagged = flaggedBy.includes(phoneNumber)
   const onPressQuestion = (questionId) => {
     dispatch(getQuestion(questionId))
-    NavigationService.navigate(Constants.Screens.Answers)
+    NavigationService.navigate(Screens.Answers)
   }
   const onRemoveQuestion = (direction, _id) => {
     if (direction === 'right') {
@@ -213,14 +213,14 @@ const QuestionItem = ({
     <Swipeout
       style={{
         marginBottom: 8,
-        width: Constants.Dimensions.Width - 24,
+        width: Dimensions.Width - 24,
         marginLeft: 12,
         borderRadius: 8,
       }}
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
       right={swipeoutBtns}
       backgroundColor="transparent"
-      buttonWidth={Constants.Dimensions.Width - 10}>
+      buttonWidth={Dimensions.Width - 10}>
       <TouchableOpacity
         style={styles.questionItem}
         onPress={() => onPressQuestion(_id)}>
@@ -230,11 +230,11 @@ const QuestionItem = ({
             <AppText
               style={{ marginRight: 5 }}
               text={content}
-              fontSize={Constants.Styles.FontSize.large}
+              fontSize={Styles.FontSize.large}
               fontFamily={Fonts.latoBold}
             />
             {isFlagged && (
-              <AppIcon name="flag" color={Constants.Colors.primary} size={20} />
+              <AppIcon name="flag" color={Colors.primary} size={20} />
             )}
           </View>
           <View
@@ -246,19 +246,13 @@ const QuestionItem = ({
             <View style={{ flexDirection: 'row' }}>
               <AppText
                 text={`${comments}  answers`}
-                color={Constants.Colors.gray}
+                color={Colors.gray}
                 fontFamily={Fonts.latoBold}
                 style={{ marginRight: 14 }}
               />
-              <AppText
-                text={`${totalVotes}  votes`}
-                color={Constants.Colors.gray}
-              />
+              <AppText text={`${totalVotes}  votes`} color={Colors.gray} />
             </View>
-            <AppText
-              text={moment(createdAt).fromNow()}
-              color={Constants.Colors.gray}
-            />
+            <AppText text={moment(createdAt).fromNow()} color={Colors.gray} />
           </View>
         </View>
         <View
@@ -273,8 +267,8 @@ const QuestionItem = ({
         <RNUrlPreview
           containerStyle={{
             paddingHorizontal: 16,
-            backgroundColor: Constants.Colors.white,
-            borderTopColor: Constants.Colors.grayLight,
+            backgroundColor: Colors.white,
+            borderTopColor: Colors.grayLight,
             borderTopWidth: 1,
           }}
           imageStyle={{
@@ -392,7 +386,7 @@ const Main = () => {
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)
-      NavigationService.navigate(Constants.Screens.SelectContacts)
+      NavigationService.navigate(Screens.SelectContacts)
     }
   }
 
@@ -401,7 +395,7 @@ const Main = () => {
       dispatch(setUserIsNew(false))
       dispatch(setAskQuestion(questionFromModal))
       setTimeout(() => {
-        NavigationService.navigate(Constants.Screens.SelectContacts)
+        NavigationService.navigate(Screens.SelectContacts)
       }, 1000)
     }
   }
@@ -419,7 +413,7 @@ const Main = () => {
   const onPressAskMeAnything = () => {
     if (user && user.name) {
       setShowAskingModal(false)
-      NavigationService.navigate(Constants.Screens.RequestContactsToAsk)
+      NavigationService.navigate(Screens.RequestContactsToAsk)
     } else {
       setShowAskingModal(true)
     }
@@ -466,11 +460,7 @@ const Main = () => {
               activeOpacity={values.question ? 0.7 : 1}>
               <AppIcon
                 name="send"
-                color={
-                  values.question
-                    ? Constants.Colors.primaryLight
-                    : Constants.Colors.grayLight
-                }
+                color={values.question ? Colors.primaryLight : Colors.grayLight}
               />
             </TouchableOpacity>
           </View>
@@ -492,9 +482,9 @@ const Main = () => {
           }}>
           <AppText
             text="Ask Me Anything"
-            color={Constants.Colors.primary}
+            color={Colors.primary}
             fontFamily={Fonts.latoBold}
-            fontSize={Constants.Styles.FontSize.normal}
+            fontSize={Styles.FontSize.normal}
           />
         </TouchableOpacity>
       </View>
@@ -521,7 +511,7 @@ const Main = () => {
             {
               paddingTop: 40,
               flex: 1,
-              maxHeight: Constants.Dimensions.Height - 60,
+              maxHeight: Dimensions.Height - 60,
               paddingBottom: 260,
             },
           ]}>
@@ -537,8 +527,8 @@ const Main = () => {
               <Slick
                 horizontal={false}
                 showsButtons={false}
-                activeDotColor={Constants.Colors.primaryLight}
-                dotColor={Constants.Colors.grayLight}
+                activeDotColor={Colors.primaryLight}
+                dotColor={Colors.grayLight}
                 onIndexChanged={onIndexChanged}
                 loop={false}
                 paginationStyle={{
@@ -551,7 +541,7 @@ const Main = () => {
                   <View
                     key={`${index}_${q}`}
                     style={{
-                      backgroundColor: Constants.Colors.white,
+                      backgroundColor: Colors.white,
                       padding: 16,
                       height: 160,
                     }}>
@@ -571,14 +561,14 @@ const Main = () => {
                 <AppButton
                   onPress={sendQuestionFromModal}
                   text="Select Friends to Ask"
-                  backgroundColor={Constants.Colors.primary}
-                  color={Constants.Colors.white}
-                  borderRadius={Constants.Styles.BorderRadius.small}
+                  backgroundColor={Colors.primary}
+                  color={Colors.white}
+                  borderRadius={Styles.BorderRadius.small}
                 />
                 <View style={{ alignItems: 'center', marginTop: 16 }}>
                   <AppLink
                     text="Skip"
-                    color={Constants.Colors.gray}
+                    color={Colors.gray}
                     onPress={onPressSkip}
                   />
                 </View>

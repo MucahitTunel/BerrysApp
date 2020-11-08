@@ -64,13 +64,11 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>FjallaOne-Regular.ttf</string>
 		<string>icomoon.ttf</string>
 		<string>icomoon.woff</string>
-		<string>Lato-Black.ttf</string>
-		<string>Lato-Bold.ttf</string>
-		<string>Lato-Light.ttf</string>
-		<string>Lato-Regular.ttf</string>
+		<string>EuclidCircularA-Medium.ttf</string>
+		<string>EuclidCircularA-Regular.ttf</string>
+		<string>EuclidCircularA-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

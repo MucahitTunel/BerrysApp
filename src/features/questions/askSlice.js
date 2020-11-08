@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
-import Constants from 'constants'
+import { Screens } from 'constants'
 import * as NavigationService from 'services/navigation'
 import { getQuestions } from './questionsSlice'
 
@@ -24,7 +24,7 @@ export const askQuestion = createAsyncThunk(
     })
     dispatch(getQuestions())
     Alert.alert('Success', 'Your question has been submitted!')
-    NavigationService.navigate(Constants.Screens.Main)
+    NavigationService.navigate(Screens.Main)
   },
 )
 const askSlice = createSlice({

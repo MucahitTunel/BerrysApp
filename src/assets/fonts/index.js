@@ -1,7 +1,5 @@
 export default {
-  fjallaOne: 'FjallaOne-Regular',
-  latoBlack: 'Lato-Black',
-  latoBold: 'Lato-Bold',
-  latoLight: 'Lato-Light',
-  latoRegular: 'Lato-Regular',
+  euclidCircularAMedium: 'EuclidCircularA-Medium',
+  euclidCircularARegular: 'EuclidCircularA-Regular',
+  euclidCircularASemiBold: 'EuclidCircularA-SemiBold',
 }

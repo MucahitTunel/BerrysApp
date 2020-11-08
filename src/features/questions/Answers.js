@@ -16,7 +16,7 @@ import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import Fonts from 'assets/fonts'
 import {
   Avatar,
@@ -40,15 +40,15 @@ import { joinRoom } from 'features/messages/messagesSlice'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   headerView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     padding: 16,
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     borderBottomWidth: 1,
   },
   headerInner: {
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
   },
   questionItem: {
     flexDirection: 'row',
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     borderBottomWidth: 1,
     paddingBottom: 14,
     marginBottom: 14,
     marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
+    width: Dimensions.Width - 32,
   },
   lastQuestionItem: {
     borderBottomWidth: 0,
@@ -81,19 +81,19 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
   },
   input: {
     marginLeft: 10,
     flex: 1,
     fontFamily: Fonts.latoRegular,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
   },
   askBtn: {
     padding: 10,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     borderTopWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
   },
 })
 
@@ -164,25 +164,25 @@ const Comment = ({
         <TouchableOpacity onPress={() => onPressUser(comment)}>
           <AppText
             text={isAnonymous ? name : userPhoneNumber}
-            color={Constants.Colors.blue}
+            color={Colors.blue}
             fontFamily={Fonts.latoBold}
             style={{ marginBottom: 5 }}
           />
         </TouchableOpacity>
-        <AppText text={content} fontSize={Constants.Styles.FontSize.large} />
+        <AppText text={content} fontSize={Styles.FontSize.large} />
         <View style={styles.headerAnswerView}>
           <View style={styles.headerAnswerInner}>
             <AppText
               text={moment(createdAt).fromNow()}
-              color={Constants.Colors.gray}
+              color={Colors.gray}
               style={{ marginRight: 14 }}
-              fontSize={Constants.Styles.FontSize.medium}
+              fontSize={Styles.FontSize.medium}
             />
-            <AppText text={`${totalVotes}`} color={Constants.Colors.gray} />
+            <AppText text={`${totalVotes}`} color={Colors.gray} />
             <TouchableOpacity
               style={{ padding: 5 }}
               onPress={() => upVoteComment(_id)}>
-              <AppIcon name="like" size={16} color={Constants.Colors.gray} />
+              <AppIcon name="like" size={16} color={Colors.gray} />
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -190,7 +190,7 @@ const Comment = ({
                 marginRight: 5,
               }}
               onPress={() => downVoteComment(_id)}>
-              <AppIcon name="unlike" size={16} color={Constants.Colors.gray} />
+              <AppIcon name="unlike" size={16} color={Colors.gray} />
             </TouchableOpacity>
           </View>
         </View>
@@ -296,26 +296,26 @@ const Answers = ({ navigation }) => {
         <View style={{ flexDirection: 'row' }}>
           <AppText
             text={question.content}
-            fontSize={Constants.Styles.FontSize.xxLarge}
+            fontSize={Styles.FontSize.xxLarge}
             fontFamily={Fonts.latoBold}
             style={{ marginRight: 10 }}
           />
           {isFlagged && (
-            <AppIcon name="flag" color={Constants.Colors.primary} size={20} />
+            <AppIcon name="flag" color={Colors.primary} size={20} />
           )}
         </View>
         <View style={styles.headerInner}>
           <AppText
             text={moment(question.createdAt).fromNow()}
-            color={Constants.Colors.gray}
+            color={Colors.gray}
             style={{ marginRight: 14 }}
-            fontSize={Constants.Styles.FontSize.medium}
+            fontSize={Styles.FontSize.medium}
           />
-          <AppText text={question.totalVotes} color={Constants.Colors.gray} />
+          <AppText text={question.totalVotes} color={Colors.gray} />
           <TouchableOpacity
             style={{ padding: 5 }}
             onPress={() => upVoteQuestion()}>
-            <AppIcon name="like" size={16} color={Constants.Colors.gray} />
+            <AppIcon name="like" size={16} color={Colors.gray} />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -323,7 +323,7 @@ const Answers = ({ navigation }) => {
               marginRight: 5,
             }}
             onPress={() => downVoteQuestion()}>
-            <AppIcon name="unlike" size={16} color={Constants.Colors.gray} />
+            <AppIcon name="unlike" size={16} color={Colors.gray} />
           </TouchableOpacity>
         </View>
       </View>
@@ -347,7 +347,7 @@ const Answers = ({ navigation }) => {
       </View>
       <View
         style={{
-          borderTopColor: Constants.Colors.grayLight,
+          borderTopColor: Colors.grayLight,
           borderTopWidth: 1,
         }}>
         <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
@@ -371,7 +371,7 @@ const Answers = ({ navigation }) => {
                   activeOpacity: 0.3,
                 }}
                 onPress={question.isAbleToAnswer ? handleSubmit : () => {}}>
-                <AppIcon name="send" color={Constants.Colors.primaryLight} />
+                <AppIcon name="send" color={Colors.primaryLight} />
               </TouchableOpacity>
             </View>
           )}
@@ -381,7 +381,7 @@ const Answers = ({ navigation }) => {
             padding: 10,
             backgroundColor: 'white',
             borderTopWidth: 1,
-            borderTopColor: Constants.Colors.grayLight,
+            borderTopColor: Colors.grayLight,
           }}>
           <TouchableOpacity
             style={styles.contactItem}
@@ -389,13 +389,13 @@ const Answers = ({ navigation }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppIcon
                 name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
-                color={Constants.Colors.primary}
+                color={Colors.primary}
               />
               <AppText
                 style={{ marginLeft: 10 }}
                 text="Answer Anonymously"
-                color={Constants.Colors.text}
-                fontSize={Constants.Styles.FontSize.large}
+                color={Colors.text}
+                fontSize={Styles.FontSize.large}
               />
             </View>
           </TouchableOpacity>
@@ -416,8 +416,8 @@ const Answers = ({ navigation }) => {
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text={flagButtonText}
-                backgroundColor={Constants.Colors.primary}
-                color={Constants.Colors.white}
+                backgroundColor={Colors.primary}
+                color={Colors.white}
                 onPress={() => onPressFlagQuestion(!isFlagged)}
               />
             </View>
@@ -443,8 +443,8 @@ const Answers = ({ navigation }) => {
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text="Message"
-                backgroundColor={Constants.Colors.primary}
-                color={Constants.Colors.white}
+                backgroundColor={Colors.primary}
+                color={Colors.white}
                 onPress={onPressMessageBtn}
               />
             </View>

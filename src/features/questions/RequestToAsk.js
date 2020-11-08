@@ -5,7 +5,7 @@ import { View, StatusBar, StyleSheet, Animated } from 'react-native'
 import moment from 'moment'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import Fonts from 'assets/fonts'
 import { AppText, AppButton, Loading, Header } from 'components'
 import { BackButton } from 'components/NavButton'
@@ -13,13 +13,13 @@ import AskMyQuestionModal from './AskMyQuestionModal'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   headerView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     padding: 16,
   },
   headerInner: {
@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
   },
   questionItem: {
     flexDirection: 'row',
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     borderBottomWidth: 1,
     paddingBottom: 14,
     marginBottom: 14,
     marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
+    width: Dimensions.Width - 32,
   },
   lastQuestionItem: {
     borderBottomWidth: 0,
@@ -52,19 +52,19 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
   },
   input: {
     marginLeft: 10,
     flex: 1,
     fontFamily: Fonts.latoRegular,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   askBtn: {
     padding: 10,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
   },
 })
 
@@ -116,7 +116,7 @@ const RequestToAsk = ({ navigation, route }) => {
         <View style={{ flexDirection: 'row' }}>
           <AppText
             text={title}
-            fontSize={Constants.Styles.FontSize.xxLarge}
+            fontSize={Styles.FontSize.xxLarge}
             fontFamily={Fonts.latoBold}
             style={{ marginRight: 10 }}
           />
@@ -124,9 +124,9 @@ const RequestToAsk = ({ navigation, route }) => {
         <View style={styles.headerInner}>
           <AppText
             text={moment(request.createdAt).fromNow()}
-            color={Constants.Colors.gray}
+            color={Colors.gray}
             style={{ marginRight: 14 }}
-            fontSize={Constants.Styles.FontSize.medium}
+            fontSize={Styles.FontSize.medium}
           />
         </View>
       </View>
@@ -134,9 +134,9 @@ const RequestToAsk = ({ navigation, route }) => {
         <AppButton
           onPress={() => setShowAskingModal(true)}
           text="Ask My Question"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
+          backgroundColor={Colors.primary}
+          color={Colors.white}
+          borderRadius={Styles.BorderRadius.small}
         />
       </View>
 

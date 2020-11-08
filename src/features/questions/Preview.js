@@ -7,7 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
@@ -15,13 +15,13 @@ import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   contentView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
     padding: 16,
   },
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     paddingBottom: 10,
     marginBottom: 14,
   },
@@ -54,7 +54,7 @@ const Preview = ({ route }) => {
         <Avatar source={Images.defaultAvatar} size={40} />
         <AppText
           text={contact.name}
-          fontSize={Constants.Styles.FontSize.large}
+          fontSize={Styles.FontSize.large}
           style={{ marginLeft: 10 }}
         />
       </View>
@@ -74,8 +74,8 @@ const Preview = ({ route }) => {
           </View>
           <AppText
             text={ask && ask.question}
-            color={Constants.Colors.text}
-            fontSize={Constants.Styles.FontSize.xLarge}
+            color={Colors.text}
+            fontSize={Styles.FontSize.xLarge}
           />
         </View>
 
@@ -99,25 +99,25 @@ const Preview = ({ route }) => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppIcon
                 name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
-                color={Constants.Colors.primary}
+                color={Colors.primary}
               />
               <AppText
                 style={{ marginLeft: 10 }}
                 text="Ask Anonymously"
-                color={Constants.Colors.text}
-                fontSize={Constants.Styles.FontSize.large}
+                color={Colors.text}
+                fontSize={Styles.FontSize.large}
               />
             </View>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ padding: 10, backgroundColor: Constants.Colors.white }}>
+      <View style={{ padding: 10, backgroundColor: Colors.white }}>
         <AppButton
           onPress={onConfirmQuestion}
           text="Confirm"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
+          backgroundColor={Colors.primary}
+          color={Colors.white}
+          borderRadius={Styles.BorderRadius.small}
         />
       </View>
     </View>

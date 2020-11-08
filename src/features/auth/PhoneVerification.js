@@ -3,26 +3,23 @@ import { Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Formik } from 'formik'
 import LinearGradient from 'react-native-linear-gradient'
 import { AppInput } from 'components'
-import Constants from 'constants'
+import { Colors, Dimensions } from 'constants'
 import { useDispatch } from 'react-redux'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
 
-const linearGradientColors = [
-  Constants.Colors.primary,
-  Constants.Colors.primaryLight,
-]
+const linearGradientColors = [Colors.primary, Colors.primaryLight]
 
 const styles = {
   modalView: {
     margin: 0,
-    width: Constants.Dimensions.Width,
-    height: Constants.Dimensions.Height,
+    width: Dimensions.Width,
+    height: Dimensions.Height,
   },
   modalInnerView: {
-    height: Constants.Dimensions.Height,
+    height: Dimensions.Height,
   },
   header: {
-    color: Constants.Colors.white,
+    color: Colors.white,
     fontSize: 18,
     textAlign: 'center',
     marginTop: 20,
@@ -38,10 +35,10 @@ const styles = {
     marginBottom: 10,
     borderRadius: 2,
     fontSize: 16,
-    color: Constants.Colors.white,
+    color: Colors.white,
   },
   modalBtn: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     borderRadius: 2,
     height: 48,
     alignItems: 'center',
@@ -50,7 +47,7 @@ const styles = {
   },
   modalBtnText: {
     fontWeight: 'bold',
-    color: Constants.Colors.textRed,
+    color: Colors.textRed,
   },
   bottomView: {
     marginTop: 20,
@@ -61,7 +58,7 @@ const styles = {
   },
   bottomBtn: {
     fontWeight: '700',
-    color: Constants.Colors.white,
+    color: Colors.white,
     marginLeft: 5,
   },
 }

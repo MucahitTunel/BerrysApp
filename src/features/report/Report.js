@@ -5,7 +5,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import KeyboardListener from 'react-native-keyboard-listener'
 
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import Fonts from 'assets/fonts'
 import { AppInput, AppButton } from 'components'
 import { submitReport } from 'features/report/reportSlice'
@@ -13,20 +13,20 @@ import { showKeyboard, hideKeyBoard } from 'utils'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   input: {
     paddingHorizontal: 20,
     marginBottom: 10,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
     fontFamily: Fonts.latoRegular,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
   },
 })
 
@@ -67,7 +67,7 @@ const Report = () => {
             <View
               style={{
                 flex: 1,
-                backgroundColor: Constants.Colors.white,
+                backgroundColor: Colors.white,
                 padding: 16,
               }}>
               <AppInput
@@ -91,15 +91,15 @@ const Report = () => {
             <View
               style={{
                 padding: 10,
-                backgroundColor: Constants.Colors.white,
+                backgroundColor: Colors.white,
               }}>
               <AppButton
                 onPress={handleSubmit}
                 isLoading={isSubmitting}
                 text="Submit"
-                backgroundColor={Constants.Colors.primary}
-                color={Constants.Colors.white}
-                borderRadius={Constants.Styles.BorderRadius.small}
+                backgroundColor={Colors.primary}
+                color={Colors.white}
+                borderRadius={Styles.BorderRadius.small}
                 error={errors.email || errors.message}
               />
             </View>

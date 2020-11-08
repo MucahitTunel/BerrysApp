@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { AppButton, AppIcon, AppText } from 'components'
-import Constants from 'constants'
+import { Dimensions, Colors } from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
 import surveysList from './surveysList'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.white,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     flex: 1,
     paddingHorizontal: 16,
   },
@@ -22,17 +22,17 @@ const styles = StyleSheet.create({
   },
   surveyItem: {
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
     borderRadius: 8,
     marginBottom: 6,
-    width: (Constants.Dimensions.Width - 44) / 3,
-    height: (Constants.Dimensions.Width - 44) / 3,
+    width: (Dimensions.Width - 44) / 3,
+    height: (Dimensions.Width - 44) / 3,
     alignItems: 'center',
     padding: 12,
   },
   surveyItemActive: {
-    borderColor: Constants.Colors.primary,
-    backgroundColor: Constants.Colors.primary,
+    borderColor: Colors.primary,
+    backgroundColor: Colors.primary,
   },
   surveyList: {
     flexDirection: 'row',
@@ -78,11 +78,7 @@ const Survey = () => {
                 <AppIcon
                   name={item.icon}
                   size={item.size}
-                  color={
-                    option === item.value
-                      ? Constants.Colors.WHITE
-                      : Constants.Colors.text
-                  }
+                  color={option === item.value ? Colors.WHITE : Colors.text}
                 />
               </View>
               <AppText
@@ -91,10 +87,7 @@ const Survey = () => {
                 style={[
                   styles.surveyItemText,
                   {
-                    color:
-                      option === item.value
-                        ? Constants.Colors.WHITE
-                        : Constants.Colors.text,
+                    color: option === item.value ? Colors.WHITE : Colors.text,
                   },
                 ]}
               />
@@ -104,10 +97,8 @@ const Survey = () => {
       </View>
       <View style={{ marginTop: 40 }}>
         <AppButton
-          backgroundColor={
-            option ? Constants.Colors.primary : Constants.Colors.gray
-          }
-          color={Constants.Colors.white}
+          backgroundColor={option ? Colors.primary : Colors.gray}
+          color={Colors.white}
           onPress={onPressContinue}
           text="Pick 1 to continue"
           activeOpacity={option ? 0.2 : 1}

@@ -4,20 +4,20 @@ import Clipboard from '@react-native-community/clipboard'
 import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList, AppButton } from 'components'
 import { requestToAsk } from 'features/auth/authSlice'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   footer: {
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
   },
 })
 
@@ -51,9 +51,9 @@ const RequestContactsToAsk = (props) => {
         <AppButton
           onPress={onPressCopyURL}
           text="Copy URL"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
+          backgroundColor={Colors.primary}
+          color={Colors.white}
+          borderRadius={Styles.BorderRadius.small}
         />
       </View>
     </View>

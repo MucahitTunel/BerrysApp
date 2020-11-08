@@ -11,7 +11,7 @@ import {
   MessagesBackButton,
   MessagesButton,
 } from 'components/NavButton'
-import Constants from 'constants'
+import { Screens } from 'constants'
 import Onboarding from 'features/auth/Onboarding'
 import Splash from 'features/auth/Splash'
 import PhoneVerification from 'features/auth/PhoneVerification'
@@ -36,7 +36,7 @@ const Drawer = createDrawerNavigator()
 const SurveyStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.Survey}
+      name={Screens.Survey}
       component={Survey}
       options={({ navigation }) => ({
         header: () => (
@@ -50,7 +50,7 @@ const SurveyStack = () => (
 const MainStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.Main}
+      name={Screens.Main}
       component={Main}
       options={({ navigation }) => ({
         header: () => (
@@ -62,13 +62,10 @@ const MainStack = () => (
         ),
       })}
     />
-    <Stack.Screen name={Constants.Screens.Answers} component={Answers} />
+    <Stack.Screen name={Screens.Answers} component={Answers} />
+    <Stack.Screen name={Screens.RequestToAsk} component={RequestToAsk} />
     <Stack.Screen
-      name={Constants.Screens.RequestToAsk}
-      component={RequestToAsk}
-    />
-    <Stack.Screen
-      name={Constants.Screens.SelectContacts}
+      name={Screens.SelectContacts}
       component={SelectContacts}
       options={({ navigation }) => ({
         header: () => (
@@ -80,7 +77,7 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen
-      name={Constants.Screens.Preview}
+      name={Screens.Preview}
       component={Preview}
       options={({ navigation }) => ({
         header: () => (
@@ -92,7 +89,7 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen
-      name={Constants.Screens.RequestContactsToAsk}
+      name={Screens.RequestContactsToAsk}
       component={RequestContactsToAsk}
       options={({ navigation }) => ({
         header: () => (
@@ -104,7 +101,7 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen
-      name={Constants.Screens.Messages}
+      name={Screens.Messages}
       component={Messages}
       options={({ navigation }) => ({
         header: () => (
@@ -116,12 +113,9 @@ const MainStack = () => (
         ),
       })}
     />
+    <Stack.Screen name={Screens.Conversation} component={Conversation} />
     <Stack.Screen
-      name={Constants.Screens.Conversation}
-      component={Conversation}
-    />
-    <Stack.Screen
-      name={Constants.Screens.MessageContacts}
+      name={Screens.MessageContacts}
       component={MessageContacts}
       options={({ navigation }) => ({
         header: () => (
@@ -133,7 +127,7 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen
-      name={Constants.Screens.DirectMessage}
+      name={Screens.DirectMessage}
       component={DirectMessage}
       options={{ headerShown: false }}
     />
@@ -143,7 +137,7 @@ const MainStack = () => (
 const ImportGmailContactsStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.ImportGmailContacts}
+      name={Screens.ImportGmailContacts}
       component={ImportGmailContacts}
       options={({ navigation }) => ({
         header: () => (
@@ -160,7 +154,7 @@ const ImportGmailContactsStack = () => (
 const FollowContactsStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.FollowContacts}
+      name={Screens.FollowContacts}
       component={FollowContacts}
       options={({ navigation }) => ({
         header: () => (
@@ -177,7 +171,7 @@ const FollowContactsStack = () => (
 const ReportStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Constants.Screens.Report}
+      name={Screens.Report}
       component={Report}
       options={({ navigation }) => ({
         header: () => (
@@ -203,35 +197,26 @@ const RootNavigator = () => {
   if (user && !user.isVerifying) {
     return (
       <Drawer.Navigator
-        initialRouteName={Constants.Screens.MainStack}
+        initialRouteName={Screens.MainStack}
         drawerContent={(props) => <SideBarMenu {...props} />}>
+        <Drawer.Screen name={Screens.MainStack} component={MainStack} />
         <Drawer.Screen
-          name={Constants.Screens.MainStack}
-          component={MainStack}
-        />
-        <Drawer.Screen
-          name={Constants.Screens.ImportGmailContactsStack}
+          name={Screens.ImportGmailContactsStack}
           component={ImportGmailContactsStack}
         />
         <Drawer.Screen
-          name={Constants.Screens.FollowContactsStack}
+          name={Screens.FollowContactsStack}
           component={FollowContactsStack}
         />
-        <Drawer.Screen
-          name={Constants.Screens.ReportStack}
-          component={ReportStack}
-        />
+        <Drawer.Screen name={Screens.ReportStack} component={ReportStack} />
       </Drawer.Navigator>
     )
   } else {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={Screens.Onboarding} component={Onboarding} />
         <Stack.Screen
-          name={Constants.Screens.Onboarding}
-          component={Onboarding}
-        />
-        <Stack.Screen
-          name={Constants.Screens.PhoneVerification}
+          name={Screens.PhoneVerification}
           component={PhoneVerification}
         />
       </Stack.Navigator>

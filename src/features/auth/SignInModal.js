@@ -7,14 +7,14 @@ import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
 import { Formik } from 'formik'
 import Theme from 'theme'
-import Constants from 'constants'
+import { Colors, Misc } from 'constants'
 import { AppIcon, AppInput, AppButton, AppText } from 'components'
 import { signIn } from 'features/auth/authSlice'
 
-const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
+const linearGradient = [Colors.primary, Colors.primaryLight]
 
 const SignInModal = ({ isVisible, onClose }) => {
-  const [country, setCountry] = useState(Constants.Misc.DefaultCountry)
+  const [country, setCountry] = useState(Misc.DefaultCountry)
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
@@ -42,7 +42,7 @@ const SignInModal = ({ isVisible, onClose }) => {
         style={{ flex: 1, padding: 20 }}>
         <View style={Theme.Modal.modalInnerView}>
           <TouchableOpacity onPress={onClose} style={Theme.Modal.closeBtn}>
-            <AppIcon name="close" color={Constants.Colors.white} />
+            <AppIcon name="close" color={Colors.white} />
           </TouchableOpacity>
           <AppText text="Sign In" style={Theme.Modal.header} />
           <View style={Theme.Modal.form}>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles, Screens } from 'constants'
 import Fonts from 'assets/fonts'
 import { AppButton, AppText, AppInput } from 'components'
 import Theme from 'theme'
@@ -14,15 +14,15 @@ import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   headerView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     padding: 16,
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     borderBottomWidth: 1,
   },
   headerInner: {
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
   },
   questionItem: {
     flexDirection: 'row',
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     borderBottomWidth: 1,
     paddingBottom: 14,
     marginBottom: 14,
     marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
+    width: Dimensions.Width - 32,
   },
   lastQuestionItem: {
     borderBottomWidth: 0,
@@ -55,23 +55,23 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
   },
   input: {
     paddingHorizontal: 20,
     marginBottom: 10,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
     fontFamily: Fonts.latoRegular,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   content: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     padding: 20,
-    width: Constants.Dimensions.Width - 20,
+    width: Dimensions.Width - 20,
     marginLeft: 10,
     borderRadius: 8,
   },
@@ -105,7 +105,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
     dispatch(setAskQuestion(question))
     setModalVisible(false)
     setQuestion('')
-    NavigationService.navigate(Constants.Screens.SelectContacts, {
+    NavigationService.navigate(Screens.SelectContacts, {
       request,
       requester,
     })
@@ -124,7 +124,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
           <View style={styles.content}>
             <AppText
               text={`Ask ${request.requester} your question`}
-              fontSize={Constants.Styles.FontSize.xLarge}
+              fontSize={Styles.FontSize.xLarge}
               style={{ marginBottom: 30, textAlign: 'center' }}
             />
             <AppInput
@@ -136,8 +136,8 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
             <View style={styles.actions}>
               <AppButton
                 text="Submit"
-                backgroundColor={Constants.Colors.primary}
-                color={Constants.Colors.white}
+                backgroundColor={Colors.primary}
+                color={Colors.white}
                 onPress={onSubmit}
                 activeOpacity={1}
               />

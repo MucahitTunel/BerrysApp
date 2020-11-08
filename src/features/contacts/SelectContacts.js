@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 import { useDispatch } from 'react-redux'
 import * as NavigationService from 'services/navigation'
 import { ContactsList } from 'components'
-import Constants from 'constants'
+import { Screens } from 'constants'
 import { setAskContacts } from 'features/questions/askSlice'
 
 const SelectContacts = (props) => {
@@ -17,7 +17,7 @@ const SelectContacts = (props) => {
       )
     }
     dispatch(setAskContacts(contacts))
-    return NavigationService.navigate(Constants.Screens.Preview, {
+    return NavigationService.navigate(Screens.Preview, {
       requestToAsk: request,
     })
   }
