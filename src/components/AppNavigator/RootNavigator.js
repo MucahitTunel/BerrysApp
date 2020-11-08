@@ -70,7 +70,7 @@ const MainStack = () => (
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="People who'll get SMS about this question"
+            title="Post Question"
             headerLeft={<BackButton navigation={navigation} />}
           />
         ),

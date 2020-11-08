@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     flex: 1,
     fontSize: Styles.FontSize.large,
-    color: Colors.gray,
+    color: Colors.text,
   },
   flatListView: {
     paddingTop: 4,
@@ -160,6 +160,21 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.euclidCircularAMedium,
     marginLeft: 4,
   },
+  requesterIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(235, 84, 80, 0.19)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  requesterText: {
+    marginRight: 5,
+    lineHeight: 20,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
 })
 
 const RequestToAsk = ({ request }) => {
@@ -185,25 +200,11 @@ const RequestToAsk = ({ request }) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <View
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: 'rgba(235, 84, 80, 0.19)',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 10,
-              }}>
+            <View style={styles.requesterIcon}>
               <AppImage source={Images.message} width={17} height={15} />
             </View>
             <AppText
-              style={{
-                marginRight: 5,
-                lineHeight: 20,
-                flex: 1,
-                flexWrap: 'wrap',
-              }}
+              style={styles.requesterText}
               fontSize={Styles.FontSize.normal}>
               {`You got invited by `}{' '}
               <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>

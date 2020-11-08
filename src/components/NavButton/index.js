@@ -7,7 +7,7 @@ import Images from 'assets/images'
 
 export const BackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.goBack()}>
-    <AppIcon name="chevron-left" color={Colors.white} />
+    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
   </ScaleTouchable>
 )
 

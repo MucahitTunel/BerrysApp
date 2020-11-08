@@ -1,50 +1,49 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  View,
-  StatusBar,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  SectionList,
-} from 'react-native'
+import { View, StatusBar, StyleSheet, SectionList } from 'react-native'
 import { Dimensions, Colors, Styles } from 'constants'
-import { AppText, AppIcon, AppButton } from 'components'
+import {
+  AppText,
+  AppInput,
+  AppButton,
+  ScaleTouchable,
+  Avatar,
+  AppImage,
+  AppIcon,
+} from 'components'
 import Fonts from 'assets/fonts'
+import Images from 'assets/images'
 
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.grayLight,
+    backgroundColor: Colors.background,
     flex: 1,
   },
   flatListView: {
     backgroundColor: Colors.white,
     flex: 1,
+    paddingHorizontal: 16,
   },
   contactItem: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  searchView: {
-    flexDirection: 'row',
-    backgroundColor: Colors.white,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.grayLight,
+    borderColor: 'rgba(151, 151, 151, 0.2)',
+  },
+  filterWrapper: {
+    backgroundColor: Colors.white,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
   searchInput: { paddingLeft: 10, flex: 1 },
   sectionHeader: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.grayLight,
     backgroundColor: Colors.white,
+    paddingTop: 10,
   },
 })
 
@@ -57,6 +56,7 @@ const ContactsList = ({
 }) => {
   const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
+  const ask = useSelector((state) => state.ask)
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
     allContacts
@@ -139,26 +139,27 @@ const ContactsList = ({
     }
     const rightText = showRightText && item.isAppUser ? `active` : ''
     return (
-      <TouchableOpacity
+      <ScaleTouchable
         key={item._id}
         style={styles.contactItem}
         onPress={() => onSelectContact(item)}>
-        <View style={{ flexDirection: 'row' }}>
-          <AppIcon
-            name={isChecked ? 'radio-checked' : 'radio-unchecked'}
-            size={14}
-          />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar source={Images.defaultAvatar} size={38} />
           <AppText
             style={{ marginLeft: 10 }}
-            text={text}
-            color={Colors.text}
-            fontSize={Styles.FontSize.large}
-          />
+            fontFamily={Fonts.euclidCircularAMedium}>
+            {text}
+            <AppText color={Colors.gray}>{rightText}</AppText>
+          </AppText>
         </View>
         <View>
-          <AppText text={rightText} color={Colors.gray} />
+          <AppImage
+            source={isChecked ? Images.checkmarkSelected : Images.checkmark}
+            width={20}
+            height={20}
+          />
         </View>
-      </TouchableOpacity>
+      </ScaleTouchable>
     )
   }
 
@@ -168,10 +169,10 @@ const ContactsList = ({
       <View style={styles.sectionHeader}>
         <AppText
           text={key}
-          color={Colors.text}
-          fontFamily={Fonts.latoBold}
-          fontSize={Styles.FontSize.large}
-        />
+          fontSize={Styles.FontSize.medium}
+          fontFamily={Fonts.euclidCircularAMedium}>
+          {key}
+        </AppText>
       </View>
     )
   }
@@ -237,18 +238,86 @@ const ContactsList = ({
   })
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
-  const placeholder = `Search in ${allContacts.length} contacts ...`
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.searchView}>
-        <AppIcon name="search" color={Colors.gray} size={20} />
-        <TextInput
-          placeholder={placeholder}
-          style={styles.searchInput}
-          value={searchText}
-          onChangeText={onChangeSearchText}
-        />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingVertical: 24,
+          paddingHorizontal: 16,
+          backgroundColor: Colors.white,
+          marginBottom: 8,
+        }}>
+        <Avatar source={Images.defaultAvatar} size={54} />
+        <AppText style={{ marginLeft: 16, flex: 1 }}>{ask.question}</AppText>
+      </View>
+      <View style={styles.filterWrapper}>
+        <AppText
+          fontSize={Styles.FontSize.xLarge}
+          fontFamily={Fonts.euclidCircularAMedium}>
+          {`Share with `}
+          <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
+            (Select atleast 3 contacts)
+          </AppText>
+        </AppText>
+        {!!contacts.filter((c) => c[checkCondition]) && (
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: 12,
+              flexWrap: 'wrap',
+            }}>
+            {contacts
+              .filter((c) => c[checkCondition])
+              .map((contact) => {
+                return (
+                  <ScaleTouchable
+                    onPress={() => onSelectContact(contact)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      borderWidth: 1,
+                      borderColor: 'rgba(151, 151, 151, 0.53)',
+                      paddingVertical: 4,
+                      paddingHorizontal: 8,
+                      borderRadius: 5,
+                      marginRight: 10,
+                      marginBottom: 10,
+                    }}>
+                    <AppText
+                      color={Colors.gray}
+                      fontSize={Styles.FontSize.normal}
+                      fontFamily={Fonts.euclidCircularAMedium}
+                      style={{ marginRight: 10 }}>
+                      {contact.name}
+                    </AppText>
+                    <AppIcon name="close" size={10} color={Colors.gray} />
+                  </ScaleTouchable>
+                )
+              })}
+          </View>
+        )}
+        <View>
+          <View style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
+            <AppIcon name="search" color={Colors.gray} size={20} />
+          </View>
+          <AppInput
+            placeholder="Search"
+            placeholderTextColor={Colors.gray}
+            value={searchText}
+            icon="search"
+            style={{
+              backgroundColor: Colors.background,
+              paddingLeft: 50,
+              fontSize: 15,
+              fontFamily: Fonts.euclidCircularAMedium,
+              color: Colors.text,
+            }}
+            onChangeText={onChangeSearchText}
+          />
+        </View>
       </View>
       <SectionList
         style={styles.flatListView}
@@ -266,9 +335,6 @@ const ContactsList = ({
             )
           }
           text={submitText}
-          backgroundColor={Colors.primary}
-          color={Colors.white}
-          borderRadius={Styles.BorderRadius.small}
         />
       </View>
     </View>
@@ -286,7 +352,7 @@ ContactsList.propTypes = {
 
 ContactsList.defaultProps = {
   showRightText: false,
-  submitText: 'Submit',
+  submitText: 'Preview',
   singleSelect: false,
   route: {},
 }
