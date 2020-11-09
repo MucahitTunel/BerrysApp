@@ -30,13 +30,15 @@ const menu = [
 const styles = StyleSheet.create({
   infoView: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingTop: 60,
+    paddingBottom: 24,
     backgroundColor: Colors.primary,
   },
   menuView: {
     justifyContent: 'space-between',
     flex: 1,
     paddingVertical: 16,
+    backgroundColor: Colors.white,
   },
   menuItem: {
     paddingVertical: 10,

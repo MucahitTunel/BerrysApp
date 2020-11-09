@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   },
   btnDisabled: {
     shadowOpacity: 0,
+    backgroundColor: Colors.grayLight,
   },
 })
 

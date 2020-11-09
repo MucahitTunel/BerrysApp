@@ -15,6 +15,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 20,
   },
   closeBtn: {
     position: 'absolute',

@@ -11,12 +11,12 @@ const linearGradient = [Colors.primary, Colors.primaryLight]
 
 const styles = StyleSheet.create({
   header: {
-    height: 90,
+    height: 96,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: 30,
   },
   headerText: {
     fontSize: Styles.FontSize.xLarge,

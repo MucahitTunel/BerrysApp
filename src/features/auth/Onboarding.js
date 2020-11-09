@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
@@ -66,7 +66,12 @@ const Onboarding = () => {
     setSwiperIndex(swiperIndex + 1)
   }
   return (
-    <View style={{ flexDirection: 'column', flex: 1 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: Colors.white,
+      }}>
       <View style={{ flex: 5 }}>
         <Swiper
           ref={swiperRef}
@@ -83,7 +88,7 @@ const Onboarding = () => {
                     source={Images.logo}
                     width={102}
                     height={30}
-                    style={{ marginBottom: 40 }}
+                    style={{ marginBottom: '40%' }}
                   />
                   <AppImage source={slide.image} width={190} height={194} />
                 </View>
@@ -128,7 +133,7 @@ const Onboarding = () => {
         isVisible={isVisibleSignInModal}
         onClose={closeSignInModal}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

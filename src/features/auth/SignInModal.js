@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, Platform, Linking, StyleSheet } from 'react-native'
+import { View, Platform, Linking, StyleSheet, SafeAreaView } from 'react-native'
 import Modal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
@@ -18,7 +18,6 @@ import {
 } from 'components'
 import { signIn } from 'features/auth/authSlice'
 import Images from 'assets/images'
-import Fonts from 'assets/fonts'
 
 const linearGradient = [Colors.primary, Colors.primaryLight]
 
@@ -73,7 +72,7 @@ const SignInModal = ({ isVisible, onClose }) => {
         start={{ x: 0.25, y: 0.5 }}
         end={{ x: 0.75, y: 0.5 }}
         style={{ flex: 1, paddingHorizontal: 16, paddingTop: 40 }}>
-        <View style={Theme.Modal.modalInnerView}>
+        <SafeAreaView style={Theme.Modal.modalInnerView}>
           <View style={Theme.Modal.header}>
             <AppButton
               icon="close"
@@ -89,10 +88,7 @@ const SignInModal = ({ isVisible, onClose }) => {
             <View />
           </View>
           <View style={Theme.Modal.form}>
-            <AppText
-              fontSize={28}
-              fontFamily={Fonts.euclidCircularASemiBold}
-              color={Colors.white}>
+            <AppText fontSize={28} weight="bold" color={Colors.white}>
               Sign In
             </AppText>
             <AppText color={Colors.white}>
@@ -166,7 +162,7 @@ const SignInModal = ({ isVisible, onClose }) => {
               )}
             </Formik>
           </View>
-        </View>
+        </SafeAreaView>
       </LinearGradient>
     </Modal>
   )

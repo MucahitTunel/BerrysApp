@@ -2,13 +2,14 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  View,
-  TouchableOpacity,
+  Animated,
   FlatList,
+  Keyboard,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
-  Animated,
-  Keyboard,
+  TouchableOpacity,
+  View,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -16,84 +17,77 @@ import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Colors, Dimensions, Styles } from 'constants'
 import Fonts from 'assets/fonts'
+import Images from 'assets/images'
 import {
-  Avatar,
-  AppText,
-  AppIcon,
-  AppInput,
   AppButton,
-  Loading,
+  AppIcon,
+  AppImage,
+  AppInput,
+  AppText,
+  Avatar,
   Header,
+  Loading,
 } from 'components'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
 import Theme from 'theme'
 import {
+  flagQuestion,
+  getQuestion,
+  submitComment,
   voteComment as voteCommentAction,
   voteQuestion as voteQuestionAction,
-  getQuestion,
-  flagQuestion,
-  submitComment,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
 
 const styles = StyleSheet.create({
-  container: {
-    height: Dimensions.Height,
-    width: Dimensions.Width,
-    backgroundColor: Colors.grayLight,
-    flex: 1,
-  },
   headerView: {
     backgroundColor: Colors.white,
-    padding: 16,
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
   headerAnswerView: {
+    marginTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  headerAnswerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
+  questionItemWrapper: {
+    borderBottomColor: Colors.grayLight,
+    borderBottomWidth: 1,
+    paddingTop: 16,
+    paddingBottom: 20,
   },
   questionItem: {
     flexDirection: 'row',
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingBottom: 14,
-    marginBottom: 14,
-    marginLeft: 16,
-    width: Dimensions.Width - 32,
   },
-  lastQuestionItem: {
+  lastQuestionItemWrapper: {
     borderBottomWidth: 0,
-    marginBottom: 0,
   },
   flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Colors.white,
+    paddingVertical: 8,
+    backgroundColor: Colors.background,
     flex: 1,
   },
   inputView: {
     padding: 16,
     backgroundColor: Colors.white,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
+    height: 48,
+    borderRadius: 24,
     marginLeft: 10,
     flex: 1,
-    fontFamily: Fonts.latoRegular,
+    borderWidth: 1,
+    borderColor: Colors.grayLight,
+    color: Colors.text,
     fontSize: Styles.FontSize.large,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginRight: 10,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -152,47 +146,53 @@ const Comment = ({
     }
   }
   return (
-    <View style={styles.questionItem}>
-      <TouchableOpacity onPress={() => onPressUser(comment)}>
-        <Avatar size={50} />
-      </TouchableOpacity>
-      <View
-        style={{
-          flex: 1,
-          marginLeft: 10,
-        }}>
+    <View style={styles.questionItemWrapper}>
+      <View style={styles.questionItem}>
         <TouchableOpacity onPress={() => onPressUser(comment)}>
-          <AppText
-            text={isAnonymous ? name : userPhoneNumber}
-            color={Colors.blue}
-            fontFamily={Fonts.latoBold}
-            style={{ marginBottom: 5 }}
-          />
+          <Avatar size={54} />
         </TouchableOpacity>
-        <AppText text={content} fontSize={Styles.FontSize.large} />
-        <View style={styles.headerAnswerView}>
-          <View style={styles.headerAnswerInner}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: 10,
+          }}>
+          <TouchableOpacity onPress={() => onPressUser(comment)}>
             <AppText
-              text={moment(createdAt).fromNow()}
-              color={Colors.gray}
-              style={{ marginRight: 14 }}
-              fontSize={Styles.FontSize.medium}
-            />
-            <AppText text={`${totalVotes}`} color={Colors.gray} />
-            <TouchableOpacity
-              style={{ padding: 5 }}
-              onPress={() => upVoteComment(_id)}>
-              <AppIcon name="like" size={16} color={Colors.gray} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                padding: 5,
-                marginRight: 5,
-              }}
-              onPress={() => downVoteComment(_id)}>
-              <AppIcon name="unlike" size={16} color={Colors.gray} />
-            </TouchableOpacity>
-          </View>
+              weight="medium"
+              color={Colors.primary}
+              style={{ marginBottom: 5 }}>
+              {isAnonymous ? name : userPhoneNumber}
+            </AppText>
+          </TouchableOpacity>
+          <AppText
+            weight="italic"
+            fontSize={Styles.FontSize.normal}
+            style={{ lineHeight: 26 }}
+            color={Colors.gray}>{`"${content}`}</AppText>
+        </View>
+      </View>
+      <View style={styles.headerAnswerView}>
+        <AppText
+          fontSize={Styles.FontSize.normal}
+          color={Colors.gray}
+          style={{ marginRight: 14 }}>
+          {moment(createdAt).fromNow()}
+        </AppText>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <AppText fontSize={Styles.FontSize.normal}>{`${totalVotes}`}</AppText>
+          <TouchableOpacity
+            style={{ padding: 5 }}
+            onPress={() => upVoteComment(_id)}>
+            <AppIcon name="like" size={20} color={Colors.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              padding: 5,
+              marginLeft: 5,
+            }}
+            onPress={() => downVoteComment(_id)}>
+            <AppIcon name="dislike" size={20} color={Colors.gray} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -277,7 +277,7 @@ const Answers = ({ navigation }) => {
   }, [navigation])
 
   const renderEmpty = () => (
-    <AppText style={{ textAlign: 'center' }} text="There's no answer yet" />
+    <AppText style={{ textAlign: 'center' }}>"There's no answer yet"</AppText>
   )
 
   if (loading) return <Loading />
@@ -285,176 +285,179 @@ const Answers = ({ navigation }) => {
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   return (
-    <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
-      <StatusBar barStyle="light-content" />
-      <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
-      />
-      <View style={styles.headerView}>
-        <View style={{ flexDirection: 'row' }}>
-          <AppText
-            text={question.content}
-            fontSize={Styles.FontSize.xxLarge}
-            fontFamily={Fonts.latoBold}
-            style={{ marginRight: 10 }}
-          />
-          {isFlagged && (
-            <AppIcon name="flag" color={Colors.primary} size={20} />
-          )}
-        </View>
-        <View style={styles.headerInner}>
-          <AppText
-            text={moment(question.createdAt).fromNow()}
-            color={Colors.gray}
-            style={{ marginRight: 14 }}
-            fontSize={Styles.FontSize.medium}
-          />
-          <AppText text={question.totalVotes} color={Colors.gray} />
-          <TouchableOpacity
-            style={{ padding: 5 }}
-            onPress={() => upVoteQuestion()}>
-            <AppIcon name="like" size={16} color={Colors.gray} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              padding: 5,
-              marginRight: 5,
-            }}
-            onPress={() => downVoteQuestion()}>
-            <AppIcon name="unlike" size={16} color={Colors.gray} />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.flatListView}>
-        <FlatList
-          data={question.comments}
-          renderItem={({ item }) => (
-            <Comment
-              comment={item}
-              question={question}
-              user={user}
-              setIsMessageModalVisible={setIsMessageModalVisible}
-              setComment={setComment}
-            />
-          )}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={renderEmpty()}
-          refreshing={loading}
-          onRefresh={() => refreshQuestion(question._id)}
+    <Animated.View style={[{ flex: 1, paddingBottom: keyboardHeight.current }]}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+        <StatusBar barStyle="light-content" />
+        <KeyboardListener
+          onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+          onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
-      </View>
-      <View
-        style={{
-          borderTopColor: Colors.grayLight,
-          borderTopWidth: 1,
-        }}>
-        <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
-          {({ values, handleChange, handleSubmit }) => (
-            <View style={styles.inputView}>
-              <AppInput
-                style={styles.input}
-                placeholder={
-                  question.isAbleToAnswer
-                    ? 'Type a message...'
-                    : 'You cannot answer this question'
-                }
-                editable={question.isAbleToAnswer}
-                multiline
-                onChange={handleChange('cmt')}
-                value={values.cmt}
-              />
+        <View style={styles.headerView}>
+          <View style={{ flexDirection: 'row' }}>
+            <AppText
+              fontSize={Styles.FontSize.xxLarge}
+              fontFamily={Fonts.latoBold}
+              style={{ marginRight: 10 }}>
+              {question.content}
+            </AppText>
+            {isFlagged && (
+              <AppIcon name="flag" color={Colors.primary} size={20} />
+            )}
+          </View>
+          <View style={[styles.headerAnswerView, { marginTop: 4 }]}>
+            <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+              {moment(question.createdAt).fromNow()}
+            </AppText>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppText fontSize={Styles.FontSize.normal}>
+                {question.totalVotes}
+              </AppText>
+              <TouchableOpacity
+                style={{ padding: 5 }}
+                onPress={() => upVoteQuestion()}>
+                <AppIcon name="like" size={20} color={Colors.gray} />
+              </TouchableOpacity>
               <TouchableOpacity
                 style={{
-                  opacity: question.isAbleToAnswer ? 1 : 0.3,
-                  activeOpacity: 0.3,
+                  padding: 5,
+                  marginLeft: 5,
                 }}
-                onPress={question.isAbleToAnswer ? handleSubmit : () => {}}>
-                <AppIcon name="send" color={Colors.primaryLight} />
+                onPress={() => downVoteQuestion()}>
+                <AppIcon name="dislike" size={20} color={Colors.gray} />
               </TouchableOpacity>
             </View>
-          )}
-        </Formik>
-        <View
-          style={{
-            padding: 10,
-            backgroundColor: 'white',
-            borderTopWidth: 1,
-            borderTopColor: Colors.grayLight,
-          }}>
-          <TouchableOpacity
-            style={styles.contactItem}
-            onPress={() => setIsAnonymous(!isAnonymous)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppIcon
-                name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
-                color={Colors.primary}
-              />
-              <AppText
-                style={{ marginLeft: 10 }}
-                text="Answer Anonymously"
-                color={Colors.text}
-                fontSize={Styles.FontSize.large}
-              />
-            </View>
-          </TouchableOpacity>
+          </View>
         </View>
-      </View>
+        <View style={styles.flatListView}>
+          <FlatList
+            data={question.comments}
+            renderItem={({ item }) => (
+              <Comment
+                comment={item}
+                question={question}
+                user={user}
+                setIsMessageModalVisible={setIsMessageModalVisible}
+                setComment={setComment}
+              />
+            )}
+            keyExtractor={(item) => item._id}
+            ListEmptyComponent={renderEmpty()}
+            refreshing={loading}
+            onRefresh={() => refreshQuestion(question._id)}
+            contentContainerStyle={{
+              backgroundColor: Colors.white,
+              paddingHorizontal: 16,
+              minHeight: '100%',
+            }}
+          />
+        </View>
+        <View>
+          <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
+            {({ values, handleChange, handleSubmit }) => (
+              <View style={styles.inputView}>
+                <AppInput
+                  style={styles.input}
+                  placeholder={
+                    question.isAbleToAnswer
+                      ? 'Type a message...'
+                      : 'You cannot answer this question'
+                  }
+                  placeholderTextColor={Colors.gray}
+                  editable={question.isAbleToAnswer}
+                  onChange={handleChange('cmt')}
+                  value={values.cmt}
+                />
+                <AppButton
+                  icon="send"
+                  iconSize={16}
+                  disabled={!values.cmt}
+                  style={{ width: 40, height: 40 }}
+                  onPress={question.isAbleToAnswer ? handleSubmit : () => {}}
+                />
+              </View>
+            )}
+          </Formik>
+          <View
+            style={{
+              padding: 12,
+              backgroundColor: 'white',
+              borderTopWidth: 2,
+              borderTopColor: Colors.background,
+            }}>
+            <TouchableOpacity
+              style={styles.contactItem}
+              onPress={() => setIsAnonymous(!isAnonymous)}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <AppImage
+                  source={
+                    isAnonymous ? Images.checkmarkSelected : Images.checkmark
+                  }
+                  width={20}
+                  height={20}
+                />
+                <AppText
+                  color={Colors.text}
+                  fontSize={Styles.FontSize.large}
+                  style={{ marginLeft: 10 }}>
+                  Answer Anonymously
+                </AppText>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      {/* Flag question modal */}
-      <Modal
-        isVisible={isFlagModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <View style={Theme.Modal.modalInnerView}>
-          <View style={styles.modalBackdrop}>
-            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
-          </View>
-          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-            <View style={{ marginVertical: 16 }}>
+        {/* Flag question modal */}
+        <Modal
+          isVisible={isFlagModalVisible}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <View style={Theme.Modal.modalInnerView}>
+            <View style={styles.modalBackdrop}>
+              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+            </View>
+            <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+              <View style={{ marginVertical: 16 }}>
+                <AppButton
+                  text={flagButtonText}
+                  onPress={() => onPressFlagQuestion(!isFlagged)}
+                />
+              </View>
               <AppButton
-                text={flagButtonText}
-                backgroundColor={Colors.primary}
-                color={Colors.white}
-                onPress={() => onPressFlagQuestion(!isFlagged)}
+                text="Close"
+                onPress={() => setIsFlagModalVisible(false)}
               />
             </View>
-            <AppButton
-              text="Close"
-              onPress={() => setIsFlagModalVisible(false)}
-            />
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      {/* Message user modal */}
-      <Modal
-        isVisible={isMessageModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <View style={Theme.Modal.modalInnerView}>
-          <View style={styles.modalBackdrop}>
-            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
-          </View>
-          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-            <View style={{ marginVertical: 16 }}>
+        {/* Message user modal */}
+        <Modal
+          isVisible={isMessageModalVisible}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <View style={Theme.Modal.modalInnerView}>
+            <View style={styles.modalBackdrop}>
+              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+            </View>
+            <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+              <View style={{ marginVertical: 16 }}>
+                <AppButton
+                  text="Message"
+                  backgroundColor={Colors.primary}
+                  color={Colors.white}
+                  onPress={onPressMessageBtn}
+                />
+              </View>
               <AppButton
-                text="Message"
-                backgroundColor={Colors.primary}
-                color={Colors.white}
-                onPress={onPressMessageBtn}
+                text="Cancel"
+                onPress={() => setIsMessageModalVisible(false)}
               />
             </View>
-            <AppButton
-              text="Cancel"
-              onPress={() => setIsMessageModalVisible(false)}
-            />
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </SafeAreaView>
     </Animated.View>
   )
 }

@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, StatusBar, StyleSheet, SectionList } from 'react-native'
+import {
+  View,
+  StatusBar,
+  StyleSheet,
+  SectionList,
+  SafeAreaView,
+} from 'react-native'
 import { Dimensions, Colors, Styles } from 'constants'
 import {
   AppText,
@@ -19,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   flatListView: {
@@ -56,7 +62,6 @@ const ContactsList = ({
 }) => {
   const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
-  const ask = useSelector((state) => state.ask)
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
     allContacts
@@ -145,9 +150,7 @@ const ContactsList = ({
         onPress={() => onSelectContact(item)}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Avatar source={Images.defaultAvatar} size={38} />
-          <AppText
-            style={{ marginLeft: 10 }}
-            fontFamily={Fonts.euclidCircularAMedium}>
+          <AppText style={{ marginLeft: 10 }} weight="medium">
             {text}
             <AppText color={Colors.gray}>{rightText}</AppText>
           </AppText>
@@ -167,10 +170,7 @@ const ContactsList = ({
     if (!key) return null
     return (
       <View style={styles.sectionHeader}>
-        <AppText
-          text={key}
-          fontSize={Styles.FontSize.medium}
-          fontFamily={Fonts.euclidCircularAMedium}>
+        <AppText text={key} fontSize={Styles.FontSize.medium} weight="medium">
           {key}
         </AppText>
       </View>
@@ -239,24 +239,10 @@ const ContactsList = ({
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 24,
-          paddingHorizontal: 16,
-          backgroundColor: Colors.white,
-          marginBottom: 8,
-        }}>
-        <Avatar source={Images.defaultAvatar} size={54} />
-        <AppText style={{ marginLeft: 16, flex: 1 }}>{ask.question}</AppText>
-      </View>
       <View style={styles.filterWrapper}>
-        <AppText
-          fontSize={Styles.FontSize.xLarge}
-          fontFamily={Fonts.euclidCircularAMedium}>
+        <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
           {`Share with `}
           <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
             (Select atleast 3 contacts)
@@ -289,7 +275,7 @@ const ContactsList = ({
                     <AppText
                       color={Colors.gray}
                       fontSize={Styles.FontSize.normal}
-                      fontFamily={Fonts.euclidCircularAMedium}
+                      weight="medium"
                       style={{ marginRight: 10 }}>
                       {contact.name}
                     </AppText>
@@ -337,7 +323,7 @@ const ContactsList = ({
           text={submitText}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

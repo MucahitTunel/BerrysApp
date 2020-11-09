@@ -6,8 +6,8 @@ import {
   FlatList,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   View,
+  SafeAreaView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   questionItem: {
@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingRight: 12,
     backgroundColor: Colors.white,
+    borderTopWidth: 4,
+    borderColor: Colors.background,
   },
   inputView: {
     padding: 16,
@@ -98,7 +100,6 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     paddingTop: 4,
-    backgroundColor: 'transparent',
     flex: 1,
   },
   removeQuestionUrlBtn: {
@@ -177,14 +178,41 @@ const styles = StyleSheet.create({
   },
 })
 
-const RequestToAsk = ({ request }) => {
-  const { requester } = request
+const RequestToAsk = ({ requests }) => {
+  console.log('requests', requests)
   const user = useSelector((state) => state.auth.user)
-  if (!user || !requester) return null
+  if (!user || !requests.length) return null
   const onPressRequestToAsk = () => {
     NavigationService.navigate(Screens.RequestToAsk, {
-      request,
+      requests,
     })
+  }
+  const renderRequester = () => {
+    if (requests.length === 1) {
+      return (
+        <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>
+          {requests[0].requester}
+        </AppText>
+      )
+    } else {
+      return (
+        <AppText weight="medium" fontSize={Styles.FontSize.normal}>
+          <AppText
+            color={Colors.primary}
+            fontSize={Styles.FontSize.normal}
+            weight="medium">
+            {requests[0].requester}
+          </AppText>
+          {` and `}
+          <AppText
+            color={Colors.primary}
+            fontSize={Styles.FontSize.normal}
+            weight="medium">
+            {`${requests.length - 1} People`}
+          </AppText>
+        </AppText>
+      )
+    }
   }
   return (
     <Swipeout
@@ -205,11 +233,10 @@ const RequestToAsk = ({ request }) => {
             </View>
             <AppText
               style={styles.requesterText}
+              weight="medium"
               fontSize={Styles.FontSize.normal}>
-              {`You got invited by `}{' '}
-              <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>
-                {requester}
-              </AppText>{' '}
+              {`You got invited by `}
+              {renderRequester()}
               {` to ask your questions anonymously`}
             </AppText>
           </View>
@@ -277,13 +304,19 @@ const QuestionItem = ({
               marginTop: 12,
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText fontSize={15} style={{ marginRight: 38 }}>
+              <AppText
+                fontSize={15}
+                weight="medium"
+                style={{ marginRight: 38 }}>
                 {comments}
                 <AppText
                   fontSize={15}
                   color={Colors.gray}>{`  answers`}</AppText>
               </AppText>
-              <AppText fontSize={15} style={{ marginRight: 38 }}>
+              <AppText
+                fontSize={15}
+                weight="medium"
+                style={{ marginRight: 38 }}>
                 {totalVotes}
                 <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
               </AppText>
@@ -463,7 +496,7 @@ const Main = () => {
   const renderItem = ({ item }) => <QuestionItem question={item} />
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <Formik
         enableReinitialize
@@ -503,7 +536,7 @@ const Main = () => {
           <RNUrlPreview text={questionUrl} />
         </View>
       )}
-      <RequestToAsk request={requestsToAsk} />
+      <RequestToAsk requests={requestsToAsk} />
       <View style={styles.flatListView}>
         {loading && !data.length && <Loading />}
         <FlatList
@@ -513,7 +546,7 @@ const Main = () => {
           ListEmptyComponent={renderEmpty()}
           refreshing={loading}
           onRefresh={() => dispatch(getQuestions())}
-          contentContainerStyle={{ paddingBottom: 80 }}
+          contentContainerStyle={{ paddingBottom: 60 }}
         />
       </View>
       <AppButton
@@ -604,7 +637,7 @@ const Main = () => {
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

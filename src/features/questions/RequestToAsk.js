@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   input: {
     marginLeft: 10,
     flex: 1,
-    fontFamily: Fonts.latoRegular,
     fontSize: Styles.FontSize.large,
   },
   modalBackdrop: {

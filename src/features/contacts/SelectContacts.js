@@ -1,13 +1,15 @@
 import React from 'react'
-import { Alert } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { Alert, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import * as NavigationService from 'services/navigation'
-import { ContactsList } from 'components'
-import { Screens } from 'constants'
+import { ContactsList, Avatar, AppText } from 'components'
+import { Colors, Screens } from 'constants'
 import { setAskContacts } from 'features/questions/askSlice'
+import Images from 'assets/images'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
+  const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, request) => {
     const MIN_NUM_CONTACTS = 3
     if (contacts.length < MIN_NUM_CONTACTS) {
@@ -23,11 +25,25 @@ const SelectContacts = (props) => {
   }
 
   return (
-    <ContactsList
-      onPressSubmit={onPressSubmit}
-      checkCondition="isSelected"
-      {...props}
-    />
+    <>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingVertical: 24,
+          paddingHorizontal: 16,
+          backgroundColor: Colors.white,
+          marginBottom: 8,
+        }}>
+        <Avatar source={Images.defaultAvatar} size={54} />
+        <AppText style={{ marginLeft: 16, flex: 1 }}>{ask.question}</AppText>
+      </View>
+      <ContactsList
+        onPressSubmit={onPressSubmit}
+        checkCondition="isSelected"
+        {...props}
+      />
+    </>
   )
 }
 

@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 10,
     fontSize: Styles.FontSize.large,
-    fontFamily: Fonts.latoRegular,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
