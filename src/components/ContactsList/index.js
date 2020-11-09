@@ -2,21 +2,21 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  View,
+  SafeAreaView,
+  SectionList,
   StatusBar,
   StyleSheet,
-  SectionList,
-  SafeAreaView,
+  View,
 } from 'react-native'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Colors, Dimensions, Styles } from 'constants'
 import {
-  AppText,
-  AppInput,
   AppButton,
-  ScaleTouchable,
-  Avatar,
-  AppImage,
   AppIcon,
+  AppImage,
+  AppInput,
+  AppText,
+  Avatar,
+  ScaleTouchable,
 } from 'components'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
@@ -242,48 +242,52 @@ const ContactsList = ({
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.filterWrapper}>
-        <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
-          {`Share with `}
-          <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
-            (Select atleast 3 contacts)
-          </AppText>
-        </AppText>
-        {!!contacts.filter((c) => c[checkCondition]) && (
-          <View
-            style={{
-              flexDirection: 'row',
-              marginVertical: 12,
-              flexWrap: 'wrap',
-            }}>
-            {contacts
-              .filter((c) => c[checkCondition])
-              .map((contact) => {
-                return (
-                  <ScaleTouchable
-                    onPress={() => onSelectContact(contact)}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: 'rgba(151, 151, 151, 0.53)',
-                      paddingVertical: 4,
-                      paddingHorizontal: 8,
-                      borderRadius: 5,
-                      marginRight: 10,
-                      marginBottom: 10,
-                    }}>
-                    <AppText
-                      color={Colors.gray}
-                      fontSize={Styles.FontSize.normal}
-                      weight="medium"
-                      style={{ marginRight: 10 }}>
-                      {contact.name}
-                    </AppText>
-                    <AppIcon name="close" size={10} color={Colors.gray} />
-                  </ScaleTouchable>
-                )
-              })}
-          </View>
+        {!singleSelect && (
+          <>
+            <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
+              {`Share with `}
+              <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
+                (Select atleast 3 contacts)
+              </AppText>
+            </AppText>
+            {!!contacts.filter((c) => c[checkCondition]) && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: 12,
+                  flexWrap: 'wrap',
+                }}>
+                {contacts
+                  .filter((c) => c[checkCondition])
+                  .map((contact) => {
+                    return (
+                      <ScaleTouchable
+                        onPress={() => onSelectContact(contact)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          borderWidth: 1,
+                          borderColor: 'rgba(151, 151, 151, 0.53)',
+                          paddingVertical: 4,
+                          paddingHorizontal: 8,
+                          borderRadius: 5,
+                          marginRight: 10,
+                          marginBottom: 10,
+                        }}>
+                        <AppText
+                          color={Colors.gray}
+                          fontSize={Styles.FontSize.normal}
+                          weight="medium"
+                          style={{ marginRight: 10 }}>
+                          {contact.name}
+                        </AppText>
+                        <AppIcon name="close" size={10} color={Colors.gray} />
+                      </ScaleTouchable>
+                    )
+                  })}
+              </View>
+            )}
+          </>
         )}
         <View>
           <View style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>

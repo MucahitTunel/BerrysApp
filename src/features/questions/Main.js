@@ -332,7 +332,11 @@ const QuestionItem = ({
           <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
             {moment(createdAt).fromNow()}
           </AppText>
-          <AppIcon name="chevron-right" size={20} color={Colors.grayLight} />
+          <AppIcon
+            name="chevron-right"
+            size={20}
+            color={'rgba(128, 128, 128, 0.5)'}
+          />
         </View>
       </ScaleTouchable>
       {url && (

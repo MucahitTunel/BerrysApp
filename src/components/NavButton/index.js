@@ -13,13 +13,13 @@ export const BackButton = ({ navigation }) => (
 
 export const MainBackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.navigate(Screens.Main)}>
-    <AppIcon name="chevron-left" color={Colors.white} />
+    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
   </ScaleTouchable>
 )
 
 export const MessagesBackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
-    <AppIcon name="chevron-left" color={Colors.white} />
+    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
   </ScaleTouchable>
 )
 
@@ -39,7 +39,7 @@ export const MenuButton = ({ navigation }) => (
 export const AnswerRightButton = ({ onPressDots }) => {
   return (
     <ScaleTouchable style={{ padding: 10 }} onPress={onPressDots}>
-      <AppIcon name="more-vertical" size={22} color={Colors.white} />
+      <AppIcon name="more-vertical" size={24} color={Colors.white} />
     </ScaleTouchable>
   )
 }
@@ -50,7 +50,7 @@ export const ComposeButton = ({ navigation }) => {
     <ScaleTouchable
       style={{ padding: 10 }}
       onPress={() => navigation.navigate(Screens.MessageContacts)}>
-      <AppIcon name="plus" size={22} color={Colors.white} />
+      <AppIcon name="plus" size={24} color={Colors.white} />
     </ScaleTouchable>
   )
 }

@@ -425,6 +425,8 @@ const Answers = ({ navigation }) => {
               </View>
               <AppButton
                 text="Close"
+                textStyle={{ color: Colors.primary }}
+                style={{ backgroundColor: Colors.white }}
                 onPress={() => setIsFlagModalVisible(false)}
               />
             </View>
@@ -443,15 +445,12 @@ const Answers = ({ navigation }) => {
             </View>
             <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
               <View style={{ marginVertical: 16 }}>
-                <AppButton
-                  text="Message"
-                  backgroundColor={Colors.primary}
-                  color={Colors.white}
-                  onPress={onPressMessageBtn}
-                />
+                <AppButton text="Message" onPress={onPressMessageBtn} />
               </View>
               <AppButton
                 text="Cancel"
+                textStyle={{ color: Colors.primary }}
+                style={{ backgroundColor: Colors.white }}
                 onPress={() => setIsMessageModalVisible(false)}
               />
             </View>

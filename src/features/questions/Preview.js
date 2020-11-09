@@ -112,7 +112,7 @@ const Preview = ({ route }) => {
         </View>
       </View>
       <View style={{ padding: 10, backgroundColor: Colors.white }}>
-        <AppButton onPress={onConfirmQuestion} text="Confirm" />
+        <AppButton onPress={onConfirmQuestion} text="Confirm Post" />
       </View>
     </SafeAreaView>
   )

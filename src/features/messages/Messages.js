@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import { Dimensions, Colors, Screens } from 'constants'
+import { Dimensions, Colors, Screens, Styles } from 'constants'
 import { Avatar, AppText, AppIcon, Loading } from 'components'
 import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
@@ -99,19 +99,24 @@ export const Messages = () => {
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <Avatar size={40} />
             <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText text={title} fontSize={16} />
+              <AppText>{title}</AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                text={`${isMyMessage ? 'You:' : ''} ${content}`}
                 color={Colors.gray}
-                style={{ marginTop: 4 }}
-              />
+                fontSize={Styles.FontSize.normal}
+                style={{ marginTop: 4 }}>{`${
+                isMyMessage ? 'You:' : ''
+              } ${content}`}</AppText>
             </View>
           </View>
           <View style={[styles.conversationItemChild]}>
             <AppText text={timeText} color={Colors.gray} />
-            <AppIcon name="chevron-right" size={20} />
+            <AppIcon
+              name="chevron-right"
+              size={20}
+              color={'rgba(128, 128, 128, 0.5)'}
+            />
           </View>
         </View>
       </TouchableOpacity>

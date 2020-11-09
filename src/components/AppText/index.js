@@ -11,8 +11,10 @@ const FONT_WEIGHT = {
   bold: Fonts.euclidCircularASemiBold,
 }
 
-const AppText = ({ color, fontSize, weight, children, style }) => (
-  <RNText style={[{ color, fontSize, fontFamily: FONT_WEIGHT[weight] }, style]}>
+const AppText = ({ color, fontSize, weight, children, style, ...props }) => (
+  <RNText
+    style={[{ color, fontSize, fontFamily: FONT_WEIGHT[weight] }, style]}
+    {...props}>
     {children}
   </RNText>
 )

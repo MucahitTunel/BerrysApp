@@ -63,7 +63,7 @@ const SideBarMenu = ({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingBottom: 20 }}>
       <View style={styles.infoView}>
         <Avatar source={Images.defaultAvatar} size={60} />
         <AppText color={Colors.white} style={{ marginTop: 10 }}>
