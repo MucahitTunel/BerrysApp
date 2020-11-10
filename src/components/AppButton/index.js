@@ -77,8 +77,14 @@ AppButton.propTypes = {
   text: PropTypes.string,
   color: PropTypes.string,
   error: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.any),
-  textStyle: PropTypes.objectOf(PropTypes.any),
+  style: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.any),
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
+  textStyle: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.any),
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
   disabled: PropTypes.bool,
 }
 

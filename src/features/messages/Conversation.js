@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   messageItemInner: {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: 4,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     borderWidth: 1,
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
   myMessageItemInner: {
     backgroundColor: Colors.primaryLight,
     borderWidth: 0,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
     borderTopLeftRadius: 16,
     borderBottomLeftRadius: 16,
   },
@@ -171,11 +171,14 @@ const Conversation = ({ navigation }) => {
           ]}>
           <AppText
             fontSize={16}
+            weight="medium"
             color={isMyMessage ? Colors.white : Colors.black}>
             {content}
           </AppText>
           <View style={styles.messageItemTime}>
-            <AppText color={isMyMessage ? Colors.white : Colors.gray}>
+            <AppText
+              fontSize={Styles.FontSize.normal}
+              color={isMyMessage ? Colors.white : Colors.gray}>
               {moment(msg.createdAt).format('HH:mm')}
             </AppText>
           </View>

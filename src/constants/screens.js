@@ -16,9 +16,10 @@ export default {
   MainStack: 'MainStack',
   FollowContactsStack: 'FollowContactsStack',
   ReportStack: 'ReportStack',
-  RequestContactsToAsk: 'RequestContactsToAskScreen',
+  AskMe: 'AskMeScreen',
   RequestToAsk: 'RequestToAskScreen',
   ImportGmailContacts: 'ImportGmailContactsScreen',
   ImportGmailContactsStack: 'ImportGmailContactsStack',
   DirectMessage: 'DirectMessageScreen',
+  ContactsToAskMe: 'ContactsToAskMeScreen',
 }

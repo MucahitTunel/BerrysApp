@@ -342,7 +342,7 @@ ContactsList.propTypes = {
 
 ContactsList.defaultProps = {
   showRightText: false,
-  submitText: 'Preview',
+  submitText: 'Confirm Post',
   singleSelect: false,
   route: {},
 }

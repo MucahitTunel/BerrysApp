@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { AppButton, AppIcon, AppText } from 'components'
-import { Dimensions, Colors } from 'constants'
+import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
+import { AppButton, AppIcon, AppText, ScaleTouchable } from 'components'
+import { Dimensions, Colors, Styles } from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
 import surveysList from './surveysList'
@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     width: Dimensions.Width,
     backgroundColor: Colors.white,
     flex: 1,
-    paddingHorizontal: 16,
   },
   titleView: {
     alignItems: 'center',
@@ -38,6 +37,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    flex: 1,
   },
   surveyItemText: {
     fontWeight: 'bold',
@@ -55,19 +56,17 @@ const Survey = () => {
   const onSelectItem = (value) => setOption(value)
   const onPressContinue = () => dispatch(submitSurvey({ value: option }))
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.titleView}>
-        <AppText
-          text="What would you like to ask?"
-          fontSize={24}
-          style={{ fontWeight: 'bold' }}
-        />
+        <AppText fontSize={Styles.FontSize.xxLarge} weight="medium">
+          What would you like to ask?
+        </AppText>
       </View>
       <View style={styles.surveyList}>
         {surveysList.map((item) => {
           return (
-            <TouchableOpacity
+            <ScaleTouchable
               onPress={() => onSelectItem(item.value)}
               key={item.id}
               style={[
@@ -78,33 +77,31 @@ const Survey = () => {
                 <AppIcon
                   name={item.icon}
                   size={item.size}
-                  color={option === item.value ? Colors.WHITE : Colors.text}
+                  color={option === item.value ? Colors.white : Colors.text}
                 />
               </View>
               <AppText
-                text={item.name.toUpperCase()}
                 fontSize={12}
                 style={[
                   styles.surveyItemText,
                   {
-                    color: option === item.value ? Colors.WHITE : Colors.text,
+                    color: option === item.value ? Colors.white : Colors.text,
                   },
-                ]}
-              />
-            </TouchableOpacity>
+                ]}>
+                {item.name.toUpperCase()}
+              </AppText>
+            </ScaleTouchable>
           )
         })}
       </View>
-      <View style={{ marginTop: 40 }}>
+      <View style={{ marginTop: 40, marginBottom: 16, paddingHorizontal: 16 }}>
         <AppButton
-          backgroundColor={option ? Colors.primary : Colors.gray}
-          color={Colors.white}
-          onPress={onPressContinue}
           text="Pick 1 to continue"
-          activeOpacity={option ? 0.2 : 1}
+          onPress={onPressContinue}
+          disabled={!option}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

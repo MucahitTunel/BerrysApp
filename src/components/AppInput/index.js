@@ -25,7 +25,10 @@ const AppInput = ({ value, onChange, error, style, ...rest }) => (
       {...rest}
     />
     {error && (
-      <AppText style={{ color: Colors.primary, marginBottom: 5 }}>
+      <AppText
+        fontSize={Styles.FontSize.normal}
+        weight="italic"
+        style={{ color: Colors.primary, marginTop: 5 }}>
         {error}
       </AppText>
     )}

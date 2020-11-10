@@ -285,8 +285,8 @@ const Answers = ({ navigation }) => {
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   return (
-    <Animated.View style={[{ flex: 1, paddingBottom: keyboardHeight.current }]}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+      <Animated.View style={{ flex: 1, paddingBottom: keyboardHeight.current }}>
         <StatusBar barStyle="light-content" />
         <KeyboardListener
           onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
@@ -456,8 +456,8 @@ const Answers = ({ navigation }) => {
             </View>
           </View>
         </Modal>
-      </SafeAreaView>
-    </Animated.View>
+      </Animated.View>
+    </SafeAreaView>
   )
 }
 

@@ -8,11 +8,11 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
+  ScrollView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
 import RNUrlPreview from 'react-native-url-preview'
-import Modal from 'react-native-modal'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
@@ -21,7 +21,6 @@ import {
   AppButton,
   AppIcon,
   AppInput,
-  AppLink,
   AppText,
   Avatar,
   Loading,
@@ -37,8 +36,6 @@ import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
-import Theme from 'theme'
-import Slick from 'react-native-slick'
 import surveysList from '../auth/surveysList'
 import AskMeAnythingModal from './AskMeAnythingModal'
 import { AppImage } from '../../components'
@@ -179,7 +176,6 @@ const styles = StyleSheet.create({
 })
 
 const RequestToAsk = ({ requests }) => {
-  console.log('requests', requests)
   const user = useSelector((state) => state.auth.user)
   if (!user || !requests.length) return null
   const onPressRequestToAsk = () => {
@@ -466,36 +462,26 @@ const Main = () => {
     }
   }
 
-  const sendQuestionFromModal = () => {
-    if (questionFromModal) {
-      dispatch(setUserIsNew(false))
-      dispatch(setAskQuestion(questionFromModal))
-      setTimeout(() => {
-        NavigationService.navigate(Screens.SelectContacts)
-      }, 1000)
-    }
+  const sendQuestionFromModal = (q) => {
+    dispatch(setUserIsNew(false))
+    dispatch(setAskQuestion(q))
+    NavigationService.navigate(Screens.SelectContacts)
   }
 
   const renderEmpty = () => (
     <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
   )
 
-  const onPressSkip = () => dispatch(setUserIsNew(false))
-
-  const onIndexChanged = (index) => {
-    setQuestionFromModal(popularQuestions[index])
-  }
-
   const onPressAskMeAnything = () => {
     if (user && user.name) {
       setShowAskingModal(false)
-      NavigationService.navigate(Screens.RequestContactsToAsk)
+      NavigationService.navigate(Screens.AskMe)
     } else {
       setShowAskingModal(true)
     }
   }
 
-  const isSuggestionsModalVisible = user.isNew && !question
+  const isNewUser = user.isNew && !question
 
   const renderItem = ({ item }) => <QuestionItem question={item} />
 
@@ -541,18 +527,53 @@ const Main = () => {
         </View>
       )}
       <RequestToAsk requests={requestsToAsk} />
-      <View style={styles.flatListView}>
-        {loading && !data.length && <Loading />}
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={renderEmpty()}
-          refreshing={loading}
-          onRefresh={() => dispatch(getQuestions())}
-          contentContainerStyle={{ paddingBottom: 60 }}
-        />
-      </View>
+      {isNewUser ? (
+        <View>
+          <View
+            style={{
+              paddingVertical: 10,
+              paddingHorizontal: 16,
+              backgroundColor: Colors.background,
+            }}>
+            <AppText weight="medium" fontSize={Styles.FontSize.xLarge}>
+              {`Popular Questions `}
+              <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+                (Tap to ask)
+              </AppText>
+            </AppText>
+          </View>
+          <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
+            {popularQuestions.map((q, index) => (
+              <ScaleTouchable
+                key={`${index}_${q}`}
+                style={styles.questionItem}
+                onPress={() => sendQuestionFromModal(q)}>
+                <AppText style={{ flex: 1, paddingRight: 24 }} weight="medium">
+                  {q}
+                </AppText>
+                <AppIcon
+                  name="chevron-right"
+                  size={20}
+                  color={'rgba(128, 128, 128, 0.5)'}
+                />
+              </ScaleTouchable>
+            ))}
+          </ScrollView>
+        </View>
+      ) : (
+        <View style={styles.flatListView}>
+          {loading && !data.length && <Loading />}
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item._id}
+            ListEmptyComponent={renderEmpty()}
+            refreshing={loading}
+            onRefresh={() => dispatch(getQuestions())}
+            contentContainerStyle={{ paddingBottom: 60 }}
+          />
+        </View>
+      )}
       <AppButton
         text="Ask Me"
         textStyle={{ marginLeft: 16 }}
@@ -561,80 +582,6 @@ const Main = () => {
         onPress={onPressAskMeAnything}
         style={styles.askBtn}
       />
-
-      {/*Suggestion Modal*/}
-      <Modal
-        isVisible={isSuggestionsModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <View
-          style={[
-            {
-              paddingTop: 40,
-              flex: 1,
-              maxHeight: Dimensions.Height - 60,
-              paddingBottom: 260,
-            },
-          ]}>
-          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-            <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-              <AppText fontSize={18}>What others are asking?</AppText>
-            </View>
-            <React.Fragment>
-              <Slick
-                horizontal={false}
-                showsButtons={false}
-                activeDotColor={Colors.primaryLight}
-                dotColor={Colors.grayLight}
-                onIndexChanged={onIndexChanged}
-                loop={false}
-                paginationStyle={{
-                  right: -6,
-                  top: 40,
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                }}>
-                {popularQuestions.map((q, index) => (
-                  <View
-                    key={`${index}_${q}`}
-                    style={{
-                      backgroundColor: Colors.white,
-                      padding: 16,
-                      height: 160,
-                    }}>
-                    <AppInput
-                      secondary
-                      multiline
-                      placeholder="Enter your question..."
-                      style={styles.modalInput}
-                      onChange={(value) => setQuestionFromModal(value)}
-                      value={questionFromModal}
-                      autoFocus
-                    />
-                  </View>
-                ))}
-              </Slick>
-              <View style={{ padding: 16, paddingTop: 10 }}>
-                <AppButton
-                  onPress={sendQuestionFromModal}
-                  text="Select Friends to Ask"
-                  backgroundColor={Colors.primary}
-                  color={Colors.white}
-                  borderRadius={Styles.BorderRadius.small}
-                />
-                <View style={{ alignItems: 'center', marginTop: 16 }}>
-                  <AppLink
-                    text="Skip"
-                    color={Colors.gray}
-                    onPress={onPressSkip}
-                  />
-                </View>
-              </View>
-            </React.Fragment>
-          </View>
-        </View>
-      </Modal>
 
       {/* AskMeAnything Modal */}
       <AskMeAnythingModal

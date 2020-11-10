@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import { Dimensions, Colors, Styles, Screens } from 'constants'
-import Fonts from 'assets/fonts'
+import { Dimensions, Colors, Screens } from 'constants'
 import { AppInput, AppButton, AppText } from 'components'
 import Theme from 'theme'
 import * as NavigationService from 'services/navigation'
@@ -18,45 +17,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grayLight,
     flex: 1,
   },
-  headerView: {
-    backgroundColor: Colors.white,
-    padding: 16,
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  headerAnswerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerAnswerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  questionItem: {
-    flexDirection: 'row',
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingBottom: 14,
-    marginBottom: 14,
-    marginLeft: 16,
-    width: Dimensions.Width - 32,
-  },
-  lastQuestionItem: {
-    borderBottomWidth: 0,
-    marginBottom: 0,
-  },
-  flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Colors.white,
-    flex: 1,
-  },
   inputView: {
     padding: 16,
     backgroundColor: Colors.white,
@@ -65,11 +25,9 @@ const styles = StyleSheet.create({
   input: {
     paddingHorizontal: 20,
     marginBottom: 10,
-    fontSize: Styles.FontSize.large,
-    height: 50,
-    borderRadius: 4,
     borderWidth: 1,
     borderColor: Colors.grayLight,
+    color: Colors.text,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -100,7 +58,7 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
     dispatch(updateName({ name }))
     setName('')
     setModalVisible(false)
-    NavigationService.navigate(Screens.RequestContactsToAsk)
+    NavigationService.navigate(Screens.AskMe)
   }
   return (
     <Modal
@@ -121,19 +79,18 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
               value={name}
             />
             <AppText
-              text="We won’t show your name to other users unless you want to."
               color={Colors.gray}
-              style={{ padding: 5, marginBottom: 5 }}
-            />
+              style={{ padding: 5, marginBottom: 5 }}>
+              We won’t show your name to other users unless you want to.
+            </AppText>
             <View style={styles.actions}>
+              <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
-                text="Submit"
-                backgroundColor={Colors.primary}
-                color={Colors.white}
-                onPress={onSubmit}
-                activeOpacity={name ? 0.2 : 1}
+                text="Close"
+                textStyle={{ color: Colors.primary }}
+                style={{ backgroundColor: Colors.white, marginBottom: 12 }}
+                onPress={() => setModalVisible(false)}
               />
-              <AppButton text="Close" onPress={() => setModalVisible(false)} />
             </View>
           </View>
         </Animated.View>

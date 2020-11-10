@@ -20,7 +20,7 @@ import FollowContacts from 'features/contacts/FollowContacts'
 import ImportGmailContacts from 'features/contacts/ImportGmailContacts'
 import Report from 'features/report/Report'
 import SelectContacts from 'features/contacts/SelectContacts'
-import RequestContactsToAsk from 'features/contacts/RequestContactsToAsk'
+import AskMe from 'features/contacts/AskMe'
 import Preview from 'features/questions/Preview'
 import Answers from 'features/questions/Answers'
 import Messages from 'features/messages/Messages'
@@ -29,6 +29,7 @@ import MessageContacts from 'features/messages/MessageContacts'
 import Survey from 'features/auth/Survey'
 import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
+import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -89,12 +90,24 @@ const MainStack = () => (
       })}
     />
     <Stack.Screen
-      name={Screens.RequestContactsToAsk}
-      component={RequestContactsToAsk}
+      name={Screens.AskMe}
+      component={AskMe}
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="People who'll be requested to ask you a question"
+            title="Ask me"
+            headerLeft={<BackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.ContactsToAskMe}
+      component={ContactsToAskMe}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Select Contacts To Ask Me"
             headerLeft={<BackButton navigation={navigation} />}
           />
         ),
@@ -159,7 +172,7 @@ const FollowContactsStack = () => (
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="Unfollow users and dont see their questions"
+            title="Unfollow Contacts"
             headerLeft={<MenuButton navigation={navigation} />}
           />
         ),

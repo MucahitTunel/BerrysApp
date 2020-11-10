@@ -19,45 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grayLight,
     flex: 1,
   },
-  headerView: {
-    backgroundColor: Colors.white,
-    padding: 16,
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  headerAnswerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerAnswerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  questionItem: {
-    flexDirection: 'row',
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingBottom: 14,
-    marginBottom: 14,
-    marginLeft: 16,
-    width: Dimensions.Width - 32,
-  },
-  lastQuestionItem: {
-    borderBottomWidth: 0,
-    marginBottom: 0,
-  },
-  flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Colors.white,
-    flex: 1,
-  },
   inputView: {
     padding: 16,
     backgroundColor: Colors.white,
@@ -66,11 +27,9 @@ const styles = StyleSheet.create({
   input: {
     paddingHorizontal: 20,
     marginBottom: 10,
-    fontSize: Styles.FontSize.large,
-    height: 50,
-    borderRadius: 4,
     borderWidth: 1,
     borderColor: Colors.grayLight,
+    color: Colors.text,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -122,10 +81,10 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={styles.content}>
             <AppText
-              text={`Ask ${request.requester} your question`}
               fontSize={Styles.FontSize.xLarge}
-              style={{ marginBottom: 30, textAlign: 'center' }}
-            />
+              style={{ marginBottom: 30, textAlign: 'center' }}>
+              {`Ask ${request.requester} your question`}
+            </AppText>
             <AppInput
               style={styles.input}
               placeholder="Type your question"
@@ -133,14 +92,16 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
               value={question}
             />
             <View style={styles.actions}>
+              <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
-                text="Submit"
-                backgroundColor={Colors.primary}
-                color={Colors.white}
-                onPress={onSubmit}
-                activeOpacity={1}
+                text="Close"
+                textStyle={{ color: Colors.primary }}
+                style={{
+                  backgroundColor: Colors.white,
+                  marginTop: 12,
+                }}
+                onPress={() => setModalVisible(false)}
               />
-              <AppButton text="Close" onPress={() => setModalVisible(false)} />
             </View>
           </View>
         </Animated.View>

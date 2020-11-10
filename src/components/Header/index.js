@@ -11,7 +11,7 @@ const linearGradient = [Colors.primary, Colors.primaryLight]
 
 const styles = StyleSheet.create({
   header: {
-    height: 96,
+    height: 94,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
