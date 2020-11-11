@@ -59,6 +59,7 @@ const ContactsList = ({
   submitText,
   onPressSubmit,
   route,
+  subTitle,
 }) => {
   const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
@@ -245,10 +246,7 @@ const ContactsList = ({
         {!singleSelect && (
           <>
             <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
-              {`Share with `}
-              <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
-                (Select at least 3 contacts)
-              </AppText>
+              {subTitle}
             </AppText>
             {!!contacts.filter((c) => c[checkCondition]) && (
               <View
@@ -262,6 +260,7 @@ const ContactsList = ({
                   .map((contact) => {
                     return (
                       <ScaleTouchable
+                        key={contact._id}
                         onPress={() => onSelectContact(contact)}
                         style={{
                           flexDirection: 'row',
@@ -332,6 +331,7 @@ const ContactsList = ({
 }
 
 ContactsList.propTypes = {
+  subTitle: PropTypes.string.isRequired,
   showRightText: PropTypes.bool,
   submitText: PropTypes.string,
   checkCondition: PropTypes.string.isRequired,
@@ -341,9 +341,12 @@ ContactsList.propTypes = {
 }
 
 ContactsList.defaultProps = {
+  subTitle: 'sub title',
   showRightText: false,
   submitText: 'Confirm Post',
+  checkCondition: 'isSelected',
   singleSelect: false,
+  onPressSubmit: () => {},
   route: {},
 }
 

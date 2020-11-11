@@ -59,6 +59,7 @@ const SelectContacts = (props) => {
       <ContactsList
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
+        subTitle="Share with:"
         {...props}
       />
     </>

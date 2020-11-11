@@ -10,6 +10,7 @@ const FollowContacts = (props) => {
     <ContactsList
       onPressSubmit={onPressSubmit}
       checkCondition="isBlacklisted"
+      subTitle="Select contacts to unfollow:"
       {...props}
     />
   )

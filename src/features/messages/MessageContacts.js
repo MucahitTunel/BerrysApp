@@ -28,6 +28,7 @@ const MessageContacts = (props) => {
       singleSelect
       showRightText={false}
       onPressSubmit={onPressSubmit}
+      subTitle="Select a contact to send messages:"
       {...props}
     />
   )

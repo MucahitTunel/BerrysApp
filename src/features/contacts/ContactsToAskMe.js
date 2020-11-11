@@ -33,6 +33,7 @@ const ContactsToAskMe = (props) => {
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         submitText="Confirm"
+        subTitle="Select contacts to ask you:"
         {...props}
       />
     </SafeAreaView>
