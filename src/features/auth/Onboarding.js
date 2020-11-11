@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
@@ -6,7 +6,6 @@ import SignInModal from 'features/auth/SignInModal'
 import { Colors } from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
-import { useSelector } from 'react-redux'
 
 const slider = [
   {
@@ -45,12 +44,10 @@ const styles = StyleSheet.create({
 })
 
 const Onboarding = () => {
-  const loading = useSelector((state) => state.auth.loading)
-  const user = useSelector((state) => state.auth.user)
   const [isVisibleSignInModal, setIsVisibleSignInModal] = useState(false)
   const [swiperIndex, setSwiperIndex] = useState(0)
   const swiperRef = useRef(null)
-  console.log('swiperRef', swiperRef)
+
   const openSignInModal = () => {
     setTimeout(() => {
       setIsVisibleSignInModal(true)
@@ -64,6 +61,9 @@ const Onboarding = () => {
     }
     swiperRef.current.scrollBy(1)
     setSwiperIndex(swiperIndex + 1)
+  }
+  const getCurrentIndex = (currentIndex) => {
+    setSwiperIndex(currentIndex)
   }
   return (
     <SafeAreaView
@@ -79,7 +79,7 @@ const Onboarding = () => {
           loop={false}
           showsPagination={false}
           activeDotColor={Colors.primary}
-          scrollEnabled={false}>
+          onIndexChanged={(index) => getCurrentIndex(index)}>
           {slider.map((slide) => {
             return (
               <View style={Theme.Slider.item} key={slide.id}>
@@ -93,7 +93,7 @@ const Onboarding = () => {
                   <AppImage source={slide.image} width={190} height={194} />
                 </View>
                 <View style={Theme.Slider.textView}>
-                  <AppText style={Theme.Slider.itemTitle}>
+                  <AppText text={slide.title} style={Theme.Slider.itemTitle}>
                     {slide.title}
                   </AppText>
                   <AppText style={Theme.Slider.itemDescription}>
