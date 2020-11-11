@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, View } from 'react-native'
+import { Alert, View, SafeAreaView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList, Avatar, AppText, AppImage } from 'components'
 import { Colors, Styles } from 'constants'
@@ -12,7 +12,7 @@ const SelectContacts = (props) => {
   const ask = useSelector((state) => state.ask)
   const { isAnonymous } = ask
   const onPressSubmit = (contacts, request) => {
-    const MIN_NUM_CONTACTS = 1
+    const MIN_NUM_CONTACTS = 3
     if (contacts.length < MIN_NUM_CONTACTS) {
       return Alert.alert(
         'Warning',
@@ -27,7 +27,7 @@ const SelectContacts = (props) => {
   }
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       <View
         style={{
           flexDirection: 'row',
@@ -59,10 +59,9 @@ const SelectContacts = (props) => {
       <ContactsList
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
-        subTitle="Share with:"
         {...props}
       />
-    </>
+    </SafeAreaView>
   )
 }
 
