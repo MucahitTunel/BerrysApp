@@ -92,7 +92,7 @@ const RequestToAsk = ({ navigation, route }) => {
       <ScrollView style={{ flex: 1 }}>
         {requests.map((request) => {
           return (
-            <View style={styles.requestItem}>
+            <View key={request._id} style={styles.requestItem}>
               <View style={styles.requestItemHeader}>
                 <AppText weight="medium" style={{ marginRight: 10 }}>
                   {request.requester}
