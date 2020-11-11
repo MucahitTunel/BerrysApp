@@ -341,7 +341,7 @@ ContactsList.propTypes = {
 }
 
 ContactsList.defaultProps = {
-  subTitle: 'sub title',
+  subTitle: 'subTitle',
   showRightText: false,
   submitText: 'Confirm Post',
   checkCondition: 'isSelected',
