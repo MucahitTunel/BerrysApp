@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
 const ContactsToAskMe = (props) => {
   const dispatch = useDispatch()
   const onPressSubmit = (contacts) => {
-    const MIN_NUM_CONTACTS = 3
+    const MIN_NUM_CONTACTS = 1
     if (contacts.length < MIN_NUM_CONTACTS) {
       return Alert.alert(
         'Warning',
-        `You have to select at least ${MIN_NUM_CONTACTS} contacts in order to proceed`,
+        `You have to select at least ${MIN_NUM_CONTACTS} contact in order to proceed`,
       )
     }
     dispatch(requestToAsk(contacts))
