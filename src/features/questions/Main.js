@@ -469,7 +469,9 @@ const Main = () => {
   }
 
   const renderEmpty = () => (
-    <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
+    </View>
   )
 
   const onPressAskMeAnything = () => {
@@ -570,7 +572,7 @@ const Main = () => {
             ListEmptyComponent={renderEmpty()}
             refreshing={loading}
             onRefresh={() => dispatch(getQuestions())}
-            contentContainerStyle={{ paddingBottom: 60 }}
+            contentContainerStyle={{ paddingBottom: 60, height: '100%' }}
           />
         </View>
       )}

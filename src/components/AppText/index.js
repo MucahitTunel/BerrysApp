@@ -27,7 +27,7 @@ AppText.propTypes = {
   weight: PropTypes.string,
   style: PropTypes.oneOfType([
     PropTypes.objectOf(PropTypes.any),
-    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(PropTypes.any),
   ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

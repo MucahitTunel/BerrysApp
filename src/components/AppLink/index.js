@@ -25,8 +25,14 @@ export default AppLink
 AppLink.propTypes = {
   text: PropTypes.string.isRequired,
   color: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.any),
-  textStyle: PropTypes.objectOf(PropTypes.any),
+  style: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.any),
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
+  textStyle: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.any),
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
   onPress: PropTypes.func,
 }
 

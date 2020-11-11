@@ -17,7 +17,10 @@ AppImage.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   resizeMode: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.any),
+  style: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.any),
+    PropTypes.arrayOf(PropTypes.any),
+  ]),
 }
 
 AppImage.defaultProps = {

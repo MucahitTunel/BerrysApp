@@ -277,7 +277,9 @@ const Answers = ({ navigation }) => {
   }, [navigation])
 
   const renderEmpty = () => (
-    <AppText style={{ textAlign: 'center' }}>"There's no answer yet"</AppText>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <AppText style={{ textAlign: 'center' }}>"There's no answer yet"</AppText>
+    </View>
   )
 
   if (loading) return <Loading />

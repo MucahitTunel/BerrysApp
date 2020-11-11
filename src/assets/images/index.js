@@ -8,6 +8,7 @@ import carousel2 from './carousel-2.png'
 import carousel3 from './carousel-3.png'
 import checkmark from './checkmark-circle.png'
 import checkmarkSelected from './checkmark-circle-selected.png'
+import googleIcon from './google-icon.png'
 
 export default {
   logo,
@@ -20,4 +21,5 @@ export default {
   carousel3,
   checkmark,
   checkmarkSelected,
+  googleIcon,
 }

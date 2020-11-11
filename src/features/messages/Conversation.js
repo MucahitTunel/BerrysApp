@@ -116,7 +116,6 @@ const Conversation = ({ navigation }) => {
           <Header
             title={title}
             headerLeft={<MessagesBackButton navigation={navigation} />}
-            headerRight={<Avatar size={40} />}
           />
         ),
       })
