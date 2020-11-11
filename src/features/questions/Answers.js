@@ -278,7 +278,7 @@ const Answers = ({ navigation }) => {
 
   const renderEmpty = () => (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <AppText style={{ textAlign: 'center' }}>"There's no answer yet"</AppText>
+      <AppText style={{ textAlign: 'center' }}>There's no answer yet</AppText>
     </View>
   )
 
