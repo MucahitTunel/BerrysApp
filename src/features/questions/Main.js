@@ -80,8 +80,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingRight: 12,
     backgroundColor: Colors.white,
-    borderTopWidth: 4,
+    borderBottomWidth: 4,
     borderColor: Colors.background,
+  },
+  lastQuestionItem: {
+    borderBottomWidth: 0,
   },
   inputView: {
     padding: 16,
@@ -469,7 +472,12 @@ const Main = () => {
   }
 
   const renderEmpty = () => (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View
+      style={{
+        paddingTop: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
     </View>
   )
@@ -530,7 +538,7 @@ const Main = () => {
       )}
       <RequestToAsk requests={requestsToAsk} />
       {isNewUser ? (
-        <View>
+        <View style={{ flex: 1 }}>
           <View
             style={{
               paddingVertical: 10,
@@ -544,11 +552,15 @@ const Main = () => {
               </AppText>
             </AppText>
           </View>
-          <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
+          <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
             {popularQuestions.map((q, index) => (
               <ScaleTouchable
                 key={`${index}_${q}`}
-                style={styles.questionItem}
+                style={[
+                  styles.questionItem,
+                  index === popularQuestions.length - 1 &&
+                    styles.lastQuestionItem,
+                ]}
                 onPress={() => sendQuestionFromModal(q)}>
                 <AppText style={{ flex: 1, paddingRight: 24 }} weight="medium">
                   {q}
@@ -572,7 +584,7 @@ const Main = () => {
             ListEmptyComponent={renderEmpty()}
             refreshing={loading}
             onRefresh={() => dispatch(getQuestions())}
-            contentContainerStyle={{ paddingBottom: 60, height: '100%' }}
+            contentContainerStyle={{ paddingBottom: 60 }}
           />
         </View>
       )}

@@ -76,13 +76,12 @@ const PhoneVerification = () => {
                 />
               </View>
               <AppButton
-                text={!isSubmitting && 'Submit'}
+                text="Submit"
                 style={{ backgroundColor: Colors.white }}
                 textStyle={{ color: Colors.primary }}
                 disabled={isSubmitting || !values.verifyCode}
-                onPress={() => !isSubmitting && handleSubmit()}>
-                {isSubmitting && <ActivityIndicator />}
-              </AppButton>
+                onPress={() => !isSubmitting && handleSubmit()}
+              />
             </React.Fragment>
           )}
         </Formik>
