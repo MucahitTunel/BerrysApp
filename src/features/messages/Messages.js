@@ -111,7 +111,7 @@ export const Messages = () => {
             </View>
           </View>
           <View style={[styles.conversationItemChild]}>
-            <AppText text={timeText} color={Colors.gray} />
+            <AppText color={Colors.gray}>{timeText}</AppText>
             <AppIcon
               name="chevron-right"
               size={20}

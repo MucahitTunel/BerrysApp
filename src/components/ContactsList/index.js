@@ -170,7 +170,7 @@ const ContactsList = ({
     if (!key) return null
     return (
       <View style={styles.sectionHeader}>
-        <AppText text={key} fontSize={Styles.FontSize.medium} weight="medium">
+        <AppText fontSize={Styles.FontSize.medium} weight="medium">
           {key}
         </AppText>
       </View>
@@ -247,7 +247,7 @@ const ContactsList = ({
             <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
               {`Share with `}
               <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
-                (Select atleast 3 contacts)
+                (Select at least 3 contacts)
               </AppText>
             </AppText>
             {!!contacts.filter((c) => c[checkCondition]) && (
