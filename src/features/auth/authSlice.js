@@ -162,6 +162,11 @@ export const submitSurvey = createAsyncThunk(
         value,
       },
     })
+    const newUserData = {
+      ...user,
+      survey: value,
+    }
+    await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
     return value
   },
 )
