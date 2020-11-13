@@ -13,4 +13,5 @@ LogBox.ignoreLogs([
   'Warning: componentWillMount has been renamed',
   'Deprecation warning: use moment.updateLocale',
   'Warning: componentWillReceiveProps',
+  'RCTBridge required dispatch_sync to load RCTDevLoadingView',
 ])
