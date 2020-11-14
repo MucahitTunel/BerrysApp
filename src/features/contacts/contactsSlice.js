@@ -1,12 +1,11 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import Constants from 'constants'
+import { Screens } from 'constants'
 import request from 'services/api'
 import * as NavigationService from 'services/navigation'
 import { getQuestions } from 'features/questions/questionsSlice'
 import { getPhoneBookContacts, formatContacts } from './helpers'
 import uniqueId from 'lodash/uniqueId'
-import uniqBy from 'lodash/uniqBy'
 
 const getOtherContacts = async (accessToken, pageToken) => {
   const { data } = await request({
@@ -176,7 +175,7 @@ export const blacklistContacts = createAsyncThunk(
       'Success',
       "You won't see questions from the selected contacts anymore",
     )
-    NavigationService.navigate(Constants.Screens.Main)
+    NavigationService.navigate(Screens.Main)
     return data
   },
 )

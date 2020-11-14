@@ -1,11 +1,25 @@
+import logo from './logo.png'
 import logoWhite from './logo-white.png'
 import defaultAvatar from './default-avatar.png'
-import onboarding2 from './onboarding2.png'
-import onboarding3 from './onboarding3.png'
+import message from './message.png'
+import menu from './menu.png'
+import carousel1 from './carousel-1.png'
+import carousel2 from './carousel-2.png'
+import carousel3 from './carousel-3.png'
+import checkmark from './checkmark-circle.png'
+import checkmarkSelected from './checkmark-circle-selected.png'
+import googleIcon from './google-icon.png'
 
 export default {
+  logo,
   logoWhite,
   defaultAvatar,
-  onboarding2,
-  onboarding3,
+  message,
+  menu,
+  carousel1,
+  carousel2,
+  carousel3,
+  checkmark,
+  checkmarkSelected,
+  googleIcon,
 }

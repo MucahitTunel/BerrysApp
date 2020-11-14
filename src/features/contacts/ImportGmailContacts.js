@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { StatusBar, StyleSheet, View } from 'react-native'
+import { StatusBar, StyleSheet, SafeAreaView } from 'react-native'
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import { fetchContactsFromGoogle } from 'features/contacts/contactsSlice'
+import ScaleTouchable from '../../components/ScaleTouchable'
+import { AppImage, AppText } from 'components'
+import Images from 'assets/images'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
   },
 })
@@ -58,10 +61,30 @@ const ImportGmailContacts = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <GoogleSigninButton onPress={onPressLoginWithGoogle} />
-    </View>
+      <ScaleTouchable
+        style={{
+          backgroundColor: Colors.white,
+          borderWidth: 1,
+          borderColor: Colors.primary,
+          height: 56,
+          borderRadius: 8,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 24,
+        }}
+        onPress={onPressLoginWithGoogle}>
+        <AppImage source={Images.googleIcon} />
+        <AppText
+          style={{ marginLeft: 12 }}
+          weight="medium"
+          fontSize={Styles.FontSize.large}
+          color={Colors.primary}>
+          Sign in with Google
+        </AppText>
+      </ScaleTouchable>
+    </SafeAreaView>
   )
 }
 

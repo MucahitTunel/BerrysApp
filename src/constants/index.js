@@ -5,11 +5,4 @@ import Styles from './styles'
 import Misc from './misc'
 import Services from './services'
 
-export default {
-  Screens,
-  Colors,
-  Dimensions,
-  Styles,
-  Misc,
-  Services,
-}
+export { Screens, Colors, Dimensions, Styles, Misc, Services }

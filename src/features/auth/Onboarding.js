@@ -1,108 +1,139 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Linking } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import React, { useRef, useState, useEffect } from 'react'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
-import Constants from 'constants'
+import { Colors } from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
-import { useSelector } from 'react-redux'
 
-const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
+const slider = [
+  {
+    id: 0,
+    image: Images.carousel1,
+    title: 'Ask Anonymously',
+    description: 'Ask Anonymously your Friends, Family and Peers',
+  },
+  {
+    id: 1,
+    image: Images.carousel2,
+    title: 'Select Contacts to Ask',
+    description: 'Get honest answers for your awkward and sensitive questions',
+  },
+  {
+    id: 2,
+    image: Images.carousel3,
+    title: 'Get Honest Answers',
+    description: 'Ask anonymously & publicly. Ask only people selected by you',
+  },
+]
 
 const styles = StyleSheet.create({
-  btnView: {
-    flex: 1,
-    paddingHorizontal: 24,
+  bottomViewWrapper: {
+    paddingHorizontal: 16,
+    backgroundColor: Colors.white,
   },
-  linkView: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  bottomView: {
+    height: 90,
+    borderTopWidth: 1,
+    borderTopColor: Colors.grayLight,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 
 const Onboarding = () => {
-  const loading = useSelector((state) => state.auth.loading)
-  const user = useSelector((state) => state.auth.user)
   const [isVisibleSignInModal, setIsVisibleSignInModal] = useState(false)
-  const openPrivacyPolicyLink = () =>
-    Linking.openURL(Constants.Misc.PrivacyPolicyURL)
+  const [swiperIndex, setSwiperIndex] = useState(0)
+  const swiperRef = useRef(null)
+
   const openSignInModal = () => {
     setTimeout(() => {
       setIsVisibleSignInModal(true)
     }, 500)
   }
   const closeSignInModal = () => setIsVisibleSignInModal(false)
+  const handleNextSwiper = () => {
+    if (swiperIndex >= slider.length - 1) {
+      openSignInModal()
+      return
+    }
+    swiperRef.current.scrollBy(1)
+    setSwiperIndex(swiperIndex + 1)
+  }
+  const getCurrentIndex = (currentIndex) => {
+    setSwiperIndex(currentIndex)
+  }
   return (
-    <LinearGradient
-      style={{ flex: 1 }}
-      colors={linearGradient}
-      start={{ x: 0.5, y: 0.25 }}
-      end={{ x: 0.5, y: 0.75 }}>
-      <View style={{ flex: 3 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: Colors.white,
+      }}>
+      <View style={{ flex: 5 }}>
         <Swiper
+          ref={swiperRef}
           showsButtons={false}
           loop={false}
-          activeDotColor="#fff"
-          dotStyle={Theme.Slider.dot}
-          activeDotStyle={Theme.Slider.activeDot}
-          dotColor="rgba(255, 255, 255, 0.5)"
-          dotColorAcitve="rgba(255, 255, 255, 1)">
-          <View style={Theme.Slider.item}>
-            <View style={{ flex: 211 }} />
-            <AppImage source={Images.logoWhite} width={120} height={140} />
-            <AppText
-              text="GET ANSWERS TO ANY OF YOUR"
-              style={{
-                ...Theme.Slider.itemTitle,
-                paddingTop: 50,
-              }}
-            />
-            <AppText text="PERSONAL QUESTIONS" style={Theme.Slider.itemTitle} />
-            <View style={{ flex: 216 }} />
-          </View>
-          <View style={Theme.Slider.item}>
-            <AppImage
-              source={Images.onboarding2}
-              width={Constants.Dimensions.Width}
-              height={Constants.Dimensions.Height}
-            />
-          </View>
-          <View style={Theme.Slider.item}>
-            <AppImage
-              source={Images.onboarding3}
-              width={Constants.Dimensions.Width}
-              height={Constants.Dimensions.Height}
-            />
-          </View>
+          showsPagination={false}
+          activeDotColor={Colors.primary}
+          onIndexChanged={(index) => getCurrentIndex(index)}>
+          {slider.map((slide) => {
+            return (
+              <View style={Theme.Slider.item} key={slide.id}>
+                <View style={Theme.Slider.imagesView}>
+                  <AppImage
+                    source={Images.logo}
+                    width={102}
+                    height={30}
+                    style={{ marginBottom: '40%' }}
+                  />
+                  <AppImage source={slide.image} width={190} height={194} />
+                </View>
+                <View style={Theme.Slider.textView}>
+                  <AppText text={slide.title} style={Theme.Slider.itemTitle}>
+                    {slide.title}
+                  </AppText>
+                  <AppText style={Theme.Slider.itemDescription}>
+                    {slide.description}
+                  </AppText>
+                </View>
+              </View>
+            )
+          })}
         </Swiper>
       </View>
-      <View style={{ flex: 1 }}>
-        <View style={styles.btnView}>
-          <AppButton
-            text="CONTINUE"
-            borderRadius={Constants.Styles.BorderRadius.large}
-            onPress={openSignInModal}
-            isLoading={loading || (user && user.isVerifying)}
-          />
-        </View>
-        <View style={styles.linkView}>
+      <View style={styles.bottomViewWrapper}>
+        <View style={styles.bottomView}>
           <AppLink
-            text="By continuing, you agree to the Terms of Service and Privacy Policy"
-            color="rgba(255, 255, 255, 0.6)"
-            fontSize={11}
-            style={{ marginBottom: 10 }}
-            onPress={openPrivacyPolicyLink}
+            text={swiperIndex !== 2 ? 'Skip' : ''}
+            color={Colors.primary}
+            onPress={openSignInModal}
+            style={{ minWidth: 60 }}
           />
+          <View style={Theme.Slider.dotWrapper}>
+            {slider.map((slide) => (
+              <View
+                key={slide.id}
+                style={[
+                  Theme.Slider.dot,
+                  slide.id === swiperIndex && {
+                    backgroundColor: Colors.primary,
+                  },
+                ]}
+              />
+            ))}
+          </View>
+          <AppButton icon={'arrow-forward'} onPress={handleNextSwiper} />
         </View>
       </View>
       <SignInModal
         isVisible={isVisibleSignInModal}
         onClose={closeSignInModal}
       />
-    </LinearGradient>
+    </SafeAreaView>
   )
 }
 

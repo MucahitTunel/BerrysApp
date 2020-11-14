@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Pusher from 'pusher-js/react-native'
 import Config from 'react-native-config'
 import request from 'services/api'
-import Constants from 'constants'
+import { Screens, Services } from 'constants'
 import * as NavigationService from 'services/navigation'
 import generateVerificationCode from 'utils/generate-verification-code'
 import { formatPhoneNumber } from '../contacts/helpers'
@@ -78,10 +78,10 @@ export const signIn = createAsyncThunk(
     const userData = {
       phoneNumber: number,
       verifyCode,
-      service: Constants.Services.PhoneNumber,
+      service: Services.PhoneNumber,
       isVerifying: true,
     }
-    NavigationService.navigate(Constants.Screens.PhoneVerification)
+    NavigationService.navigate(Screens.PhoneVerification)
     return userData
   },
 )
@@ -152,7 +152,7 @@ export const submitSurvey = createAsyncThunk(
     const state = getState()
     const user = state.auth.user
     setTimeout(() => {
-      NavigationService.navigate(Constants.Screens.Main)
+      NavigationService.navigate(Screens.Main)
     }, 1000)
     request({
       method: 'POST',
@@ -162,6 +162,11 @@ export const submitSurvey = createAsyncThunk(
         value,
       },
     })
+    const newUserData = {
+      ...user,
+      survey: value,
+    }
+    await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
     return value
   },
 )
@@ -219,7 +224,7 @@ export const requestToAsk = createAsyncThunk(
         `You invited ${selectedContacts.length} people to ask you their questions`,
       )
     }, 500)
-    NavigationService.navigate(Constants.Screens.Main)
+    NavigationService.navigate(Screens.Main)
   },
 )
 

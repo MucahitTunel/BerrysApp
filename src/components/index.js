@@ -9,6 +9,7 @@ import Avatar from './Avatar'
 import Header from './Header'
 import SideBarMenu from './SideBarMenu'
 import ContactsList from './ContactsList'
+import ScaleTouchable from './ScaleTouchable'
 
 export {
   AppButton,
@@ -22,4 +23,5 @@ export {
   Header,
   SideBarMenu,
   ContactsList,
+  ScaleTouchable,
 }

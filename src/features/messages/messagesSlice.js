@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import * as NavigationService from 'services/navigation'
 import request from 'services/api'
 import { pusher } from 'features/auth/authSlice'
-import Constants from 'constants'
+import { Screens } from 'constants'
 
 const roomSortFunction = (room1, room2) => {
   const { lastMessage: lastMessage1, createdAt: createdAt1 } = room1
@@ -79,7 +79,7 @@ export const joinRoom = createAsyncThunk(
       },
     })
     const { room } = data
-    NavigationService.navigate(Constants.Screens.Conversation)
+    NavigationService.navigate(Screens.Conversation)
     return room
   },
 )

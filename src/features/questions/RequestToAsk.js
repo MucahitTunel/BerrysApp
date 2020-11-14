@@ -1,70 +1,46 @@
 /* eslint-disable react/prop-types */
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { View, StatusBar, StyleSheet, Animated } from 'react-native'
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native'
 import moment from 'moment'
-import KeyboardListener from 'react-native-keyboard-listener'
-import { hideKeyBoard, showKeyboard } from 'utils'
-import Constants from 'constants'
-import Fonts from 'assets/fonts'
-import { AppText, AppButton, Loading, Header } from 'components'
+import { Colors, Dimensions, Styles } from 'constants'
+import { AppButton, AppText, Header, Loading } from 'components'
 import { BackButton } from 'components/NavButton'
 import AskMyQuestionModal from './AskMyQuestionModal'
+import { Avatar } from '../../components'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     flex: 1,
   },
-  headerView: {
-    backgroundColor: Constants.Colors.white,
+  requestItem: {
     padding: 16,
+    backgroundColor: Colors.white,
+    borderBottomWidth: 4,
+    borderColor: Colors.background,
   },
-  headerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  headerAnswerView: {
+  requestItemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  headerAnswerInner: {
+  requestItemBody: {
     flexDirection: 'row',
-    marginTop: 10,
     alignItems: 'center',
-  },
-  questionItem: {
-    flexDirection: 'row',
-    borderBottomColor: Constants.Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingBottom: 14,
+    marginTop: 18,
     marginBottom: 14,
-    marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
   },
-  lastQuestionItem: {
-    borderBottomWidth: 0,
-    marginBottom: 0,
-  },
-  flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
-    flex: 1,
-  },
-  inputView: {
-    padding: 16,
-    backgroundColor: Constants.Colors.white,
-    flexDirection: 'row',
-  },
-  input: {
-    marginLeft: 10,
-    flex: 1,
-    fontFamily: Fonts.latoRegular,
-    fontSize: Constants.Styles.FontSize.large,
+  requestItemFooter: {
+    alignItems: 'flex-end',
   },
   modalBackdrop: {
     position: 'absolute',
@@ -80,17 +56,20 @@ const styles = StyleSheet.create({
   },
   askBtn: {
     padding: 10,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
   },
 })
 
 const RequestToAsk = ({ navigation, route }) => {
-  let keyboardHeight = useRef(new Animated.Value(0))
   const [showAskingModal, setShowAskingModal] = useState(false)
   const loading = useSelector((state) => state.question.loading)
-  const { request } = route.params
-  const { requester } = request
-  const title = `${requester} invited you to ask him a question anonymously`
+  const { requests } = route.params
+  const [requestSelected, setRequestSelected] = useState(requests[0])
+
+  const askMyQuestion = (request) => {
+    setShowAskingModal(true)
+    setRequestSelected(request)
+  }
 
   useLayoutEffect(() => {
     // Have to move this logic here because
@@ -98,55 +77,61 @@ const RequestToAsk = ({ navigation, route }) => {
     // eslint-disable-next-line react/prop-types
     navigation.setOptions({
       header: () => (
-        <Header headerLeft={<BackButton navigation={navigation} />} />
+        <Header
+          title="Invitations"
+          headerLeft={<BackButton navigation={navigation} />}
+        />
       ),
     })
   }, [navigation])
 
   if (loading) return <Loading />
   return (
-    <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
-      />
-      <View style={styles.headerView}>
-        <View style={{ flexDirection: 'row' }}>
-          <AppText
-            text={title}
-            fontSize={Constants.Styles.FontSize.xxLarge}
-            fontFamily={Fonts.latoBold}
-            style={{ marginRight: 10 }}
-          />
-        </View>
-        <View style={styles.headerInner}>
-          <AppText
-            text={moment(request.createdAt).fromNow()}
-            color={Constants.Colors.gray}
-            style={{ marginRight: 14 }}
-            fontSize={Constants.Styles.FontSize.medium}
-          />
-        </View>
-      </View>
-      <View style={styles.askBtn}>
-        <AppButton
-          onPress={() => setShowAskingModal(true)}
-          text="Ask My Question"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
-        />
-      </View>
+      <ScrollView style={{ flex: 1 }}>
+        {requests.map((request) => {
+          return (
+            <View key={request._id} style={styles.requestItem}>
+              <View style={styles.requestItemHeader}>
+                <AppText weight="medium" style={{ marginRight: 10 }}>
+                  {request.requester}
+                  <AppText
+                    weight="medium"
+                    color={Colors.gray}>{` invited you ask`}</AppText>
+                </AppText>
+                <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+                  {moment(request.createdAt).fromNow()}
+                </AppText>
+              </View>
+              <View style={styles.requestItemBody}>
+                <Avatar size={54} />
+                <AppText
+                  color={Colors.gray}
+                  style={{ marginLeft: 12, flex: 1 }}>
+                  Ask the person who have invited you personally
+                </AppText>
+              </View>
+              <View style={styles.requestItemFooter}>
+                <AppButton
+                  text="Ask My Question"
+                  textStyle={{ fontSize: Styles.FontSize.normal }}
+                  style={{ height: 40, width: 136, borderRadius: 5 }}
+                  onPress={() => askMyQuestion(request)}
+                />
+              </View>
+            </View>
+          )
+        })}
+      </ScrollView>
 
       {/*AskMyQuestion Modal*/}
       <AskMyQuestionModal
-        request={request}
+        request={requestSelected}
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
       />
-    </Animated.View>
+    </SafeAreaView>
   )
 }
 

@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import Constants from 'constants'
-import Fonts from 'assets/fonts'
+import { Dimensions, Colors, Screens } from 'constants'
 import { AppInput, AppButton, AppText } from 'components'
 import Theme from 'theme'
 import * as NavigationService from 'services/navigation'
@@ -13,64 +12,22 @@ import { updateName } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
-    flex: 1,
-  },
-  headerView: {
-    backgroundColor: Constants.Colors.white,
-    padding: 16,
-    borderBottomColor: Constants.Colors.grayLight,
-    borderBottomWidth: 1,
-  },
-  headerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  headerAnswerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  headerAnswerInner: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  questionItem: {
-    flexDirection: 'row',
-    borderBottomColor: Constants.Colors.grayLight,
-    borderBottomWidth: 1,
-    paddingBottom: 14,
-    marginBottom: 14,
-    marginLeft: 16,
-    width: Constants.Dimensions.Width - 32,
-  },
-  lastQuestionItem: {
-    borderBottomWidth: 0,
-    marginBottom: 0,
-  },
-  flatListView: {
-    paddingVertical: 16,
-    backgroundColor: Constants.Colors.white,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
   },
   input: {
     paddingHorizontal: 20,
     marginBottom: 10,
-    fontSize: Constants.Styles.FontSize.large,
-    fontFamily: Fonts.latoRegular,
-    height: 50,
-    borderRadius: 4,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
+    color: Colors.text,
   },
   modalBackdrop: {
     position: 'absolute',
@@ -85,10 +42,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   content: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     padding: 20,
     paddingBottom: 5,
-    width: Constants.Dimensions.Width - 20,
+    width: Dimensions.Width - 20,
     marginLeft: 10,
     borderRadius: 8,
   },
@@ -101,7 +58,7 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
     dispatch(updateName({ name }))
     setName('')
     setModalVisible(false)
-    NavigationService.navigate(Constants.Screens.RequestContactsToAsk)
+    NavigationService.navigate(Screens.AskMe)
   }
   return (
     <Modal
@@ -121,20 +78,19 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
               onChange={(value) => setName(value)}
               value={name}
             />
-            <AppText
-              text="We won’t show your name to other users unless you want to."
-              color={Constants.Colors.gray}
-              style={{ padding: 5, marginBottom: 5 }}
-            />
+            {/* <AppText
+              color={Colors.gray}
+              style={{ padding: 5, marginBottom: 5 }}>
+              We won’t show your name to other users unless you want to.
+            </AppText> */}
             <View style={styles.actions}>
+              <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
-                text="Submit"
-                backgroundColor={Constants.Colors.primary}
-                color={Constants.Colors.white}
-                onPress={onSubmit}
-                activeOpacity={name ? 0.2 : 1}
+                text="Close"
+                textStyle={{ color: Colors.primary }}
+                style={{ backgroundColor: Colors.white, marginBottom: 12 }}
+                onPress={() => setModalVisible(false)}
               />
-              <AppButton text="Close" onPress={() => setModalVisible(false)} />
             </View>
           </View>
         </Animated.View>

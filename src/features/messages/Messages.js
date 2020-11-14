@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import Constants from 'constants'
+import { Dimensions, Colors, Screens, Styles } from 'constants'
 import { Avatar, AppText, AppIcon, Loading } from 'components'
 import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
@@ -35,13 +35,13 @@ moment.locale('en', {
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
   },
   flatListView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   conversationItemOuter: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
   },
   conversationItemChild: {
     flexDirection: 'row',
@@ -76,7 +76,7 @@ export const Messages = () => {
 
   const onPressConversation = (conversation) => {
     dispatch(setRoom(conversation))
-    NavigationService.navigate(Constants.Screens.Conversation)
+    NavigationService.navigate(Screens.Conversation)
   }
 
   const renderConversationItem = (conversation, index, rooms) => {
@@ -99,19 +99,24 @@ export const Messages = () => {
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <Avatar size={40} />
             <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText text={title} fontSize={16} />
+              <AppText>{title}</AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                text={`${isMyMessage ? 'You:' : ''} ${content}`}
-                color={Constants.Colors.gray}
-                style={{ marginTop: 4 }}
-              />
+                color={Colors.gray}
+                fontSize={Styles.FontSize.normal}
+                style={{ marginTop: 4 }}>{`${
+                isMyMessage ? 'You:' : ''
+              } ${content}`}</AppText>
             </View>
           </View>
           <View style={[styles.conversationItemChild]}>
-            <AppText text={timeText} color={Constants.Colors.gray} />
-            <AppIcon name="chevron-right" size={20} />
+            <AppText color={Colors.gray}>{timeText}</AppText>
+            <AppIcon
+              name="chevron-right"
+              size={20}
+              color={'rgba(128, 128, 128, 0.5)'}
+            />
           </View>
         </View>
       </TouchableOpacity>

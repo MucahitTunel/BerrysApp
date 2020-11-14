@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux'
 import { View, StyleSheet } from 'react-native'
 import { directMessage } from 'features/messages/messagesSlice'
 import { Loading } from 'components'
-import Constants from 'constants'
+import { Dimensions, Colors } from 'constants'
 import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.grayLight,
     flex: 1,
     alignItems: 'center',
   },

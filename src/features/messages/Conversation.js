@@ -6,14 +6,14 @@ import {
   View,
   StatusBar,
   FlatList,
-  TouchableOpacity,
+  SafeAreaView,
   Animated,
   Keyboard,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppIcon, AppInput, Header, Avatar } from 'components'
+import { AppText, AppInput, Header, Avatar } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import { pusher } from 'features/auth/authSlice'
 import {
   getMessages,
@@ -23,12 +23,13 @@ import {
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
+import { AppButton } from '../../components'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.background,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   contentView: {
@@ -43,18 +44,18 @@ const styles = StyleSheet.create({
   messageItemInner: {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: 4,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
     width: '80%',
   },
   myMessageItemInner: {
-    backgroundColor: Constants.Colors.primaryLight,
+    backgroundColor: Colors.primaryLight,
     borderWidth: 0,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
     borderTopLeftRadius: 16,
     borderBottomLeftRadius: 16,
   },
@@ -63,22 +64,34 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginTop: 4,
   },
+  inputView: {
+    padding: 16,
+    paddingBottom: 10,
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
-    height: 50,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    borderRadius: 2,
-    fontSize: 16,
+    height: 48,
+    borderRadius: 24,
+    marginLeft: 10,
     flex: 1,
+    borderWidth: 1,
+    borderColor: Colors.grayLight,
+    color: Colors.text,
+    fontSize: Styles.FontSize.large,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginRight: 10,
   },
   descriptionBox: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
   description: {
     marginLeft: 8,
-    color: Constants.Colors.primaryLight,
+    color: Colors.primaryLight,
     textAlign: 'center',
     fontSize: 14,
   },
@@ -103,7 +116,6 @@ const Conversation = ({ navigation }) => {
           <Header
             title={title}
             headerLeft={<MessagesBackButton navigation={navigation} />}
-            headerRight={<Avatar size={40} />}
           />
         ),
       })
@@ -157,72 +169,63 @@ const Conversation = ({ navigation }) => {
             isMyMessage && styles.myMessageItemInner,
           ]}>
           <AppText
-            text={content}
             fontSize={16}
-            color={
-              isMyMessage ? Constants.Colors.white : Constants.Colors.black
-            }
-          />
+            weight="medium"
+            color={isMyMessage ? Colors.white : Colors.black}>
+            {content}
+          </AppText>
           <View style={styles.messageItemTime}>
             <AppText
-              text={moment(msg.createdAt).format('HH:mm')}
-              color={
-                isMyMessage ? Constants.Colors.white : Constants.Colors.gray
-              }
-            />
+              fontSize={Styles.FontSize.normal}
+              color={isMyMessage ? Colors.white : Colors.gray}>
+              {moment(msg.createdAt).format('HH:mm')}
+            </AppText>
           </View>
         </View>
       </View>
     )
   }
   return (
-    <Animated.View
-      style={[styles.container, { paddingBottom: keyboardHeight.current }]}>
-      <StatusBar barStyle="light-content" />
-      <KeyboardListener
-        onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
-        onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
-      />
-      <View style={styles.descriptionBox}>
-        <AppText text={description} style={styles.description} />
-      </View>
-      <View style={styles.contentView}>
-        <FlatList
-          inverted
-          ref={(e) => {
-            listRef = e
-          }}
-          data={messages}
-          renderItem={({ item }) => renderMessage(item)}
-          keyExtractor={(item) => String(item._id)}
+    <SafeAreaView style={styles.container}>
+      <Animated.View
+        style={[{ flex: 1, paddingBottom: keyboardHeight.current }]}>
+        <StatusBar barStyle="light-content" />
+        <KeyboardListener
+          onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+          onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderTopWidth: 1,
-          borderTopColor: Constants.Colors.grayLight,
-        }}>
-        <AppInput
-          style={styles.input}
-          placeholder="Enter your message..."
-          value={message}
-          onChange={onChangeMessage}
-        />
-        <TouchableOpacity
-          activeOpacity={message ? 0.2 : 1}
-          style={{ paddingRight: 16 }}
-          onPress={message ? onSendMessage : () => {}}>
-          <AppIcon
-            name="send"
-            color={
-              message ? Constants.Colors.primary : Constants.Colors.grayLight
-            }
+        <View style={styles.descriptionBox}>
+          <AppText style={styles.description}>{description}</AppText>
+        </View>
+        <View style={styles.contentView}>
+          <FlatList
+            inverted
+            ref={(e) => {
+              listRef = e
+            }}
+            data={messages}
+            renderItem={({ item }) => renderMessage(item)}
+            keyExtractor={(item) => String(item._id)}
           />
-        </TouchableOpacity>
-      </View>
-    </Animated.View>
+        </View>
+        <View style={styles.inputView}>
+          <AppInput
+            style={styles.input}
+            placeholder="Enter your message..."
+            placeholderTextColor={Colors.gray}
+            value={message}
+            onChange={onChangeMessage}
+          />
+          <AppButton
+            icon="send"
+            iconSize={16}
+            disabled={!message}
+            style={{ width: 40, height: 40 }}
+            onPress={message ? onSendMessage : () => {}}
+          />
+        </View>
+      </Animated.View>
+    </SafeAreaView>
   )
 }
 

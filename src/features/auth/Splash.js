@@ -3,11 +3,11 @@ import { View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import { AppImage } from 'components'
-import Constants from 'constants'
+import { Colors } from 'constants'
 import Images from 'assets/images'
 import { authBoot } from 'features/auth/authSlice'
 
-const linearGradient = [Constants.Colors.primary, Constants.Colors.primaryLight]
+const linearGradient = [Colors.primary, Colors.primaryLight]
 
 const Splash = () => {
   const dispatch = useDispatch()

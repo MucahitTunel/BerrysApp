@@ -6,13 +6,13 @@ import {
   FlatList,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   View,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
 import RNUrlPreview from 'react-native-url-preview'
-import Modal from 'react-native-modal'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
@@ -21,25 +21,24 @@ import {
   AppButton,
   AppIcon,
   AppInput,
-  AppLink,
   AppText,
   Avatar,
   Loading,
+  ScaleTouchable,
 } from 'components'
-import Constants from 'constants'
+import { Colors, Dimensions, Screens, Styles } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { updatePushToken, setUserIsNew } from 'features/auth/authSlice'
+import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
-import Theme from 'theme'
-import Slick from 'react-native-slick'
 import surveysList from '../auth/surveysList'
 import AskMeAnythingModal from './AskMeAnythingModal'
+import { AppImage } from '../../components'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -62,38 +61,45 @@ ReceiveSharingIntent.clearReceivedFiles()
 const swipeoutBtns = [
   {
     text: 'Hide',
-    backgroundColor: Constants.Colors.textRed,
+    backgroundColor: Colors.primary,
+    fontFamily: Fonts.euclidCircularAMedium,
   },
 ]
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   questionItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
-    backgroundColor: Constants.Colors.white,
+    padding: 16,
+    paddingTop: 10,
+    paddingRight: 12,
+    backgroundColor: Colors.white,
+    borderBottomWidth: 4,
+    borderColor: Colors.background,
+  },
+  lastQuestionItem: {
+    borderBottomWidth: 0,
   },
   inputView: {
     padding: 16,
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
     marginHorizontal: 10,
     flex: 1,
-    fontFamily: Fonts.latoRegular,
-    fontSize: Constants.Styles.FontSize.large,
+    fontSize: Styles.FontSize.large,
+    color: Colors.text,
   },
   flatListView: {
-    paddingTop: 12,
-    backgroundColor: 'transparent',
+    paddingTop: 4,
     flex: 1,
   },
   removeQuestionUrlBtn: {
@@ -112,8 +118,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    backgroundColor: Constants.Colors.white,
-    width: Constants.Dimensions.Width - 32,
+    backgroundColor: Colors.white,
+    width: Dimensions.Width - 32,
     marginLeft: 16,
     paddingTop: 12,
     borderRadius: 8,
@@ -122,54 +128,116 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 16,
     marginBottom: 10,
-    fontSize: Constants.Styles.FontSize.large,
-    fontFamily: Fonts.latoRegular,
+    fontSize: Styles.FontSize.large,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    borderColor: Colors.grayLight,
     flex: 1,
   },
   askBtn: {
-    backgroundColor: Constants.Colors.white,
-    borderTopWidth: 1,
-    borderColor: Constants.Colors.grayLight,
+    height: 48,
+    paddingHorizontal: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 24,
+    width: 182,
+    left: (Dimensions.Width - 182) / 2,
+  },
+  sendBtn: {
+    height: 25,
+    width: 56,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sendBtnDisabled: {
+    backgroundColor: Colors.grayLight,
+  },
+  sendBtnText: {
+    fontSize: 13,
+    fontFamily: Fonts.euclidCircularAMedium,
+    marginLeft: 4,
+  },
+  requesterIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(235, 84, 80, 0.19)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  requesterText: {
+    marginRight: 5,
+    lineHeight: 20,
+    flex: 1,
+    flexWrap: 'wrap',
   },
 })
 
-const RequestToAsk = ({ request }) => {
-  const { requester } = request
+const RequestToAsk = ({ requests }) => {
   const user = useSelector((state) => state.auth.user)
-  if (!user) return null
+  if (!user || !requests.length) return null
   const onPressRequestToAsk = () => {
-    NavigationService.navigate(Constants.Screens.RequestToAsk, {
-      request,
+    NavigationService.navigate(Screens.RequestToAsk, {
+      requests,
     })
   }
-  const title = `${requester} invited you to ask him a question anonymously`
+  const renderRequester = () => {
+    if (requests.length === 1) {
+      return (
+        <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>
+          {requests[0].requester}
+        </AppText>
+      )
+    } else {
+      return (
+        <AppText weight="medium" fontSize={Styles.FontSize.normal}>
+          <AppText
+            color={Colors.primary}
+            fontSize={Styles.FontSize.normal}
+            weight="medium">
+            {requests[0].requester}
+          </AppText>
+          {` and `}
+          <AppText
+            color={Colors.primary}
+            fontSize={Styles.FontSize.normal}
+            weight="medium">
+            {`${requests.length - 1} People`}
+          </AppText>
+        </AppText>
+      )
+    }
+  }
   return (
     <Swipeout
-      style={{
-        marginBottom: 8,
-        width: Constants.Dimensions.Width - 24,
-        marginLeft: 12,
-        borderRadius: 8,
-      }}
+      style={{ marginTop: 4 }}
       backgroundColor="transparent"
-      buttonWidth={Constants.Dimensions.Width - 10}>
-      <TouchableOpacity
+      buttonWidth={Dimensions.Width - 10}>
+      <ScaleTouchable
         style={styles.questionItem}
         onPress={() => onPressRequestToAsk()}>
         <View style={{ flex: 1 }}>
           <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View style={styles.requesterIcon}>
+              <AppImage source={Images.message} width={17} height={15} />
+            </View>
             <AppText
-              style={{ marginRight: 5 }}
-              color={Constants.Colors.primary}
-              text={title}
-              fontSize={Constants.Styles.FontSize.large}
-              fontFamily={Fonts.latoBold}
-            />
+              style={styles.requesterText}
+              weight="medium"
+              fontSize={Styles.FontSize.normal}>
+              {`You got invited by `}
+              {renderRequester()}
+              {` to ask your questions anonymously`}
+            </AppText>
           </View>
         </View>
         <View
@@ -177,9 +245,9 @@ const RequestToAsk = ({ request }) => {
             marginLeft: 16,
             flexDirection: 'row',
           }}>
-          <AppIcon name="chevron-right" size={20} />
+          <AppIcon name="chevron-right" size={20} color={Colors.primary} />
         </View>
-      </TouchableOpacity>
+      </ScaleTouchable>
     </Swipeout>
   )
 }
@@ -201,7 +269,7 @@ const QuestionItem = ({
   const isFlagged = flaggedBy.includes(phoneNumber)
   const onPressQuestion = (questionId) => {
     dispatch(getQuestion(questionId))
-    NavigationService.navigate(Constants.Screens.Answers)
+    NavigationService.navigate(Screens.Answers)
   }
   const onRemoveQuestion = (direction, _id) => {
     if (direction === 'right') {
@@ -211,70 +279,71 @@ const QuestionItem = ({
   const url = checkURL(content)
   return (
     <Swipeout
-      style={{
-        marginBottom: 8,
-        width: Constants.Dimensions.Width - 24,
-        marginLeft: 12,
-        borderRadius: 8,
-      }}
+      style={{ marginBottom: 4 }}
       onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
       right={swipeoutBtns}
       backgroundColor="transparent"
-      buttonWidth={Constants.Dimensions.Width - 10}>
-      <TouchableOpacity
+      buttonWidth={Dimensions.Width - 10}>
+      <ScaleTouchable
         style={styles.questionItem}
         onPress={() => onPressQuestion(_id)}>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <AppText
-              style={{ marginRight: 5 }}
-              text={content}
-              fontSize={Constants.Styles.FontSize.large}
-              fontFamily={Fonts.latoBold}
-            />
-            {isFlagged && (
-              <AppIcon name="flag" color={Constants.Colors.primary} size={20} />
-            )}
+        {isFlagged && (
+          <View style={{ position: 'absolute', right: 20, top: 10 }}>
+            <AppIcon name="flag" color={Colors.primary} size={20} />
           </View>
+        )}
+        <View style={{ flex: 1 }}>
+          <AppText style={{ marginRight: 5 }} fontSize={Styles.FontSize.large}>
+            {content}
+          </AppText>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 16,
+              marginTop: 12,
             }}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppText
-                text={`${comments}  answers`}
-                color={Constants.Colors.gray}
-                fontFamily={Fonts.latoBold}
-                style={{ marginRight: 14 }}
-              />
+                fontSize={15}
+                weight="medium"
+                style={{ marginRight: 38 }}>
+                {comments}
+                <AppText
+                  fontSize={15}
+                  color={Colors.gray}>{`  answers`}</AppText>
+              </AppText>
               <AppText
-                text={`${totalVotes}  votes`}
-                color={Constants.Colors.gray}
-              />
+                fontSize={15}
+                weight="medium"
+                style={{ marginRight: 38 }}>
+                {totalVotes}
+                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
+              </AppText>
             </View>
-            <AppText
-              text={moment(createdAt).fromNow()}
-              color={Constants.Colors.gray}
-            />
           </View>
         </View>
         <View
           style={{
             marginLeft: 16,
             flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <AppIcon name="chevron-right" size={20} />
+          <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+            {moment(createdAt).fromNow()}
+          </AppText>
+          <AppIcon
+            name="chevron-right"
+            size={20}
+            color={'rgba(128, 128, 128, 0.5)'}
+          />
         </View>
-      </TouchableOpacity>
+      </ScaleTouchable>
       {url && (
         <RNUrlPreview
           containerStyle={{
             paddingHorizontal: 16,
-            backgroundColor: Constants.Colors.white,
-            borderTopColor: Constants.Colors.grayLight,
+            backgroundColor: Colors.white,
+            borderTopColor: Colors.background,
             borderTopWidth: 1,
           }}
           imageStyle={{
@@ -392,56 +461,42 @@ const Main = () => {
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)
-      NavigationService.navigate(Constants.Screens.SelectContacts)
+      NavigationService.navigate(Screens.SelectContacts)
     }
   }
 
-  const sendQuestionFromModal = () => {
-    if (questionFromModal) {
-      dispatch(setUserIsNew(false))
-      dispatch(setAskQuestion(questionFromModal))
-      setTimeout(() => {
-        NavigationService.navigate(Constants.Screens.SelectContacts)
-      }, 1000)
-    }
+  const sendQuestionFromModal = (q) => {
+    dispatch(setUserIsNew(false))
+    dispatch(setAskQuestion(q))
+    NavigationService.navigate(Screens.SelectContacts)
   }
 
   const renderEmpty = () => (
-    <AppText style={{ textAlign: 'center' }} text="There's no question yet" />
+    <View
+      style={{
+        paddingTop: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
+    </View>
   )
-
-  const onPressSkip = () => dispatch(setUserIsNew(false))
-
-  const onIndexChanged = (index) => {
-    setQuestionFromModal(popularQuestions[index])
-  }
 
   const onPressAskMeAnything = () => {
     if (user && user.name) {
       setShowAskingModal(false)
-      NavigationService.navigate(Constants.Screens.RequestContactsToAsk)
+      NavigationService.navigate(Screens.AskMe)
     } else {
       setShowAskingModal(true)
     }
   }
 
-  const isSuggestionsModalVisible = user.isNew && !question
+  const isNewUser = user.isNew && !question
 
-  const renderItem = ({ item }) => {
-    switch (item.type) {
-      case 'question': {
-        return <QuestionItem question={item} />
-      }
-      case 'request-to-ask': {
-        return <RequestToAsk request={item} />
-      }
-      default:
-        return null
-    }
-  }
+  const renderItem = ({ item }) => <QuestionItem question={item} />
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <Formik
         enableReinitialize
@@ -461,18 +516,18 @@ const Main = () => {
               }}
               value={values.question}
             />
-            <TouchableOpacity
+            <AppButton
+              text="Post"
+              textStyle={styles.sendBtnText}
+              icon="send"
+              iconSize={12}
+              disabled={!values.question}
+              style={[
+                styles.sendBtn,
+                !values.question && styles.sendBtnDisabled,
+              ]}
               onPress={handleSubmit}
-              activeOpacity={values.question ? 0.7 : 1}>
-              <AppIcon
-                name="send"
-                color={
-                  values.question
-                    ? Constants.Colors.primaryLight
-                    : Constants.Colors.grayLight
-                }
-              />
-            </TouchableOpacity>
+            />
           </View>
         )}
       </Formik>
@@ -481,119 +536,73 @@ const Main = () => {
           <RNUrlPreview text={questionUrl} />
         </View>
       )}
-
-      <View style={styles.askBtn}>
-        <TouchableOpacity
-          onPress={onPressAskMeAnything}
-          style={{
-            height: 48,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <AppText
-            text="Ask Me Anything"
-            color={Constants.Colors.primary}
-            fontFamily={Fonts.latoBold}
-            fontSize={Constants.Styles.FontSize.normal}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.flatListView}>
-        {loading && !data.length && <Loading />}
-        <FlatList
-          data={[...requestsToAsk, ...data]}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={renderEmpty()}
-          refreshing={loading}
-          onRefresh={() => dispatch(getQuestions())}
-        />
-      </View>
-
-      {/*Suggestion Modal*/}
-      <Modal
-        isVisible={isSuggestionsModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <View
-          style={[
-            {
-              paddingTop: 40,
-              flex: 1,
-              maxHeight: Constants.Dimensions.Height - 60,
-              paddingBottom: 260,
-            },
-          ]}>
-          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-            <View style={{ alignItems: 'center', paddingVertical: 10 }}>
-              <AppText
-                text="What others are asking?"
-                fontFamily={Fonts.latoBold}
-                fontSize={18}
-              />
-            </View>
-            <React.Fragment>
-              <Slick
-                horizontal={false}
-                showsButtons={false}
-                activeDotColor={Constants.Colors.primaryLight}
-                dotColor={Constants.Colors.grayLight}
-                onIndexChanged={onIndexChanged}
-                loop={false}
-                paginationStyle={{
-                  right: -6,
-                  top: 40,
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                }}>
-                {popularQuestions.map((q, index) => (
-                  <View
-                    key={`${index}_${q}`}
-                    style={{
-                      backgroundColor: Constants.Colors.white,
-                      padding: 16,
-                      height: 160,
-                    }}>
-                    <AppInput
-                      secondary
-                      multiline
-                      placeholder="Enter your question..."
-                      style={styles.modalInput}
-                      onChange={(value) => setQuestionFromModal(value)}
-                      value={questionFromModal}
-                      autoFocus
-                    />
-                  </View>
-                ))}
-              </Slick>
-              <View style={{ padding: 16, paddingTop: 10 }}>
-                <AppButton
-                  onPress={sendQuestionFromModal}
-                  text="Select Friends to Ask"
-                  backgroundColor={Constants.Colors.primary}
-                  color={Constants.Colors.white}
-                  borderRadius={Constants.Styles.BorderRadius.small}
-                />
-                <View style={{ alignItems: 'center', marginTop: 16 }}>
-                  <AppLink
-                    text="Skip"
-                    color={Constants.Colors.gray}
-                    onPress={onPressSkip}
-                  />
-                </View>
-              </View>
-            </React.Fragment>
+      <RequestToAsk requests={requestsToAsk} />
+      {isNewUser ? (
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              paddingVertical: 10,
+              paddingHorizontal: 16,
+              backgroundColor: Colors.background,
+            }}>
+            <AppText weight="medium" fontSize={Styles.FontSize.xLarge}>
+              {`Popular Questions `}
+              <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+                (Tap to ask)
+              </AppText>
+            </AppText>
           </View>
+          <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+            {popularQuestions.map((q, index) => (
+              <ScaleTouchable
+                key={`${index}_${q}`}
+                style={[
+                  styles.questionItem,
+                  index === popularQuestions.length - 1 &&
+                    styles.lastQuestionItem,
+                ]}
+                onPress={() => sendQuestionFromModal(q)}>
+                <AppText style={{ flex: 1, paddingRight: 24 }} weight="medium">
+                  {q}
+                </AppText>
+                <AppIcon
+                  name="chevron-right"
+                  size={20}
+                  color={'rgba(128, 128, 128, 0.5)'}
+                />
+              </ScaleTouchable>
+            ))}
+          </ScrollView>
         </View>
-      </Modal>
+      ) : (
+        <View style={styles.flatListView}>
+          {loading && !data.length && <Loading />}
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item._id}
+            ListEmptyComponent={renderEmpty()}
+            refreshing={loading}
+            onRefresh={() => dispatch(getQuestions())}
+            contentContainerStyle={{ paddingBottom: 60 }}
+          />
+        </View>
+      )}
+      <AppButton
+        text="Ask Me"
+        textStyle={{ marginLeft: 16 }}
+        icon="message-dot"
+        iconSize={20}
+        onPress={onPressAskMeAnything}
+        style={styles.askBtn}
+      />
 
       {/* AskMeAnything Modal */}
       <AskMeAnythingModal
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

@@ -4,7 +4,7 @@ import Config from 'react-native-config'
 
 const requestConfig = {
   baseURL: Config.API_URL,
-  timeout: 15000,
+  timeout: 25000,
   validateStatus: (status) => status < 400,
 }
 

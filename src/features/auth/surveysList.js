@@ -46,10 +46,10 @@ export default [
   },
   {
     id: 4,
-    icon: 'about-someone',
+    icon: 'profile',
     name: 'About Someone',
     value: 'About Someone',
-    size: 40,
+    size: 28,
     marginBottom: 10,
     popularQuestions: [
       'What do you think of Nick Dawson?',

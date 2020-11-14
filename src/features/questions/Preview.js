@@ -6,22 +6,23 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
 import Images from 'assets/images'
-import { Avatar, AppText, AppIcon, AppButton } from 'components'
+import { Avatar, AppText, AppIcon, AppButton, AppImage } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
 import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   container: {
-    height: Constants.Dimensions.Height,
-    width: Constants.Dimensions.Width,
-    backgroundColor: Constants.Colors.grayLight,
+    height: Dimensions.Height,
+    width: Dimensions.Width,
+    backgroundColor: Colors.white,
     flex: 1,
   },
   contentView: {
-    backgroundColor: Constants.Colors.white,
+    backgroundColor: Colors.white,
     flex: 1,
     padding: 16,
   },
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: Constants.Colors.grayLight,
+    borderBottomColor: Colors.grayLight,
     paddingBottom: 10,
     marginBottom: 14,
   },
@@ -52,11 +53,9 @@ const Preview = ({ route }) => {
           paddingVertical: 10,
         }}>
         <Avatar source={Images.defaultAvatar} size={40} />
-        <AppText
-          text={contact.name}
-          fontSize={Constants.Styles.FontSize.large}
-          style={{ marginLeft: 10 }}
-        />
+        <AppText fontSize={Styles.FontSize.large} style={{ marginLeft: 10 }}>
+          {contact.name}
+        </AppText>
       </View>
     )
   }
@@ -64,25 +63,23 @@ const Preview = ({ route }) => {
     dispatch(setAskAnonymously(!isAnonymous))
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.contentView}>
         <View style={{ marginBottom: 24 }}>
           <View style={styles.headerView}>
             <AppIcon name="help-circle" size={20} />
-            <AppText text="Question" style={{ marginLeft: 8 }} />
+            <AppText style={{ marginLeft: 8 }}>Question</AppText>
           </View>
-          <AppText
-            text={ask && ask.question}
-            color={Constants.Colors.text}
-            fontSize={Constants.Styles.FontSize.xLarge}
-          />
+          <AppText color={Colors.text} fontSize={Styles.FontSize.xLarge}>
+            {ask && ask.question}
+          </AppText>
         </View>
 
         <View style={{ flex: 1 }}>
           <View style={styles.headerView}>
-            <AppIcon name="user" size={20} />
-            <AppText text="Contacts" style={{ marginLeft: 8 }} />
+            <AppIcon name="profile" size={20} />
+            <AppText style={{ marginLeft: 8 }}>Contacts</AppText>
           </View>
           <View style={{ flex: 1 }}>
             <FlatList
@@ -97,30 +94,27 @@ const Preview = ({ route }) => {
             style={styles.contactItem}
             onPress={toggleAnonymously}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppIcon
-                name={isAnonymous ? 'checkbox' : 'checkbox-outline'}
-                color={Constants.Colors.primary}
+              <AppImage
+                source={
+                  isAnonymous ? Images.checkmarkSelected : Images.checkmark
+                }
+                width={20}
+                height={20}
               />
               <AppText
                 style={{ marginLeft: 10 }}
-                text="Ask Anonymously"
-                color={Constants.Colors.text}
-                fontSize={Constants.Styles.FontSize.large}
-              />
+                color={Colors.text}
+                fontSize={Styles.FontSize.large}>
+                Ask Anonymously
+              </AppText>
             </View>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ padding: 10, backgroundColor: Constants.Colors.white }}>
-        <AppButton
-          onPress={onConfirmQuestion}
-          text="Confirm"
-          backgroundColor={Constants.Colors.primary}
-          color={Constants.Colors.white}
-          borderRadius={Constants.Styles.BorderRadius.small}
-        />
+      <View style={{ padding: 10, backgroundColor: Colors.white }}>
+        <AppButton onPress={onConfirmQuestion} text="Confirm Post" />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

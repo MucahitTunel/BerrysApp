@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import Constants from 'constants'
+import { Colors, Styles } from 'constants'
 import Fonts from 'assets/fonts'
 
 export default StyleSheet.create({
@@ -7,25 +7,40 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.white,
+  },
+  dotWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'rgb(213, 213, 213)',
+    marginHorizontal: 2,
   },
-  activeDot: {
-    width: 12,
-    height: 6,
-    borderRadius: 3,
+  imagesView: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgb(248, 248, 250)',
+    width: '100%',
   },
-  itemDescription: {
-    marginTop: 40,
-    textAlign: 'center',
+  textView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   itemTitle: {
-    fontSize: Constants.Styles.FontSize.xxLarge,
-    color: Constants.Colors.white,
-    fontFamily: Fonts.fjallaOne,
+    fontSize: Styles.FontSize.xxLarge,
+    fontFamily: Fonts.euclidCircularASemiBold,
+    marginBottom: 10,
+  },
+  itemDescription: {
+    color: Colors.gray,
+    fontSize: 17,
+    textAlign: 'center',
   },
 })

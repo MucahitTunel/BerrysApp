@@ -1,14 +1,21 @@
 import { StyleSheet } from 'react-native'
-import Constants from 'constants'
+import { Dimensions, Colors, Styles } from 'constants'
+import Fonts from 'assets/fonts'
 
 export default StyleSheet.create({
   modalView: {
     margin: 0,
-    width: Constants.Dimensions.Width,
-    height: Constants.Dimensions.Height,
+    width: Dimensions.Width,
+    height: Dimensions.Height,
   },
   modalInnerView: {
-    height: Constants.Dimensions.Height,
+    height: Dimensions.Height,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
   closeBtn: {
     position: 'absolute',
@@ -17,14 +24,8 @@ export default StyleSheet.create({
     padding: 10,
     zIndex: 1,
   },
-  header: {
-    color: Constants.Colors.white,
-    fontSize: Constants.Styles.FontSize.xLarge,
-    textAlign: 'center',
-    marginTop: 20,
-  },
   form: {
-    marginTop: 80,
+    marginTop: 54,
     marginBottom: 20,
   },
   bottomView: {
@@ -35,19 +36,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   bottomText: {
-    color: Constants.Colors.white,
-    fontSize: Constants.Styles.FontSize.normal,
+    color: Colors.white,
+    fontSize: Styles.FontSize.normal,
   },
   error: {
     textAlign: 'center',
     marginBottom: 10,
     fontSize: 13,
-    color: Constants.Colors.white,
+    color: Colors.white,
     fontStyle: 'italic',
   },
   phonePrefix: {
-    fontSize: 17,
-    marginTop: -10,
-    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: Styles.FontSize.xLarge,
+    color: Colors.white,
+    fontFamily: Fonts.euclidCircularAMedium,
+    marginRight: 4,
   },
 })
