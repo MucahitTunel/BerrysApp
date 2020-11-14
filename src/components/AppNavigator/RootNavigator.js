@@ -198,13 +198,26 @@ const ReportStack = () => (
   </Stack.Navigator>
 )
 
+const AuthStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name={Screens.Onboarding} component={Onboarding} />
+    <Stack.Screen
+      name={Screens.PhoneVerification}
+      component={PhoneVerification}
+    />
+  </Stack.Navigator>
+)
+
 const RootNavigator = () => {
   const auth = useSelector((state) => state.auth) || {}
   const { user, booting = true } = auth
   if (booting) {
     return <Splash />
   }
-  if (user && user.isNew && !user.survey) {
+  if (!user || (user && user.isVerifying)) {
+    return <AuthStack />
+  }
+  if (user && !user.survey) {
     return <SurveyStack />
   }
   if (user && !user.isVerifying) {
@@ -224,17 +237,8 @@ const RootNavigator = () => {
         <Drawer.Screen name={Screens.ReportStack} component={ReportStack} />
       </Drawer.Navigator>
     )
-  } else {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={Screens.Onboarding} component={Onboarding} />
-        <Stack.Screen
-          name={Screens.PhoneVerification}
-          component={PhoneVerification}
-        />
-      </Stack.Navigator>
-    )
   }
+  return <Splash />
 }
 
 export default RootNavigator
