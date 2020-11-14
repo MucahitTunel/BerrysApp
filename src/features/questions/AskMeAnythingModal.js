@@ -78,11 +78,11 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
               onChange={(value) => setName(value)}
               value={name}
             />
-            <AppText
+            {/* <AppText
               color={Colors.gray}
               style={{ padding: 5, marginBottom: 5 }}>
               We won’t show your name to other users unless you want to.
-            </AppText>
+            </AppText> */}
             <View style={styles.actions}>
               <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
