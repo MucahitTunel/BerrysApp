@@ -277,7 +277,6 @@ const QuestionItem = ({
       dispatch(hideQuestion(_id))
     }
   }
-  const url = checkURL(content)
   return (
     <Swipeout
       style={{ marginBottom: 4 }}
@@ -339,26 +338,6 @@ const QuestionItem = ({
           />
         </View>
       </ScaleTouchable>
-      {url && (
-        <RNUrlPreview
-          containerStyle={{
-            paddingHorizontal: 16,
-            backgroundColor: Colors.white,
-            borderTopColor: Colors.background,
-            borderTopWidth: 1,
-          }}
-          imageStyle={{
-            width: 100,
-          }}
-          faviconStyle={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 30,
-          }}
-          titleNumberOfLines={1}
-          text={url}
-        />
-      )}
     </Swipeout>
   )
 }
