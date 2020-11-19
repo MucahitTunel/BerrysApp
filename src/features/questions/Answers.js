@@ -40,6 +40,8 @@ import {
   voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
+import { checkURL } from '../../utils'
+import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
   headerView: {
@@ -168,7 +170,7 @@ const Comment = ({
             weight="italic"
             fontSize={Styles.FontSize.normal}
             style={{ lineHeight: 26 }}
-            color={Colors.gray}>{`"${content}`}</AppText>
+            color={Colors.gray}>{`"${content}"`}</AppText>
         </View>
       </View>
       <View style={styles.headerAnswerView}>
@@ -286,6 +288,7 @@ const Answers = ({ navigation }) => {
   const { flaggedBy = [] } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
+  const url = checkURL(question.content)
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <Animated.View style={{ flex: 1, paddingBottom: keyboardHeight.current }}>
@@ -296,17 +299,46 @@ const Answers = ({ navigation }) => {
         />
         <View style={styles.headerView}>
           <View style={{ flexDirection: 'row' }}>
-            <AppText
-              fontSize={Styles.FontSize.xxLarge}
-              fontFamily={Fonts.latoBold}
-              style={{ marginRight: 10 }}>
-              {question.content}
-            </AppText>
+            <View style={{ flex: 1 }}>
+              {url ? (
+                <>
+                  <RNUrlPreview
+                    containerStyle={{
+                      backgroundColor: Colors.white,
+                      borderTopColor: Colors.background,
+                      borderTopWidth: 1,
+                    }}
+                    imageStyle={{
+                      width: 100,
+                    }}
+                    faviconStyle={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 30,
+                    }}
+                    titleNumberOfLines={1}
+                    text={url}
+                  />
+                  <AppText
+                    weight="medium"
+                    color={Colors.gray}
+                    style={{ marginTop: 16 }}>
+                    What do you think of this video?
+                  </AppText>
+                </>
+              ) : (
+                <AppText
+                  fontSize={Styles.FontSize.xxLarge}
+                  style={{ marginRight: 10 }}>
+                  {question.content}
+                </AppText>
+              )}
+            </View>
             {isFlagged && (
               <AppIcon name="flag" color={Colors.primary} size={20} />
             )}
           </View>
-          <View style={[styles.headerAnswerView, { marginTop: 4 }]}>
+          <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
             <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
               {moment(question.createdAt).fromNow()}
             </AppText>
