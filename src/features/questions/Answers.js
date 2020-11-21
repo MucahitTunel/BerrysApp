@@ -10,6 +10,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -17,8 +18,7 @@ import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import { Colors, Dimensions, Styles } from 'constants'
-import Fonts from 'assets/fonts'
+import { Colors, Styles } from 'constants'
 import Images from 'assets/images'
 import {
   AppButton,
@@ -297,94 +297,97 @@ const Answers = ({ navigation }) => {
           onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
-        <View style={styles.headerView}>
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ flex: 1 }}>
-              {url ? (
-                <>
-                  <RNUrlPreview
-                    containerStyle={{
-                      backgroundColor: Colors.white,
-                      borderTopColor: Colors.background,
-                      borderTopWidth: 1,
-                    }}
-                    imageStyle={{
-                      width: 100,
-                    }}
-                    faviconStyle={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 30,
-                    }}
-                    titleNumberOfLines={1}
-                    text={url}
-                  />
+        <ScrollView>
+          <View style={styles.headerView}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                {url ? (
+                  <>
+                    <RNUrlPreview
+                      containerStyle={{
+                        backgroundColor: Colors.white,
+                        borderTopColor: Colors.background,
+                        borderTopWidth: 1,
+                      }}
+                      imageStyle={{
+                        width: 100,
+                      }}
+                      faviconStyle={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 30,
+                      }}
+                      titleNumberOfLines={1}
+                      text={url}
+                    />
+                    <AppText
+                      weight="medium"
+                      color={Colors.gray}
+                      style={{ marginTop: 16 }}>
+                      What do you think of this video?
+                    </AppText>
+                  </>
+                ) : (
                   <AppText
-                    weight="medium"
-                    color={Colors.gray}
-                    style={{ marginTop: 16 }}>
-                    What do you think of this video?
+                    fontSize={Styles.FontSize.xxLarge}
+                    style={{ marginRight: 10 }}>
+                    {question.content}
                   </AppText>
-                </>
-              ) : (
-                <AppText
-                  fontSize={Styles.FontSize.xxLarge}
-                  style={{ marginRight: 10 }}>
-                  {question.content}
-                </AppText>
+                )}
+              </View>
+              {isFlagged && (
+                <AppIcon name="flag" color={Colors.primary} size={20} />
               )}
             </View>
-            {isFlagged && (
-              <AppIcon name="flag" color={Colors.primary} size={20} />
-            )}
-          </View>
-          <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
-            <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
-              {moment(question.createdAt).fromNow()}
-            </AppText>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText fontSize={Styles.FontSize.normal}>
-                {question.totalVotes}
+            <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
+              <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+                {moment(question.createdAt).fromNow()}
               </AppText>
-              <TouchableOpacity
-                style={{ padding: 5 }}
-                onPress={() => upVoteQuestion()}>
-                <AppIcon name="like" size={20} color={Colors.gray} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  padding: 5,
-                  marginLeft: 5,
-                }}
-                onPress={() => downVoteQuestion()}>
-                <AppIcon name="dislike" size={20} color={Colors.gray} />
-              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <AppText fontSize={Styles.FontSize.normal}>
+                  {question.totalVotes}
+                </AppText>
+                <TouchableOpacity
+                  style={{ padding: 5 }}
+                  onPress={() => upVoteQuestion()}>
+                  <AppIcon name="like" size={20} color={Colors.gray} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    padding: 5,
+                    marginLeft: 5,
+                  }}
+                  onPress={() => downVoteQuestion()}>
+                  <AppIcon name="dislike" size={20} color={Colors.gray} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.flatListView}>
-          <FlatList
-            data={question.comments}
-            renderItem={({ item }) => (
-              <Comment
-                comment={item}
-                question={question}
-                user={user}
-                setIsMessageModalVisible={setIsMessageModalVisible}
-                setComment={setComment}
-              />
-            )}
-            keyExtractor={(item) => item._id}
-            ListEmptyComponent={renderEmpty()}
-            refreshing={loading}
-            onRefresh={() => refreshQuestion(question._id)}
-            contentContainerStyle={{
-              backgroundColor: Colors.white,
-              paddingHorizontal: 16,
-              minHeight: '100%',
-            }}
-          />
-        </View>
+          <View style={styles.flatListView}>
+            <FlatList
+              scrollEnabled={false}
+              data={question.comments}
+              renderItem={({ item }) => (
+                <Comment
+                  comment={item}
+                  question={question}
+                  user={user}
+                  setIsMessageModalVisible={setIsMessageModalVisible}
+                  setComment={setComment}
+                />
+              )}
+              keyExtractor={(item) => item._id}
+              ListEmptyComponent={renderEmpty()}
+              refreshing={loading}
+              onRefresh={() => refreshQuestion(question._id)}
+              contentContainerStyle={{
+                backgroundColor: Colors.white,
+                paddingHorizontal: 16,
+                minHeight: '100%',
+              }}
+            />
+          </View>
+        </ScrollView>
         <View>
           <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
             {({ values, handleChange, handleSubmit }) => (
