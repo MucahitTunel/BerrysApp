@@ -1,16 +1,12 @@
 import React from 'react'
-import { Alert, View, SafeAreaView } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import { ContactsList, Avatar, AppText, AppImage } from 'components'
-import { Colors, Styles } from 'constants'
-import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
-import Images from 'assets/images'
-import ScaleTouchable from '../../components/ScaleTouchable'
+import { Alert, SafeAreaView } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { ContactsList } from 'components'
+import { askQuestion } from 'features/questions/askSlice'
+import { Colors } from 'constants'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
-  const ask = useSelector((state) => state.ask)
-  const { isAnonymous } = ask
   const onPressSubmit = (contacts, request) => {
     const MIN_NUM_CONTACTS = 3
     if (contacts.length < MIN_NUM_CONTACTS) {
@@ -22,41 +18,10 @@ const SelectContacts = (props) => {
     dispatch(askQuestion(request))
   }
 
-  const toggleAnonymously = () => {
-    dispatch(setAskAnonymously(!isAnonymous))
-  }
-
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 24,
-          paddingHorizontal: 16,
-          backgroundColor: Colors.white,
-        }}>
-        <Avatar source={Images.defaultAvatar} size={54} />
-        <AppText style={{ marginLeft: 16, flex: 1 }}>{ask.question}</AppText>
-      </View>
-      <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
-        <ScaleTouchable onPress={toggleAnonymously}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <AppImage
-              source={isAnonymous ? Images.checkmarkSelected : Images.checkmark}
-              width={20}
-              height={20}
-            />
-            <AppText
-              style={{ marginLeft: 10 }}
-              color={Colors.text}
-              fontSize={Styles.FontSize.large}>
-              Ask Anonymously
-            </AppText>
-          </View>
-        </ScaleTouchable>
-      </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
+        isPostQuestion
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle="Select contacts:"

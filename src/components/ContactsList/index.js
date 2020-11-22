@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   SafeAreaView,
@@ -7,6 +7,8 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  Animated,
+  ScrollView,
 } from 'react-native'
 import { Colors, Dimensions, Styles } from 'constants'
 import {
@@ -20,6 +22,7 @@ import {
 } from 'components'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
+import { setAskAnonymously } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +63,11 @@ const ContactsList = ({
   onPressSubmit,
   route,
   subTitle,
+  isPostQuestion,
 }) => {
+  const dispatch = useDispatch()
+  const ask = useSelector((state) => state.ask)
+  const { isAnonymous } = ask
   const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
   const [searchText, setSearchText] = useState('')
@@ -239,83 +246,131 @@ const ContactsList = ({
   })
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
+
+  const toggleAnonymously = () => {
+    dispatch(setAskAnonymously(!isAnonymous))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.filterWrapper}>
-        {!singleSelect && (
+      <ScrollView>
+        {isPostQuestion && (
           <>
-            <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
-              {subTitle}
-            </AppText>
-            {!!contacts.filter((c) => c[checkCondition]) && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: 12,
-                  flexWrap: 'wrap',
-                }}>
-                {contacts
-                  .filter((c) => c[checkCondition])
-                  .map((contact) => {
-                    return (
-                      <ScaleTouchable
-                        key={contact._id}
-                        onPress={() => onSelectContact(contact)}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          borderWidth: 1,
-                          borderColor: 'rgba(151, 151, 151, 0.53)',
-                          paddingVertical: 4,
-                          paddingHorizontal: 8,
-                          borderRadius: 5,
-                          marginRight: 10,
-                          marginBottom: 10,
-                        }}>
-                        <AppText
-                          color={Colors.gray}
-                          fontSize={Styles.FontSize.normal}
-                          weight="medium"
-                          style={{ marginRight: 10 }}>
-                          {contact.name}
-                        </AppText>
-                        <AppIcon name="close" size={10} color={Colors.gray} />
-                      </ScaleTouchable>
-                    )
-                  })}
-              </View>
-            )}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 24,
+                paddingHorizontal: 16,
+                backgroundColor: Colors.white,
+              }}>
+              <Avatar source={Images.defaultAvatar} size={54} />
+              <AppText style={{ marginLeft: 16, flex: 1 }}>
+                {ask.question}
+              </AppText>
+            </View>
+            <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
+              <ScaleTouchable onPress={toggleAnonymously}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <AppImage
+                    source={
+                      isAnonymous ? Images.checkmarkSelected : Images.checkmark
+                    }
+                    width={20}
+                    height={20}
+                  />
+                  <AppText
+                    style={{ marginLeft: 10 }}
+                    color={Colors.text}
+                    fontSize={Styles.FontSize.large}>
+                    Ask Anonymously
+                  </AppText>
+                </View>
+              </ScaleTouchable>
+            </View>
           </>
         )}
-        <View>
-          <View style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
-            <AppIcon name="search" color={Colors.gray} size={20} />
+        <View style={styles.filterWrapper}>
+          {!singleSelect && (
+            <>
+              <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
+                {subTitle}
+              </AppText>
+              {!!contacts.filter((c) => c[checkCondition]) && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: 12,
+                    flexWrap: 'wrap',
+                  }}>
+                  {contacts
+                    .filter((c) => c[checkCondition])
+                    .map((contact) => {
+                      return (
+                        <ScaleTouchable
+                          key={contact._id}
+                          onPress={() => onSelectContact(contact)}
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            borderWidth: 1,
+                            borderColor: 'rgba(151, 151, 151, 0.53)',
+                            paddingVertical: 4,
+                            paddingHorizontal: 8,
+                            borderRadius: 5,
+                            marginRight: 10,
+                            marginBottom: 10,
+                          }}>
+                          <AppText
+                            color={Colors.gray}
+                            fontSize={Styles.FontSize.normal}
+                            weight="medium"
+                            style={{ marginRight: 10 }}>
+                            {contact.name}
+                          </AppText>
+                          <AppIcon name="close" size={10} color={Colors.gray} />
+                        </ScaleTouchable>
+                      )
+                    })}
+                </View>
+              )}
+            </>
+          )}
+          <View>
+            <View
+              style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
+              <AppIcon name="search" color={Colors.gray} size={20} />
+            </View>
+            <AppInput
+              placeholder="Search"
+              placeholderTextColor={Colors.gray}
+              value={searchText}
+              icon="search"
+              style={{
+                backgroundColor: Colors.background,
+                paddingLeft: 50,
+                fontSize: 15,
+                fontFamily: Fonts.euclidCircularAMedium,
+                color: Colors.text,
+              }}
+              onChangeText={onChangeSearchText}
+            />
           </View>
-          <AppInput
-            placeholder="Search"
-            placeholderTextColor={Colors.gray}
-            value={searchText}
-            icon="search"
-            style={{
-              backgroundColor: Colors.background,
-              paddingLeft: 50,
-              fontSize: 15,
-              fontFamily: Fonts.euclidCircularAMedium,
-              color: Colors.text,
-            }}
-            onChangeText={onChangeSearchText}
-          />
         </View>
-      </View>
-      <SectionList
-        style={styles.flatListView}
-        sections={arr}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => renderContact(item)}
-        renderSectionHeader={({ section: { title } }) => renderHeader(title)}
-      />
-      <View style={{ padding: 10, backgroundColor: Colors.white }}>
+        <SectionList
+          style={styles.flatListView}
+          sections={arr}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({ item }) => renderContact(item)}
+          renderSectionHeader={({ section: { title } }) => renderHeader(title)}
+        />
+      </ScrollView>
+      <View
+        style={{
+          padding: 10,
+          backgroundColor: Colors.white,
+        }}>
         <AppButton
           onPress={() =>
             onPressSubmit(
@@ -332,22 +387,20 @@ const ContactsList = ({
 
 ContactsList.propTypes = {
   subTitle: PropTypes.string.isRequired,
-  showRightText: PropTypes.bool,
-  submitText: PropTypes.string,
   checkCondition: PropTypes.string.isRequired,
-  singleSelect: PropTypes.bool,
   onPressSubmit: PropTypes.func.isRequired,
   route: PropTypes.object.isRequired,
+  showRightText: PropTypes.bool,
+  submitText: PropTypes.string,
+  singleSelect: PropTypes.bool,
+  isPostQuestion: PropTypes.bool,
 }
 
 ContactsList.defaultProps = {
-  subTitle: 'subTitle',
   showRightText: false,
   submitText: 'Confirm Post',
-  checkCondition: 'isSelected',
   singleSelect: false,
-  onPressSubmit: () => {},
-  route: {},
+  isPostQuestion: false,
 }
 
 export default ContactsList
