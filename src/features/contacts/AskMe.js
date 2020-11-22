@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, StyleSheet, View, SafeAreaView } from 'react-native'
+import { Alert, StyleSheet, View, SafeAreaView, Share } from 'react-native'
 import Clipboard from '@react-native-community/clipboard'
 import { useSelector } from 'react-redux'
 import { AppIcon, AppText } from 'components'
@@ -34,12 +34,30 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskMe = (props) => {
+const AskMe = () => {
   const user = useSelector((state) => state.auth.user)
+  const url = `https://api.berrysapp.com/app/chat/${user._id}`
   const onPressCopyURL = () => {
-    const url = `https://api.berrysapp.com/app/chat/${user._id}`
     Clipboard.setString(url)
     Alert.alert('Success', 'The URL has been copied to clipboard')
+  }
+  const onPressShare = async () => {
+    try {
+      const result = await Share.share({
+        url,
+      })
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message)
+    }
   }
 
   const selectContactsToAskMe = () => {
@@ -93,14 +111,14 @@ const AskMe = (props) => {
         </View>
         <AppIcon name="copy" size={20} color={Colors.primary} />
       </ScaleTouchable>
-      <ScaleTouchable style={styles.item} onPress={onPressCopyURL}>
+      <ScaleTouchable style={styles.item} onPress={onPressShare}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={styles.itemIcon}>
             <AppIcon name="share-message" color={Colors.primary} size={20} />
           </View>
           <View>
             <AppText fontSize={Styles.FontSize.normal} weight="medium">
-              SHARE ON SOCIAL MEDIA
+              SHARE
             </AppText>
           </View>
         </View>
