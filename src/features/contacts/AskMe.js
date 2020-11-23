@@ -90,6 +90,19 @@ const AskMe = () => {
         </View>
         <AppIcon name="chevron-right" size={20} color={Colors.primary} />
       </ScaleTouchable>
+      <ScaleTouchable style={styles.item} onPress={onPressShare}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={styles.itemIcon}>
+            <AppIcon name="share-message" color={Colors.primary} size={20} />
+          </View>
+          <View>
+            <AppText fontSize={Styles.FontSize.normal} weight="medium">
+              SHARE
+            </AppText>
+          </View>
+        </View>
+        <AppIcon name="chevron-right" size={20} color={Colors.primary} />
+      </ScaleTouchable>
       <ScaleTouchable style={styles.item} onPress={onPressCopyURL}>
         <View
           style={{
@@ -110,19 +123,6 @@ const AskMe = () => {
           </View>
         </View>
         <AppIcon name="copy" size={20} color={Colors.primary} />
-      </ScaleTouchable>
-      <ScaleTouchable style={styles.item} onPress={onPressShare}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={styles.itemIcon}>
-            <AppIcon name="share-message" color={Colors.primary} size={20} />
-          </View>
-          <View>
-            <AppText fontSize={Styles.FontSize.normal} weight="medium">
-              SHARE
-            </AppText>
-          </View>
-        </View>
-        <AppIcon name="chevron-right" size={20} color={Colors.primary} />
       </ScaleTouchable>
     </SafeAreaView>
   )
