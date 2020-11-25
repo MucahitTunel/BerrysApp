@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert, SafeAreaView } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { ContactsList } from 'components'
-import { askQuestion } from 'features/questions/askSlice'
+import { askQuestion, setAskContacts } from 'features/questions/askSlice'
 import { Colors } from 'constants'
 
 const SelectContacts = (props) => {
@@ -15,6 +15,7 @@ const SelectContacts = (props) => {
         `You have to select at least ${MIN_NUM_CONTACTS} contacts in order to proceed`,
       )
     }
+    dispatch(setAskContacts(contacts))
     dispatch(askQuestion(request))
   }
 
