@@ -1,5 +1,6 @@
 import React from 'react'
-import { Alert, StyleSheet, View, SafeAreaView, Share } from 'react-native'
+import Share from 'react-native-share'
+import { Alert, StyleSheet, View, SafeAreaView } from 'react-native'
 import Clipboard from '@react-native-community/clipboard'
 import { useSelector } from 'react-redux'
 import { AppIcon, AppText } from 'components'
@@ -43,18 +44,22 @@ const AskMe = () => {
   }
   const onPressShare = async () => {
     try {
-      const result = await Share.share({
-        url,
+      const title = `Ask me on Berry's`
+      const result = await Share.open({
+        activityItemSources: [
+          {
+            // For sharing url with custom title.
+            placeholderItem: { type: 'url', content: url },
+            item: {
+              default: { type: 'url', content: url },
+            },
+            subject: {
+              default: title,
+            },
+            linkMetadata: { originalUrl: url, url, title },
+          },
+        ],
       })
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
     } catch (error) {
       Alert.alert('Error', error.message)
     }
