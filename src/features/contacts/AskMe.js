@@ -59,6 +59,7 @@ const AskMe = () => {
             linkMetadata: { originalUrl: url, url, title },
           },
         ],
+        excludedActivityTypes: ['com.apple.UIKit.activity.Message'],
       })
     } catch (error) {
       Alert.alert('Error', error.message)
