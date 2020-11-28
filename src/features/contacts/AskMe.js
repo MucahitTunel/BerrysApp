@@ -61,7 +61,6 @@ const AskMe = () => {
             linkMetadata: { originalUrl: url, url, title },
           },
         ],
-        // excludedActivityTypes: ['com.apple.UIKit.activity.Message'],
       })
     } catch (error) {
       Alert.alert('Error', error.message)
@@ -126,7 +125,7 @@ const AskMe = () => {
               COPY & SHARE LINK
             </AppText>
             <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
-              {`https://api.berrysapp.com/app/chat/${user._id}`}
+              {url}
             </AppText>
           </View>
         </View>
