@@ -44,8 +44,10 @@ const AskMe = () => {
   }
   const onPressShare = async () => {
     try {
-      const title = `Ask me on Berry's`
+      const title = `Feel free to ask me anonymously any questions you have`
       const result = await Share.open({
+        title,
+        url,
         activityItemSources: [
           {
             // For sharing url with custom title.
@@ -59,7 +61,7 @@ const AskMe = () => {
             linkMetadata: { originalUrl: url, url, title },
           },
         ],
-        excludedActivityTypes: ['com.apple.UIKit.activity.Message'],
+        // excludedActivityTypes: ['com.apple.UIKit.activity.Message'],
       })
     } catch (error) {
       Alert.alert('Error', error.message)
