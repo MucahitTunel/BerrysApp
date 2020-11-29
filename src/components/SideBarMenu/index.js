@@ -13,10 +13,10 @@ const menu = [
     name: 'Main',
     screen: Screens.MainStack,
   },
-  {
-    name: 'Import Gmail contacts',
-    screen: Screens.ImportGmailContactsStack,
-  },
+  // {
+  //   name: 'Import Gmail contacts',
+  //   screen: Screens.ImportGmailContactsStack,
+  // },
   {
     name: 'Unfollow contacts',
     screen: Screens.FollowContactsStack,

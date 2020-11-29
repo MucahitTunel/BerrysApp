@@ -215,41 +215,39 @@ const RequestToAsk = ({ requests }) => {
     }
   }
   return (
-    <Swipeout
-      style={{ marginTop: 4 }}
-      backgroundColor="transparent"
-      buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable
-        style={styles.questionItem}
-        onPress={() => onPressRequestToAsk()}>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View style={styles.requesterIcon}>
-              <AppImage source={Images.message} width={17} height={15} />
-            </View>
-            <AppText
-              style={styles.requesterText}
-              weight="medium"
-              fontSize={Styles.FontSize.normal}>
-              {`You got invited by `}
-              {renderRequester()}
-              {` to ask your questions anonymously`}
-            </AppText>
-          </View>
-        </View>
+    <ScaleTouchable
+      style={[
+        styles.questionItem,
+        { borderTopWidth: 4, borderTopColor: Colors.background },
+      ]}
+      onPress={() => onPressRequestToAsk()}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
-            marginLeft: 16,
             flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          <AppIcon name="chevron-right" size={20} color={Colors.primary} />
+          <View style={styles.requesterIcon}>
+            <AppImage source={Images.message} width={17} height={15} />
+          </View>
+          <AppText
+            style={styles.requesterText}
+            weight="medium"
+            fontSize={Styles.FontSize.normal}>
+            {`You got invited by `}
+            {renderRequester()}
+            {` to ask your questions anonymously`}
+          </AppText>
         </View>
-      </ScaleTouchable>
-    </Swipeout>
+      </View>
+      <View
+        style={{
+          marginLeft: 16,
+          flexDirection: 'row',
+        }}>
+        <AppIcon name="chevron-right" size={20} color={Colors.primary} />
+      </View>
+    </ScaleTouchable>
   )
 }
 
