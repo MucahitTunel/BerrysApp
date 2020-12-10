@@ -25,6 +25,10 @@ const menu = [
     name: 'Report',
     screen: Screens.ReportStack,
   },
+  {
+    name: 'Group',
+    screen: Screens.GroupStack,
+  },
 ]
 
 const styles = StyleSheet.create({

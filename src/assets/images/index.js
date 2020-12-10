@@ -10,6 +10,13 @@ import checkmark from './checkmark-circle.png'
 import checkmarkSelected from './checkmark-circle-selected.png'
 import googleIcon from './google-icon.png'
 
+// Create a group
+import education from './education.png'
+import groupSenior from './group-senior.png'
+import home from './home.png'
+import running from './running.png'
+import work from './work.png'
+
 export default {
   logo,
   logoWhite,
@@ -22,4 +29,9 @@ export default {
   checkmark,
   checkmarkSelected,
   googleIcon,
+  education,
+  groupSenior,
+  home,
+  running,
+  work,
 }
