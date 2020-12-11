@@ -4,7 +4,7 @@ import { Alert, StyleSheet, View, SafeAreaView } from 'react-native'
 import Clipboard from '@react-native-community/clipboard'
 import { useSelector } from 'react-redux'
 import { AppIcon, AppText } from 'components'
-import { Dimensions, Colors, Styles, Screens } from 'constants'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import ScaleTouchable from '../../components/ScaleTouchable'
 import * as NavigationService from 'services/navigation'
 
@@ -80,7 +80,7 @@ const AskMe = () => {
           paddingTop: 20,
           paddingBottom: 10,
         }}>
-        <AppText weight="medium" fontSize={Styles.FontSize.xLarge}>
+        <AppText weight="medium" fontSize={FontSize.xLarge}>
           Invite People to Ask me their Questions
         </AppText>
       </View>
@@ -90,7 +90,7 @@ const AskMe = () => {
             <AppIcon name="profile" color={Colors.primary} size={20} />
           </View>
           <View>
-            <AppText fontSize={Styles.FontSize.normal} weight="medium">
+            <AppText fontSize={FontSize.normal} weight="medium">
               SELECT CONTACTS
             </AppText>
           </View>
@@ -103,7 +103,7 @@ const AskMe = () => {
             <AppIcon name="share-message" color={Colors.primary} size={20} />
           </View>
           <View>
-            <AppText fontSize={Styles.FontSize.normal} weight="medium">
+            <AppText fontSize={FontSize.normal} weight="medium">
               SHARE
             </AppText>
           </View>
@@ -121,10 +121,10 @@ const AskMe = () => {
             <AppIcon name="share" color={Colors.primary} size={20} />
           </View>
           <View>
-            <AppText fontSize={Styles.FontSize.normal} weight="medium">
+            <AppText fontSize={FontSize.normal} weight="medium">
               COPY & SHARE LINK
             </AppText>
-            <AppText fontSize={Styles.FontSize.normal} color={Colors.gray}>
+            <AppText fontSize={FontSize.normal} color={Colors.gray}>
               {url}
             </AppText>
           </View>

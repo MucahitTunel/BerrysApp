@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: Fonts.euclidCircularAMedium,
-    fontSize: Styles.FontSize.xLarge,
+    fontSize: FontSize.xLarge,
     color: Colors.white,
   },
   btnSecondary: {

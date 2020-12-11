@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
 import { AppButton, AppIcon, AppText, ScaleTouchable } from 'components'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
 import surveysList from './surveysList'
@@ -59,7 +59,7 @@ const Survey = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.titleView}>
-        <AppText fontSize={Styles.FontSize.xxLarge} weight="medium">
+        <AppText fontSize={FontSize.xxLarge} weight="medium">
           What would you like to ask?
         </AppText>
       </View>

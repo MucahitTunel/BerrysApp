@@ -31,7 +31,8 @@ import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
 import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
 import GroupList from 'features/group/GroupList'
-import GroupCreation from '../../features/group/GroupCreation'
+import GroupCreation from 'features/group/GroupCreation'
+import UpsertGroup from 'features/group/UpsertGroup'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -221,6 +222,18 @@ const GroupStack = () => (
         header: () => (
           <Header
             title="Create a Group"
+            headerLeft={<BackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.UpsertGroup}
+      component={UpsertGroup}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Create Group"
             headerLeft={<BackButton navigation={navigation} />}
           />
         ),

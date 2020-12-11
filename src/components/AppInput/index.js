@@ -1,14 +1,14 @@
 import React from 'react'
 import { TextInput, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { Styles, Colors } from 'constants'
+import { FontSize, Colors } from 'constants'
 import Fonts from 'assets/fonts'
 import { AppText } from 'components'
 
 const styles = StyleSheet.create({
   input: {
     paddingHorizontal: 10,
-    fontSize: Styles.FontSize.xLarge,
+    fontSize: FontSize.xLarge,
     color: Colors.white,
     fontFamily: Fonts.euclidCircularARegular,
     height: 56,
@@ -26,7 +26,7 @@ const AppInput = ({ value, onChange, error, style, ...rest }) => (
     />
     {error && (
       <AppText
-        fontSize={Styles.FontSize.normal}
+        fontSize={FontSize.normal}
         weight="italic"
         style={{ color: Colors.primary, marginTop: 5 }}>
         {error}

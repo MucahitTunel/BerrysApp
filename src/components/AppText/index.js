@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Text as RNText } from 'react-native'
-import { Styles } from 'constants'
+import { FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 
 const FONT_WEIGHT = {
@@ -36,7 +36,7 @@ AppText.propTypes = {
 }
 
 AppText.defaultProps = {
-  fontSize: Styles.FontSize.large,
+  fontSize: FontSize.large,
   weight: 'regular',
   style: {},
 }

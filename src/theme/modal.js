@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 
 export default StyleSheet.create({
@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
   bottomText: {
     color: Colors.white,
-    fontSize: Styles.FontSize.normal,
+    fontSize: FontSize.normal,
   },
   error: {
     textAlign: 'center',
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     fontStyle: 'italic',
   },
   phonePrefix: {
-    fontSize: Styles.FontSize.xLarge,
+    fontSize: FontSize.xLarge,
     color: Colors.white,
     fontFamily: Fonts.euclidCircularAMedium,
     marginRight: 4,

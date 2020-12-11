@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 
 import * as NavigationService from 'services/navigation'
-import { Colors, Dimensions, Screens, Styles } from 'constants'
+import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import { AppIcon, AppText, ScaleTouchable, AppButton } from 'components'
 
 const GroupListData = [
@@ -67,7 +67,7 @@ const renderGroupItem = (item, index) => {
         index === GroupListData.length - 1 && styles.groupItemLast,
       ]}
       onPress={() => onPressGroupItem(item._id)}>
-      <AppText fontSize={Styles.FontSize.normal} weight="medium">
+      <AppText fontSize={FontSize.normal} weight="medium">
         {item.name}
       </AppText>
       <AppIcon name="chevron-right" size={20} color={Colors.gray} />

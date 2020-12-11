@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View } from 'react-native'
 import { AppText, Avatar, AppLink } from 'components'
-import { Colors, Screens, Styles } from 'constants'
+import { Colors, Screens, FontSize } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import { useDispatch } from 'react-redux'
@@ -82,7 +82,7 @@ const SideBarMenu = ({ navigation }) => {
               text={item.name}
               textStyle={{
                 fontFamily: Fonts.euclidCircularARegular,
-                fontSize: Styles.FontSize.large,
+                fontSize: FontSize.large,
               }}
               style={styles.menuItem}
               onPress={() => navigateToScreen(item.screen)}

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton, AppImage } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
@@ -53,7 +53,7 @@ const Preview = ({ route }) => {
           paddingVertical: 10,
         }}>
         <Avatar source={Images.defaultAvatar} size={40} />
-        <AppText fontSize={Styles.FontSize.large} style={{ marginLeft: 10 }}>
+        <AppText fontSize={FontSize.large} style={{ marginLeft: 10 }}>
           {contact.name}
         </AppText>
       </View>
@@ -72,7 +72,7 @@ const Preview = ({ route }) => {
             <AppIcon name="help-circle" size={20} />
             <AppText style={{ marginLeft: 8 }}>Question</AppText>
           </View>
-          <AppText color={Colors.text} fontSize={Styles.FontSize.xLarge}>
+          <AppText color={Colors.text} fontSize={FontSize.xLarge}>
             {ask && ask.question}
           </AppText>
         </View>
@@ -105,7 +105,7 @@ const Preview = ({ route }) => {
               <AppText
                 style={{ marginLeft: 10 }}
                 color={Colors.text}
-                fontSize={Styles.FontSize.large}>
+                fontSize={FontSize.large}>
                 Ask Anonymously
               </AppText>
             </View>

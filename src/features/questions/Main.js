@@ -27,7 +27,7 @@ import {
   ScaleTouchable,
   AppImage,
 } from 'components'
-import { Colors, Dimensions, Screens, Styles } from 'constants'
+import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     marginHorizontal: 10,
     flex: 1,
-    fontSize: Styles.FontSize.large,
+    fontSize: FontSize.large,
     color: Colors.text,
     height: 84,
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 16,
     marginBottom: 10,
-    fontSize: Styles.FontSize.large,
+    fontSize: FontSize.large,
     height: 50,
     borderRadius: 4,
     borderWidth: 1,
@@ -192,23 +192,23 @@ const RequestToAsk = ({ requests }) => {
   const renderRequester = () => {
     if (requests.length === 1) {
       return (
-        <AppText color={Colors.primary} fontSize={Styles.FontSize.normal}>
+        <AppText color={Colors.primary} fontSize={FontSize.normal}>
           {requests[0].requester}
         </AppText>
       )
     } else {
       return (
-        <AppText weight="medium" fontSize={Styles.FontSize.normal}>
+        <AppText weight="medium" fontSize={FontSize.normal}>
           <AppText
             color={Colors.primary}
-            fontSize={Styles.FontSize.normal}
+            fontSize={FontSize.normal}
             weight="medium">
             {requests[0].requester}
           </AppText>
           {` and `}
           <AppText
             color={Colors.primary}
-            fontSize={Styles.FontSize.normal}
+            fontSize={FontSize.normal}
             weight="medium">
             {`${requests.length - 1} People`}
           </AppText>
@@ -235,7 +235,7 @@ const RequestToAsk = ({ requests }) => {
           <AppText
             style={styles.requesterText}
             weight="medium"
-            fontSize={Styles.FontSize.normal}>
+            fontSize={FontSize.normal}>
             {`You got invited by `}
             {renderRequester()}
             {` to ask your questions anonymously`}
@@ -293,7 +293,7 @@ const QuestionItem = ({
           </View>
         )}
         <View style={{ flex: 1 }}>
-          <AppText style={{ marginRight: 5 }} fontSize={Styles.FontSize.large}>
+          <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
             {content}
           </AppText>
           <View
@@ -328,7 +328,7 @@ const QuestionItem = ({
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+          <AppText color={Colors.gray} fontSize={FontSize.normal}>
             {moment(createdAt).fromNow()}
           </AppText>
           <AppIcon
@@ -508,9 +508,9 @@ const Main = () => {
               paddingHorizontal: 16,
               backgroundColor: Colors.background,
             }}>
-            <AppText weight="medium" fontSize={Styles.FontSize.xLarge}>
+            <AppText weight="medium" fontSize={FontSize.xLarge}>
               {`Popular Questions `}
-              <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+              <AppText color={Colors.gray} fontSize={FontSize.normal}>
                 (Tap to ask)
               </AppText>
             </AppText>

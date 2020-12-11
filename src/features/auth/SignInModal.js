@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
 import { Formik } from 'formik'
 import Theme from 'theme'
-import { Colors, Misc, Styles } from 'constants'
+import { Colors, Misc, FontSize } from 'constants'
 import {
   AppInput,
   AppButton,
@@ -146,7 +146,7 @@ const SignInModal = ({ isVisible, onClose }) => {
                     textStyle={{ color: Colors.primary }}
                   />
                   <AppText
-                    fontSize={Styles.FontSize.normal}
+                    fontSize={FontSize.normal}
                     color={Colors.white}
                     style={{ lineHeight: 24, marginTop: 24 }}>
                     {`By clicking Sign In, you agree to our `}
@@ -154,7 +154,7 @@ const SignInModal = ({ isVisible, onClose }) => {
                       text="Privacy Policy"
                       color={Colors.white}
                       textStyle={{
-                        fontSize: Styles.FontSize.normal,
+                        fontSize: FontSize.normal,
                         textDecorationLine: 'underline',
                       }}
                       onPress={openPrivacyPolicyLink}
@@ -164,7 +164,7 @@ const SignInModal = ({ isVisible, onClose }) => {
                       text="Terms and Conditions"
                       color={Colors.white}
                       textStyle={{
-                        fontSize: Styles.FontSize.normal,
+                        fontSize: FontSize.normal,
                         textDecorationLine: 'underline',
                       }}
                       onPress={openPrivacyPolicyLink}

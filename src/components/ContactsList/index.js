@@ -9,7 +9,7 @@ import {
   View,
   ScrollView,
 } from 'react-native'
-import { Colors, Dimensions, Styles } from 'constants'
+import { Colors, Dimensions, FontSize } from 'constants'
 import {
   AppButton,
   AppIcon,
@@ -183,7 +183,7 @@ const ContactsList = ({
     if (!key) return null
     return (
       <View style={styles.sectionHeader}>
-        <AppText fontSize={Styles.FontSize.medium} weight="medium">
+        <AppText fontSize={FontSize.medium} weight="medium">
           {key}
         </AppText>
       </View>
@@ -299,7 +299,7 @@ const ContactsList = ({
                   <AppText
                     style={{ marginLeft: 10 }}
                     color={Colors.text}
-                    fontSize={Styles.FontSize.large}>
+                    fontSize={FontSize.large}>
                     Ask Anonymously
                   </AppText>
                 </View>
@@ -310,7 +310,7 @@ const ContactsList = ({
         <View style={styles.filterWrapper}>
           {!singleSelect && (
             <>
-              <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
+              <AppText fontSize={FontSize.xLarge} weight="medium">
                 {subTitle}
               </AppText>
               {!!contacts.filter((c) => c[checkCondition]) && (
@@ -340,7 +340,7 @@ const ContactsList = ({
                           }}>
                           <AppText
                             color={Colors.gray}
-                            fontSize={Styles.FontSize.normal}
+                            fontSize={FontSize.normal}
                             weight="medium"
                             style={{ marginRight: 10 }}>
                             {contact.name}

@@ -1,14 +1,9 @@
 import React from 'react'
-import {
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native'
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
 
-import { Colors, Dimensions, Styles } from 'constants'
-import { AppIcon, AppText, ScaleTouchable } from '../../components'
+import { Colors, Dimensions, Screens, FontSize } from 'constants'
+import * as NavigationService from 'services/navigation'
+import { AppIcon, AppText, ScaleTouchable } from 'components'
 
 const GROUP_TEMPLATES = [
   {
@@ -66,7 +61,9 @@ const styles = StyleSheet.create({
   },
 })
 
-const goToUpsertGroupScreen = () => {}
+const goToUpsertGroupScreen = () => {
+  NavigationService.navigate(Screens.UpsertGroup)
+}
 
 const GroupCreation = () => {
   return (
@@ -76,7 +73,7 @@ const GroupCreation = () => {
         <AppText
           weight="medium"
           color={Colors.gray}
-          fontSize={Styles.FontSize.normal}
+          fontSize={FontSize.normal}
           style={{ textAlign: 'center' }}>
           Create your own groups. Have the most honest conversations ever
         </AppText>
@@ -94,32 +91,29 @@ const GroupCreation = () => {
         <View style={styles.templateList}>
           <AppText
             weight="medium"
-            fontSize={Styles.FontSize.xLarge}
+            fontSize={FontSize.xLarge}
             style={{ marginBottom: 12 }}>
             Start From Templates
           </AppText>
           <View>
-            {GROUP_TEMPLATES.map((template) => {
-              return (
-                <ScaleTouchable
-                  onPress={goToUpsertGroupScreen}
-                  style={styles.templateItem}>
-                  <View style={styles.templateItemLeft}>
-                    <View style={{ minWidth: 30, alignItems: 'center' }}>
-                      <AppIcon
-                        name={template.iconName}
-                        color={Colors.primary}
-                        size={20}
-                      />
-                    </View>
-                    <AppText style={{ marginLeft: 12 }}>
-                      {template.name}
-                    </AppText>
+            {GROUP_TEMPLATES.map((template) => (
+              <ScaleTouchable
+                key={template._id}
+                onPress={goToUpsertGroupScreen}
+                style={styles.templateItem}>
+                <View style={styles.templateItemLeft}>
+                  <View style={{ minWidth: 30, alignItems: 'center' }}>
+                    <AppIcon
+                      name={template.iconName}
+                      color={Colors.primary}
+                      size={20}
+                    />
                   </View>
-                  <AppIcon name="chevron-right" size={20} color={Colors.gray} />
-                </ScaleTouchable>
-              )
-            })}
+                  <AppText style={{ marginLeft: 12 }}>{template.name}</AppText>
+                </View>
+                <AppIcon name="chevron-right" size={20} color={Colors.gray} />
+              </ScaleTouchable>
+            ))}
           </View>
         </View>
       </View>

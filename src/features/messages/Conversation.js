@@ -11,9 +11,9 @@ import {
   Keyboard,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppInput, Header, Avatar } from 'components'
+import { AppText, AppInput, Header } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import { pusher } from 'features/auth/authSlice'
 import {
   getMessages,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.grayLight,
     color: Colors.text,
-    fontSize: Styles.FontSize.large,
+    fontSize: FontSize.large,
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginRight: 10,
@@ -176,7 +176,7 @@ const Conversation = ({ navigation }) => {
           </AppText>
           <View style={styles.messageItemTime}>
             <AppText
-              fontSize={Styles.FontSize.normal}
+              fontSize={FontSize.normal}
               color={isMyMessage ? Colors.white : Colors.gray}>
               {moment(msg.createdAt).format('HH:mm')}
             </AppText>
