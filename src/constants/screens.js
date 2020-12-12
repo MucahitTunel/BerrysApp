@@ -27,4 +27,5 @@ export default {
   GroupStack: 'GroupStack',
   GroupCreation: 'GroupCreationScreen',
   UpsertGroup: 'UpsertGroupScreen',
+  AddMembersGroup: 'AddMembersGroupScreen',
 }

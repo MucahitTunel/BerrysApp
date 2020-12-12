@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  FlatList,
+  ScrollView,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -59,22 +59,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const renderGroupItem = (item, index) => {
-  return (
-    <ScaleTouchable
-      style={[
-        styles.groupItem,
-        index === GroupListData.length - 1 && styles.groupItemLast,
-      ]}
-      onPress={() => onPressGroupItem(item._id)}>
-      <AppText fontSize={FontSize.normal} weight="medium">
-        {item.name}
-      </AppText>
-      <AppIcon name="chevron-right" size={20} color={Colors.gray} />
-    </ScaleTouchable>
-  )
-}
-
 const onPressGroupItem = (groupId) => {
   console.log('groupId', groupId)
 }
@@ -98,28 +82,64 @@ const GroupList = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.groupBox}>
-        <AppText weight="medium" style={{ marginBottom: 16 }}>
-          Group I manage
-        </AppText>
-        <FlatList
-          data={GroupListData}
-          renderItem={({ item, index }) => renderGroupItem(item, index)}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={renderEmpty()}
-        />
-      </View>
-      <View style={styles.groupBox}>
-        <AppText weight="medium" style={{ marginBottom: 16 }}>
-          My Groups
-        </AppText>
-        <FlatList
-          data={GroupListData}
-          renderItem={({ item, index }) => renderGroupItem(item, index)}
-          keyExtractor={(item) => item._id}
-          ListEmptyComponent={renderEmpty()}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.groupBox}>
+          <AppText weight="medium" style={{ marginBottom: 16 }}>
+            Group I manage
+          </AppText>
+          <View>
+            {GroupListData.length
+              ? GroupListData.map((group, index) => (
+                  <ScaleTouchable
+                    key={group._id}
+                    style={[
+                      styles.groupItem,
+                      index === GroupListData.length - 1 &&
+                        styles.groupItemLast,
+                    ]}
+                    onPress={() => onPressGroupItem(group._id)}>
+                    <AppText fontSize={FontSize.normal} weight="medium">
+                      {group.name}
+                    </AppText>
+                    <AppIcon
+                      name="chevron-right"
+                      size={20}
+                      color={Colors.gray}
+                    />
+                  </ScaleTouchable>
+                ))
+              : renderEmpty()}
+          </View>
+        </View>
+        <View style={styles.groupBox}>
+          <AppText weight="medium" style={{ marginBottom: 16 }}>
+            My Groups
+          </AppText>
+          <View>
+            {GroupListData.length
+              ? GroupListData.map((group, index) => (
+                  <ScaleTouchable
+                    key={group._id}
+                    style={[
+                      styles.groupItem,
+                      index === GroupListData.length - 1 &&
+                        styles.groupItemLast,
+                    ]}
+                    onPress={() => onPressGroupItem(group._id)}>
+                    <AppText fontSize={FontSize.normal} weight="medium">
+                      {group.name}
+                    </AppText>
+                    <AppIcon
+                      name="chevron-right"
+                      size={20}
+                      color={Colors.gray}
+                    />
+                  </ScaleTouchable>
+                ))
+              : renderEmpty()}
+          </View>
+        </View>
+      </ScrollView>
       <AppButton
         icon={'plus'}
         style={styles.creatGroupBtn}

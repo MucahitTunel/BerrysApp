@@ -70,7 +70,7 @@ const ContactsList = ({
   const ask = useSelector((state) => state.ask)
   const user = useSelector((state) => state.auth.user)
   const { isAnonymous } = ask
-  const request = route && route.params && route.params.request
+  const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,

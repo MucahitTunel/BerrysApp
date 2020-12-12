@@ -6,8 +6,10 @@ import {
   View,
   ScrollView,
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Colors, Dimensions, FontSize } from 'constants'
+import * as NavigationService from 'services/navigation'
+import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Fonts from 'assets/fonts'
 import {
   AppInput,
@@ -16,6 +18,7 @@ import {
   ScaleTouchable,
   AppIcon,
 } from 'components'
+import { setGroupName } from './groupSlice'
 
 const ADMIN_LIST = [
   {
@@ -107,6 +110,13 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingHorizontal: 16,
   },
+  addMembersBody: {
+    flexDirection: 'row',
+    padding: 24,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    flexWrap: 'wrap',
+  },
   memberItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -120,11 +130,21 @@ const styles = StyleSheet.create({
 })
 
 const UpsertGroup = () => {
-  const [groupName, setGroupName] = useState('')
+  const dispatch = useDispatch()
+  const [groupName, addGroupName] = useState('')
+  const group = useSelector((state) => state.group)
 
-  const onChangeGroupName = (name) => setGroupName(name)
-  const createGroup = () => {}
+  const onChangeGroupName = (name) => addGroupName(name)
+  const createGroup = () => {
+    dispatch(setGroupName(groupName))
+    NavigationService.navigate(Screens.GroupList)
+  }
   const removeMember = (member, isAdmin = true) => {}
+  const goToAddMemberScreen = (isAdmin = false) => {
+    NavigationService.navigate(Screens.AddMembersGroup, {
+      isAdmin,
+    })
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -145,40 +165,41 @@ const UpsertGroup = () => {
                 Add Admins
               </AppText>
               <ScaleTouchable
+                onPress={() => goToAddMemberScreen(true)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!ADMIN_LIST.length && (
+                {!!group.admins.length && (
                   <AppText
                     weight="medium"
                     fontSize={FontSize.xLarge}
                     color={Colors.gray}>
-                    {ADMIN_LIST.length}
+                    {group.admins.length}
                   </AppText>
                 )}
                 <AppIcon name="chevron-right" size={24} color={Colors.gray} />
               </ScaleTouchable>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 24,
-                paddingBottom: 16,
-                paddingHorizontal: 16,
-              }}>
-              {ADMIN_LIST.map((member) => (
-                <ScaleTouchable
-                  key={member._id}
-                  onPress={() => removeMember(member, true)}
-                  style={styles.memberItem}>
-                  <AppText
-                    color={Colors.gray}
-                    fontSize={FontSize.normal}
-                    weight="medium"
-                    style={{ marginRight: 10 }}>
-                    {member.name}
-                  </AppText>
-                  <AppIcon name="close" size={10} color={Colors.gray} />
-                </ScaleTouchable>
-              ))}
+            <View style={styles.addMembersBody}>
+              {group.admins.length ? (
+                group.admins.map((member) => (
+                  <ScaleTouchable
+                    key={member._id}
+                    onPress={() => removeMember(member, true)}
+                    style={styles.memberItem}>
+                    <AppText
+                      color={Colors.gray}
+                      fontSize={FontSize.normal}
+                      weight="medium"
+                      style={{ marginRight: 10 }}>
+                      {member.name}
+                    </AppText>
+                    <AppIcon name="close" size={10} color={Colors.gray} />
+                  </ScaleTouchable>
+                ))
+              ) : (
+                <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
+                  There's no admin yet
+                </AppText>
+              )}
             </View>
           </View>
           <View style={styles.addMembersView}>
@@ -187,41 +208,41 @@ const UpsertGroup = () => {
                 Add Members
               </AppText>
               <ScaleTouchable
+                onPress={() => goToAddMemberScreen(false)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!MEMBER_LIST.length && (
+                {!!group.members.length && (
                   <AppText
                     weight="medium"
                     fontSize={FontSize.xLarge}
                     color={Colors.gray}>
-                    {MEMBER_LIST.length}
+                    {group.members.length}
                   </AppText>
                 )}
                 <AppIcon name="chevron-right" size={24} color={Colors.gray} />
               </ScaleTouchable>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 24,
-                paddingBottom: 16,
-                paddingHorizontal: 16,
-                flexWrap: 'wrap',
-              }}>
-              {MEMBER_LIST.map((member) => (
-                <ScaleTouchable
-                  key={member._id}
-                  onPress={() => removeMember(member, false)}
-                  style={styles.memberItem}>
-                  <AppText
-                    color={Colors.gray}
-                    fontSize={FontSize.normal}
-                    weight="medium"
-                    style={{ marginRight: 10 }}>
-                    {member.name}
-                  </AppText>
-                  <AppIcon name="close" size={10} color={Colors.gray} />
-                </ScaleTouchable>
-              ))}
+            <View style={styles.addMembersBody}>
+              {group.members.length ? (
+                group.members.map((member) => (
+                  <ScaleTouchable
+                    key={member._id}
+                    onPress={() => removeMember(member, false)}
+                    style={styles.memberItem}>
+                    <AppText
+                      color={Colors.gray}
+                      fontSize={FontSize.normal}
+                      weight="medium"
+                      style={{ marginRight: 10 }}>
+                      {member.name}
+                    </AppText>
+                    <AppIcon name="close" size={10} color={Colors.gray} />
+                  </ScaleTouchable>
+                ))
+              ) : (
+                <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
+                  There's no member yet
+                </AppText>
+              )}
             </View>
           </View>
         </ScrollView>

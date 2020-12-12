@@ -33,6 +33,7 @@ import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
 import GroupList from 'features/group/GroupList'
 import GroupCreation from 'features/group/GroupCreation'
 import UpsertGroup from 'features/group/UpsertGroup'
+import AddMembersGroup from 'features/group/AddMembersGroup'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -239,6 +240,7 @@ const GroupStack = () => (
         ),
       })}
     />
+    <Stack.Screen name={Screens.AddMembersGroup} component={AddMembersGroup} />
   </Stack.Navigator>
 )
 
