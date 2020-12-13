@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { SceneMap, TabView, TabBar } from 'react-native-tab-view'
+
 import {
   SafeAreaView,
+  ScrollView,
   SectionList,
   StatusBar,
   StyleSheet,
   View,
-  ScrollView,
 } from 'react-native'
 import { Colors, Dimensions, FontSize } from 'constants'
 import {
@@ -56,6 +58,8 @@ const styles = StyleSheet.create({
   },
 })
 
+const TabRoute = () => <View />
+
 const ContactsList = ({
   checkCondition,
   singleSelect,
@@ -64,6 +68,7 @@ const ContactsList = ({
   route,
   subTitle,
   isPostQuestion,
+  isGroup,
   isLoading,
 }) => {
   const dispatch = useDispatch()
@@ -96,6 +101,16 @@ const ContactsList = ({
         return !!c[checkCondition]
       }),
   )
+  const [tabIndex, setTabIndex] = React.useState(0)
+  const [routes] = React.useState([
+    { key: 'first', title: 'Contacts' },
+    { key: 'second', title: 'Groups' },
+  ])
+
+  const changeTabsView = (tabIndex) => {
+    setTabIndex(tabIndex)
+  }
+
   const onChangeSearchText = (value) => setSearchText(value)
   const onSelectContact = (item) => {
     const existed = contacts.find(
@@ -213,6 +228,7 @@ const ContactsList = ({
   } else {
     searchRes = allContacts
   }
+
   const contactsToRender = searchRes.map((contact) => {
     const existed = contacts.find(
       (c) =>
@@ -374,10 +390,42 @@ const ContactsList = ({
             />
           </View>
         </View>
+        {isGroup && (
+          <TabView
+            navigationState={{ index: tabIndex, routes }}
+            renderTabBar={(props) => (
+              <TabBar
+                style={{ backgroundColor: Colors.white }}
+                renderLabel={({ route, focused }) => (
+                  <AppText
+                    color={focused ? Colors.text : '#808080'}
+                    weight="medium"
+                    fontSize={17}>
+                    {route.title}
+                  </AppText>
+                )}
+                indicatorStyle={{ backgroundColor: Colors.primary }}
+                {...props}
+              />
+            )}
+            renderScene={SceneMap({
+              first: TabRoute,
+              second: TabRoute,
+            })}
+            onIndexChange={changeTabsView}
+            initialLayout={{
+              height: 0,
+            }}
+            style={{
+              borderBottomWidth: 1,
+              borderColor: Colors.background,
+            }}
+          />
+        )}
         <SectionList
           style={styles.flatListView}
-          sections={arr}
-          keyExtractor={(item, index) => item + index}
+          sections={tabIndex === 0 ? arr : []}
+          keyExtractor={(item, i) => item + i}
           renderItem={({ item }) => renderContact(item)}
           renderSectionHeader={({ section: { title } }) => renderHeader(title)}
         />
@@ -413,6 +461,7 @@ ContactsList.propTypes = {
   submitText: PropTypes.string,
   singleSelect: PropTypes.bool,
   isPostQuestion: PropTypes.bool,
+  isGroup: PropTypes.bool,
   isLoading: PropTypes.bool,
 }
 
@@ -421,6 +470,7 @@ ContactsList.defaultProps = {
   submitText: 'Confirm Post',
   singleSelect: false,
   isPostQuestion: false,
+  isGroup: false,
   isLoading: false,
 }
 

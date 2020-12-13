@@ -24,6 +24,7 @@ const SelectContacts = (props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
         isPostQuestion
+        isGroup
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle="Select contacts:"
