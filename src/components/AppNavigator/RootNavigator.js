@@ -30,10 +30,10 @@ import Survey from 'features/auth/Survey'
 import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
 import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
-import GroupList from 'features/group/GroupList'
-import GroupCreate from 'features/group/GroupCreate'
-import GroupUpsert from 'features/group/GroupUpsert'
-import GroupAddMembers from 'features/group/GroupAddMembers'
+import GroupList from 'features/groups/GroupList'
+import GroupCreate from 'features/groups/GroupCreate'
+import GroupUpsert from 'features/groups/GroupUpsert'
+import GroupAddMembers from 'features/groups/GroupAddMembers'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()

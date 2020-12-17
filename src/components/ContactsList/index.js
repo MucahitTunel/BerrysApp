@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { SceneMap, TabView, TabBar } from 'react-native-tab-view'
@@ -10,6 +10,7 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  FlatList,
 } from 'react-native'
 import { Colors, Dimensions, FontSize } from 'constants'
 import {
@@ -24,6 +25,7 @@ import {
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
+import { getGroups } from 'features/groups/groupSlice'
 import { setAskAnonymously } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
@@ -72,11 +74,15 @@ const ContactsList = ({
   isLoading,
 }) => {
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getGroups())
+  }, [dispatch])
   const ask = useSelector((state) => state.ask)
   const user = useSelector((state) => state.auth.user)
   const { isAnonymous } = ask
   const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
+  const myGroups = useSelector((state) => state.group.groups)
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,
   )
@@ -101,17 +107,27 @@ const ContactsList = ({
         return !!c[checkCondition]
       }),
   )
+  const [groups, setGroups] = useState([])
   const [tabIndex, setTabIndex] = React.useState(0)
   const [routes] = React.useState([
     { key: 'first', title: 'Contacts' },
     { key: 'second', title: 'Groups' },
   ])
 
-  const changeTabsView = (tabIndex) => {
-    setTabIndex(tabIndex)
+  const changeTabsView = (index) => {
+    setTabIndex(index)
   }
 
   const onChangeSearchText = (value) => setSearchText(value)
+  const onSelectGroup = (group) => {
+    let newGroups = []
+    if (groups.indexOf(group._id) >= 0) {
+      newGroups = groups.filter((gid) => gid !== group._id)
+    } else {
+      newGroups = [...groups, group._id]
+    }
+    setGroups(newGroups)
+  }
   const onSelectContact = (item) => {
     const existed = contacts.find(
       (c) =>
@@ -160,6 +176,31 @@ const ContactsList = ({
     setContacts(res)
   }
   const showRightText = false
+
+  const renderGroup = ({ item }) => {
+    const text = item.name
+    const isChecked = groups.indexOf(item._id) >= 0
+    return (
+      <ScaleTouchable
+        key={item._id}
+        style={styles.contactItem}
+        onPress={() => onSelectGroup(item)}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar source={Images.defaultAvatar} size={38} />
+          <AppText style={{ marginLeft: 10 }} weight="medium">
+            {text}
+          </AppText>
+        </View>
+        <View>
+          <AppImage
+            source={isChecked ? Images.checkmarkSelected : Images.checkmark}
+            width={20}
+            height={20}
+          />
+        </View>
+      </ScaleTouchable>
+    )
+  }
 
   const renderContact = (item) => {
     const isChecked = item[checkCondition]
@@ -268,6 +309,8 @@ const ContactsList = ({
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
 
+  const isShowingGroups = tabIndex === 1
+
   const toggleAnonymously = () => {
     dispatch(setAskAnonymously(!isAnonymous))
   }
@@ -365,6 +408,34 @@ const ContactsList = ({
                         </ScaleTouchable>
                       )
                     })}
+                  {groups.map((groupId) => {
+                    const group = myGroups.find((g) => g._id === groupId)
+                    return (
+                      <ScaleTouchable
+                        key={groupId}
+                        onPress={() => onSelectGroup(group)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          borderWidth: 1,
+                          borderColor: 'rgba(151, 151, 151, 0.53)',
+                          paddingVertical: 4,
+                          paddingHorizontal: 8,
+                          borderRadius: 5,
+                          marginRight: 10,
+                          marginBottom: 10,
+                        }}>
+                        <AppText
+                          color={Colors.gray}
+                          fontSize={FontSize.normal}
+                          weight="medium"
+                          style={{ marginRight: 10 }}>
+                          {group.name}
+                        </AppText>
+                        <AppIcon name="close" size={10} color={Colors.gray} />
+                      </ScaleTouchable>
+                    )
+                  })}
                 </View>
               )}
             </>
@@ -422,13 +493,24 @@ const ContactsList = ({
             }}
           />
         )}
-        <SectionList
-          style={styles.flatListView}
-          sections={tabIndex === 0 ? arr : []}
-          keyExtractor={(item, i) => item + i}
-          renderItem={({ item }) => renderContact(item)}
-          renderSectionHeader={({ section: { title } }) => renderHeader(title)}
-        />
+        {isShowingGroups ? (
+          <FlatList
+            style={styles.flatListView}
+            data={myGroups}
+            renderItem={renderGroup}
+            keyExtractor={(item) => item._id}
+          />
+        ) : (
+          <SectionList
+            style={styles.flatListView}
+            sections={arr}
+            keyExtractor={(item, i) => item + i}
+            renderItem={({ item }) => renderContact(item)}
+            renderSectionHeader={({ section: { title } }) =>
+              renderHeader(title)
+            }
+          />
+        )}
       </ScrollView>
       <View
         style={{

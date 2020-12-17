@@ -7,7 +7,7 @@ import { reportReducer } from 'features/report/reportSlice'
 import { askReducer } from 'features/questions/askSlice'
 import { questionReducer } from 'features/questions/questionSlice'
 import { messagesReducer } from 'features/messages/messagesSlice'
-import { groupReducer } from 'features/group/groupSlice'
+import { groupReducer } from 'features/groups/groupSlice'
 
 export default combineReducers({
   auth: authReducer,
