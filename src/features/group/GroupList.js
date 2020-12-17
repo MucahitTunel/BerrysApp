@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ScrollView,
   SafeAreaView,
@@ -6,29 +6,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 
 import * as NavigationService from 'services/navigation'
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import { AppIcon, AppText, ScaleTouchable, AppButton } from 'components'
-
-const GroupListData = [
-  {
-    _id: 1,
-    name: 'Group 1',
-  },
-  {
-    _id: 2,
-    name: 'Group 2',
-  },
-  {
-    _id: 3,
-    name: 'Group 3',
-  },
-  {
-    _id: 4,
-    name: 'Group 4',
-  },
-]
+import { getGroups } from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -59,10 +42,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const onPressGroupItem = (groupId) => {
-  console.log('groupId', groupId)
-}
-
 const renderEmpty = () => (
   <View
     style={{
@@ -74,27 +53,40 @@ const renderEmpty = () => (
   </View>
 )
 
-const goToGroupCreateScreen = () => {
-  NavigationService.navigate(Screens.GroupCreate)
-}
-
 const GroupList = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
+  const myGroups = useSelector((state) => state.group.groups)
+  const groupsIManage = myGroups.filter((g) => {
+    return g.members.find(
+      (m) => m.role === 'admin' && m.phoneNumber === user.phoneNumber,
+    )
+  })
+  useEffect(() => {
+    dispatch(getGroups())
+  }, [dispatch])
+  const onPressGroupItem = (groupId) => {
+    console.log('groupId', groupId)
+  }
+  const goToGroupCreateScreen = () => {
+    NavigationService.navigate(Screens.GroupCreate)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
       <ScrollView>
         <View style={styles.groupBox}>
           <AppText weight="medium" style={{ marginBottom: 16 }}>
-            Group I manage
+            Groups I manage
           </AppText>
           <View>
-            {GroupListData.length
-              ? GroupListData.map((group, index) => (
+            {groupsIManage.length > 0
+              ? groupsIManage.map((group, index) => (
                   <ScaleTouchable
                     key={group._id}
                     style={[
                       styles.groupItem,
-                      index === GroupListData.length - 1 &&
+                      index === groupsIManage.length - 1 &&
                         styles.groupItemLast,
                     ]}
                     onPress={() => onPressGroupItem(group._id)}>
@@ -116,14 +108,13 @@ const GroupList = () => {
             My Groups
           </AppText>
           <View>
-            {GroupListData.length
-              ? GroupListData.map((group, index) => (
+            {myGroups.length
+              ? myGroups.map((group, index) => (
                   <ScaleTouchable
                     key={group._id}
                     style={[
                       styles.groupItem,
-                      index === GroupListData.length - 1 &&
-                        styles.groupItemLast,
+                      index === myGroups.length - 1 && styles.groupItemLast,
                     ]}
                     onPress={() => onPressGroupItem(group._id)}>
                     <AppText fontSize={FontSize.normal} weight="medium">

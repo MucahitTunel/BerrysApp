@@ -18,7 +18,11 @@ import {
   ScaleTouchable,
   AppIcon,
 } from 'components'
-import { setNewGroupName, removeNewGroupMembers } from './groupSlice'
+import {
+  setNewGroupName,
+  removeNewGroupMembers,
+  createGroup,
+} from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -104,11 +108,14 @@ const GroupUpsert = ({ route }) => {
     group && group.members
       ? group.members.filter((m) => m.role === 'admin')
       : []
-  const isBtnActive = !!(groupName && members.length && admins.length)
+  const isBtnActive = !!(groupName && members.length > 0 && admins.length > 0)
 
-  const onChangeGroupName = (name) => setGroupName(name)
+  const onChangeGroupName = (name) => {
+    setGroupName(name)
+  }
   const onPressCreateGroup = () => {
     dispatch(setNewGroupName(groupName))
+    dispatch(createGroup())
     NavigationService.navigate(Screens.GroupList)
   }
   const onRemoveMember = (member) => {
@@ -223,7 +230,7 @@ const GroupUpsert = ({ route }) => {
         <View style={{ paddingHorizontal: 16 }}>
           <AppButton
             text="Create Group"
-            disabled={isBtnActive}
+            disabled={!isBtnActive}
             onPress={onPressCreateGroup}
           />
         </View>

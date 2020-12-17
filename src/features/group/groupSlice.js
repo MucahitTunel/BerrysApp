@@ -1,4 +1,54 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { Alert } from 'react-native'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import * as NavigationService from 'services/navigation'
+import request from 'services/api'
+import { Screens } from 'constants'
+
+export const getGroups = createAsyncThunk(
+  'groups/get',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'groups',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    const { groups } = data
+    return groups
+  },
+)
+
+export const createGroup = createAsyncThunk(
+  'group/create',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { name, template, members } = state.group.new
+    const membersData = members.map((m) => ({
+      phoneNumber: m.phoneNumber,
+      memberId: m.isAppUser ? m._id : null,
+      email: m.email,
+      role: m.role,
+    }))
+    await request({
+      method: 'POST',
+      url: 'group/create',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        name,
+        template,
+        members: membersData,
+      },
+    })
+    dispatch(resetNewGroup())
+    dispatch(getGroups())
+    Alert.alert('Success', 'Your group has been created!')
+    NavigationService.navigate(Screens.GroupList)
+  },
+)
 
 const groupSlice = createSlice({
   name: 'group',
@@ -9,6 +59,7 @@ const groupSlice = createSlice({
       members: [],
     },
     current: {},
+    groups: [],
     loading: false,
   },
   reducers: {
@@ -30,9 +81,25 @@ const groupSlice = createSlice({
         .filter((m) => m.role !== 'admin')
         .concat(newAdmins)
     },
+    resetNewGroup: (state) => {
+      state.new = {
+        name: null,
+        template: null,
+        members: [],
+      }
+    },
     removeNewGroupMembers: (state, action) => {
       const member = action.payload
       state.new.members = state.new.members.filter((m) => m._id !== member._id)
+    },
+  },
+  extraReducers: {
+    [getGroups.pending]: (state) => {
+      state.loading = true
+    },
+    [getGroups.fulfilled]: (state, action) => {
+      state.groups = action.payload
+      state.loading = false
     },
   },
 })
@@ -45,5 +112,6 @@ export const {
     setNewGroupMembers,
     setNewGroupAdmins,
     removeNewGroupMembers,
+    resetNewGroup,
   },
 } = groupSlice
