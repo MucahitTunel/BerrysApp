@@ -2,13 +2,16 @@ import React from 'react'
 import { Alert, SafeAreaView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList } from 'components'
-import { askQuestion, setAskContacts } from 'features/questions/askSlice'
+import {
+  askQuestion,
+  setAskContacts,
+  setAskGroups,
+} from 'features/questions/askSlice'
 import { Colors } from 'constants'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
-  const ask = useSelector((state) => state.ask)
-  const onPressSubmit = (contacts, request) => {
+  const onPressSubmit = (contacts, groups = [], request) => {
     const MIN_NUM_CONTACTS = 1
     if (contacts.length < MIN_NUM_CONTACTS) {
       return Alert.alert(
@@ -17,6 +20,7 @@ const SelectContacts = (props) => {
       )
     }
     dispatch(setAskContacts(contacts))
+    dispatch(setAskGroups(groups))
     dispatch(askQuestion(request))
   }
 

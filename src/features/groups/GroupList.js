@@ -57,10 +57,13 @@ const GroupList = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const myGroups = useSelector((state) => state.group.groups)
-  const groupsIManage = myGroups.filter((g) => {
-    return g.members.find(
+  // const isGroupCreator = (g) => g.userPhoneNumber === user.phoneNumber
+  const isGroupAdmin = (g) =>
+    g.members.find(
       (m) => m.role === 'admin' && m.phoneNumber === user.phoneNumber,
     )
+  const groupsIManage = myGroups.filter((g) => {
+    return isGroupAdmin(g)
   })
   useEffect(() => {
     dispatch(getGroups())

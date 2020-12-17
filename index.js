@@ -15,6 +15,7 @@ LogBox.ignoreLogs([
   'Warning: componentWillReceiveProps',
   'RCTBridge required dispatch_sync to load RCTDevLoadingView',
   'Warning: Cannot update a component from inside the function body of a different component',
+  'VirtualizedLists should never be nested inside plain ScrollViews',
   'ImmutableStateInvariantMiddleware',
   'VirtualizedLists should never be nested',
   'Sending `didReceiveNetworkIncrementalData` with no listeners registered',

@@ -10,13 +10,14 @@ export const askQuestion = createAsyncThunk(
   async (requestToAsk, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { question, contacts, isAnonymous } = state.ask
+    const { question, contacts, groups, isAnonymous } = state.ask
     await request({
       method: 'POST',
       url: 'question/add',
       data: {
         content: question,
         contacts,
+        groups,
         userPhoneNumber: user.phoneNumber,
         isAnonymous,
         requestToAsk,
@@ -32,6 +33,7 @@ const askSlice = createSlice({
   initialState: {
     question: null,
     contacts: [],
+    groups: [],
     loading: false,
     isAnonymous: true,
   },
@@ -41,6 +43,9 @@ const askSlice = createSlice({
     },
     setAskContacts: (state, action) => {
       state.contacts = action.payload
+    },
+    setAskGroups: (state, action) => {
+      state.groups = action.payload
     },
     setAskAnonymously: (state, action) => {
       state.isAnonymous = action.payload
@@ -60,5 +65,5 @@ const askSlice = createSlice({
 
 export const {
   reducer: askReducer,
-  actions: { setAskQuestion, setAskContacts, setAskAnonymously },
+  actions: { setAskQuestion, setAskContacts, setAskGroups, setAskAnonymously },
 } = askSlice
