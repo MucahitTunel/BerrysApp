@@ -1,9 +1,13 @@
 import React from 'react'
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import * as NavigationService from 'services/navigation'
 import { AppIcon, AppText, ScaleTouchable } from 'components'
+import { setNewGroupTemplate } from './groupSlice'
+
+const GROUP_TEMPLATE_OWN = { name: 'My Own' }
 
 const GROUP_TEMPLATES = [
   {
@@ -61,11 +65,12 @@ const styles = StyleSheet.create({
   },
 })
 
-const goToUpsertGroupScreen = () => {
-  NavigationService.navigate(Screens.UpsertGroup)
-}
-
-const GroupCreation = () => {
+const GroupCreate = () => {
+  const dispatch = useDispatch()
+  const goToGroupUpsertScreen = (template) => {
+    dispatch(setNewGroupTemplate(template.name))
+    NavigationService.navigate(Screens.GroupUpsert, { isCreate: true })
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -78,7 +83,7 @@ const GroupCreation = () => {
           Create your own groups. Have the most honest conversations ever
         </AppText>
         <ScaleTouchable
-          onPress={goToUpsertGroupScreen}
+          onPress={() => goToGroupUpsertScreen(GROUP_TEMPLATE_OWN)}
           style={[styles.templateItem, { marginTop: 16 }]}>
           <View style={styles.templateItemLeft}>
             <AppIcon name="plus" color={Colors.primary} size={16} />
@@ -99,7 +104,7 @@ const GroupCreation = () => {
             {GROUP_TEMPLATES.map((template) => (
               <ScaleTouchable
                 key={template._id}
-                onPress={goToUpsertGroupScreen}
+                onPress={() => goToGroupUpsertScreen(template)}
                 style={styles.templateItem}>
                 <View style={styles.templateItemLeft}>
                   <View style={{ minWidth: 30, alignItems: 'center' }}>
@@ -121,4 +126,4 @@ const GroupCreation = () => {
   )
 }
 
-export default GroupCreation
+export default GroupCreate

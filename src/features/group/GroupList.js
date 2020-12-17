@@ -74,8 +74,8 @@ const renderEmpty = () => (
   </View>
 )
 
-const goToGroupCreationScreen = () => {
-  NavigationService.navigate(Screens.GroupCreation)
+const goToGroupCreateScreen = () => {
+  NavigationService.navigate(Screens.GroupCreate)
 }
 
 const GroupList = () => {
@@ -143,7 +143,7 @@ const GroupList = () => {
       <AppButton
         icon={'plus'}
         style={styles.creatGroupBtn}
-        onPress={goToGroupCreationScreen}
+        onPress={goToGroupCreateScreen}
       />
     </SafeAreaView>
   )

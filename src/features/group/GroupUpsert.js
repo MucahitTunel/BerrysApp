@@ -18,49 +18,7 @@ import {
   ScaleTouchable,
   AppIcon,
 } from 'components'
-import { setGroupName } from './groupSlice'
-
-const ADMIN_LIST = [
-  {
-    _id: 1,
-    name: 'Rebbeca',
-  },
-  {
-    _id: 2,
-    name: 'Nick',
-  },
-  {
-    _id: 3,
-    name: 'Hansson',
-  },
-]
-
-const MEMBER_LIST = [
-  {
-    _id: 1,
-    name: 'Rebbeca',
-  },
-  {
-    _id: 2,
-    name: 'Nick',
-  },
-  {
-    _id: 3,
-    name: 'Hansson',
-  },
-  {
-    _id: 4,
-    name: 'Micheal',
-  },
-  {
-    _id: 5,
-    name: 'Hansson',
-  },
-  {
-    _id: 6,
-    name: 'Alex',
-  },
-]
+import { setNewGroupName, removeNewGroupMembers } from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -129,19 +87,35 @@ const styles = StyleSheet.create({
   },
 })
 
-const UpsertGroup = () => {
+// eslint-disable-next-line react/prop-types
+const GroupUpsert = ({ route }) => {
   const dispatch = useDispatch()
-  const [groupName, addGroupName] = useState('')
-  const group = useSelector((state) => state.group)
+  // eslint-disable-next-line react/prop-types
+  const { isCreate } = route.params
+  const group = useSelector((state) =>
+    isCreate ? state.group.new : state.group.current,
+  )
+  const [groupName, setGroupName] = useState(isCreate ? '' : group.name)
+  const members =
+    group && group.members
+      ? group.members.filter((m) => m.role === 'member')
+      : []
+  const admins =
+    group && group.members
+      ? group.members.filter((m) => m.role === 'admin')
+      : []
+  const isBtnActive = !!(groupName && members.length && admins.length)
 
-  const onChangeGroupName = (name) => addGroupName(name)
-  const createGroup = () => {
-    dispatch(setGroupName(groupName))
+  const onChangeGroupName = (name) => setGroupName(name)
+  const onPressCreateGroup = () => {
+    dispatch(setNewGroupName(groupName))
     NavigationService.navigate(Screens.GroupList)
   }
-  const removeMember = (member, isAdmin = true) => {}
+  const onRemoveMember = (member) => {
+    dispatch(removeNewGroupMembers(member))
+  }
   const goToAddMemberScreen = (isAdmin = false) => {
-    NavigationService.navigate(Screens.AddMembersGroup, {
+    NavigationService.navigate(Screens.GroupAddMembers, {
       isAdmin,
     })
   }
@@ -167,30 +141,30 @@ const UpsertGroup = () => {
               <ScaleTouchable
                 onPress={() => goToAddMemberScreen(true)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!group.admins.length && (
+                {!!admins.length && (
                   <AppText
                     weight="medium"
                     fontSize={FontSize.xLarge}
                     color={Colors.gray}>
-                    {group.admins.length}
+                    {String(admins.length)}
                   </AppText>
                 )}
                 <AppIcon name="chevron-right" size={24} color={Colors.gray} />
               </ScaleTouchable>
             </View>
             <View style={styles.addMembersBody}>
-              {group.admins.length ? (
-                group.admins.map((member) => (
+              {admins.length ? (
+                admins.map((admin) => (
                   <ScaleTouchable
-                    key={member._id}
-                    onPress={() => removeMember(member, true)}
+                    key={admin._id}
+                    onPress={() => onRemoveMember(admin)}
                     style={styles.memberItem}>
                     <AppText
                       color={Colors.gray}
                       fontSize={FontSize.normal}
                       weight="medium"
                       style={{ marginRight: 10 }}>
-                      {member.name}
+                      {admin.name}
                     </AppText>
                     <AppIcon name="close" size={10} color={Colors.gray} />
                   </ScaleTouchable>
@@ -210,23 +184,23 @@ const UpsertGroup = () => {
               <ScaleTouchable
                 onPress={() => goToAddMemberScreen(false)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!group.members.length && (
+                {!!members.length && (
                   <AppText
                     weight="medium"
                     fontSize={FontSize.xLarge}
                     color={Colors.gray}>
-                    {group.members.length}
+                    {members.length}
                   </AppText>
                 )}
                 <AppIcon name="chevron-right" size={24} color={Colors.gray} />
               </ScaleTouchable>
             </View>
             <View style={styles.addMembersBody}>
-              {group.members.length ? (
-                group.members.map((member) => (
+              {members.length ? (
+                members.map((member) => (
                   <ScaleTouchable
                     key={member._id}
-                    onPress={() => removeMember(member, false)}
+                    onPress={() => onRemoveMember(member)}
                     style={styles.memberItem}>
                     <AppText
                       color={Colors.gray}
@@ -249,8 +223,8 @@ const UpsertGroup = () => {
         <View style={{ paddingHorizontal: 16 }}>
           <AppButton
             text="Create Group"
-            disabled={!groupName}
-            onPress={createGroup}
+            disabled={isBtnActive}
+            onPress={onPressCreateGroup}
           />
         </View>
       </View>
@@ -258,4 +232,4 @@ const UpsertGroup = () => {
   )
 }
 
-export default UpsertGroup
+export default GroupUpsert

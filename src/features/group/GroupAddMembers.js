@@ -8,7 +8,7 @@ import { ContactsList, Header } from 'components'
 import { Colors, Dimensions, Screens } from 'constants'
 import { BackButton } from 'components/NavButton'
 import * as NavigationService from 'services/navigation'
-import { setAdminsGroup, setMembersGroup } from './groupSlice'
+import { setNewGroupMembers, setNewGroupAdmins } from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -19,8 +19,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const AddMembersGroup = (props) => {
-  const { navigation, route } = props
+const GroupAddMembers = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { isAdmin } = route.params
   useEffect(() => {
@@ -36,12 +35,16 @@ const AddMembersGroup = (props) => {
 
   const onPressSubmit = (members) => {
     if (isAdmin) {
-      dispatch(setAdminsGroup(members))
+      dispatch(setNewGroupAdmins(members))
     } else {
-      dispatch(setMembersGroup(members))
+      dispatch(setNewGroupMembers(members))
     }
-    NavigationService.navigate(Screens.UpsertGroup)
+    NavigationService.navigate(Screens.GroupUpsert)
   }
+
+  const subTitle = isAdmin
+    ? 'Select admins for group:'
+    : 'Select members for group:'
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,17 +52,14 @@ const AddMembersGroup = (props) => {
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         submitText="Confirm"
-        subTitle={
-          isAdmin ? 'Select admins for group:' : 'Select members for group:'
-        }
-        {...props}
+        subTitle={subTitle}
       />
     </SafeAreaView>
   )
 }
 
-AddMembersGroup.propTypes = {
+GroupAddMembers.propTypes = {
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
-export default AddMembersGroup
+export default GroupAddMembers

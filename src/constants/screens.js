@@ -25,7 +25,7 @@ export default {
   ContactsToAskMe: 'ContactsToAskMeScreen',
   // Group
   GroupStack: 'GroupStack',
-  GroupCreation: 'GroupCreationScreen',
-  UpsertGroup: 'UpsertGroupScreen',
-  AddMembersGroup: 'AddMembersGroupScreen',
+  GroupCreate: 'GroupCreateScreen',
+  GroupUpsert: 'GroupUpsertScreen',
+  GroupAddMembers: 'GroupAddMembersScreen',
 }
