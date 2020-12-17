@@ -26,7 +26,7 @@ const menu = [
     screen: Screens.ReportStack,
   },
   {
-    name: 'Group',
+    name: 'Groups',
     screen: Screens.GroupStack,
   },
 ]
