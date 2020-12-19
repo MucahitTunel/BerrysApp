@@ -18,6 +18,7 @@ import {
 } from 'components'
 import { signIn } from 'features/auth/authSlice'
 import Images from 'assets/images'
+import ScaleTouchable from '../../components/ScaleTouchable'
 
 const linearGradient = [Colors.primary, Colors.primaryLight]
 
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
 
 const SignInModal = ({ isVisible, onClose }) => {
   const [country, setCountry] = useState(Misc.DefaultCountry)
+  const [isOpenModal, setOpenModal] = useState(false)
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
     setSubmitting(true)
@@ -106,12 +108,22 @@ const SignInModal = ({ isVisible, onClose }) => {
                         withCallingCode
                         withFlagButton
                         withFilter
+                        visible={isOpenModal}
+                        onClose={() => setOpenModal(false)}
                       />
-                      <AppText
-                        style={
-                          Theme.Modal.phonePrefix
-                        }>{`+${country.callingCode}`}</AppText>
-                      <AppIcon name="triangle" color={Colors.white} size={8} />
+                      <ScaleTouchable
+                        onPress={() => setOpenModal(true)}
+                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <AppText
+                          style={
+                            Theme.Modal.phonePrefix
+                          }>{`+${country.callingCode}`}</AppText>
+                        <AppIcon
+                          name="triangle"
+                          color={Colors.white}
+                          size={8}
+                        />
+                      </ScaleTouchable>
                     </View>
                     <View style={{ marginLeft: 6, flex: 1 }}>
                       <AppInput
