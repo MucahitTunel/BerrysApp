@@ -62,6 +62,7 @@ const Preview = ({ route }) => {
   const toggleAnonymously = () => {
     dispatch(setAskAnonymously(!isAnonymous))
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />

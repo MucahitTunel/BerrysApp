@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -7,7 +7,6 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  Animated,
   ScrollView,
 } from 'react-native'
 import { Colors, Dimensions, Styles } from 'constants'
@@ -64,6 +63,7 @@ const ContactsList = ({
   route,
   subTitle,
   isPostQuestion,
+  isLoading,
 }) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
@@ -372,6 +372,8 @@ const ContactsList = ({
           backgroundColor: Colors.white,
         }}>
         <AppButton
+          isLoading={isLoading}
+          disabled={isLoading}
           onPress={() =>
             onPressSubmit(
               contacts.filter((c) => c[checkCondition]),
@@ -394,6 +396,7 @@ ContactsList.propTypes = {
   submitText: PropTypes.string,
   singleSelect: PropTypes.bool,
   isPostQuestion: PropTypes.bool,
+  isLoading: PropTypes.bool,
 }
 
 ContactsList.defaultProps = {
@@ -401,6 +404,7 @@ ContactsList.defaultProps = {
   submitText: 'Confirm Post',
   singleSelect: false,
   isPostQuestion: false,
+  isLoading: false,
 }
 
 export default ContactsList

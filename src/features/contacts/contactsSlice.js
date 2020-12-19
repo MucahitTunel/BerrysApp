@@ -205,6 +205,9 @@ const contactsSlice = createSlice({
       state.loading = false
       state.data = action.payload
     },
+    [blacklistContacts.pending]: (state) => {
+      state.loading = true
+    },
     [blacklistContacts.fulfilled]: (state, action) => {
       const updated = action.payload
       const updatedContacts = state.data.map((c) => {
@@ -221,6 +224,7 @@ const contactsSlice = createSlice({
         return c
       })
       state.data = updatedContacts
+      state.loading = false
     },
   },
 })

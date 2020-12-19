@@ -1,12 +1,13 @@
 import React from 'react'
 import { Alert, SafeAreaView } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList } from 'components'
 import { askQuestion, setAskContacts } from 'features/questions/askSlice'
 import { Colors } from 'constants'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
+  const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, request) => {
     const MIN_NUM_CONTACTS = 1
     if (contacts.length < MIN_NUM_CONTACTS) {
@@ -26,6 +27,7 @@ const SelectContacts = (props) => {
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle="Select contacts:"
+        isLoading={ask.loading}
         {...props}
       />
     </SafeAreaView>

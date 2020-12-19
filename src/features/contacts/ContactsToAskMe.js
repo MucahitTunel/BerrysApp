@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, StyleSheet, SafeAreaView } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList } from 'components'
 import { requestToAsk } from 'features/auth/authSlice'
 import { Dimensions, Colors } from 'constants'
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
 const ContactsToAskMe = (props) => {
   const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
   const onPressSubmit = (contacts) => {
     const MIN_NUM_CONTACTS = 1
     if (contacts.length < MIN_NUM_CONTACTS) {
@@ -34,6 +35,7 @@ const ContactsToAskMe = (props) => {
         checkCondition="isSelected"
         submitText="Confirm"
         subTitle="Select contacts to ask you:"
+        isLoading={auth.loading}
         {...props}
       />
     </SafeAreaView>

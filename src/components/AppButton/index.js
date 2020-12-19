@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Colors, Styles } from 'constants'
 import Fonts from 'assets/fonts'
 import { ScaleTouchable } from 'components'
@@ -50,6 +50,7 @@ const AppButton = ({
   onPress,
   disabled,
   style,
+  isLoading,
 }) => (
   <ScaleTouchable
     disabled={disabled}
@@ -61,8 +62,11 @@ const AppButton = ({
       disabled && styles.btnDisabled,
       style,
     ]}>
-    {icon ? <AppIcon name={icon} color={Colors.white} size={iconSize} /> : null}
-    {text ? (
+    {isLoading ? <ActivityIndicator /> : null}
+    {!isLoading && icon ? (
+      <AppIcon name={icon} color={Colors.white} size={iconSize} />
+    ) : null}
+    {!isLoading && text ? (
       <AppText style={[styles.btnText, textStyle]}>{text}</AppText>
     ) : null}
   </ScaleTouchable>
@@ -86,8 +90,10 @@ AppButton.propTypes = {
     PropTypes.arrayOf(PropTypes.any),
   ]),
   disabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
 }
 
 AppButton.defaultProps = {
   disabled: false,
+  isLoading: false,
 }
