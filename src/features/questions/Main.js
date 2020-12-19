@@ -88,16 +88,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   inputView: {
-    padding: 16,
+    paddingHorizontal: 16,
     backgroundColor: Colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
+    paddingTop: 20,
     marginHorizontal: 10,
     flex: 1,
     fontSize: Styles.FontSize.large,
     color: Colors.text,
+    height: 84,
   },
   flatListView: {
     paddingTop: 4,

@@ -24,7 +24,7 @@ const os = require('os')
     onlyPlatforms: ['darwin'],
   },
 
-  // { command: './scripts/get-ip.sh' },
+  { command: './scripts/get-ip.sh' },
 ]
   .filter(
     ({ onlyPlatforms }) =>
