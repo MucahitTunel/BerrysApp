@@ -21,6 +21,7 @@ import {
 } from 'components'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
+import AskUserNameModal from '../../features/questions/AskUserNameModal'
 import { setAskAnonymously } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
@@ -67,9 +68,13 @@ const ContactsList = ({
 }) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
+  const user = useSelector((state) => state.auth.user)
   const { isAnonymous } = ask
   const request = route && route.params && route.params.request
   const allContacts = useSelector((state) => state.contacts.data)
+  const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
+    false,
+  )
   const [searchText, setSearchText] = useState('')
   const [contacts, setContacts] = useState(
     allContacts
@@ -251,6 +256,17 @@ const ContactsList = ({
     dispatch(setAskAnonymously(!isAnonymous))
   }
 
+  const onPress = () => {
+    if (isPostQuestion && !isAnonymous && !user.name) {
+      setIsAskUserNameModalVisible(true)
+    } else {
+      onPressSubmit(
+        contacts.filter((c) => c[checkCondition]),
+        request,
+      )
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -374,15 +390,16 @@ const ContactsList = ({
         <AppButton
           isLoading={isLoading}
           disabled={isLoading}
-          onPress={() =>
-            onPressSubmit(
-              contacts.filter((c) => c[checkCondition]),
-              request,
-            )
-          }
+          onPress={onPress}
           text={submitText}
         />
       </View>
+
+      {/* AskUserNameModal */}
+      <AskUserNameModal
+        isModalVisible={isAskUserNameModalVisible}
+        setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
+      />
     </SafeAreaView>
   )
 }
