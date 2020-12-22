@@ -13,6 +13,7 @@ const FollowContacts = (props) => {
       checkCondition="isBlacklisted"
       subTitle="Select contacts to unfollow:"
       isLoading={contacts.loading}
+      submitText="Confirm"
       {...props}
     />
   )
