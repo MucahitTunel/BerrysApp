@@ -37,7 +37,7 @@ import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import surveysList from '../auth/surveysList'
-import AskMeAnythingModal from './AskMeAnythingModal'
+import AskUserNameModal from './AskUserNameModal'
 import { AppImage } from '../../components'
 import { checkURL } from '../../utils'
 
@@ -558,8 +558,8 @@ const Main = () => {
         style={styles.askBtn}
       />
 
-      {/* AskMeAnything Modal */}
-      <AskMeAnythingModal
+      {/* AskUserNameModal */}
+      <AskUserNameModal
         isModalVisible={showAskingModal}
         setModalVisible={(value) => setShowAskingModal(value)}
       />

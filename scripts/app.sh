@@ -1,7 +1,7 @@
 # default values
 APP_ENV="dev"
 APP_OS="ios"
-IOS_DEVICE="iPhone 11"
+IOS_DEVICE="iPhone 8"
 
 while getopts ":e:o:d:" opt; do
   case $opt in

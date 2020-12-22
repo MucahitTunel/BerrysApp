@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
+const AskUserNameModal = ({ isModalVisible, setModalVisible }) => {
   const dispatch = useDispatch()
   const [name, setName] = useState('')
   const onSubmit = () => {
@@ -78,11 +78,6 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
               onChange={(value) => setName(value)}
               value={name}
             />
-            {/* <AppText
-              color={Colors.gray}
-              style={{ padding: 5, marginBottom: 5 }}>
-              We won’t show your name to other users unless you want to.
-            </AppText> */}
             <View style={styles.actions}>
               <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
@@ -99,11 +94,11 @@ const AskMeAnythingModal = ({ isModalVisible, setModalVisible }) => {
   )
 }
 
-AskMeAnythingModal.propTypes = {
+AskUserNameModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
   onGoToContactList: PropTypes.func,
   fromMain: PropTypes.bool,
 }
 
-export default AskMeAnythingModal
+export default AskUserNameModal
