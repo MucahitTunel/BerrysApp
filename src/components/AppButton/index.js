@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, ActivityIndicator } from 'react-native'
-import { Colors, Styles } from 'constants'
+import { Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 import { ScaleTouchable } from 'components'
 import AppIcon from '../AppIcon'
