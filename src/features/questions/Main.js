@@ -25,6 +25,7 @@ import {
   Avatar,
   Loading,
   ScaleTouchable,
+  AppImage,
 } from 'components'
 import { Colors, Dimensions, Screens, Styles } from 'constants'
 import Images from 'assets/images'
@@ -38,8 +39,7 @@ import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import surveysList from '../auth/surveysList'
 import AskUserNameModal from './AskUserNameModal'
-import { AppImage } from '../../components'
-import { checkURL } from '../../utils'
+import { checkURL } from 'utils'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -360,11 +360,13 @@ const Main = () => {
   const question = useSelector((state) => state.ask.question)
   const { data, loading, requestsToAsk } = questions
   const [questionUrl, setQuestionUrl] = useState(null)
-  const [questionFromModal, setQuestionFromModal] = useState(null)
+  const [_, setQuestionFromModal] = useState(null)
   const [popularQuestions, setPopularQuestions] = useState(
     surveysList[0].popularQuestions,
   )
-  const [showAskingModal, setShowAskingModal] = useState(false)
+  const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
+    false,
+  )
 
   useEffect(() => {
     dispatch(getQuestions())
@@ -445,10 +447,10 @@ const Main = () => {
 
   const onPressAskMeAnything = () => {
     if (user && user.name) {
-      setShowAskingModal(false)
+      setIsAskUserNameModalVisible(false)
       NavigationService.navigate(Screens.AskMe)
     } else {
-      setShowAskingModal(true)
+      setIsAskUserNameModalVisible(true)
     }
   }
 
@@ -560,8 +562,9 @@ const Main = () => {
 
       {/* AskUserNameModal */}
       <AskUserNameModal
-        isModalVisible={showAskingModal}
-        setModalVisible={(value) => setShowAskingModal(value)}
+        isModalVisible={isAskUserNameModalVisible}
+        setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
+        toAskMeScreen
       />
     </SafeAreaView>
   )

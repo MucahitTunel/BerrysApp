@@ -5,7 +5,7 @@ import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, Screens } from 'constants'
-import { AppInput, AppButton, AppText } from 'components'
+import { AppInput, AppButton } from 'components'
 import Theme from 'theme'
 import * as NavigationService from 'services/navigation'
 import { updateName } from 'features/auth/authSlice'
@@ -51,14 +51,20 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskUserNameModal = ({ isModalVisible, setModalVisible }) => {
+const AskUserNameModal = ({
+  isModalVisible,
+  setModalVisible,
+  toAskMeScreen = false,
+}) => {
   const dispatch = useDispatch()
   const [name, setName] = useState('')
   const onSubmit = () => {
     dispatch(updateName({ name }))
     setName('')
     setModalVisible(false)
-    NavigationService.navigate(Screens.AskMe)
+    if (toAskMeScreen) {
+      NavigationService.navigate(Screens.AskMe)
+    }
   }
   return (
     <Modal
@@ -97,6 +103,7 @@ const AskUserNameModal = ({ isModalVisible, setModalVisible }) => {
 AskUserNameModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
+  toAskMeScreen: PropTypes.bool,
   onGoToContactList: PropTypes.func,
   fromMain: PropTypes.bool,
 }

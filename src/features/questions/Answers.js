@@ -30,6 +30,7 @@ import {
   Header,
   Loading,
 } from 'components'
+import AskUserNameModal from './AskUserNameModal'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
 import Theme from 'theme'
 import {
@@ -40,7 +41,7 @@ import {
   voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import { checkURL } from '../../utils'
+import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
@@ -126,6 +127,7 @@ const Comment = ({
     totalVotes = 0,
     isAnonymous,
     userPhoneNumber,
+    username,
   } = comment
   const dispatch = useDispatch()
   const voteComment = (value, questionId, commentId) =>
@@ -147,6 +149,7 @@ const Comment = ({
       setComment(comment)
     }
   }
+  const nonAnonymousName = username ? username : userPhoneNumber
   return (
     <View style={styles.questionItemWrapper}>
       <View style={styles.questionItem}>
@@ -163,7 +166,7 @@ const Comment = ({
               weight="medium"
               color={Colors.primary}
               style={{ marginBottom: 5 }}>
-              {isAnonymous ? name : userPhoneNumber}
+              {isAnonymous ? name : nonAnonymousName}
             </AppText>
           </TouchableOpacity>
           <AppText
@@ -213,6 +216,9 @@ const Answers = ({ navigation }) => {
   let keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
+  const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
+    false,
+  )
   const [isAnonymous, setIsAnonymous] = useState(true)
   const [comment, setComment] = useState(null)
   const user = useSelector((state) => state.auth.user)
@@ -220,18 +226,22 @@ const Answers = ({ navigation }) => {
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting, resetForm }) => {
-    setSubmitting(true)
-    const { cmt } = values
-    const payload = {
-      comment: cmt,
-      questionId: question._id,
-      isAnonymous,
+    if (!isAnonymous && !user.name) {
+      setIsAskUserNameModalVisible(true)
+    } else {
+      setSubmitting(true)
+      const { cmt } = values
+      const payload = {
+        comment: cmt,
+        questionId: question._id,
+        isAnonymous,
+      }
+      dispatch(submitComment(payload))
+      resetForm({})
+      setSubmitting(false)
+      keyboardHeight.current = new Animated.Value(0)
+      Keyboard.dismiss()
     }
-    dispatch(submitComment(payload))
-    resetForm({})
-    setSubmitting(false)
-    keyboardHeight.current = new Animated.Value(0)
-    Keyboard.dismiss()
   }
   const voteQuestion = (value, questionId) =>
     dispatch(
@@ -469,6 +479,12 @@ const Answers = ({ navigation }) => {
             </View>
           </View>
         </Modal>
+
+        {/* AskUserNameModal */}
+        <AskUserNameModal
+          isModalVisible={isAskUserNameModalVisible}
+          setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
+        />
 
         {/* Message user modal */}
         <Modal
