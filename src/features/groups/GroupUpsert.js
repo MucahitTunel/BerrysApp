@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import {
   SafeAreaView,
   StatusBar,
@@ -7,7 +8,6 @@ import {
   ScrollView,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-
 import * as NavigationService from 'services/navigation'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Fonts from 'assets/fonts'
@@ -17,7 +17,10 @@ import {
   AppText,
   ScaleTouchable,
   AppIcon,
+  Loading,
+  Header,
 } from 'components'
+import { BackButton } from 'components/NavButton'
 import {
   setNewGroupName,
   removeNewGroupMembers,
@@ -92,14 +95,30 @@ const styles = StyleSheet.create({
 })
 
 // eslint-disable-next-line react/prop-types
-const GroupUpsert = ({ route }) => {
+const GroupUpsert = ({ navigation, route }) => {
   const dispatch = useDispatch()
   // eslint-disable-next-line react/prop-types
   const { isCreate } = route.params
   const group = useSelector((state) =>
     isCreate ? state.group.new : state.group.current,
   )
+  const loading = useSelector((state) => state.group.loading)
   const [groupName, setGroupName] = useState(isCreate ? '' : group.name)
+  useEffect(() => {
+    setGroupName(group.name)
+  }, [group])
+  useEffect(() => {
+    const title = route.params.isCreate ? 'Create Group' : 'Edit Group'
+    navigation.setOptions({
+      header: () => (
+        <Header
+          title={title}
+          headerLeft={<BackButton navigation={navigation} />}
+        />
+      ),
+    })
+  }, [navigation, route.params.isCreate])
+  if (loading) return <Loading />
   const members =
     group && group.members
       ? group.members.filter((m) => m.role === 'member')
@@ -108,6 +127,7 @@ const GroupUpsert = ({ route }) => {
     group && group.members
       ? group.members.filter((m) => m.role === 'admin')
       : []
+
   const isBtnActive = !!(groupName && members.length > 0 && admins.length > 0)
 
   const onChangeGroupName = (name) => {
@@ -124,6 +144,7 @@ const GroupUpsert = ({ route }) => {
   const goToAddMemberScreen = (isAdmin = false) => {
     NavigationService.navigate(Screens.GroupAddMembers, {
       isAdmin,
+      isCreate,
     })
   }
 
@@ -163,7 +184,7 @@ const GroupUpsert = ({ route }) => {
               {admins.length ? (
                 admins.map((admin) => (
                   <ScaleTouchable
-                    key={admin._id}
+                    key={admin.phoneNumber}
                     onPress={() => onRemoveMember(admin)}
                     style={styles.memberItem}>
                     <AppText
@@ -206,7 +227,7 @@ const GroupUpsert = ({ route }) => {
               {members.length ? (
                 members.map((member) => (
                   <ScaleTouchable
-                    key={member._id}
+                    key={member.phoneNumber}
                     onPress={() => onRemoveMember(member)}
                     style={styles.memberItem}>
                     <AppText
@@ -237,6 +258,11 @@ const GroupUpsert = ({ route }) => {
       </View>
     </SafeAreaView>
   )
+}
+
+GroupUpsert.propTypes = {
+  route: PropTypes.objectOf(PropTypes.any).isRequired,
+  navigation: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
 export default GroupUpsert

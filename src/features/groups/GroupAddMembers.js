@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
 const GroupAddMembers = ({ navigation, route }) => {
   const dispatch = useDispatch()
-  const { isAdmin } = route.params
+  const { isAdmin, isCreate } = route.params
   useEffect(() => {
     navigation.setOptions({
       header: () => (
@@ -39,7 +39,7 @@ const GroupAddMembers = ({ navigation, route }) => {
     } else {
       dispatch(setNewGroupMembers(members))
     }
-    NavigationService.navigate(Screens.GroupUpsert)
+    NavigationService.navigate(Screens.GroupUpsert, { isCreate })
   }
 
   const subTitle = isAdmin

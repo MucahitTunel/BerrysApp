@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as NavigationService from 'services/navigation'
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import { AppIcon, AppText, ScaleTouchable, AppButton } from 'components'
-import { getGroups } from './groupSlice'
+import { getGroups, getGroup } from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -69,7 +69,8 @@ const GroupList = () => {
     dispatch(getGroups())
   }, [dispatch])
   const onPressGroupItem = (groupId) => {
-    console.log('groupId', groupId)
+    dispatch(getGroup(groupId))
+    NavigationService.navigate(Screens.GroupUpsert, { isCreate: false })
   }
   const goToGroupCreateScreen = () => {
     NavigationService.navigate(Screens.GroupCreate)

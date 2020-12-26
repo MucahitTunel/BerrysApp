@@ -50,6 +50,24 @@ export const createGroup = createAsyncThunk(
   },
 )
 
+export const getGroup = createAsyncThunk(
+  'group/get',
+  async (groupId, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { data } = await request({
+      method: 'GET',
+      url: 'group',
+      params: {
+        groupId,
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    const { group } = data
+    return group
+  },
+)
+
 const groupSlice = createSlice({
   name: 'group',
   initialState: {
@@ -94,6 +112,13 @@ const groupSlice = createSlice({
     },
   },
   extraReducers: {
+    [getGroup.pending]: (state) => {
+      state.loading = true
+    },
+    [getGroup.fulfilled]: (state, action) => {
+      state.current = action.payload
+      state.loading = false
+    },
     [getGroups.pending]: (state) => {
       state.loading = true
     },

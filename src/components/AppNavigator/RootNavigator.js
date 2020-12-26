@@ -228,18 +228,7 @@ const GroupStack = () => (
         ),
       })}
     />
-    <Stack.Screen
-      name={Screens.GroupUpsert}
-      component={GroupUpsert}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Create Group"
-            headerLeft={<BackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
+    <Stack.Screen name={Screens.GroupUpsert} component={GroupUpsert} />
     <Stack.Screen name={Screens.GroupAddMembers} component={GroupAddMembers} />
   </Stack.Navigator>
 )
