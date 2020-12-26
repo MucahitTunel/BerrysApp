@@ -128,10 +128,7 @@ const ContactsList = ({
   const onSelectContact = (item) => {
     const existed = contacts.find(
       (c) =>
-        (c.phoneNumber &&
-          item.phoneNumber &&
-          c.phoneNumber === item.phoneNumber) ||
-        (c.email && item.email && c.email === item.email),
+        c.phoneNumber && item.phoneNumber && c.phoneNumber === item.phoneNumber,
     )
     const newValue = !item[checkCondition]
     let res
@@ -139,10 +136,9 @@ const ContactsList = ({
       if (existed) {
         res = contacts.map((c) => {
           if (
-            (c.phoneNumber &&
-              item.phoneNumber &&
-              c.phoneNumber === item.phoneNumber) ||
-            (c.email && item.email && c.email === item.email)
+            c.phoneNumber &&
+            item.phoneNumber &&
+            c.phoneNumber === item.phoneNumber
           ) {
             return {
               ...c,
@@ -270,10 +266,9 @@ const ContactsList = ({
   const contactsToRender = searchRes.map((contact) => {
     const existed = contacts.find(
       (c) =>
-        (c.phoneNumber &&
-          contact.phoneNumber &&
-          c.phoneNumber === contact.phoneNumber) ||
-        (c.email && contact.email && c.email === contact.email),
+        c.phoneNumber &&
+        contact.phoneNumber &&
+        c.phoneNumber === contact.phoneNumber,
     )
     return existed || contact
   })

@@ -94,6 +94,9 @@ const styles = StyleSheet.create({
   },
 })
 
+const CREATE_GROUP = 'Create Group'
+const EDIT_GROUP = 'Edit Group'
+
 // eslint-disable-next-line react/prop-types
 const GroupUpsert = ({ navigation, route }) => {
   const dispatch = useDispatch()
@@ -108,7 +111,7 @@ const GroupUpsert = ({ navigation, route }) => {
     setGroupName(group.name)
   }, [group])
   useEffect(() => {
-    const title = route.params.isCreate ? 'Create Group' : 'Edit Group'
+    const title = route.params.isCreate ? CREATE_GROUP : EDIT_GROUP
     navigation.setOptions({
       header: () => (
         <Header
@@ -250,7 +253,7 @@ const GroupUpsert = ({ navigation, route }) => {
         </ScrollView>
         <View style={{ paddingHorizontal: 16 }}>
           <AppButton
-            text="Create Group"
+            text={isCreate ? CREATE_GROUP : EDIT_GROUP}
             disabled={!isBtnActive}
             onPress={onPressCreateGroup}
           />

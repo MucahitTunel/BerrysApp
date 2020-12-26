@@ -30,7 +30,6 @@ export const createGroup = createAsyncThunk(
     const membersData = members.map((m) => ({
       phoneNumber: m.phoneNumber,
       memberId: m.isAppUser ? m._id : null,
-      email: m.email,
       role: m.role,
     }))
     await request({

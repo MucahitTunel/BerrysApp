@@ -11,6 +11,7 @@ import { Colors } from 'constants'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
+  const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, groups = [], request) => {
     const MIN_NUM_CONTACTS = 1
     if (contacts.length < MIN_NUM_CONTACTS) {
