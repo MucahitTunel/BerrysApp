@@ -138,7 +138,11 @@ const GroupUpsert = ({ navigation, route }) => {
   }
   const onPressCreateGroup = () => {
     dispatch(setNewGroupName(groupName))
-    dispatch(createGroup())
+    if (isCreate) {
+      dispatch(createGroup())
+    } else {
+      // dispatch(editGroup())
+    }
     NavigationService.navigate(Screens.GroupList)
   }
   const onRemoveMember = (member) => {

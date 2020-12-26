@@ -67,7 +67,7 @@ const ContactsList = ({
   route,
   subTitle,
   isPostQuestion,
-  isGroup,
+  showGroups,
   isLoading,
 }) => {
   const dispatch = useDispatch()
@@ -453,7 +453,7 @@ const ContactsList = ({
             />
           </View>
         </View>
-        {isGroup && (
+        {showGroups && (
           <TabView
             navigationState={{ index: tabIndex, routes }}
             renderTabBar={(props) => (
@@ -535,7 +535,7 @@ ContactsList.propTypes = {
   submitText: PropTypes.string,
   singleSelect: PropTypes.bool,
   isPostQuestion: PropTypes.bool,
-  isGroup: PropTypes.bool,
+  showGroups: PropTypes.bool,
   isLoading: PropTypes.bool,
 }
 
@@ -544,7 +544,7 @@ ContactsList.defaultProps = {
   submitText: 'Confirm Post',
   singleSelect: false,
   isPostQuestion: false,
-  isGroup: false,
+  showGroups: false,
   isLoading: false,
 }
 

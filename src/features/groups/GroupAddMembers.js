@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { SafeAreaView, StyleSheet } from 'react-native'
-
 import { ContactsList, Header } from 'components'
 import { Colors, Dimensions, Screens } from 'constants'
 import { BackButton } from 'components/NavButton'
