@@ -25,7 +25,10 @@ import { BackButton } from 'components/NavButton'
 import {
   setNewGroupName,
   removeNewGroupMembers,
+  removeCurrentGroupMembers,
   createGroup,
+  updateGroup,
+  setCurrentGroupName,
 } from './groupSlice'
 
 const styles = StyleSheet.create({
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
 })
 
 const CREATE_GROUP = 'Create Group'
-const EDIT_GROUP = 'Edit Group'
+const UPDATE_GROUP = 'Update Group'
 
 // eslint-disable-next-line react/prop-types
 const GroupUpsert = ({ navigation, route }) => {
@@ -113,7 +116,7 @@ const GroupUpsert = ({ navigation, route }) => {
     setGroupName(group.name)
   }, [group])
   useEffect(() => {
-    const title = route.params.isCreate ? CREATE_GROUP : EDIT_GROUP
+    const title = route.params.isCreate ? CREATE_GROUP : UPDATE_GROUP
     navigation.setOptions({
       header: () => (
         <Header
@@ -144,7 +147,13 @@ const GroupUpsert = ({ navigation, route }) => {
       ? group.members.filter((m) => m.role === 'admin').concat(groupCreator)
       : [groupCreator]
 
-  const isBtnActive = !!(groupName && members.length > 0 && admins.length > 0)
+  const isGroupManager = (g) =>
+    g.userPhoneNumber === user.phoneNumber ||
+    g.members.find(
+      (m) => m.role === 'admin' && m.phoneNumber === user.phoneNumber,
+    )
+  const isBtnActive =
+    (!isCreate && isGroupManager(group)) || (isCreate && !!groupName)
 
   const onChangeGroupName = (name) => {
     setGroupName(name)
@@ -154,7 +163,8 @@ const GroupUpsert = ({ navigation, route }) => {
       dispatch(setNewGroupName(groupName))
       dispatch(createGroup())
     } else {
-      // dispatch(editGroup())
+      dispatch(setCurrentGroupName(groupName))
+      dispatch(updateGroup())
     }
     NavigationService.navigate(Screens.GroupList)
   }
@@ -162,7 +172,11 @@ const GroupUpsert = ({ navigation, route }) => {
     if (member.isDefaultItem) {
       return Alert.alert('Warning', 'Group creator cannot be removed')
     }
-    dispatch(removeNewGroupMembers(member))
+    if (isCreate) {
+      dispatch(removeNewGroupMembers(member))
+    } else {
+      dispatch(removeCurrentGroupMembers(member))
+    }
   }
   const goToAddMemberScreen = (isAdmin = false, list = []) => {
     NavigationService.navigate(Screens.GroupAddMembers, {
@@ -275,7 +289,7 @@ const GroupUpsert = ({ navigation, route }) => {
         </ScrollView>
         <View style={{ paddingHorizontal: 16 }}>
           <AppButton
-            text={isCreate ? CREATE_GROUP : EDIT_GROUP}
+            text={isCreate ? CREATE_GROUP : UPDATE_GROUP}
             disabled={!isBtnActive}
             onPress={onPressConfirm}
           />

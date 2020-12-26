@@ -30,7 +30,6 @@ export const createGroup = createAsyncThunk(
     const { name, template, members } = state.group.new
     const membersData = members.map((m) => ({
       phoneNumber: m.phoneNumber,
-      memberId: m.isAppUser ? m._id : null,
       role: m.role,
       name: m.name,
     }))
@@ -66,6 +65,26 @@ export const getGroup = createAsyncThunk(
     })
     const { group } = data
     return group
+  },
+)
+
+export const updateGroup = createAsyncThunk(
+  'group/update',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const newGroupData = state.group.current
+    await request({
+      method: 'POST',
+      url: 'group/update',
+      data: {
+        group: newGroupData,
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    Alert.alert('Success', 'Your group has been updated!')
+    dispatch(getGroups())
+    return
   },
 )
 
@@ -118,6 +137,41 @@ const groupSlice = createSlice({
       )
       state.new.members = members.concat(newAdmins)
     },
+    setCurrentGroupMembers: (state, action) => {
+      const newMembers = action.payload.map((m) => ({ ...m, role: 'member' }))
+      const originalMembers = state.current.members
+      const removedMembers = differenceBy(
+        originalMembers,
+        newMembers,
+        'phoneNumber',
+      )
+      const addedMembers = differenceBy(
+        newMembers,
+        originalMembers,
+        'phoneNumber',
+      )
+      state.current.members = state.current.members
+        .filter(
+          (m) =>
+            !removedMembers.find(
+              (member) => member.phoneNumber === m.phoneNumber,
+            ),
+        )
+        .concat(addedMembers)
+    },
+    setCurrentGroupAdmins: (state, action) => {
+      const newAdmins = action.payload.map((a) => ({ ...a, role: 'admin' }))
+      const oldMembers = state.current.members.filter(
+        (m) => m.role === 'member',
+      )
+      const members = oldMembers.filter(
+        (m) => !newAdmins.find((admin) => admin.phoneNumber === m.phoneNumber),
+      )
+      state.current.members = members.concat(newAdmins)
+    },
+    setCurrentGroupName: (state, action) => {
+      state.current.name = action.payload
+    },
     resetNewGroup: (state) => {
       state.new = {
         name: null,
@@ -128,6 +182,12 @@ const groupSlice = createSlice({
     removeNewGroupMembers: (state, action) => {
       const member = action.payload
       state.new.members = state.new.members.filter((m) => m._id !== member._id)
+    },
+    removeCurrentGroupMembers: (state, action) => {
+      const member = action.payload
+      state.current.members = state.current.members.filter(
+        (m) => m._id !== member._id,
+      )
     },
   },
   extraReducers: {
@@ -145,6 +205,18 @@ const groupSlice = createSlice({
       state.groups = action.payload
       state.loading = false
     },
+    [createGroup.pending]: (state) => {
+      state.loading = true
+    },
+    [createGroup.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [updateGroup.pending]: (state) => {
+      state.loading = true
+    },
+    [updateGroup.fulfilled]: (state) => {
+      state.loading = false
+    },
   },
 })
 
@@ -157,5 +229,9 @@ export const {
     setNewGroupAdmins,
     removeNewGroupMembers,
     resetNewGroup,
+    removeCurrentGroupMembers,
+    setCurrentGroupMembers,
+    setCurrentGroupAdmins,
+    setCurrentGroupName,
   },
 } = groupSlice

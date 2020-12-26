@@ -7,7 +7,12 @@ import { ContactsList, Header } from 'components'
 import { Colors, Dimensions, Screens } from 'constants'
 import { BackButton } from 'components/NavButton'
 import * as NavigationService from 'services/navigation'
-import { setNewGroupMembers, setNewGroupAdmins } from './groupSlice'
+import {
+  setNewGroupMembers,
+  setNewGroupAdmins,
+  setCurrentGroupMembers,
+  setCurrentGroupAdmins,
+} from './groupSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +46,11 @@ const GroupAddMembers = ({ navigation, route }) => {
         dispatch(setNewGroupMembers(filtered))
       }
     } else {
+      if (isAdmin) {
+        dispatch(setCurrentGroupAdmins(filtered))
+      } else {
+        dispatch(setCurrentGroupMembers(filtered))
+      }
     }
     NavigationService.navigate(Screens.GroupUpsert, { isCreate })
   }
