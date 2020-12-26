@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View } from 'react-native'
-import { AppText, Avatar, AppLink } from 'components'
 import { Colors, Screens, FontSize } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import { useDispatch } from 'react-redux'
 import { logout } from 'features/auth/authSlice'
+import AppText from '../AppText'
+import Avatar from '../Avatar'
+import AppLink from '../AppLink'
 
 const menu = [
   {

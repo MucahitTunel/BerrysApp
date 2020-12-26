@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import LinearGradient from 'react-native-linear-gradient'
-import { AppText } from 'components'
 import { FontSize, Colors } from 'constants'
 import Fonts from 'assets/fonts'
 import { useSelector } from 'react-redux'
+import AppText from '../AppText'
 
 const linearGradient = [Colors.primary, Colors.primaryLight]
 

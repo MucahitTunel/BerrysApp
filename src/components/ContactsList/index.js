@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { SceneMap, TabView, TabBar } from 'react-native-tab-view'
-
 import {
   SafeAreaView,
   ScrollView,
@@ -13,20 +12,18 @@ import {
   FlatList,
 } from 'react-native'
 import { Colors, Dimensions, FontSize } from 'constants'
-import {
-  AppButton,
-  AppIcon,
-  AppImage,
-  AppInput,
-  AppText,
-  Avatar,
-  ScaleTouchable,
-} from 'components'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
 import { getGroups } from 'features/groups/groupSlice'
 import { setAskAnonymously } from 'features/questions/askSlice'
+import AppButton from '../AppButton'
+import AppIcon from '../AppIcon'
+import AppImage from '../AppImage'
+import AppInput from '../AppInput'
+import AppText from '../AppText'
+import Avatar from '../Avatar'
+import ScaleTouchable from '../ScaleTouchable'
 
 const styles = StyleSheet.create({
   container: {

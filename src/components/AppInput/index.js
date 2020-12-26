@@ -3,7 +3,7 @@ import { TextInput, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { FontSize, Colors } from 'constants'
 import Fonts from 'assets/fonts'
-import { AppText } from 'components'
+import AppText from '../AppText'
 
 const styles = StyleSheet.create({
   input: {

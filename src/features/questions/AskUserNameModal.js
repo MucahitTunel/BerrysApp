@@ -5,10 +5,11 @@ import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, Screens } from 'constants'
-import { AppInput, AppButton } from 'components'
 import Theme from 'theme'
 import * as NavigationService from 'services/navigation'
 import { updateName } from 'features/auth/authSlice'
+import AppInput from '../../components/AppInput'
+import AppButton from '../../components/AppButton'
 
 const styles = StyleSheet.create({
   container: {

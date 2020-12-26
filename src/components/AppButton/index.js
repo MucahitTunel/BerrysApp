@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
-import { ScaleTouchable } from 'components'
 import AppIcon from '../AppIcon'
 import AppText from '../AppText'
+import ScaleTouchable from '../ScaleTouchable'
 import Theme from 'theme'
 
 const styles = StyleSheet.create({
