@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Alert,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as NavigationService from 'services/navigation'
@@ -105,6 +106,7 @@ const GroupUpsert = ({ navigation, route }) => {
   const group = useSelector((state) =>
     isCreate ? state.group.new : state.group.current,
   )
+  const user = useSelector((state) => state.auth.user)
   const loading = useSelector((state) => state.group.loading)
   const [groupName, setGroupName] = useState(isCreate ? '' : group.name)
   useEffect(() => {
@@ -122,23 +124,34 @@ const GroupUpsert = ({ navigation, route }) => {
     })
   }, [navigation, route.params.isCreate])
   if (loading) return <Loading />
+  const groupCreator = isCreate
+    ? {
+        _id: Date.now().toString(),
+        phoneNumber: user.phoneNumber,
+        name: 'Creator (You)',
+        isDefaultItem: true,
+      }
+    : {
+        _id: Date.now().toString(),
+        phoneNumber: group.userPhoneNumber,
+        name: 'Creator',
+        isDefaultItem: true,
+      }
   const members =
-    group && group.members
-      ? group.members.filter((m) => m.role === 'member')
-      : []
+    group && group.members ? group.members.concat(groupCreator) : [groupCreator]
   const admins =
     group && group.members
-      ? group.members.filter((m) => m.role === 'admin')
-      : []
+      ? group.members.filter((m) => m.role === 'admin').concat(groupCreator)
+      : [groupCreator]
 
   const isBtnActive = !!(groupName && members.length > 0 && admins.length > 0)
 
   const onChangeGroupName = (name) => {
     setGroupName(name)
   }
-  const onPressCreateGroup = () => {
-    dispatch(setNewGroupName(groupName))
+  const onPressConfirm = () => {
     if (isCreate) {
+      dispatch(setNewGroupName(groupName))
       dispatch(createGroup())
     } else {
       // dispatch(editGroup())
@@ -146,12 +159,17 @@ const GroupUpsert = ({ navigation, route }) => {
     NavigationService.navigate(Screens.GroupList)
   }
   const onRemoveMember = (member) => {
+    if (member.isDefaultItem) {
+      return Alert.alert('Warning', 'Group creator cannot be removed')
+    }
     dispatch(removeNewGroupMembers(member))
   }
-  const goToAddMemberScreen = (isAdmin = false) => {
+  const goToAddMemberScreen = (isAdmin = false, list = []) => {
     NavigationService.navigate(Screens.GroupAddMembers, {
       isAdmin,
       isCreate,
+      groupCreator,
+      list,
     })
   }
 
@@ -174,7 +192,7 @@ const GroupUpsert = ({ navigation, route }) => {
                 Add Admins
               </AppText>
               <ScaleTouchable
-                onPress={() => goToAddMemberScreen(true)}
+                onPress={() => goToAddMemberScreen(true, admins)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {!!admins.length && (
                   <AppText
@@ -217,7 +235,7 @@ const GroupUpsert = ({ navigation, route }) => {
                 Add Members
               </AppText>
               <ScaleTouchable
-                onPress={() => goToAddMemberScreen(false)}
+                onPress={() => goToAddMemberScreen(false, members)}
                 style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {!!members.length && (
                   <AppText
@@ -259,7 +277,7 @@ const GroupUpsert = ({ navigation, route }) => {
           <AppButton
             text={isCreate ? CREATE_GROUP : EDIT_GROUP}
             disabled={!isBtnActive}
-            onPress={onPressCreateGroup}
+            onPress={onPressConfirm}
           />
         </View>
       </View>

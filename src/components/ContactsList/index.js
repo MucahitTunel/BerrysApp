@@ -10,6 +10,7 @@ import {
   StyleSheet,
   View,
   FlatList,
+  Alert,
 } from 'react-native'
 import { Colors, Dimensions, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
@@ -69,6 +70,8 @@ const ContactsList = ({
   isPostQuestion,
   showGroups,
   isLoading,
+  defaultItem,
+  selectedItems = [],
 }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -79,20 +82,28 @@ const ContactsList = ({
   const { isAnonymous } = ask
   const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
-  const myGroups = useSelector((state) => state.group.groups)
+  const allGroups = useSelector((state) => state.group.groups)
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,
   )
   const [searchText, setSearchText] = useState('')
+  const withDefaultItem = defaultItem
+    ? [
+        defaultItem,
+        ...allContacts.filter((c) => c.phoneNumber !== defaultItem.phoneNumber),
+      ]
+    : allContacts
   const [contacts, setContacts] = useState(
-    allContacts
+    withDefaultItem
       .map((c) => {
-        if (
+        const isRequester =
           route &&
           route.params &&
           route.params.requester &&
           route.params.requester.phoneNumber === c.phoneNumber
-        ) {
+        const isSelected = selectedItems.indexOf(c.phoneNumber) >= 0
+        const isDefaultItem = c.isDefaultItem
+        if (isRequester || isSelected || isDefaultItem) {
           return {
             ...c,
             isSelected: true,
@@ -126,6 +137,9 @@ const ContactsList = ({
     setGroups(newGroups)
   }
   const onSelectContact = (item) => {
+    if (item.isDefaultItem) {
+      return Alert.alert('Warning', 'Group creator cannot be removed')
+    }
     const existed = contacts.find(
       (c) =>
         c.phoneNumber && item.phoneNumber && c.phoneNumber === item.phoneNumber,
@@ -401,7 +415,7 @@ const ContactsList = ({
                       )
                     })}
                   {groups.map((groupId) => {
-                    const group = myGroups.find((g) => g._id === groupId)
+                    const group = allGroups.find((g) => g._id === groupId)
                     return (
                       <ScaleTouchable
                         key={groupId}
@@ -488,7 +502,7 @@ const ContactsList = ({
         {isShowingGroups ? (
           <FlatList
             style={styles.flatListView}
-            data={myGroups}
+            data={allGroups}
             renderItem={renderGroup}
             keyExtractor={(item) => item._id}
           />
@@ -537,6 +551,8 @@ ContactsList.propTypes = {
   isPostQuestion: PropTypes.bool,
   showGroups: PropTypes.bool,
   isLoading: PropTypes.bool,
+  defaultItem: PropTypes.object,
+  selectedItems: PropTypes.array,
 }
 
 ContactsList.defaultProps = {
@@ -546,6 +562,8 @@ ContactsList.defaultProps = {
   isPostQuestion: false,
   showGroups: false,
   isLoading: false,
+  defaultItem: null,
+  selectedItems: [],
 }
 
 export default ContactsList

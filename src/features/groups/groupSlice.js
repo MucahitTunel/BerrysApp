@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as NavigationService from 'services/navigation'
 import request from 'services/api'
 import { Screens } from 'constants'
+import differenceBy from 'lodash/differenceBy'
 
 export const getGroups = createAsyncThunk(
   'groups/get',
@@ -31,6 +32,7 @@ export const createGroup = createAsyncThunk(
       phoneNumber: m.phoneNumber,
       memberId: m.isAppUser ? m._id : null,
       role: m.role,
+      name: m.name,
     }))
     await request({
       method: 'POST',
@@ -88,15 +90,33 @@ const groupSlice = createSlice({
     },
     setNewGroupMembers: (state, action) => {
       const newMembers = action.payload.map((m) => ({ ...m, role: 'member' }))
+      const originalMembers = state.new.members
+      const removedMembers = differenceBy(
+        originalMembers,
+        newMembers,
+        'phoneNumber',
+      )
+      const addedMembers = differenceBy(
+        newMembers,
+        originalMembers,
+        'phoneNumber',
+      )
       state.new.members = state.new.members
-        .filter((m) => m.role !== 'member')
-        .concat(newMembers)
+        .filter(
+          (m) =>
+            !removedMembers.find(
+              (member) => member.phoneNumber === m.phoneNumber,
+            ),
+        )
+        .concat(addedMembers)
     },
     setNewGroupAdmins: (state, action) => {
-      const newAdmins = action.payload.map((m) => ({ ...m, role: 'admin' }))
-      state.new.members = state.new.members
-        .filter((m) => m.role !== 'admin')
-        .concat(newAdmins)
+      const newAdmins = action.payload.map((a) => ({ ...a, role: 'admin' }))
+      const oldMembers = state.new.members.filter((m) => m.role === 'member')
+      const members = oldMembers.filter(
+        (m) => !newAdmins.find((admin) => admin.phoneNumber === m.phoneNumber),
+      )
+      state.new.members = members.concat(newAdmins)
     },
     resetNewGroup: (state) => {
       state.new = {

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 const GroupAddMembers = ({ navigation, route }) => {
   const dispatch = useDispatch()
-  const { isAdmin, isCreate } = route.params
+  const { isAdmin, isCreate, groupCreator, list } = route.params
   useEffect(() => {
     navigation.setOptions({
       header: () => (
@@ -33,10 +33,14 @@ const GroupAddMembers = ({ navigation, route }) => {
   }, [navigation, route.params.isAdmin])
 
   const onPressSubmit = (members) => {
-    if (isAdmin) {
-      dispatch(setNewGroupAdmins(members))
+    const filtered = members.filter((m) => !m.isDefaultItem)
+    if (isCreate) {
+      if (isAdmin) {
+        dispatch(setNewGroupAdmins(filtered))
+      } else {
+        dispatch(setNewGroupMembers(filtered))
+      }
     } else {
-      dispatch(setNewGroupMembers(members))
     }
     NavigationService.navigate(Screens.GroupUpsert, { isCreate })
   }
@@ -45,6 +49,8 @@ const GroupAddMembers = ({ navigation, route }) => {
     ? 'Select admins for group:'
     : 'Select members for group:'
 
+  const selectedItems = list.map((i) => i.phoneNumber)
+
   return (
     <SafeAreaView style={styles.container}>
       <ContactsList
@@ -52,6 +58,8 @@ const GroupAddMembers = ({ navigation, route }) => {
         checkCondition="isSelected"
         submitText="Confirm"
         subTitle={subTitle}
+        defaultItem={groupCreator}
+        selectedItems={selectedItems}
       />
     </SafeAreaView>
   )

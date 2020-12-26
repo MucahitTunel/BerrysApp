@@ -57,14 +57,11 @@ const GroupList = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const myGroups = useSelector((state) => state.group.groups)
-  // const isGroupCreator = (g) => g.userPhoneNumber === user.phoneNumber
-  const isGroupAdmin = (g) =>
+  const isGroupManager = (g) =>
+    g.userPhoneNumber === user.phoneNumber ||
     g.members.find(
       (m) => m.role === 'admin' && m.phoneNumber === user.phoneNumber,
     )
-  const groupsIManage = myGroups.filter((g) => {
-    return isGroupAdmin(g)
-  })
   useEffect(() => {
     dispatch(getGroups())
   }, [dispatch])
@@ -81,34 +78,6 @@ const GroupList = () => {
       <ScrollView>
         <View style={styles.groupBox}>
           <AppText weight="medium" style={{ marginBottom: 16 }}>
-            Groups I manage
-          </AppText>
-          <View>
-            {groupsIManage.length > 0
-              ? groupsIManage.map((group, index) => (
-                  <ScaleTouchable
-                    key={group._id}
-                    style={[
-                      styles.groupItem,
-                      index === groupsIManage.length - 1 &&
-                        styles.groupItemLast,
-                    ]}
-                    onPress={() => onPressGroupItem(group._id)}>
-                    <AppText fontSize={FontSize.normal} weight="medium">
-                      {group.name}
-                    </AppText>
-                    <AppIcon
-                      name="chevron-right"
-                      size={20}
-                      color={Colors.gray}
-                    />
-                  </ScaleTouchable>
-                ))
-              : renderEmpty()}
-          </View>
-        </View>
-        <View style={styles.groupBox}>
-          <AppText weight="medium" style={{ marginBottom: 16 }}>
             My Groups
           </AppText>
           <View>
@@ -122,7 +91,7 @@ const GroupList = () => {
                     ]}
                     onPress={() => onPressGroupItem(group._id)}>
                     <AppText fontSize={FontSize.normal} weight="medium">
-                      {group.name}
+                      {group.name} {isGroupManager(group) && '(manager)'}
                     </AppText>
                     <AppIcon
                       name="chevron-right"
