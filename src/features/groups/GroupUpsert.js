@@ -287,7 +287,7 @@ const GroupUpsert = ({ navigation, route }) => {
             </View>
           </View>
         </ScrollView>
-        <View style={{ paddingHorizontal: 16 }}>
+        <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
           <AppButton
             text={isCreate ? CREATE_GROUP : UPDATE_GROUP}
             disabled={!isBtnActive}
