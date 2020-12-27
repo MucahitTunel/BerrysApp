@@ -14,10 +14,6 @@ const SelectContacts = (props) => {
   const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, groups = [], request) => {
     const MIN_NUM_RECEIVERS = 1
-    console.log('contacts')
-    console.log(contacts)
-    console.log('groups')
-    console.log(groups)
     if (contacts.length + groups.length < MIN_NUM_RECEIVERS) {
       return Alert.alert(
         'Warning',

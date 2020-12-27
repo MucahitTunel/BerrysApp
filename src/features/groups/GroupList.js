@@ -10,7 +10,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import * as NavigationService from 'services/navigation'
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
-import { AppIcon, AppText, ScaleTouchable, AppButton } from 'components'
+import {
+  AppIcon,
+  AppText,
+  ScaleTouchable,
+  AppButton,
+  Loading,
+} from 'components'
 import { getGroups, getGroup } from './groupSlice'
 
 const styles = StyleSheet.create({
@@ -46,6 +52,7 @@ const GroupList = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const myGroups = useSelector((state) => state.group.groups)
+  const loading = useSelector((state) => state.group.loading)
   const isGroupManager = (g) =>
     g.userPhoneNumber === user.phoneNumber ||
     g.members.find(
@@ -90,7 +97,8 @@ const GroupList = () => {
             My Groups
           </AppText>
           <View>
-            {myGroups.length
+            {loading && <Loading />}
+            {!loading && myGroups.length
               ? myGroups.map((group, index) => (
                   <ScaleTouchable
                     key={group._id}
