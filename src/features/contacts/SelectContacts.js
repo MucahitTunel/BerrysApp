@@ -13,11 +13,15 @@ const SelectContacts = (props) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, groups = [], request) => {
-    const MIN_NUM_CONTACTS = 1
-    if (contacts.length < MIN_NUM_CONTACTS) {
+    const MIN_NUM_RECEIVERS = 1
+    console.log('contacts')
+    console.log(contacts)
+    console.log('groups')
+    console.log(groups)
+    if (contacts.length + groups.length < MIN_NUM_RECEIVERS) {
       return Alert.alert(
         'Warning',
-        `You have to select at least ${MIN_NUM_CONTACTS} contacts in order to proceed`,
+        `You have to select at least ${MIN_NUM_RECEIVERS} contacts/groups in order to proceed`,
       )
     }
     dispatch(setAskContacts(contacts))
@@ -32,7 +36,7 @@ const SelectContacts = (props) => {
         showGroups
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
-        subTitle="Select contacts:"
+        subTitle="Select contacts/groups:"
         isLoading={ask.loading}
         {...props}
       />

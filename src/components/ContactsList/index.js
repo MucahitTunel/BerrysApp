@@ -327,6 +327,7 @@ const ContactsList = ({
     } else {
       onPressSubmit(
         contacts.filter((c) => c[checkCondition]),
+        groups,
         request,
       )
     }

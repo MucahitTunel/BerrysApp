@@ -42,17 +42,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const renderEmpty = () => (
-  <View
-    style={{
-      paddingTop: 40,
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
-    <AppText style={{ textAlign: 'center' }}>There's no group yet</AppText>
-  </View>
-)
-
 const GroupList = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
@@ -72,6 +61,26 @@ const GroupList = () => {
   const goToGroupCreateScreen = () => {
     NavigationService.navigate(Screens.GroupCreate)
   }
+  const renderEmpty = () => (
+    <View
+      style={{
+        paddingTop: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <AppText style={{ textAlign: 'center' }}>
+        Create your first group and have honest conversations
+      </AppText>
+      <View
+        style={{
+          paddingHorizontal: 16,
+          margin: 16,
+          width: '64%',
+        }}>
+        <AppButton text="Create a group" onPress={goToGroupCreateScreen} />
+      </View>
+    </View>
+  )
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -104,11 +113,13 @@ const GroupList = () => {
           </View>
         </View>
       </ScrollView>
-      <AppButton
-        icon={'plus'}
-        style={styles.creatGroupBtn}
-        onPress={goToGroupCreateScreen}
-      />
+      {myGroups.length > 0 && (
+        <AppButton
+          icon="plus"
+          style={styles.creatGroupBtn}
+          onPress={goToGroupCreateScreen}
+        />
+      )}
     </SafeAreaView>
   )
 }
