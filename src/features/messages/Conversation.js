@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppInput, Header } from 'components'
+import { AppText, AppInput, Header, AppButton } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { pusher } from 'features/auth/authSlice'
@@ -20,10 +20,11 @@ import {
   sendMessage,
   sendPushNotification as sendPushNotificationAction,
 } from 'features/messages/messagesSlice'
+import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import { AppButton } from '../../components'
+import AppBadge from '../../components/AppBadge'
 
 const styles = StyleSheet.create({
   container: {
@@ -102,6 +103,7 @@ const Conversation = ({ navigation }) => {
   let listRef = useRef(null)
   const dispatch = useDispatch()
   const [message, setMessage] = useState(null)
+  const [commonGroup, setCommonGroup] = useState(null)
   const user = useSelector((state) => state.auth.user)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
@@ -109,6 +111,17 @@ const Conversation = ({ navigation }) => {
     room && room._id ? getConversationName(room).description : 'description'
 
   useEffect(() => {
+    const getCommonGroup = async () => {
+      const { data } = await request({
+        method: 'GET',
+        url: 'chat/common-group',
+        params: {
+          roomId: room._id,
+        },
+      })
+      const { group } = data
+      setCommonGroup(group)
+    }
     if (room && room._id) {
       const title = getConversationName(room).title
       navigation.setOptions({
@@ -127,6 +140,7 @@ const Conversation = ({ navigation }) => {
         }
       }
       dispatch(getMessages(callback))
+      getCommonGroup()
       return () => {
         pusher.unsubscribe(room._id)
       }
@@ -194,6 +208,9 @@ const Conversation = ({ navigation }) => {
           onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
+        {commonGroup && commonGroup.name && (
+          <AppBadge text={commonGroup.name} />
+        )}
         <View style={styles.descriptionBox}>
           <AppText style={styles.description}>{description}</AppText>
         </View>

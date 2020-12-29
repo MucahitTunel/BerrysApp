@@ -29,6 +29,7 @@ import {
   Avatar,
   Header,
   Loading,
+  AppBadge,
 } from 'components'
 import AskUserNameModal from './AskUserNameModal'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
@@ -343,6 +344,13 @@ const Answers = ({ navigation }) => {
                     style={{ marginRight: 10 }}>
                     {question.content}
                   </AppText>
+                )}
+                {question.group && question.group.name && (
+                  <AppBadge
+                    text={question.group.name}
+                    color={Colors.white}
+                    background={Colors.primary}
+                  />
                 )}
               </View>
               {isFlagged && (
