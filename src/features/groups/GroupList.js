@@ -97,7 +97,7 @@ const GroupList = () => {
             My Groups
           </AppText>
           <View>
-            {loading && <Loading />}
+            {loading && myGroups.length === 0 && <Loading />}
             {myGroups.length
               ? myGroups.map((group, index) => (
                   <ScaleTouchable
