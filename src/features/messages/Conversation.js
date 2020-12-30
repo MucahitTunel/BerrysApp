@@ -208,7 +208,16 @@ const Conversation = ({ navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         {commonGroup && commonGroup.name && (
-          <AppBadge text={commonGroup.name} />
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              flexDirection: 'row',
+              paddingTop: 4,
+            }}>
+            <AppBadge text={commonGroup.name} />
+          </View>
         )}
         <View style={styles.descriptionBox}>
           <AppText style={styles.description}>{description}</AppText>

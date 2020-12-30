@@ -14,7 +14,6 @@ const AppBadge = ({
       alignSelf: 'flex-start',
       textAlign: 'center',
       textAlignVertical: 'center',
-      paddingHorizontal: 4,
       borderRadius: 4,
       overflow: 'hidden',
     }}

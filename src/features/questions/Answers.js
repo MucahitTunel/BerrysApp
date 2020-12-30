@@ -6,21 +6,22 @@ import {
   FlatList,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
-import { hideKeyBoard, showKeyboard } from 'utils'
+import { checkURL, hideKeyBoard, showKeyboard } from 'utils'
 import { Colors, FontSize } from 'constants'
 import Images from 'assets/images'
 import {
+  AppBadge,
   AppButton,
   AppIcon,
   AppImage,
@@ -29,7 +30,6 @@ import {
   Avatar,
   Header,
   Loading,
-  AppBadge,
 } from 'components'
 import AskUserNameModal from './AskUserNameModal'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
@@ -42,7 +42,6 @@ import {
   voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
@@ -314,6 +313,11 @@ const Answers = ({ navigation }) => {
               <View style={{ flex: 1 }}>
                 {url ? (
                   <>
+                    {question.group && question.group.name && (
+                      <View style={{ marginBottom: 6 }}>
+                        <AppBadge text={question.group.name} />
+                      </View>
+                    )}
                     <RNUrlPreview
                       containerStyle={{
                         backgroundColor: Colors.white,
@@ -342,11 +346,13 @@ const Answers = ({ navigation }) => {
                   <AppText
                     fontSize={FontSize.xxLarge}
                     style={{ marginRight: 10 }}>
-                    {question.content}
+                    {`${question.content} `}
+                    {question.group && question.group.name && (
+                      <View>
+                        <AppBadge text={question.group.name} />
+                      </View>
+                    )}
                   </AppText>
-                )}
-                {question.group && question.group.name && (
-                  <AppBadge text={question.group.name} />
                 )}
               </View>
               {isFlagged && (
