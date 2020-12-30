@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppInput, Header, AppButton } from 'components'
+import { AppText, AppInput, Header, AppButton, AppBadge } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { pusher } from 'features/auth/authSlice'
@@ -24,7 +24,6 @@ import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import AppBadge from '../../components/AppBadge'
 
 const styles = StyleSheet.create({
   container: {

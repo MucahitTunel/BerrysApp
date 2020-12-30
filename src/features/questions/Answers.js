@@ -346,11 +346,7 @@ const Answers = ({ navigation }) => {
                   </AppText>
                 )}
                 {question.group && question.group.name && (
-                  <AppBadge
-                    text={question.group.name}
-                    color={Colors.white}
-                    background={Colors.primary}
-                  />
+                  <AppBadge text={question.group.name} />
                 )}
               </View>
               {isFlagged && (

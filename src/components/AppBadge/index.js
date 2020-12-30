@@ -4,8 +4,8 @@ import AppText from '../AppText'
 
 const AppBadge = ({
   text,
-  background = Colors.white,
-  color = Colors.primary,
+  background = Colors.primary,
+  color = Colors.white,
 }) => (
   <AppText
     style={{
