@@ -464,7 +464,7 @@ const ContactsList = ({
                 fontFamily: Fonts.euclidCircularAMedium,
                 color: Colors.text,
               }}
-              onChangeText={onChangeSearchText}
+              onChange={onChangeSearchText}
             />
           </View>
         </View>
