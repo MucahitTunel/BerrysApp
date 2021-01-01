@@ -19,9 +19,9 @@ done
 source fastlane/.env.$APP_ENV
 
 if [[ $APP_OS == "android" ]]; then
-  bundle exec fastlane android update_config --env $APP_ENV && ENVFILE=fastlane/.env.${APP_ENV} react-native run-android --appId ${ANDROID_APP_ID}
+  bundle exec fastlane android update_config --env $APP_ENV && ENVFILE=fastlane/.env.${APP_ENV} npx react-native run-android --appId ${ANDROID_APP_ID}
 fi
 
 if [[ $APP_OS == "ios" ]]; then
-  bundle exec fastlane ios update_config --env $APP_ENV && ENVFILE=fastlane/.env.${APP_ENV} react-native run-ios --simulator="${IOS_DEVICE}"
+  bundle exec fastlane ios update_config --env $APP_ENV && ENVFILE=fastlane/.env.${APP_ENV} npx react-native run-ios --simulator="${IOS_DEVICE}"
 fi

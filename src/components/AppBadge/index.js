@@ -9,13 +9,14 @@ const AppBadge = ({
 }) => (
   <AppText
     style={{
-      padding: 4,
+      padding: 2,
       backgroundColor: background,
       alignSelf: 'flex-start',
       textAlign: 'center',
       textAlignVertical: 'center',
       borderRadius: 4,
       overflow: 'hidden',
+      fontSize: 14,
     }}
     color={color}>
     {text}
