@@ -111,7 +111,7 @@ const GroupUpsert = ({ navigation, route }) => {
   )
   const user = useSelector((state) => state.auth.user)
   const loading = useSelector((state) => state.group.loading)
-  const [groupName, setGroupName] = useState(isCreate ? '' : group.name)
+  const [groupName, setGroupName] = useState(group.name)
   useEffect(() => {
     setGroupName(group.name)
   }, [group])
@@ -179,6 +179,11 @@ const GroupUpsert = ({ navigation, route }) => {
     }
   }
   const goToAddMemberScreen = (isAdmin = false, list = []) => {
+    if (isCreate) {
+      dispatch(setNewGroupName(groupName))
+    } else {
+      dispatch(setCurrentGroupName(groupName))
+    }
     NavigationService.navigate(Screens.GroupAddMembers, {
       isAdmin,
       isCreate,
@@ -198,7 +203,7 @@ const GroupUpsert = ({ navigation, route }) => {
             value={groupName}
             icon="search"
             style={styles.groupNameInput}
-            onChangeText={onChangeGroupName}
+            onChange={onChangeGroupName}
           />
           <View style={styles.addMembersView}>
             <View style={styles.addMembersHeader}>

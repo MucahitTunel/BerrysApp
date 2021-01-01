@@ -181,12 +181,14 @@ const groupSlice = createSlice({
     },
     removeNewGroupMembers: (state, action) => {
       const member = action.payload
-      state.new.members = state.new.members.filter((m) => m._id !== member._id)
+      state.new.members = state.new.members.filter(
+        (m) => m.phoneNumber !== member.phoneNumber,
+      )
     },
     removeCurrentGroupMembers: (state, action) => {
       const member = action.payload
       state.current.members = state.current.members.filter(
-        (m) => m._id !== member._id,
+        (m) => m.phoneNumber !== member.phoneNumber,
       )
     },
   },
