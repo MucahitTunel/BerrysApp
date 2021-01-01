@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
-import { AppImage } from 'components'
 import Images from 'assets/images'
+import AppImage from '../AppImage'
 
 const Avatar = ({ source, size }) => (
   <View

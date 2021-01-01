@@ -1,28 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import { SceneMap, TabView, TabBar } from 'react-native-tab-view'
 import {
   SafeAreaView,
+  ScrollView,
   SectionList,
   StatusBar,
   StyleSheet,
   View,
-  ScrollView,
+  FlatList,
+  Alert,
 } from 'react-native'
-import { Colors, Dimensions, Styles } from 'constants'
-import {
-  AppButton,
-  AppIcon,
-  AppImage,
-  AppInput,
-  AppText,
-  Avatar,
-  ScaleTouchable,
-} from 'components'
+import { Colors, Dimensions, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
+import { getGroups } from 'features/groups/groupSlice'
 import { setAskAnonymously } from 'features/questions/askSlice'
+import AppButton from '../AppButton'
+import AppIcon from '../AppIcon'
+import AppImage from '../AppImage'
+import AppInput from '../AppInput'
+import AppText from '../AppText'
+import Avatar from '../Avatar'
+import ScaleTouchable from '../ScaleTouchable'
 
 const styles = StyleSheet.create({
   container: {
@@ -56,6 +58,8 @@ const styles = StyleSheet.create({
   },
 })
 
+const TabRoute = () => <View />
+
 const ContactsList = ({
   checkCondition,
   singleSelect,
@@ -64,27 +68,42 @@ const ContactsList = ({
   route,
   subTitle,
   isPostQuestion,
+  showGroups,
   isLoading,
+  defaultItem,
+  selectedItems = [],
 }) => {
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getGroups())
+  }, [dispatch])
   const ask = useSelector((state) => state.ask)
   const user = useSelector((state) => state.auth.user)
   const { isAnonymous } = ask
-  const request = route && route.params && route.params.request
+  const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
+  const allGroups = useSelector((state) => state.group.groups)
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,
   )
   const [searchText, setSearchText] = useState('')
+  const withDefaultItem = defaultItem
+    ? [
+        defaultItem,
+        ...allContacts.filter((c) => c.phoneNumber !== defaultItem.phoneNumber),
+      ]
+    : allContacts
   const [contacts, setContacts] = useState(
-    allContacts
+    withDefaultItem
       .map((c) => {
-        if (
+        const isRequester =
           route &&
           route.params &&
           route.params.requester &&
           route.params.requester.phoneNumber === c.phoneNumber
-        ) {
+        const isSelected = selectedItems.indexOf(c.phoneNumber) >= 0
+        const isDefaultItem = c.isDefaultItem
+        if (isRequester || isSelected || isDefaultItem) {
           return {
             ...c,
             isSelected: true,
@@ -96,14 +115,34 @@ const ContactsList = ({
         return !!c[checkCondition]
       }),
   )
+  const [groups, setGroups] = useState([])
+  const [tabIndex, setTabIndex] = React.useState(0)
+  const [routes] = React.useState([
+    { key: 'first', title: 'Contacts' },
+    { key: 'second', title: 'Groups' },
+  ])
+
+  const changeTabsView = (index) => {
+    setTabIndex(index)
+  }
+
   const onChangeSearchText = (value) => setSearchText(value)
+  const onSelectGroup = (group) => {
+    let newGroups = []
+    if (groups.indexOf(group._id) >= 0) {
+      newGroups = groups.filter((gid) => gid !== group._id)
+    } else {
+      newGroups = [...groups, group._id]
+    }
+    setGroups(newGroups)
+  }
   const onSelectContact = (item) => {
+    if (item.isDefaultItem) {
+      return Alert.alert('Warning', 'Group creator cannot be removed')
+    }
     const existed = contacts.find(
       (c) =>
-        (c.phoneNumber &&
-          item.phoneNumber &&
-          c.phoneNumber === item.phoneNumber) ||
-        (c.email && item.email && c.email === item.email),
+        c.phoneNumber && item.phoneNumber && c.phoneNumber === item.phoneNumber,
     )
     const newValue = !item[checkCondition]
     let res
@@ -111,10 +150,9 @@ const ContactsList = ({
       if (existed) {
         res = contacts.map((c) => {
           if (
-            (c.phoneNumber &&
-              item.phoneNumber &&
-              c.phoneNumber === item.phoneNumber) ||
-            (c.email && item.email && c.email === item.email)
+            c.phoneNumber &&
+            item.phoneNumber &&
+            c.phoneNumber === item.phoneNumber
           ) {
             return {
               ...c,
@@ -145,6 +183,31 @@ const ContactsList = ({
     setContacts(res)
   }
   const showRightText = false
+
+  const renderGroup = ({ item }) => {
+    const text = item.name
+    const isChecked = groups.indexOf(item._id) >= 0
+    return (
+      <ScaleTouchable
+        key={item._id}
+        style={styles.contactItem}
+        onPress={() => onSelectGroup(item)}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar source={Images.defaultAvatar} size={38} />
+          <AppText style={{ marginLeft: 10 }} weight="medium">
+            {text}
+          </AppText>
+        </View>
+        <View>
+          <AppImage
+            source={isChecked ? Images.checkmarkSelected : Images.checkmark}
+            width={20}
+            height={20}
+          />
+        </View>
+      </ScaleTouchable>
+    )
+  }
 
   const renderContact = (item) => {
     const isChecked = item[checkCondition]
@@ -183,7 +246,7 @@ const ContactsList = ({
     if (!key) return null
     return (
       <View style={styles.sectionHeader}>
-        <AppText fontSize={Styles.FontSize.medium} weight="medium">
+        <AppText fontSize={FontSize.medium} weight="medium">
           {key}
         </AppText>
       </View>
@@ -213,13 +276,13 @@ const ContactsList = ({
   } else {
     searchRes = allContacts
   }
+
   const contactsToRender = searchRes.map((contact) => {
     const existed = contacts.find(
       (c) =>
-        (c.phoneNumber &&
-          contact.phoneNumber &&
-          c.phoneNumber === contact.phoneNumber) ||
-        (c.email && contact.email && c.email === contact.email),
+        c.phoneNumber &&
+        contact.phoneNumber &&
+        c.phoneNumber === contact.phoneNumber,
     )
     return existed || contact
   })
@@ -252,6 +315,8 @@ const ContactsList = ({
 
   const arr = [...groupActiveContacts, ...groupedContactsArr]
 
+  const isShowingGroups = tabIndex === 1
+
   const toggleAnonymously = () => {
     dispatch(setAskAnonymously(!isAnonymous))
   }
@@ -262,6 +327,7 @@ const ContactsList = ({
     } else {
       onPressSubmit(
         contacts.filter((c) => c[checkCondition]),
+        groups,
         request,
       )
     }
@@ -299,7 +365,7 @@ const ContactsList = ({
                   <AppText
                     style={{ marginLeft: 10 }}
                     color={Colors.text}
-                    fontSize={Styles.FontSize.large}>
+                    fontSize={FontSize.large}>
                     Ask Anonymously
                   </AppText>
                 </View>
@@ -310,7 +376,7 @@ const ContactsList = ({
         <View style={styles.filterWrapper}>
           {!singleSelect && (
             <>
-              <AppText fontSize={Styles.FontSize.xLarge} weight="medium">
+              <AppText fontSize={FontSize.xLarge} weight="medium">
                 {subTitle}
               </AppText>
               {!!contacts.filter((c) => c[checkCondition]) && (
@@ -340,7 +406,7 @@ const ContactsList = ({
                           }}>
                           <AppText
                             color={Colors.gray}
-                            fontSize={Styles.FontSize.normal}
+                            fontSize={FontSize.normal}
                             weight="medium"
                             style={{ marginRight: 10 }}>
                             {contact.name}
@@ -349,6 +415,34 @@ const ContactsList = ({
                         </ScaleTouchable>
                       )
                     })}
+                  {groups.map((groupId) => {
+                    const group = allGroups.find((g) => g._id === groupId)
+                    return (
+                      <ScaleTouchable
+                        key={groupId}
+                        onPress={() => onSelectGroup(group)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          borderWidth: 1,
+                          borderColor: 'rgba(151, 151, 151, 0.53)',
+                          paddingVertical: 4,
+                          paddingHorizontal: 8,
+                          borderRadius: 5,
+                          marginRight: 10,
+                          marginBottom: 10,
+                        }}>
+                        <AppText
+                          color={Colors.gray}
+                          fontSize={FontSize.normal}
+                          weight="medium"
+                          style={{ marginRight: 10 }}>
+                          {group.name}
+                        </AppText>
+                        <AppIcon name="close" size={10} color={Colors.gray} />
+                      </ScaleTouchable>
+                    )
+                  })}
                 </View>
               )}
             </>
@@ -370,17 +464,60 @@ const ContactsList = ({
                 fontFamily: Fonts.euclidCircularAMedium,
                 color: Colors.text,
               }}
-              onChangeText={onChangeSearchText}
+              onChange={onChangeSearchText}
             />
           </View>
         </View>
-        <SectionList
-          style={styles.flatListView}
-          sections={arr}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({ item }) => renderContact(item)}
-          renderSectionHeader={({ section: { title } }) => renderHeader(title)}
-        />
+        {showGroups && (
+          <TabView
+            navigationState={{ index: tabIndex, routes }}
+            renderTabBar={(props) => (
+              <TabBar
+                style={{ backgroundColor: Colors.white }}
+                renderLabel={({ route, focused }) => (
+                  <AppText
+                    color={focused ? Colors.text : '#808080'}
+                    weight="medium"
+                    fontSize={17}>
+                    {route.title}
+                  </AppText>
+                )}
+                indicatorStyle={{ backgroundColor: Colors.primary }}
+                {...props}
+              />
+            )}
+            renderScene={SceneMap({
+              first: TabRoute,
+              second: TabRoute,
+            })}
+            onIndexChange={changeTabsView}
+            initialLayout={{
+              height: 0,
+            }}
+            style={{
+              borderBottomWidth: 1,
+              borderColor: Colors.background,
+            }}
+          />
+        )}
+        {isShowingGroups ? (
+          <FlatList
+            style={styles.flatListView}
+            data={allGroups}
+            renderItem={renderGroup}
+            keyExtractor={(item) => item._id}
+          />
+        ) : (
+          <SectionList
+            style={styles.flatListView}
+            sections={arr}
+            keyExtractor={(item, i) => item + i}
+            renderItem={({ item }) => renderContact(item)}
+            renderSectionHeader={({ section: { title } }) =>
+              renderHeader(title)
+            }
+          />
+        )}
       </ScrollView>
       <View
         style={{
@@ -413,7 +550,10 @@ ContactsList.propTypes = {
   submitText: PropTypes.string,
   singleSelect: PropTypes.bool,
   isPostQuestion: PropTypes.bool,
+  showGroups: PropTypes.bool,
   isLoading: PropTypes.bool,
+  defaultItem: PropTypes.object,
+  selectedItems: PropTypes.array,
 }
 
 ContactsList.defaultProps = {
@@ -421,7 +561,10 @@ ContactsList.defaultProps = {
   submitText: 'Confirm Post',
   singleSelect: false,
   isPostQuestion: false,
+  showGroups: false,
   isLoading: false,
+  defaultItem: null,
+  selectedItems: [],
 }
 
 export default ContactsList

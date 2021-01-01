@@ -6,21 +6,22 @@ import {
   FlatList,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
-import { hideKeyBoard, showKeyboard } from 'utils'
-import { Colors, Styles } from 'constants'
+import { checkURL, hideKeyBoard, showKeyboard } from 'utils'
+import { Colors, FontSize } from 'constants'
 import Images from 'assets/images'
 import {
+  AppBadge,
   AppButton,
   AppIcon,
   AppImage,
@@ -41,7 +42,6 @@ import {
   voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.grayLight,
     color: Colors.text,
-    fontSize: Styles.FontSize.large,
+    fontSize: FontSize.large,
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginRight: 10,
@@ -171,20 +171,20 @@ const Comment = ({
           </TouchableOpacity>
           <AppText
             weight="italic"
-            fontSize={Styles.FontSize.normal}
+            fontSize={FontSize.normal}
             style={{ lineHeight: 26 }}
             color={Colors.gray}>{`"${content}"`}</AppText>
         </View>
       </View>
       <View style={styles.headerAnswerView}>
         <AppText
-          fontSize={Styles.FontSize.normal}
+          fontSize={FontSize.normal}
           color={Colors.gray}
           style={{ marginRight: 14 }}>
           {moment(createdAt).fromNow()}
         </AppText>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <AppText fontSize={Styles.FontSize.normal}>{`${totalVotes}`}</AppText>
+          <AppText fontSize={FontSize.normal}>{`${totalVotes}`}</AppText>
           <TouchableOpacity
             style={{ padding: 5 }}
             onPress={() => upVoteComment(_id)}>
@@ -313,6 +313,11 @@ const Answers = ({ navigation }) => {
               <View style={{ flex: 1 }}>
                 {url ? (
                   <>
+                    {question.group && question.group.name && (
+                      <View style={{ marginBottom: 6 }}>
+                        <AppBadge text={question.group.name} />
+                      </View>
+                    )}
                     <RNUrlPreview
                       containerStyle={{
                         backgroundColor: Colors.white,
@@ -339,9 +344,14 @@ const Answers = ({ navigation }) => {
                   </>
                 ) : (
                   <AppText
-                    fontSize={Styles.FontSize.xxLarge}
+                    fontSize={FontSize.xxLarge}
                     style={{ marginRight: 10 }}>
-                    {question.content}
+                    {`${question.content} `}
+                    {question.group && question.group.name && (
+                      <View>
+                        <AppBadge text={question.group.name} />
+                      </View>
+                    )}
                   </AppText>
                 )}
               </View>
@@ -350,11 +360,11 @@ const Answers = ({ navigation }) => {
               )}
             </View>
             <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
-              <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+              <AppText color={Colors.gray} fontSize={FontSize.normal}>
                 {moment(question.createdAt).fromNow()}
               </AppText>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <AppText fontSize={Styles.FontSize.normal}>
+                <AppText fontSize={FontSize.normal}>
                   {question.totalVotes}
                 </AppText>
                 <TouchableOpacity
@@ -444,7 +454,7 @@ const Answers = ({ navigation }) => {
                 />
                 <AppText
                   color={Colors.text}
-                  fontSize={Styles.FontSize.large}
+                  fontSize={FontSize.large}
                   style={{ marginLeft: 10 }}>
                   Answer Anonymously
                 </AppText>

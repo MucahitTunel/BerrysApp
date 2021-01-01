@@ -7604,6 +7604,11 @@ react-native-swiper@^1.6.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-tab-view@^2.15.2:
+  version "2.15.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.15.2.tgz#4bc7832d33a119306614efee667509672a7ee64e"
+  integrity sha512-2hxLkBnZtEKFDyfvNO5EUywhy3f/EiLOBO8SWqKj4BMBTO0QwnybaPE5MVF00Fhz+VA4+h/iI40Dkrrtq70dGg==
+
 react-native-url-preview@^1.1.8:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/react-native-url-preview/-/react-native-url-preview-1.1.9.tgz#1cbe7784d20ca0edfb451a01b7afa84bd7e70f96"

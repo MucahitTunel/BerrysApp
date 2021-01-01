@@ -1,14 +1,15 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { ScaleTouchable, AppText } from 'components'
-import { Styles } from 'constants'
+import { FontSize } from 'constants'
 import Fonts from 'assets/fonts'
+import AppText from '../AppText'
+import ScaleTouchable from '../ScaleTouchable'
 
 const styles = StyleSheet.create({
   text: {
     fontFamily: Fonts.euclidCircularAMedium,
-    fontSize: Styles.FontSize.xLarge,
+    fontSize: FontSize.xLarge,
   },
 })
 

@@ -6,9 +6,9 @@ const getNumberFromCreatedAt = (phoneNumber, createdAt) => {
 }
 
 export const getConversationName = (room) => {
-  const notAnonymous =
+  const NOT_ANONYMOUS =
     "You're not anonymous. Your friend wants to talk specifically with you"
-  const anonymous = "You're anonymous and your identity won't be revealed"
+  const ANONYMOUS = "You're anonymous and your identity won't be revealed"
   const { data: customData, createdBy, members, createdAt } = room
   const state = store.getState()
   const {
@@ -27,7 +27,7 @@ export const getConversationName = (room) => {
     // conversation starts from Question page
     return {
       title: `Anonymous ${number}`,
-      description: anonymous,
+      description: ANONYMOUS,
     }
   }
   if (isFromContactsList) {
@@ -39,7 +39,7 @@ export const getConversationName = (room) => {
         if (contact && contact.name) {
           return {
             title: contact.name,
-            description: anonymous,
+            description: ANONYMOUS,
           }
         }
       }
@@ -47,7 +47,7 @@ export const getConversationName = (room) => {
       // not a room creator
       return {
         title: `Anonymous ${number}`,
-        description: notAnonymous,
+        description: NOT_ANONYMOUS,
       }
     }
   }
@@ -58,27 +58,27 @@ export const getConversationName = (room) => {
       if (linkOwnerName) {
         return {
           title: linkOwnerName,
-          description: anonymous,
+          description: ANONYMOUS,
         }
       } else if (data && data.length) {
         const contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
         if (contact && contact.name) {
           return {
             title: contact.name,
-            description: anonymous,
+            description: ANONYMOUS,
           }
         }
       } else {
         return {
           title: 'UNKNOWN',
-          description: anonymous,
+          description: ANONYMOUS,
         }
       }
     } else {
       // this is the ask me anything link owner
       return {
         title: `Anonymous ${number}`,
-        description: notAnonymous,
+        description: NOT_ANONYMOUS,
       }
     }
   }

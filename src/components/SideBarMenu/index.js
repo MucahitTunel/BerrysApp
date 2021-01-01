@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View } from 'react-native'
-import { AppText, Avatar, AppLink } from 'components'
-import { Colors, Screens, Styles } from 'constants'
+import { Colors, Screens, FontSize } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import { useDispatch } from 'react-redux'
 import { logout } from 'features/auth/authSlice'
+import AppText from '../AppText'
+import Avatar from '../Avatar'
+import AppLink from '../AppLink'
 
 const menu = [
   {
@@ -24,6 +26,10 @@ const menu = [
   {
     name: 'Report',
     screen: Screens.ReportStack,
+  },
+  {
+    name: 'Groups',
+    screen: Screens.GroupStack,
   },
 ]
 
@@ -78,7 +84,7 @@ const SideBarMenu = ({ navigation }) => {
               text={item.name}
               textStyle={{
                 fontFamily: Fonts.euclidCircularARegular,
-                fontSize: Styles.FontSize.large,
+                fontSize: FontSize.large,
               }}
               style={styles.menuItem}
               onPress={() => navigateToScreen(item.screen)}

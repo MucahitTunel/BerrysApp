@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import { Dimensions, Colors, Screens, Styles } from 'constants'
+import { Dimensions, Colors, Screens, FontSize } from 'constants'
 import { Avatar, AppText, AppIcon, Loading } from 'components'
 import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
@@ -104,7 +104,7 @@ export const Messages = () => {
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 color={Colors.gray}
-                fontSize={Styles.FontSize.normal}
+                fontSize={FontSize.normal}
                 style={{ marginTop: 4 }}>{`${
                 isMyMessage ? 'You:' : ''
               } ${content}`}</AppText>

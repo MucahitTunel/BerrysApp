@@ -12,6 +12,7 @@ export default {
   MessageContacts: 'MessageContactsScreen',
   Messages: 'MessagesScreen',
   Report: 'ReportScreen',
+  GroupList: 'GroupListScreen',
   FollowContacts: 'FollowContactsScreen',
   MainStack: 'MainStack',
   FollowContactsStack: 'FollowContactsStack',
@@ -22,4 +23,9 @@ export default {
   ImportGmailContactsStack: 'ImportGmailContactsStack',
   DirectMessage: 'DirectMessageScreen',
   ContactsToAskMe: 'ContactsToAskMeScreen',
+  // Group
+  GroupStack: 'GroupStack',
+  GroupCreate: 'GroupCreateScreen',
+  GroupUpsert: 'GroupUpsertScreen',
+  GroupAddMembers: 'GroupAddMembersScreen',
 }

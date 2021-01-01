@@ -10,6 +10,7 @@ import Header from './Header'
 import SideBarMenu from './SideBarMenu'
 import ContactsList from './ContactsList'
 import ScaleTouchable from './ScaleTouchable'
+import AppBadge from './AppBadge'
 
 export {
   AppButton,
@@ -24,4 +25,5 @@ export {
   SideBarMenu,
   ContactsList,
   ScaleTouchable,
+  AppBadge,
 }

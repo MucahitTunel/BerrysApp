@@ -49,7 +49,7 @@ export const getUser = createAsyncThunk('auth/getUser', async (phoneNumber) => {
     method: 'GET',
     url: 'account/get-user',
     params: {
-      phoneNumber: phoneNumber,
+      phoneNumber,
     },
   })
   const { user } = data

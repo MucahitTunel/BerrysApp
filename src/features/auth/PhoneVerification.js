@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import LinearGradient from 'react-native-linear-gradient'
 import { useDispatch } from 'react-redux'
 import { AppInput, AppButton, AppText, AppLink } from 'components'
-import { Colors, Dimensions, Styles } from 'constants'
+import { Colors, Dimensions, FontSize } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
 
 const linearGradientColors = [Colors.primary, Colors.primaryLight]
@@ -90,7 +90,7 @@ const PhoneVerification = () => {
           <AppLink
             text="Resend verification code"
             color={Colors.white}
-            textStyle={{ fontSize: Styles.FontSize.large }}
+            textStyle={{ fontSize: FontSize.large }}
             onPress={onPressResendCode}
           />
         </View>

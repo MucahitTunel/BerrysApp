@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native'
 import moment from 'moment'
-import { Colors, Dimensions, Styles } from 'constants'
+import { Colors, Dimensions, FontSize } from 'constants'
 import { AppButton, AppText, Header, Loading } from 'components'
 import { BackButton } from 'components/NavButton'
 import AskMyQuestionModal from './AskMyQuestionModal'
@@ -100,7 +100,7 @@ const RequestToAsk = ({ navigation, route }) => {
                     weight="medium"
                     color={Colors.gray}>{` invited you ask`}</AppText>
                 </AppText>
-                <AppText color={Colors.gray} fontSize={Styles.FontSize.normal}>
+                <AppText color={Colors.gray} fontSize={FontSize.normal}>
                   {moment(request.createdAt).fromNow()}
                 </AppText>
               </View>
@@ -115,7 +115,7 @@ const RequestToAsk = ({ navigation, route }) => {
               <View style={styles.requestItemFooter}>
                 <AppButton
                   text="Ask My Question"
-                  textStyle={{ fontSize: Styles.FontSize.normal }}
+                  textStyle={{ fontSize: FontSize.normal }}
                   style={{ height: 40, width: 136, borderRadius: 5 }}
                   onPress={() => askMyQuestion(request)}
                 />

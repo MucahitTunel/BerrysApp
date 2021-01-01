@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, ActivityIndicator } from 'react-native'
-import { Colors, Styles } from 'constants'
+import { Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
-import { ScaleTouchable } from 'components'
 import AppIcon from '../AppIcon'
 import AppText from '../AppText'
+import ScaleTouchable from '../ScaleTouchable'
 import Theme from 'theme'
 
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: Fonts.euclidCircularAMedium,
-    fontSize: Styles.FontSize.xLarge,
+    fontSize: FontSize.xLarge,
     color: Colors.white,
   },
   btnSecondary: {

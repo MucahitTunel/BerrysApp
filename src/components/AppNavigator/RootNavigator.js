@@ -30,6 +30,10 @@ import Survey from 'features/auth/Survey'
 import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
 import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
+import GroupList from 'features/groups/GroupList'
+import GroupCreate from 'features/groups/GroupCreate'
+import GroupUpsert from 'features/groups/GroupUpsert'
+import GroupAddMembers from 'features/groups/GroupAddMembers'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -198,6 +202,37 @@ const ReportStack = () => (
   </Stack.Navigator>
 )
 
+const GroupStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Screens.GroupList}
+      component={GroupList}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="My Groups"
+            headerLeft={<MenuButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.GroupCreate}
+      component={GroupCreate}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Create a Group"
+            headerLeft={<BackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen name={Screens.GroupUpsert} component={GroupUpsert} />
+    <Stack.Screen name={Screens.GroupAddMembers} component={GroupAddMembers} />
+  </Stack.Navigator>
+)
+
 const AuthStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name={Screens.Onboarding} component={Onboarding} />
@@ -235,6 +270,7 @@ const RootNavigator = () => {
           component={FollowContactsStack}
         />
         <Drawer.Screen name={Screens.ReportStack} component={ReportStack} />
+        <Drawer.Screen name={Screens.GroupStack} component={GroupStack} />
       </Drawer.Navigator>
     )
   }

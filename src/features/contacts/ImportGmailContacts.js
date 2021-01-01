@@ -6,7 +6,7 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import { fetchContactsFromGoogle } from 'features/contacts/contactsSlice'
 import ScaleTouchable from '../../components/ScaleTouchable'
 import { AppImage, AppText } from 'components'
@@ -79,7 +79,7 @@ const ImportGmailContacts = () => {
         <AppText
           style={{ marginLeft: 12 }}
           weight="medium"
-          fontSize={Styles.FontSize.large}
+          fontSize={FontSize.large}
           color={Colors.primary}>
           Sign in with Google
         </AppText>

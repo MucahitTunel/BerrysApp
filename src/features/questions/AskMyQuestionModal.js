@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import { Dimensions, Colors, Styles, Screens } from 'constants'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { AppButton, AppText, AppInput } from 'components'
 import Theme from 'theme'
 import { setAskQuestion } from 'features/questions/askSlice'
@@ -80,7 +80,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={styles.content}>
             <AppText
-              fontSize={Styles.FontSize.xLarge}
+              fontSize={FontSize.xLarge}
               style={{ marginBottom: 30, textAlign: 'center' }}>
               {`Ask ${request.requester} your question`}
             </AppText>

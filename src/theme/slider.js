@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Styles } from 'constants'
+import { Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 
 export default StyleSheet.create({
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     padding: 20,
   },
   itemTitle: {
-    fontSize: Styles.FontSize.xxLarge,
+    fontSize: FontSize.xxLarge,
     fontFamily: Fonts.euclidCircularASemiBold,
     marginBottom: 10,
   },

@@ -11,19 +11,19 @@ import {
   Keyboard,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppInput, Header, Avatar } from 'components'
+import { AppText, AppInput, Header, AppButton, AppBadge } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
-import { Dimensions, Colors, Styles } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import { pusher } from 'features/auth/authSlice'
 import {
   getMessages,
   sendMessage,
   sendPushNotification as sendPushNotificationAction,
 } from 'features/messages/messagesSlice'
+import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
-import { AppButton } from '../../components'
 
 const styles = StyleSheet.create({
   container: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.grayLight,
     color: Colors.text,
-    fontSize: Styles.FontSize.large,
+    fontSize: FontSize.large,
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginRight: 10,
@@ -102,6 +102,7 @@ const Conversation = ({ navigation }) => {
   let listRef = useRef(null)
   const dispatch = useDispatch()
   const [message, setMessage] = useState(null)
+  const [commonGroup, setCommonGroup] = useState(null)
   const user = useSelector((state) => state.auth.user)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
@@ -109,6 +110,17 @@ const Conversation = ({ navigation }) => {
     room && room._id ? getConversationName(room).description : 'description'
 
   useEffect(() => {
+    const getCommonGroup = async () => {
+      const { data } = await request({
+        method: 'GET',
+        url: 'chat/common-group',
+        params: {
+          roomId: room._id,
+        },
+      })
+      const { group } = data
+      setCommonGroup(group)
+    }
     if (room && room._id) {
       const title = getConversationName(room).title
       navigation.setOptions({
@@ -127,6 +139,7 @@ const Conversation = ({ navigation }) => {
         }
       }
       dispatch(getMessages(callback))
+      getCommonGroup()
       return () => {
         pusher.unsubscribe(room._id)
       }
@@ -176,7 +189,7 @@ const Conversation = ({ navigation }) => {
           </AppText>
           <View style={styles.messageItemTime}>
             <AppText
-              fontSize={Styles.FontSize.normal}
+              fontSize={FontSize.normal}
               color={isMyMessage ? Colors.white : Colors.gray}>
               {moment(msg.createdAt).format('HH:mm')}
             </AppText>
@@ -194,6 +207,18 @@ const Conversation = ({ navigation }) => {
           onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
+        {commonGroup && commonGroup.name && (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              flexDirection: 'row',
+              paddingTop: 4,
+            }}>
+            <AppBadge text={commonGroup.name} />
+          </View>
+        )}
         <View style={styles.descriptionBox}>
           <AppText style={styles.description}>{description}</AppText>
         </View>
