@@ -67,6 +67,7 @@ const AskUserNameModal = ({
       NavigationService.navigate(Screens.AskMe)
     }
   }
+  const isBtnDisabled = !name.trim()
   return (
     <Modal
       isVisible={isModalVisible}
@@ -86,7 +87,11 @@ const AskUserNameModal = ({
               value={name}
             />
             <View style={styles.actions}>
-              <AppButton text="Submit" onPress={onSubmit} />
+              <AppButton
+                text="Submit"
+                onPress={onSubmit}
+                disabled={isBtnDisabled}
+              />
               <AppButton
                 text="Close"
                 textStyle={{ color: Colors.primary }}

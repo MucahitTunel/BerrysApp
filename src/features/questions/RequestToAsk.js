@@ -10,10 +10,9 @@ import {
 } from 'react-native'
 import moment from 'moment'
 import { Colors, Dimensions, FontSize } from 'constants'
-import { AppButton, AppText, Header, Loading } from 'components'
+import { AppButton, AppText, Header, Loading, Avatar } from 'components'
 import { BackButton } from 'components/NavButton'
 import AskMyQuestionModal from './AskMyQuestionModal'
-import { Avatar } from '../../components'
 
 const styles = StyleSheet.create({
   container: {
@@ -95,7 +94,7 @@ const RequestToAsk = ({ navigation, route }) => {
             <View key={request._id} style={styles.requestItem}>
               <View style={styles.requestItemHeader}>
                 <AppText weight="medium" style={{ marginRight: 10 }}>
-                  {request.requester}
+                  {request.requester ? request.requester : 'Someone'}
                   <AppText
                     weight="medium"
                     color={Colors.gray}>{` invited you ask`}</AppText>
