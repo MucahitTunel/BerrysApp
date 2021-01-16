@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native'
+import { useKeyboard } from '@react-native-community/hooks'
 import { Formik } from 'formik'
 import moment from 'moment'
 import RNUrlPreview from 'react-native-url-preview'
@@ -359,6 +360,7 @@ const Main = () => {
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
   const { data, loading, requestsToAsk } = questions
+  const keyboard = useKeyboard()
   const [questionUrl, setQuestionUrl] = useState(null)
   const [_, setQuestionFromModal] = useState(null)
   const [popularQuestions, setPopularQuestions] = useState(
@@ -551,14 +553,16 @@ const Main = () => {
           />
         </View>
       )}
-      <AppButton
-        text="Ask Me"
-        textStyle={{ marginLeft: 16 }}
-        icon="message-dot"
-        iconSize={20}
-        onPress={onPressAskMeAnything}
-        style={styles.askBtn}
-      />
+      {!keyboard.keyboardShown && (
+        <AppButton
+          text="Ask Me"
+          textStyle={{ marginLeft: 16 }}
+          icon="message-dot"
+          iconSize={20}
+          onPress={onPressAskMeAnything}
+          style={styles.askBtn}
+        />
+      )}
 
       {/* AskUserNameModal */}
       <AskUserNameModal

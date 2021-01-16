@@ -12,6 +12,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native'
+import { useKeyboard } from '@react-native-community/hooks'
 import { Colors, Dimensions, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
@@ -83,6 +84,7 @@ const ContactsList = ({
   const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
   const allGroups = useSelector((state) => state.group.groups)
+  const keyboard = useKeyboard()
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,
   )
@@ -524,12 +526,14 @@ const ContactsList = ({
           padding: 10,
           backgroundColor: Colors.white,
         }}>
-        <AppButton
-          isLoading={isLoading}
-          disabled={isLoading}
-          onPress={onPress}
-          text={submitText}
-        />
+        {!keyboard.keyboardShown && (
+          <AppButton
+            isLoading={isLoading}
+            disabled={isLoading}
+            onPress={onPress}
+            text={submitText}
+          />
+        )}
       </View>
 
       {/* AskUserNameModal */}
