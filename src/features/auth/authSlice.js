@@ -283,7 +283,11 @@ const authSlice = createSlice({
     [resendVerifyCode.fulfilled]: (state, action) => {
       state.user = action.payload
     },
+    [createAccount.pending]: (state) => {
+      state.loading = true
+    },
     [createAccount.fulfilled]: (state, action) => {
+      state.loading = false
       state.user = action.payload
     },
     [submitSurvey.fulfilled]: (state, action) => {

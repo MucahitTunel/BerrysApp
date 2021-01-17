@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, SafeAreaView, ActivityIndicator } from 'react-native'
+import { View } from 'react-native'
 import { Formik } from 'formik'
 import LinearGradient from 'react-native-linear-gradient'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppInput, AppButton, AppText, AppLink } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
@@ -44,12 +44,11 @@ const styles = {
 
 const PhoneVerification = () => {
   const dispatch = useDispatch()
-  const onSubmit = (values, { setSubmitting }) => {
-    setSubmitting(true)
+  const loading = useSelector((state) => state.auth.loading)
+  const onSubmit = (values) => {
     const { verifyCode } = values
     const payload = { verifyCode }
     dispatch(verifyPhoneNumber(payload))
-    setSubmitting(false)
   }
   const onPressResendCode = () => dispatch(resendVerifyCode())
   return (
@@ -63,7 +62,7 @@ const PhoneVerification = () => {
           Verification
         </AppText>
         <Formik initialValues={{ verifyCode: '' }} onSubmit={onSubmit}>
-          {({ values, handleChange, handleSubmit, isSubmitting }) => (
+          {({ values, handleChange, handleSubmit }) => (
             <React.Fragment>
               <View style={styles.form}>
                 <AppInput
@@ -79,8 +78,9 @@ const PhoneVerification = () => {
                 text="Submit"
                 style={{ backgroundColor: Colors.white }}
                 textStyle={{ color: Colors.primary }}
-                disabled={isSubmitting || !values.verifyCode}
-                onPress={() => !isSubmitting && handleSubmit()}
+                disabled={loading || !values.verifyCode}
+                isLoading={loading}
+                onPress={handleSubmit}
               />
             </React.Fragment>
           )}
