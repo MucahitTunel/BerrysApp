@@ -114,9 +114,11 @@ export const fetchContactsFromGoogle = createAsyncThunk(
 
 export const loadContacts = createAsyncThunk(
   'contacts/load',
-  async (_, { dispatch }) => {
+  async (_, { dispatch, getState }) => {
+    const state = getState()
+    const user = state.auth.user
     const phoneBookContacts = await getPhoneBookContacts()
-    const contactsFormatted = formatContacts(phoneBookContacts)
+    const contactsFormatted = formatContacts({ phoneBookContacts, user })
     dispatch(saveContacts(contactsFormatted))
     return contactsFormatted
   },

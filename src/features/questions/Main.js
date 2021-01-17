@@ -460,6 +460,8 @@ const Main = () => {
 
   const renderItem = ({ item }) => <QuestionItem question={item} />
 
+  const shouldShowLoading = loading && !data.length
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -541,7 +543,7 @@ const Main = () => {
         </View>
       ) : (
         <View style={styles.flatListView}>
-          {loading && !data.length && <Loading />}
+          {shouldShowLoading && <Loading />}
           <FlatList
             data={data}
             renderItem={renderItem}

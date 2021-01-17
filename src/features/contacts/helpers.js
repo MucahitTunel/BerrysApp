@@ -3,10 +3,9 @@ import Contacts from 'react-native-contacts'
 import forEach from 'lodash/forEach'
 import uniqueId from 'lodash/uniqueId'
 import * as RNLocalize from 'react-native-localize'
-import store from 'state/store'
 import { parsePhoneNumber } from 'libphonenumber-js/max'
 
-export const formatPhoneNumber = (phone, countryCode) => {
+export const formatPhoneNumber = (phone, countryCode, user) => {
   const DEVICE_COUNTRY_FALLBACK = 'US'
   try {
     let code = countryCode
@@ -22,12 +21,8 @@ export const formatPhoneNumber = (phone, countryCode) => {
         }
       }
       if (isInvalidCountry) {
-        // Guess the country code from the user's phone number
-        const state = store.getState()
-        if (state && state.auth && state.auth.user) {
-          const {
-            auth: { user },
-          } = state
+        if (user) {
+          // Guess the country code from the user's phone number
           const { phoneNumber } = user
           const parsed = parsePhoneNumber(phoneNumber)
           if (parsed) {
@@ -94,12 +89,16 @@ export const getPhoneBookContacts = () =>
     }
   })
 
-export const formatContacts = (phoneBookContacts) => {
+export const formatContacts = ({ phoneBookContacts, user }) => {
   const contacts = []
   forEach(phoneBookContacts, (contact) => {
     forEach(contact.phoneNumbers, (phoneObject) => {
       if (phoneObject) {
-        const { number, isValid } = formatPhoneNumber(phoneObject.number)
+        const { number, isValid } = formatPhoneNumber(
+          phoneObject.number,
+          null,
+          user,
+        )
         if (number && isValid) {
           let name = `${contact.givenName} ${contact.familyName}`
           // Remove white spaces
