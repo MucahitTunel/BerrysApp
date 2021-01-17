@@ -24,7 +24,6 @@ import {
   AppInput,
   AppText,
   Avatar,
-  Loading,
   ScaleTouchable,
   AppImage,
 } from 'components'
@@ -457,10 +456,7 @@ const Main = () => {
   }
 
   const isNewUser = user.isNew && !question
-
   const renderItem = ({ item }) => <QuestionItem question={item} />
-
-  const shouldShowLoading = loading && !data.length
 
   return (
     <SafeAreaView style={styles.container}>
@@ -543,13 +539,12 @@ const Main = () => {
         </View>
       ) : (
         <View style={styles.flatListView}>
-          {shouldShowLoading && <Loading />}
           <FlatList
             data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item._id}
             ListEmptyComponent={renderEmpty()}
-            refreshing={loading}
+            refreshing={false}
             onRefresh={() => dispatch(getQuestions())}
             contentContainerStyle={{ paddingBottom: 60 }}
           />
