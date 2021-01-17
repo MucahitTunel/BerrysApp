@@ -24,13 +24,18 @@ export const formatPhoneNumber = (phone, countryCode) => {
       if (isInvalidCountry) {
         // Guess the country code from the user's phone number
         const state = store.getState()
-        const {
-          auth: { user },
-        } = state
-        if (user) {
+        if (state && state.auth && state.auth.user) {
+          const {
+            auth: { user },
+          } = state
           const { phoneNumber } = user
           const parsed = parsePhoneNumber(phoneNumber)
-          if (parsed) code = parsed.country
+          if (parsed) {
+            code = parsed.country
+          } else {
+            // Guess the country code from the device's locale
+            code = RNLocalize.getCountry()
+          }
         } else {
           // Guess the country code from the device's locale
           code = RNLocalize.getCountry()
