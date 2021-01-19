@@ -84,6 +84,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderColor: Colors.background,
   },
+  newAnswer: {
+    borderLeftWidth: 2,
+    borderLeftColor: Colors.primary,
+    backgroundColor: 'rgba(243, 36, 77, .14)',
+  },
   lastQuestionItem: {
     borderBottomWidth: 0,
   },
@@ -277,6 +282,8 @@ const QuestionItem = ({
       dispatch(hideQuestion(_id))
     }
   }
+  const newAnswer = comments > 0
+
   return (
     <Swipeout
       style={{ marginBottom: 4 }}
@@ -285,7 +292,7 @@ const QuestionItem = ({
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
       <ScaleTouchable
-        style={styles.questionItem}
+        style={[styles.questionItem, newAnswer && styles.newAnswer]}
         onPress={() => onPressQuestion(_id)}>
         {isFlagged && (
           <View style={{ position: 'absolute', right: 20, top: 10 }}>
@@ -358,7 +365,7 @@ const Main = () => {
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
-  const { data, loading, requestsToAsk } = questions
+  const { data, requestsToAsk } = questions
   const keyboard = useKeyboard()
   const [questionUrl, setQuestionUrl] = useState(null)
   const [_, setQuestionFromModal] = useState(null)
@@ -379,6 +386,8 @@ const Main = () => {
       console.log(`Data: ${openResult.notification.payload.additionalData}`)
       console.log(`isActive: ${openResult.notification.isAppInFocus}`)
       console.log(`openResult: ${openResult}`)
+      dispatch(getQuestion(openResult.questionId))
+      NavigationService.navigate(Screens.Answers)
     }
     const onIds = async (device) => {
       console.log(`Device info: ${JSON.stringify(device)}`)

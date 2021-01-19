@@ -62,6 +62,15 @@ const styles = StyleSheet.create({
   noBottomBorder: {
     borderBottomWidth: 0,
   },
+  dotNewMessage: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    position: 'absolute',
+    top: 10,
+    right: 0,
+  },
 })
 
 export const Messages = () => {
@@ -87,6 +96,7 @@ export const Messages = () => {
     const time = (lastMessage && lastMessage.createdAt) || Date.now()
     const timeText = moment(time).fromNow()
     const title = getConversationName(conversation).title
+    const newMessage = index === 0
     return (
       <TouchableOpacity
         style={styles.conversationItemOuter}
@@ -99,11 +109,11 @@ export const Messages = () => {
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <Avatar size={40} />
             <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText>{title}</AppText>
+              <AppText weight={newMessage ? 'bold' : 'medium'}>{title}</AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                color={Colors.gray}
+                color={newMessage ? Colors.text : Colors.gray}
                 fontSize={FontSize.normal}
                 style={{ marginTop: 4 }}>{`${
                 isMyMessage ? 'You:' : ''
@@ -118,6 +128,7 @@ export const Messages = () => {
               color={'rgba(128, 128, 128, 0.5)'}
             />
           </View>
+          {newMessage && <View style={styles.dotNewMessage} />}
         </View>
       </TouchableOpacity>
     )
