@@ -382,10 +382,10 @@ const Main = () => {
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)
     const onOpened = (openResult) => {
-      console.log(`Message: ${openResult.notification.payload.body}`)
-      console.log(`Data: ${openResult.notification.payload.additionalData}`)
-      console.log(`isActive: ${openResult.notification.isAppInFocus}`)
-      console.log(`openResult: ${JSON.stringify(openResult)}`)
+      // console.log(`Message: ${openResult.notification.payload.body}`)
+      // console.log(`Data: ${openResult.notification.payload.additionalData}`)
+      // console.log(`isActive: ${openResult.notification.isAppInFocus}`)
+      // console.log(`openResult: ${JSON.stringify(openResult)}`)
       const additionalData = openResult?.notification?.payload?.additionalData
       if (additionalData && additionalData.type) {
         switch (additionalData.type) {
@@ -397,7 +397,10 @@ const Main = () => {
           }
           case 'QUESTION_ANSWERED':
           case 'QUESTION_ASKED': {
-            console.log(2)
+            if (additionalData.questionId) {
+              dispatch(getQuestion(additionalData.questionId))
+              NavigationService.navigate(Screens.Answers)
+            }
             break
           }
           default:
