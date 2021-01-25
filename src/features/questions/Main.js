@@ -266,6 +266,7 @@ const QuestionItem = ({
     totalVotes = 0,
     createdAt,
     flaggedBy = [],
+    isNew,
   },
 }) => {
   const user = useSelector((state) => state.auth.user)
@@ -282,8 +283,6 @@ const QuestionItem = ({
       dispatch(hideQuestion(_id))
     }
   }
-  const newAnswer = comments > 0
-
   return (
     <Swipeout
       style={{ marginBottom: 4 }}
@@ -292,7 +291,7 @@ const QuestionItem = ({
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
       <ScaleTouchable
-        style={[styles.questionItem, newAnswer && styles.newAnswer]}
+        style={[styles.questionItem, isNew && styles.newAnswer]}
         onPress={() => onPressQuestion(_id)}>
         {isFlagged && (
           <View style={{ position: 'absolute', right: 20, top: 10 }}>
