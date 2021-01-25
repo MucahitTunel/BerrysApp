@@ -33,6 +33,7 @@ import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
 import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
+import { getRoom } from 'features/messages/messagesSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -384,9 +385,25 @@ const Main = () => {
       console.log(`Message: ${openResult.notification.payload.body}`)
       console.log(`Data: ${openResult.notification.payload.additionalData}`)
       console.log(`isActive: ${openResult.notification.isAppInFocus}`)
-      console.log(`openResult: ${openResult}`)
-      dispatch(getQuestion(openResult.questionId))
-      NavigationService.navigate(Screens.Answers)
+      console.log(`openResult: ${JSON.stringify(openResult)}`)
+      const additionalData = openResult?.notification?.payload?.additionalData
+      if (additionalData && additionalData.type) {
+        switch (additionalData.type) {
+          case 'MESSAGE_RECEIVED': {
+            if (additionalData.roomId) {
+              dispatch(getRoom({ roomId: additionalData.roomId }))
+            }
+            break
+          }
+          case 'QUESTION_ANSWERED':
+          case 'QUESTION_ASKED': {
+            console.log(2)
+            break
+          }
+          default:
+            break
+        }
+      }
     }
     const onIds = async (device) => {
       console.log(`Device info: ${JSON.stringify(device)}`)

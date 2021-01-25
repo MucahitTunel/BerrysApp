@@ -158,12 +158,15 @@ const Conversation = ({ navigation }) => {
     setMessage('')
     const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
     // const msg = `${user.phoneNumber}: ${message}`
-    sendPushNotification(otherUserNumber, message)
+    sendPushNotification(otherUserNumber, message, {
+      roomId: room._id,
+      type: 'MESSAGE_RECEIVED',
+    })
     keyboardHeight.current = new Animated.Value(0)
     Keyboard.dismiss()
   }
-  const sendPushNotification = (phoneNumber, message) => {
-    dispatch(sendPushNotificationAction({ phoneNumber, message }))
+  const sendPushNotification = (phoneNumber, message, payload) => {
+    dispatch(sendPushNotificationAction({ phoneNumber, message, payload }))
   }
 
   const renderMessage = (msg) => {

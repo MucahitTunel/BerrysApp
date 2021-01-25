@@ -84,6 +84,22 @@ export const joinRoom = createAsyncThunk(
   },
 )
 
+export const getRoom = createAsyncThunk(
+  'messages/getRoom',
+  async ({ roomId }) => {
+    const { data } = await request({
+      method: 'GET',
+      url: 'chat/room',
+      params: {
+        roomId,
+      },
+    })
+    const { room } = data
+    NavigationService.navigate(Screens.Conversation)
+    return room
+  },
+)
+
 export const getRooms = createAsyncThunk(
   'messages/getRooms',
   async (_, { getState, dispatch }) => {
@@ -152,13 +168,14 @@ export const getMessages = createAsyncThunk(
 
 export const sendPushNotification = createAsyncThunk(
   'messages/send-push-notification',
-  async ({ phoneNumber, message }) => {
+  async ({ phoneNumber, message, payload }) => {
     await request({
       method: 'POST',
       url: 'push-notification',
       data: {
         phoneNumber,
         message,
+        payload,
       },
     })
   },
@@ -200,6 +217,9 @@ const messagesSlice = createSlice({
   },
   extraReducers: {
     [joinRoom.fulfilled]: (state, action) => {
+      state.room = action.payload
+    },
+    [getRoom.fulfilled]: (state, action) => {
       state.room = action.payload
     },
     [getMessages.pending]: (state) => {
