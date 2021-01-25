@@ -125,6 +125,7 @@ export const getMessages = createAsyncThunk(
   'messages/getMessages',
   async (callback, { getState, dispatch }) => {
     const state = getState()
+    const user = state.auth.user
     const room = state.messages.room
     if (room && room._id) {
       const { data } = await request({
@@ -132,6 +133,7 @@ export const getMessages = createAsyncThunk(
         url: 'chat/messages',
         params: {
           roomId: room._id,
+          userPhoneNumber: user.phoneNumber,
         },
       })
       const { messages = [] } = data
