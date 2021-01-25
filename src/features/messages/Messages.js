@@ -89,14 +89,13 @@ export const Messages = () => {
   }
 
   const renderConversationItem = (conversation, index, rooms) => {
-    const { lastMessage } = conversation
+    const { lastMessage, isNew } = conversation
     const content = (lastMessage && lastMessage.content) || ''
     const isMyMessage =
       lastMessage && user.phoneNumber === lastMessage.userPhoneNumber
     const time = (lastMessage && lastMessage.createdAt) || Date.now()
     const timeText = moment(time).fromNow()
     const title = getConversationName(conversation).title
-    const newMessage = index === 0
     return (
       <TouchableOpacity
         style={styles.conversationItemOuter}
@@ -109,11 +108,11 @@ export const Messages = () => {
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <Avatar size={40} />
             <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText weight={newMessage ? 'bold' : 'medium'}>{title}</AppText>
+              <AppText weight={isNew ? 'bold' : 'medium'}>{title}</AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                color={newMessage ? Colors.text : Colors.gray}
+                color={isNew ? Colors.text : Colors.gray}
                 fontSize={FontSize.normal}
                 style={{ marginTop: 4 }}>{`${
                 isMyMessage ? 'You:' : ''
@@ -128,7 +127,7 @@ export const Messages = () => {
               color={'rgba(128, 128, 128, 0.5)'}
             />
           </View>
-          {newMessage && <View style={styles.dotNewMessage} />}
+          {isNew && <View style={styles.dotNewMessage} />}
         </View>
       </TouchableOpacity>
     )
