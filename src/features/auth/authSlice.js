@@ -8,6 +8,7 @@ import { Screens, Services } from 'constants'
 import * as NavigationService from 'services/navigation'
 import generateVerificationCode from 'utils/generate-verification-code'
 import { formatPhoneNumber } from '../contacts/helpers'
+import { getQuestions } from '../questions/questionsSlice'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -32,6 +33,12 @@ export const authBoot = createAsyncThunk(
       const channel = pusher.subscribe(userData._id)
       channel.bind('POINTS_UPDATED', (data) => {
         dispatch(updatePoints(data.points))
+      })
+      channel.bind('QUESTION_ASKED', (data) => {
+        dispatch(getQuestions())
+      })
+      channel.bind('QUESTION_ANSWERED', (data) => {
+        dispatch(getQuestions())
       })
       await postSignIn(userData)
       dispatch(getUser(userData.phoneNumber))
