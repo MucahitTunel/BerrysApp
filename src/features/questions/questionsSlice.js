@@ -42,7 +42,22 @@ const questionsSlice = createSlice({
     requestsToAsk: [],
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    readQuestion: (state, action) => {
+      const questionId = action.payload
+      const newQuestions = state.data.map((q) => {
+        if (q._id !== questionId) {
+          return q
+        } else {
+          return {
+            ...q,
+            isNew: false,
+          }
+        }
+      })
+      state.data = newQuestions
+    },
+  },
   extraReducers: {
     [getQuestions.pending]: (state) => {
       state.loading = true
@@ -60,5 +75,5 @@ const questionsSlice = createSlice({
 
 export const {
   reducer: questionsReducer,
-  actions: {},
+  actions: { readQuestion },
 } = questionsSlice

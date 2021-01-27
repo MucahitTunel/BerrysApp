@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -41,6 +41,7 @@ import {
   voteComment as voteCommentAction,
   voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
+import { readQuestion } from 'features/questions/questionsSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
 import RNUrlPreview from 'react-native-url-preview'
 
@@ -287,6 +288,12 @@ const Answers = ({ navigation }) => {
       ),
     })
   }, [navigation])
+
+  useEffect(() => {
+    if (question) {
+      dispatch(readQuestion(question._id))
+    }
+  }, [dispatch, question])
 
   const renderEmpty = () => (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
