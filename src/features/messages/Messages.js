@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const Messages = () => {
+export const Messages = ({ navigation }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const messagesState = useSelector((state) => state.messages)
@@ -81,7 +82,10 @@ export const Messages = () => {
 
   useEffect(() => {
     dispatch(getRooms())
-  }, [dispatch])
+    navigation.addListener('focus', () => {
+      dispatch(getRooms())
+    })
+  }, [dispatch, navigation])
 
   const onPressConversation = (conversation) => {
     dispatch(setRoom(conversation))
@@ -153,6 +157,10 @@ export const Messages = () => {
       </View>
     </View>
   )
+}
+
+Messages.propTypes = {
+  navigation: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
 export default Messages

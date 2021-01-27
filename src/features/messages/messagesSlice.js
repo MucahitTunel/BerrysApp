@@ -121,8 +121,20 @@ export const getRooms = createAsyncThunk(
         const roomsUpdated = rooms
           .map((r) => {
             if (r._id === room._id) {
+              // set isNew to false if we're already in the room
+              // we can check this by getting the data from React Navigation
+              const currentRoute = NavigationService.getCurrentRoute()
+              let isNew = true
+              if (currentRoute.name === Screens.Conversation) {
+                const currentState = getState()
+                const currentRoom = currentState.messages.room
+                if (currentRoom._id === room._id) {
+                  isNew = false
+                }
+              }
               return {
                 ...r,
+                isNew,
                 lastMessage: d.message,
               }
             } else {
