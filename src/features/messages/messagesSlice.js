@@ -214,6 +214,20 @@ const messagesSlice = createSlice({
     setRoom: (state, action) => {
       state.room = action.payload
     },
+    readConversation: (state, action) => {
+      const roomId = action.payload
+      const newRooms = state.rooms.map((r) => {
+        if (r._id !== roomId) {
+          return r
+        } else {
+          return {
+            ...r,
+            isNew: false,
+          }
+        }
+      })
+      state.rooms = newRooms
+    },
   },
   extraReducers: {
     [joinRoom.fulfilled]: (state, action) => {
@@ -241,5 +255,5 @@ const messagesSlice = createSlice({
 
 export const {
   reducer: messagesReducer,
-  actions: { setMessages, setRooms, setRoom },
+  actions: { setMessages, setRooms, setRoom, readConversation },
 } = messagesSlice

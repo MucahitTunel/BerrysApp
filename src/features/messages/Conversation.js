@@ -19,6 +19,7 @@ import {
   getMessages,
   sendMessage,
   sendPushNotification as sendPushNotificationAction,
+  readConversation,
 } from 'features/messages/messagesSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
@@ -140,6 +141,7 @@ const Conversation = ({ navigation }) => {
       }
       dispatch(getMessages(callback))
       getCommonGroup()
+      dispatch(readConversation(room._id))
       return () => {
         pusher.unsubscribe(room._id)
       }
