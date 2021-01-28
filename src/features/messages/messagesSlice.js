@@ -84,6 +84,22 @@ export const joinRoom = createAsyncThunk(
   },
 )
 
+export const getRoom = createAsyncThunk(
+  'messages/getRoom',
+  async ({ roomId }) => {
+    const { data } = await request({
+      method: 'GET',
+      url: 'chat/room',
+      params: {
+        roomId,
+      },
+    })
+    const { room } = data
+    NavigationService.navigate(Screens.Conversation)
+    return room
+  },
+)
+
 export const getRooms = createAsyncThunk(
   'messages/getRooms',
   async (_, { getState, dispatch }) => {
@@ -105,8 +121,20 @@ export const getRooms = createAsyncThunk(
         const roomsUpdated = rooms
           .map((r) => {
             if (r._id === room._id) {
+              // set isNew to false if we're already in the room
+              // we can check this by getting the data from React Navigation
+              const currentRoute = NavigationService.getCurrentRoute()
+              let isNew = true
+              if (currentRoute.name === Screens.Conversation) {
+                const currentState = getState()
+                const currentRoom = currentState.messages.room
+                if (currentRoom._id === room._id) {
+                  isNew = false
+                }
+              }
               return {
                 ...r,
+                isNew,
                 lastMessage: d.message,
               }
             } else {
@@ -125,6 +153,7 @@ export const getMessages = createAsyncThunk(
   'messages/getMessages',
   async (callback, { getState, dispatch }) => {
     const state = getState()
+    const user = state.auth.user
     const room = state.messages.room
     if (room && room._id) {
       const { data } = await request({
@@ -132,6 +161,7 @@ export const getMessages = createAsyncThunk(
         url: 'chat/messages',
         params: {
           roomId: room._id,
+          userPhoneNumber: user.phoneNumber,
         },
       })
       const { messages = [] } = data
@@ -150,13 +180,14 @@ export const getMessages = createAsyncThunk(
 
 export const sendPushNotification = createAsyncThunk(
   'messages/send-push-notification',
-  async ({ phoneNumber, message }) => {
+  async ({ phoneNumber, message, payload }) => {
     await request({
       method: 'POST',
       url: 'push-notification',
       data: {
         phoneNumber,
         message,
+        payload,
       },
     })
   },
@@ -195,9 +226,26 @@ const messagesSlice = createSlice({
     setRoom: (state, action) => {
       state.room = action.payload
     },
+    readConversation: (state, action) => {
+      const roomId = action.payload
+      const newRooms = state.rooms.map((r) => {
+        if (r._id !== roomId) {
+          return r
+        } else {
+          return {
+            ...r,
+            isNew: false,
+          }
+        }
+      })
+      state.rooms = newRooms
+    },
   },
   extraReducers: {
     [joinRoom.fulfilled]: (state, action) => {
+      state.room = action.payload
+    },
+    [getRoom.fulfilled]: (state, action) => {
       state.room = action.payload
     },
     [getMessages.pending]: (state) => {
@@ -219,5 +267,5 @@ const messagesSlice = createSlice({
 
 export const {
   reducer: messagesReducer,
-  actions: { setMessages, setRooms, setRoom },
+  actions: { setMessages, setRooms, setRoom, readConversation },
 } = messagesSlice

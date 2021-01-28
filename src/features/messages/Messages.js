@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import {
@@ -62,9 +63,18 @@ const styles = StyleSheet.create({
   noBottomBorder: {
     borderBottomWidth: 0,
   },
+  dotNewMessage: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    position: 'absolute',
+    top: 10,
+    right: 0,
+  },
 })
 
-export const Messages = () => {
+export const Messages = ({ navigation }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const messagesState = useSelector((state) => state.messages)
@@ -72,7 +82,10 @@ export const Messages = () => {
 
   useEffect(() => {
     dispatch(getRooms())
-  }, [dispatch])
+    navigation.addListener('focus', () => {
+      dispatch(getRooms())
+    })
+  }, [dispatch, navigation])
 
   const onPressConversation = (conversation) => {
     dispatch(setRoom(conversation))
@@ -80,7 +93,7 @@ export const Messages = () => {
   }
 
   const renderConversationItem = (conversation, index, rooms) => {
-    const { lastMessage } = conversation
+    const { lastMessage, isNew } = conversation
     const content = (lastMessage && lastMessage.content) || ''
     const isMyMessage =
       lastMessage && user.phoneNumber === lastMessage.userPhoneNumber
@@ -99,11 +112,11 @@ export const Messages = () => {
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <Avatar size={40} />
             <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText>{title}</AppText>
+              <AppText weight={isNew ? 'bold' : 'medium'}>{title}</AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                color={Colors.gray}
+                color={isNew ? Colors.text : Colors.gray}
                 fontSize={FontSize.normal}
                 style={{ marginTop: 4 }}>{`${
                 isMyMessage ? 'You:' : ''
@@ -118,6 +131,7 @@ export const Messages = () => {
               color={'rgba(128, 128, 128, 0.5)'}
             />
           </View>
+          {isNew && <View style={styles.dotNewMessage} />}
         </View>
       </TouchableOpacity>
     )
@@ -143,6 +157,10 @@ export const Messages = () => {
       </View>
     </View>
   )
+}
+
+Messages.propTypes = {
+  navigation: PropTypes.objectOf(PropTypes.any).isRequired,
 }
 
 export default Messages

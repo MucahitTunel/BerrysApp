@@ -33,6 +33,7 @@ import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
 import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
+import { getRoom } from 'features/messages/messagesSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -83,6 +84,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderBottomWidth: 4,
     borderColor: Colors.background,
+  },
+  newAnswer: {
+    borderLeftWidth: 2,
+    borderLeftColor: Colors.primary,
+    backgroundColor: 'rgba(243, 36, 77, .14)',
   },
   lastQuestionItem: {
     borderBottomWidth: 0,
@@ -261,6 +267,7 @@ const QuestionItem = ({
     totalVotes = 0,
     createdAt,
     flaggedBy = [],
+    isNew,
   },
 }) => {
   const user = useSelector((state) => state.auth.user)
@@ -285,7 +292,7 @@ const QuestionItem = ({
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
       <ScaleTouchable
-        style={styles.questionItem}
+        style={[styles.questionItem, isNew && styles.newAnswer]}
         onPress={() => onPressQuestion(_id)}>
         {isFlagged && (
           <View style={{ position: 'absolute', right: 20, top: 10 }}>
@@ -358,7 +365,7 @@ const Main = () => {
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
-  const { data, loading, requestsToAsk } = questions
+  const { data, requestsToAsk } = questions
   const keyboard = useKeyboard()
   const [questionUrl, setQuestionUrl] = useState(null)
   const [_, setQuestionFromModal] = useState(null)
@@ -375,10 +382,31 @@ const Main = () => {
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)
     const onOpened = (openResult) => {
-      console.log(`Message: ${openResult.notification.payload.body}`)
-      console.log(`Data: ${openResult.notification.payload.additionalData}`)
-      console.log(`isActive: ${openResult.notification.isAppInFocus}`)
-      console.log(`openResult: ${openResult}`)
+      // console.log(`Message: ${openResult.notification.payload.body}`)
+      // console.log(`Data: ${openResult.notification.payload.additionalData}`)
+      // console.log(`isActive: ${openResult.notification.isAppInFocus}`)
+      // console.log(`openResult: ${JSON.stringify(openResult)}`)
+      const additionalData = openResult?.notification?.payload?.additionalData
+      if (additionalData && additionalData.type) {
+        switch (additionalData.type) {
+          case 'MESSAGE_RECEIVED': {
+            if (additionalData.roomId) {
+              dispatch(getRoom({ roomId: additionalData.roomId }))
+            }
+            break
+          }
+          case 'QUESTION_ANSWERED':
+          case 'QUESTION_ASKED': {
+            if (additionalData.questionId) {
+              dispatch(getQuestion(additionalData.questionId))
+              NavigationService.navigate(Screens.Answers)
+            }
+            break
+          }
+          default:
+            break
+        }
+      }
     }
     const onIds = async (device) => {
       console.log(`Device info: ${JSON.stringify(device)}`)

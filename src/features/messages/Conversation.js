@@ -19,6 +19,7 @@ import {
   getMessages,
   sendMessage,
   sendPushNotification as sendPushNotificationAction,
+  readConversation,
 } from 'features/messages/messagesSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
@@ -140,6 +141,7 @@ const Conversation = ({ navigation }) => {
       }
       dispatch(getMessages(callback))
       getCommonGroup()
+      dispatch(readConversation(room._id))
       return () => {
         pusher.unsubscribe(room._id)
       }
@@ -158,12 +160,15 @@ const Conversation = ({ navigation }) => {
     setMessage('')
     const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
     // const msg = `${user.phoneNumber}: ${message}`
-    sendPushNotification(otherUserNumber, message)
+    sendPushNotification(otherUserNumber, message, {
+      roomId: room._id,
+      type: 'MESSAGE_RECEIVED',
+    })
     keyboardHeight.current = new Animated.Value(0)
     Keyboard.dismiss()
   }
-  const sendPushNotification = (phoneNumber, message) => {
-    dispatch(sendPushNotificationAction({ phoneNumber, message }))
+  const sendPushNotification = (phoneNumber, message, payload) => {
+    dispatch(sendPushNotificationAction({ phoneNumber, message, payload }))
   }
 
   const renderMessage = (msg) => {
