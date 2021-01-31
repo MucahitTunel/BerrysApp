@@ -1,24 +1,23 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
 import { AppIcon } from 'components'
 import { Colors, Screens } from 'constants'
 import { ScaleTouchable, AppImage } from 'components'
 import Images from 'assets/images'
 
-const styles = StyleSheet.create({
-  dotMessage: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.yellow,
-    position: 'absolute',
-    top: -5,
-    right: 0,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-  },
-})
+// const styles = StyleSheet.create({
+//   dotMessage: {
+//     width: 12,
+//     height: 12,
+//     borderRadius: 6,
+//     backgroundColor: Colors.yellow,
+//     position: 'absolute',
+//     top: -5,
+//     right: 0,
+//     borderWidth: 1,
+//     borderColor: Colors.primary,
+//   },
+// })
 
 export const BackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.goBack()}>
@@ -41,7 +40,6 @@ export const MessagesBackButton = ({ navigation }) => (
 export const MessagesButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
     <AppIcon name="chat" color={Colors.white} />
-    <View style={styles.dotMessage} />
   </ScaleTouchable>
 )
 
