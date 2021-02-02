@@ -20,16 +20,16 @@ const menu = [
   //   screen: Screens.ImportGmailContactsStack,
   // },
   {
-    name: 'Unfollow contacts',
+    name: 'Groups',
+    screen: Screens.GroupStack,
+  },
+  {
+    name: 'Contacts',
     screen: Screens.FollowContactsStack,
   },
   {
     name: 'Report',
     screen: Screens.ReportStack,
-  },
-  {
-    name: 'Groups',
-    screen: Screens.GroupStack,
   },
 ]
 
