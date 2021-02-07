@@ -9,6 +9,7 @@ import * as NavigationService from 'services/navigation'
 import generateVerificationCode from 'utils/generate-verification-code'
 import { formatPhoneNumber } from '../contacts/helpers'
 import { getQuestions } from '../questions/questionsSlice'
+import { addRoomWithNewMessages } from '../messages/messagesSlice'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -29,8 +30,10 @@ export const authBoot = createAsyncThunk(
   async (_, { dispatch }) => {
     const userDataString = await AsyncStorage.getItem('userData')
     const userData = JSON.parse(userDataString)
-    if (userData) {
-      const channel = pusher.subscribe(userData._id)
+    if (userData && userData.phoneNumber) {
+      // since pusher doesn't allow channel names with bad characters like a +
+      // we have to remove it
+      const channel = pusher.subscribe(userData.phoneNumber.substring(1))
       channel.bind('POINTS_UPDATED', (data) => {
         dispatch(updatePoints(data.points))
       })
@@ -39,6 +42,11 @@ export const authBoot = createAsyncThunk(
       })
       channel.bind('QUESTION_ANSWERED', (data) => {
         dispatch(getQuestions())
+      })
+      channel.bind('MESSAGE_RECEIVED', (data) => {
+        // TODO XIN improvement
+        // if I'm in the same room as roomId, don't call addRoomWithNewMessages
+        dispatch(addRoomWithNewMessages(data.message.roomId))
       })
       await postSignIn(userData)
       dispatch(getUser(userData.phoneNumber))

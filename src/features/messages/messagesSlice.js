@@ -215,8 +215,21 @@ const messagesSlice = createSlice({
     rooms: [],
     room: {},
     loading: false,
+    roomsWithNewMessages: [], // list of rooms with new messages
   },
   reducers: {
+    addRoomWithNewMessages: (state, action) => {
+      const roomsWithNewMessages = state.roomsWithNewMessages || []
+      state.roomsWithNewMessages = roomsWithNewMessages
+        .filter((r) => r !== action.payload)
+        .concat(action.payload)
+    },
+    removeRoomWithNewMessages: (state, action) => {
+      const roomsWithNewMessages = state.roomsWithNewMessages || []
+      state.roomsWithNewMessages = roomsWithNewMessages.filter(
+        (r) => r !== action.payload,
+      )
+    },
     setMessages: (state, action) => {
       state.messages = action.payload
     },
@@ -267,5 +280,12 @@ const messagesSlice = createSlice({
 
 export const {
   reducer: messagesReducer,
-  actions: { setMessages, setRooms, setRoom, readConversation },
+  actions: {
+    addRoomWithNewMessages,
+    removeRoomWithNewMessages,
+    setMessages,
+    setRooms,
+    setRoom,
+    readConversation,
+  },
 } = messagesSlice

@@ -15,7 +15,7 @@ import rootReducer from './reducer'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['questions', 'group'],
+  whitelist: ['questions', 'group', 'messages'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
