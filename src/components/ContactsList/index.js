@@ -12,24 +12,20 @@ import {
   FlatList,
   Alert,
 } from 'react-native'
-import * as NavigationService from 'services/navigation'
 import { useKeyboard } from '@react-native-community/hooks'
-import { Colors, Dimensions, FontSize, Screens } from 'constants'
+import { Colors, Dimensions, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
 import { getGroups } from 'features/groups/groupSlice'
 import { setAskAnonymously } from 'features/questions/askSlice'
-import {
-  AppButton,
-  AppIcon,
-  AppImage,
-  AppInput,
-  AppText,
-  Avatar,
-  ScaleTouchable,
-  SuccessModal,
-} from 'components'
+import AppButton from '../AppButton'
+import AppIcon from '../AppIcon'
+import AppImage from '../AppImage'
+import AppInput from '../AppInput'
+import AppText from '../AppText'
+import Avatar from '../Avatar'
+import ScaleTouchable from '../ScaleTouchable'
 
 const styles = StyleSheet.create({
   container: {

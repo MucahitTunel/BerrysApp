@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import { Dimensions, Colors, FontSize, Screens } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import Theme from 'theme'
 import LottieView from 'lottie-react-native'
-import { AppText } from 'components'
-import { AppButton, AppLink } from '../index'
+import AppText from '../AppText'
+import AppButton from '../AppButton'
 
 const styles = StyleSheet.create({
   container: {
