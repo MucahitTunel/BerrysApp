@@ -318,11 +318,11 @@ const Answers = ({ navigation }) => {
             To:{' '}
           </AppText>
           {question.receivers.map((receiver, index) => (
-            <>
-              <AppText key={receiver} weight="italic" color={Colors.gray}>
-                {receiver} {index < question.receivers.length - 1 && ' ,'}
+            <View key={receiver.phoneNumber}>
+              <AppText weight="italic" color={Colors.gray}>
+                {receiver.name} {index < question.receivers.length - 1 && ', '}
               </AppText>
-            </>
+            </View>
           ))}
         </View>
       )

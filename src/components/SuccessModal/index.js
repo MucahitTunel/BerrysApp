@@ -8,7 +8,6 @@ import { Dimensions, Colors, FontSize } from 'constants'
 import Theme from 'theme'
 import LottieView from 'lottie-react-native'
 import AppText from '../AppText'
-import AppButton from '../AppButton'
 
 const styles = StyleSheet.create({
   container: {
@@ -91,13 +90,6 @@ const SuccessModal = ({ isModalVisible, closeModal }) => {
               style={{ textAlign: 'center', marginTop: 16 }}>
               Your question was submitted!
             </AppText>
-            {/* <View style={{ alignItems: 'center', marginTop: 24 }}>
-              <AppButton
-                onPress={onPressClose}
-                text={'Close'}
-                style={{ height: 40, borderRadius: 20, width: 150 }}
-              />
-            </View> */}
           </View>
         </Animated.View>
       </View>

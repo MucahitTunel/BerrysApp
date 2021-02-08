@@ -9,6 +9,7 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  Keyboard,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Formik } from 'formik'
@@ -456,6 +457,7 @@ const Main = ({ route }) => {
     setSubmitting(true)
     const { question } = values
     if (question) {
+      Keyboard.dismiss()
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)
