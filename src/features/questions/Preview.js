@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   View,
@@ -13,6 +13,7 @@ import Images from 'assets/images'
 import { Avatar, AppText, AppIcon, AppButton, AppImage } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
 import PropTypes from 'prop-types'
+import SuccessModal from '../../components/SuccessModal'
 
 const styles = StyleSheet.create({
   container: {
