@@ -201,7 +201,7 @@ const ContactsList = ({
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Avatar source={Images.defaultAvatar} size={38} />
           <AppText style={{ marginLeft: 10 }} weight="medium">
-            {text}
+            {text || ''}
           </AppText>
         </View>
         <View>
@@ -233,7 +233,7 @@ const ContactsList = ({
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Avatar source={Images.defaultAvatar} size={38} />
           <AppText style={{ marginLeft: 10 }} weight="medium">
-            {text}
+            {text || ''}
             <AppText color={Colors.gray}>{rightText}</AppText>
           </AppText>
         </View>

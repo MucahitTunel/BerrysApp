@@ -302,10 +302,28 @@ const Answers = ({ navigation }) => {
   )
 
   const renderPeopleInvited = () => {
-    if (question.groups.members.length) {
+    if (question?.groups.length) {
       return (
-        <View>
-          <AppText>Tao</AppText>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
+          <AppText weight="italic" color={Colors.gray}>
+            To: {question.group.name}
+          </AppText>
+        </View>
+      )
+    }
+    if (question.receivers.length) {
+      return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
+          <AppText weight="italic" color={Colors.gray}>
+            To:{' '}
+          </AppText>
+          {question.receivers.map((receiver, index) => (
+            <>
+              <AppText key={receiver} weight="italic" color={Colors.gray}>
+                {receiver} {index < question.receivers.length - 1 && ' ,'}
+              </AppText>
+            </>
+          ))}
         </View>
       )
     }
@@ -379,7 +397,7 @@ const Answers = ({ navigation }) => {
             </View>
             <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
               {isQuestionOwner ? (
-                <View>{renderPeopleInvited()}</View>
+                renderPeopleInvited()
               ) : (
                 <AppText color={Colors.gray} fontSize={FontSize.normal}>
                   {moment(question.createdAt).fromNow()}
