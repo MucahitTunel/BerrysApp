@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, Animated } from 'react-native'
+import { View, StyleSheet, Animated, Keyboard } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, FontSize } from 'constants'
@@ -52,9 +52,16 @@ const styles = StyleSheet.create({
 })
 
 const SuccessModal = ({ isModalVisible, closeModal }) => {
-  const onSubmit = () => {
-    closeModal()
-  }
+  // const onPressClose = () => {
+  //   closeModal()
+  // }
+  useEffect(() => {
+    Keyboard.dismiss()
+    setTimeout(() => {
+      closeModal()
+    }, 2000)
+  }, [closeModal])
+
   return (
     <Modal
       isVisible={isModalVisible}
@@ -84,13 +91,13 @@ const SuccessModal = ({ isModalVisible, closeModal }) => {
               style={{ textAlign: 'center', marginTop: 16 }}>
               Your question was submitted!
             </AppText>
-            <View style={{ alignItems: 'center', marginTop: 24 }}>
+            {/* <View style={{ alignItems: 'center', marginTop: 24 }}>
               <AppButton
-                onPress={onSubmit}
+                onPress={onPressClose}
                 text={'Close'}
                 style={{ height: 40, borderRadius: 20, width: 150 }}
               />
-            </View>
+            </View> */}
           </View>
         </Animated.View>
       </View>
