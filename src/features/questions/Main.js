@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   FlatList,
+  SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   View,
-  SafeAreaView,
-  ScrollView,
+  Keyboard,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Formik } from 'formik'
@@ -21,13 +22,14 @@ import Config from 'react-native-config'
 import {
   AppButton,
   AppIcon,
+  AppImage,
   AppInput,
   AppText,
   Avatar,
   ScaleTouchable,
-  AppImage,
+  SuccessModal,
 } from 'components'
-import { Colors, Dimensions, Screens, FontSize } from 'constants'
+import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
@@ -360,7 +362,9 @@ QuestionItem.propTypes = {
   }),
 }
 
-const Main = () => {
+const Main = ({ route }) => {
+  const showSuccessModal =
+    route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
@@ -375,6 +379,7 @@ const Main = () => {
   const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
     false,
   )
+  const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
 
   useEffect(() => {
     dispatch(getQuestions())
@@ -438,18 +443,21 @@ const Main = () => {
     setQuestionUrl(url)
   }, [questions, question])
   useEffect(() => {
-    const defaultSurveyValue = surveysList[0].value
-    const { survey = defaultSurveyValue } = user
+    const { survey = surveysList[0].value } = user
     const surveyQuestions = surveysList.find((x) => x.value === survey)
       .popularQuestions
     setPopularQuestions(surveyQuestions || surveysList[0].popularQuestions)
     setQuestionFromModal(surveyQuestions[0])
-  }, [user])
+    if (showSuccessModal) {
+      setSuccessModalVisible(true)
+    }
+  }, [user, showSuccessModal])
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
     if (question) {
+      Keyboard.dismiss()
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)
@@ -595,6 +603,13 @@ const Main = () => {
         setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
         toAskMeScreen
       />
+
+      {isSuccessModalVisible && (
+        <SuccessModal
+          isModalVisible={true}
+          closeModal={() => setSuccessModalVisible(false)}
+        />
+      )}
     </SafeAreaView>
   )
 }

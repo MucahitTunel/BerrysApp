@@ -11,6 +11,7 @@ import SideBarMenu from './SideBarMenu'
 import ContactsList from './ContactsList'
 import ScaleTouchable from './ScaleTouchable'
 import AppBadge from './AppBadge'
+import SuccessModal from './SuccessModal'
 
 export {
   AppButton,
@@ -26,4 +27,5 @@ export {
   ContactsList,
   ScaleTouchable,
   AppBadge,
+  SuccessModal,
 }

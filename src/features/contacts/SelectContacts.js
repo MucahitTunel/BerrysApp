@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, SafeAreaView } from 'react-native'
+import { Alert, SafeAreaView, Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList } from 'components'
 import {
@@ -13,6 +13,7 @@ const SelectContacts = (props) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
   const onPressSubmit = (contacts, groups = [], request) => {
+    Keyboard.dismiss()
     const MIN_NUM_RECEIVERS = 1
     if (contacts.length + groups.length < MIN_NUM_RECEIVERS) {
       return Alert.alert(

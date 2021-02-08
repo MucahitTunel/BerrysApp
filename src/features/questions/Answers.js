@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -301,11 +301,40 @@ const Answers = ({ navigation }) => {
     </View>
   )
 
+  const renderPeopleInvited = () => {
+    if (question?.groups.length) {
+      return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
+          <AppText weight="italic" color={Colors.gray}>
+            To: {question.group.name}
+          </AppText>
+        </View>
+      )
+    }
+    if (question.receivers.length) {
+      return (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
+          <AppText weight="italic" color={Colors.gray}>
+            To:{' '}
+          </AppText>
+          {question.receivers.map((receiver, index) => (
+            <View key={receiver.phoneNumber}>
+              <AppText weight="italic" color={Colors.gray}>
+                {receiver.name} {index < question.receivers.length - 1 && ', '}
+              </AppText>
+            </View>
+          ))}
+        </View>
+      )
+    }
+  }
+
   if (loading) return <Loading />
-  const { flaggedBy = [] } = question
+  const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   const url = checkURL(question.content)
+  const isQuestionOwner = userPhoneNumber === user.phoneNumber
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <Animated.View style={{ flex: 1, paddingBottom: keyboardHeight.current }}>
@@ -367,9 +396,13 @@ const Answers = ({ navigation }) => {
               )}
             </View>
             <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
-              <AppText color={Colors.gray} fontSize={FontSize.normal}>
-                {moment(question.createdAt).fromNow()}
-              </AppText>
+              {isQuestionOwner ? (
+                renderPeopleInvited()
+              ) : (
+                <AppText color={Colors.gray} fontSize={FontSize.normal}>
+                  {moment(question.createdAt).fromNow()}
+                </AppText>
+              )}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <AppText fontSize={FontSize.normal}>
                   {question.totalVotes}
