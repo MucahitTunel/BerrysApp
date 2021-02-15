@@ -110,6 +110,7 @@ const GroupUpsert = ({ navigation, route }) => {
     isCreate ? state.group.new : state.group.current,
   )
   const user = useSelector((state) => state.auth.user)
+  const contacts = useSelector((state) => state.contacts.data)
   const loading = useSelector((state) => state.group.loading)
   const [groupName, setGroupName] = useState(group.name)
   useEffect(() => {
@@ -192,6 +193,15 @@ const GroupUpsert = ({ navigation, route }) => {
     })
   }
 
+  const getContactName = (data) => {
+    if (user.phoneNumber === data.phoneNumber) return 'Me'
+    const contactIndex = contacts.findIndex(
+      (c) => c.phoneNumber === data.phoneNumber,
+    )
+    if (contactIndex > 0) return contacts[contactIndex].name
+    return data.name
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -236,7 +246,7 @@ const GroupUpsert = ({ navigation, route }) => {
                       fontSize={FontSize.normal}
                       weight="medium"
                       style={{ marginRight: 10 }}>
-                      {admin.name}
+                      {getContactName(admin)}
                     </AppText>
                     <AppIcon name="close" size={10} color={Colors.gray} />
                   </ScaleTouchable>
@@ -279,7 +289,7 @@ const GroupUpsert = ({ navigation, route }) => {
                       fontSize={FontSize.normal}
                       weight="medium"
                       style={{ marginRight: 10 }}>
-                      {member.name}
+                      {getContactName(member)}
                     </AppText>
                     <AppIcon name="close" size={10} color={Colors.gray} />
                   </ScaleTouchable>
