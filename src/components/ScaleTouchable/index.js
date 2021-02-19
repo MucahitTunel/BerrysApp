@@ -6,6 +6,7 @@ import { useMemoOne } from 'use-memo-one'
 export interface ScaleTouchableProps {
   disabled?: boolean;
   onPress?: () => void;
+  onPressItem?: any;
   children?: any;
   style?: any;
   underlay?: boolean;
@@ -17,6 +18,7 @@ export interface ScaleTouchableProps {
 const ScaleTouchable = ({
   disabled,
   onPress,
+  onPressItem,
   children,
   style,
   underlay,
@@ -66,9 +68,12 @@ const ScaleTouchable = ({
 
   const handleOnPress = useCallback(() => {
     requestAnimationFrame(() => {
-      onPress && onPress()
+      if (onPress) {
+        if (onPressItem) onPress(onPressItem)
+        else onPress()
+      }
     })
-  }, [onPress])
+  }, [onPress, onPressItem])
 
   const Component: any = useMemoOne(
     () =>
