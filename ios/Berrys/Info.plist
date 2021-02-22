@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Berrys (dev)</string>
+	<string>Berrys</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,11 +13,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Berrys (dev)</string>
+	<string>Berrys</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.6</string>
+	<string>1.3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -27,12 +27,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.615848313420-6v1e8iqqmkc4v0pfmf9b2g4iulk4l8hr</string>
+				<string>com.googleusercontent.apps.655600799545-8cp4405fd11vvmrm4j63midpg6upk0mm</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>berrysapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>berrysapp</string>
@@ -40,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1612817252</string>
+	<string>1613893481</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -61,7 +63,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>icomoon.ttf</string>
@@ -70,7 +72,7 @@
 		<string>EuclidCircularA-Regular.ttf</string>
 		<string>EuclidCircularA-SemiBold.ttf</string>
 		<string>EuclidCircularA-Italic.ttf</string>
-		<string/>
+		<string></string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

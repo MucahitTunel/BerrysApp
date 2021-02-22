@@ -242,15 +242,13 @@ const ContactsList = ({
   // Prepare contact list once
   // Only apply regex search and selection on this list for performance
   useEffect(() => {
-    /* const activeContacts = allContacts.filter((c) => !!c.isAppUser)
+    const activeContacts = allContacts
+      .filter((c) => !!c.isAppUser)
+      .map((c) => {
+        return { ...c, type: 'contact' }
+      })
     const sortedActiveContacts = activeContacts.sort(sortAlphabetically)
-    const groupActiveContacts = [
-      {
-        title: null,
-        data: sortedActiveContacts,
-      },
-    ]
-    setGroupedActiveContacts(groupActiveContacts) */
+    setGroupedActiveContacts(sortedActiveContacts)
 
     const inactiveContacts = allContacts.filter((c) => !c.isAppUser)
     const sortedContacts = inactiveContacts.sort(sortAlphabetically)
@@ -285,7 +283,7 @@ const ContactsList = ({
 
     setGroupedInctiveContacts(groupedContactsArr)
 
-    setContactsArr(groupedContactsArr)
+    setContactsArr([...sortedActiveContacts, ...groupedContactsArr])
   }, [allContacts])
 
   const isShowingGroups = tabIndex === 1
