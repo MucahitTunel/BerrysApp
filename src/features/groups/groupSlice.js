@@ -32,6 +32,7 @@ export const createGroup = createAsyncThunk(
       phoneNumber: m.phoneNumber,
       role: m.role,
       name: m.name,
+      isAppUser: m.isAppUser,
     }))
     await request({
       method: 'POST',
