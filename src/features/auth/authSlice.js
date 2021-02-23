@@ -224,7 +224,7 @@ export const requestToAsk = createAsyncThunk(
   async (contacts, { getState }) => {
     const state = getState()
     const user = state.auth.user
-    const selectedContacts = contacts.filter((c) => c.isSelected)
+    const selectedContacts = contacts
     await request({
       method: 'POST',
       url: 'account/request-to-ask',
