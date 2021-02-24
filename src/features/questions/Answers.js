@@ -329,11 +329,27 @@ const Answers = ({ navigation }) => {
     }
   }
 
+  const [url, setUrl] = useState(null)
+  const [message, setMessage] = useState(null)
+  useEffect(() => {
+    if (question?.content) {
+      let extraStr = ''
+      let url = null
+      const contentSplitted = question.content.split(' ')
+      contentSplitted.forEach((item) => {
+        const link = checkURL(item)
+        if (link) url = link
+        else extraStr += `${item} `
+      })
+      setMessage(extraStr)
+      setUrl(url)
+    }
+  }, [question])
+
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
-  const url = checkURL(question.content)
   const isQuestionOwner = userPhoneNumber === user.phoneNumber
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
@@ -375,14 +391,14 @@ const Answers = ({ navigation }) => {
                       weight="medium"
                       color={Colors.gray}
                       style={{ marginTop: 16 }}>
-                      What do you think of this video?
+                      {message ? message : 'What do you think about this?'}
                     </AppText>
                   </>
                 ) : (
                   <AppText
                     fontSize={FontSize.xxLarge}
                     style={{ marginRight: 10 }}>
-                    {`${question.content} `}
+                    {`${message} `}
                     {question.group && question.group.name && (
                       <View>
                         <AppBadge text={question.group.name} />

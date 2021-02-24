@@ -483,12 +483,7 @@ const Main = ({ route }) => {
   )
 
   const onPressAskMeAnything = () => {
-    if (user && user.name) {
-      setIsAskUserNameModalVisible(false)
-      NavigationService.navigate(Screens.AskMe)
-    } else {
-      setIsAskUserNameModalVisible(true)
-    }
+    setIsAskUserNameModalVisible(true)
   }
 
   const isNewUser = user.isNew && !question

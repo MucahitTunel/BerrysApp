@@ -117,6 +117,7 @@ const ContactsList = ({
           return {
             ...c,
             isSelected: true,
+            type: 'contact',
           }
         }
         return c
@@ -125,7 +126,6 @@ const ContactsList = ({
         return !!c[checkCondition]
       }),
   )
-  const [groups, setGroups] = useState([])
   const [tabIndex, setTabIndex] = React.useState(0)
   const [routes] = React.useState([
     { key: 'first', title: 'Contacts' },
@@ -158,16 +158,6 @@ const ContactsList = ({
       setContactsArr(newSearch)
     } else
       setContactsArr([...groupedActiveContacts, ...groupedInactiveContacts])
-  }
-
-  const onSelectGroup = (group) => {
-    let newGroups = []
-    if (groups.indexOf(group._id) >= 0) {
-      newGroups = groups.filter((gid) => gid !== group._id)
-    } else {
-      newGroups = [...groups, group._id]
-    }
-    setGroups(newGroups)
   }
 
   const onSelectContact = (item) => {

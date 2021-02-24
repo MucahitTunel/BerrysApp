@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import { Dimensions, Colors, Screens } from 'constants'
+import { Dimensions, Colors, Screens, FontSize } from 'constants'
 import Theme from 'theme'
 import * as NavigationService from 'services/navigation'
-import { updateName } from 'features/auth/authSlice'
+import { updateName, updateSelectedPoints } from 'features/auth/authSlice'
 import AppInput from '../../components/AppInput'
 import AppButton from '../../components/AppButton'
+import AppText from '../../components/AppText'
+import Picker from '../../components/Picker'
 
 const styles = StyleSheet.create({
   container: {
@@ -52,21 +54,37 @@ const styles = StyleSheet.create({
   },
 })
 
+const POINTS = [
+  { label: 'Free', value: 0 },
+  { label: '10', value: 10 },
+  { label: '20', value: 20 },
+]
+
 const AskUserNameModal = ({
   isModalVisible,
   setModalVisible,
   toAskMeScreen = false,
 }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
   const [name, setName] = useState('')
+  const [points, setPoints] = useState(POINTS[0].value)
+
   const onSubmit = () => {
     dispatch(updateName({ name }))
+    dispatch(updateSelectedPoints(points))
     setName('')
     setModalVisible(false)
     if (toAskMeScreen) {
       NavigationService.navigate(Screens.AskMe)
     }
+    setPoints(POINTS[0].value)
   }
+
+  useEffect(() => {
+    setName(user?.name ? user.name : '')
+  }, [user])
+
   const isBtnDisabled = !name.trim()
   return (
     <Modal
@@ -82,9 +100,22 @@ const AskUserNameModal = ({
           <View style={styles.content}>
             <AppInput
               style={styles.input}
-              placeholder="Type your name"
+              placeholder={user?.name ? user.name : 'Type your name'}
               onChange={(value) => setName(value)}
               value={name}
+            />
+            <AppText
+              fontSize={FontSize.large}
+              weight="italic"
+              style={{ color: Colors.primary, marginLeft: 5, marginTop: 20 }}>
+              Points for Answering Each Question:
+            </AppText>
+            <Picker
+              items={POINTS}
+              selectedValue={POINTS[0].value}
+              onChange={(value) => {
+                setPoints(value)
+              }}
             />
             <View style={styles.actions}>
               <AppButton
@@ -96,7 +127,10 @@ const AskUserNameModal = ({
                 text="Close"
                 textStyle={{ color: Colors.primary }}
                 style={{ backgroundColor: Colors.white, marginBottom: 12 }}
-                onPress={() => setModalVisible(false)}
+                onPress={() => {
+                  setName(user?.name ? user.name : '')
+                  setModalVisible(false)
+                }}
               />
             </View>
           </View>

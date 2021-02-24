@@ -219,6 +219,23 @@ export const updateName = createAsyncThunk(
   },
 )
 
+export const updateSelectedPoints = createAsyncThunk(
+  'auth/updatePoints',
+  async (selectedPoints, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'account/points',
+      data: {
+        selectedPoints,
+        userId: user._id,
+      },
+    })
+    dispatch(getUser(user.phoneNumber))
+  },
+)
+
 export const requestToAsk = createAsyncThunk(
   'requestToAsk/submit',
   async (contacts, { getState }) => {
