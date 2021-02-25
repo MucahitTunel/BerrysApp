@@ -26,6 +26,7 @@ import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
+import FinishAskingModal from './FinishAskingModal'
 
 const styles = StyleSheet.create({
   container: {
@@ -111,6 +112,10 @@ const Conversation = ({ navigation }) => {
   const messages = useSelector((state) => state.messages.messages)
   const description =
     room && room._id ? getConversationName(room).description : 'description'
+  const [
+    isFinishQuestionModalVisible,
+    setIsFinishQuestionModalVisible,
+  ] = useState(false)
 
   useEffect(() => {
     const getCommonGroup = async () => {
@@ -250,6 +255,14 @@ const Conversation = ({ navigation }) => {
           />
         </View>
         <View style={styles.inputView}>
+          {room.data.isFromLink && !room.data.freePoints && (
+            <AppButton
+              icon="checkmark"
+              iconSize={24}
+              style={{ width: 40, height: 40 }}
+              onPress={() => setIsFinishQuestionModalVisible(true)}
+            />
+          )}
           <AppInput
             style={styles.input}
             placeholder="Enter your message..."
@@ -266,6 +279,11 @@ const Conversation = ({ navigation }) => {
           />
         </View>
       </Animated.View>
+
+      <FinishAskingModal
+        isModalVisible={isFinishQuestionModalVisible}
+        setModalVisible={(value) => setIsFinishQuestionModalVisible(value)}
+      />
     </SafeAreaView>
   )
 }

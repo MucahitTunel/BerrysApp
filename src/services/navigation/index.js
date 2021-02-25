@@ -14,3 +14,7 @@ export function push(...args) {
 export function getCurrentRoute() {
   return navigationRef.current?.getCurrentRoute()
 }
+
+export function goBack() {
+  return navigationRef.current?.goBack()
+}

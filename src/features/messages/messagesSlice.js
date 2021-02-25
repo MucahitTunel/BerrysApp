@@ -24,8 +24,9 @@ export const directMessage = createAsyncThunk(
   'messages/directMessage',
   async (
     { userId, isFromLink = false, userPhoneNumber = null },
-    { dispatch },
+    { dispatch, getState },
   ) => {
+    const state = getState()
     let response
 
     if (userPhoneNumber) {
@@ -39,14 +40,22 @@ export const directMessage = createAsyncThunk(
     } else {
       response = await request({
         method: 'GET',
-        url: '/account/get-user-by-info',
+        url: '/account/get-user-by-id',
         params: {
           userId,
-          phoneNumber: userPhoneNumber,
         },
       })
     }
     const { user } = response.data
+
+    if (isFromLink) {
+      if (user.selectedPoints > state.auth.user.totalPoints) {
+        Alert.alert('Error', "You don't have enough points to ask a question")
+        NavigationService.goBack()
+        return
+      }
+    }
+
     if (user && user.phoneNumber) {
       dispatch(
         joinRoom({
@@ -54,6 +63,7 @@ export const directMessage = createAsyncThunk(
           isFromAskMeAnything: true,
           linkOwnerName: user.name,
           isFromLink,
+          isFreePoints: user.selectedPoints === 0,
         }),
       )
     } else {
@@ -75,6 +85,7 @@ export const joinRoom = createAsyncThunk(
       isFromContactsList = false,
       // Used for direct message difference (contacts and public link)
       isFromLink,
+      isFreePoints = false,
     },
     { getState, dispatch },
   ) => {
@@ -99,6 +110,7 @@ export const joinRoom = createAsyncThunk(
       },
     })
     const { room } = data
+    if (isFromLink && isFreePoints) room.data.freePoints = true
     dispatch(setRoom(room))
     NavigationService.navigate(Screens.Conversation)
   },
