@@ -106,6 +106,7 @@ const Conversation = ({ navigation }) => {
   const [message, setMessage] = useState(null)
   const [commonGroup, setCommonGroup] = useState(null)
   const user = useSelector((state) => state.auth.user)
+  const question = useSelector((state) => state.ask.question)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
   const description =
@@ -149,6 +150,14 @@ const Conversation = ({ navigation }) => {
       }
     }
   }, [navigation, room, dispatch])
+
+  useEffect(() => {
+    if (room.data.isFromAskMeAnything) {
+      if (!room.data.isFromLink) {
+        setMessage(question)
+      }
+    }
+  }, [room, question])
 
   const onChangeMessage = (msg) => setMessage(msg)
   const onSendMessage = () => {

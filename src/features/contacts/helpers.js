@@ -45,9 +45,9 @@ export const formatPhoneNumber = (phone, countryCode, user) => {
         code = DEVICE_COUNTRY_FALLBACK
       }
     }
-    console.log(`📱 parsing phone number ${phone} - country code ${code}`)
+    // console.log(`📱 parsing phone number ${phone} - country code ${code}`)
     const phoneNumber = parsePhoneNumber(`Phone: ${phone}`, code)
-    console.log(`result: ${phoneNumber.number}`)
+    // console.log(`result: ${phoneNumber.number}`)
     return {
       number: phoneNumber.number,
       isValid: phoneNumber.isValid(),

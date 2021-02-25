@@ -22,21 +22,38 @@ const roomSortFunction = (room1, room2) => {
 
 export const directMessage = createAsyncThunk(
   'messages/directMessage',
-  async ({ userId }, { dispatch }) => {
-    const { data } = await request({
-      method: 'GET',
-      url: '/account/get-user-by-id',
-      params: {
-        userId,
-      },
-    })
-    const { user } = data
+  async (
+    { userId, isFromLink = false, userPhoneNumber = null },
+    { dispatch },
+  ) => {
+    let response
+
+    if (userPhoneNumber) {
+      response = await request({
+        method: 'GET',
+        url: '/account/get-user-by-number',
+        params: {
+          userPhoneNumber,
+        },
+      })
+    } else {
+      response = await request({
+        method: 'GET',
+        url: '/account/get-user-by-info',
+        params: {
+          userId,
+          phoneNumber: userPhoneNumber,
+        },
+      })
+    }
+    const { user } = response.data
     if (user && user.phoneNumber) {
       dispatch(
         joinRoom({
           phoneNumber: user.phoneNumber,
           isFromAskMeAnything: true,
           linkOwnerName: user.name,
+          isFromLink,
         }),
       )
     } else {
@@ -56,8 +73,10 @@ export const joinRoom = createAsyncThunk(
       linkOwnerName,
       isFromAskMeAnything = false,
       isFromContactsList = false,
+      // Used for direct message difference (contacts and public link)
+      isFromLink,
     },
-    { getState },
+    { getState, dispatch },
   ) => {
     const state = getState()
     const user = state.auth.user
@@ -76,11 +95,12 @@ export const joinRoom = createAsyncThunk(
         linkOwnerName,
         isFromAskMeAnything,
         isFromContactsList,
+        isFromLink,
       },
     })
     const { room } = data
+    dispatch(setRoom(room))
     NavigationService.navigate(Screens.Conversation)
-    return room
   },
 )
 
@@ -255,9 +275,10 @@ const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    [joinRoom.fulfilled]: (state, action) => {
+    /*     [joinRoom.fulfilled]: (state, action) => {
+      console.log('hrer')
       state.room = action.payload
-    },
+    }, */
     [getRoom.fulfilled]: (state, action) => {
       state.room = action.payload
     },

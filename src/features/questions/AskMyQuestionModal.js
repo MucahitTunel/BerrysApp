@@ -5,11 +5,11 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
-import { Dimensions, Colors, FontSize, Screens } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 import { AppButton, AppText, AppInput } from 'components'
 import Theme from 'theme'
 import { setAskQuestion } from 'features/questions/askSlice'
-import * as NavigationService from 'services/navigation'
+import { directMessage } from 'features/messages/messagesSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -62,10 +62,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
     dispatch(setAskQuestion(question))
     setModalVisible(false)
     setQuestion('')
-    NavigationService.navigate(Screens.SelectContacts, {
-      request,
-      requester,
-    })
+    dispatch(directMessage({ userPhoneNumber: requester.phoneNumber }))
   }
   return (
     <Modal
