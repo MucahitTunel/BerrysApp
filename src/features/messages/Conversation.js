@@ -22,6 +22,7 @@ import {
   readConversation,
   removeRoomWithNewMessages,
 } from 'features/messages/messagesSlice'
+import { setAskQuestion } from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
@@ -160,6 +161,7 @@ const Conversation = ({ navigation }) => {
     if (room.data.isFromAskMeAnything) {
       if (!room.data.isFromLink) {
         setMessage(question)
+        setAskQuestion('')
       }
     }
   }, [room, question])
@@ -219,6 +221,52 @@ const Conversation = ({ navigation }) => {
       </View>
     )
   }
+
+  const renderInputsCondition = () => {
+    if (room.data.isFromAskMeAnything) {
+      if (room.data.isFromLink) {
+        if (!room.data.requestFinished) return renderInputs()
+        else
+          return (
+            <AppButton
+              text="Request to Ask Question"
+              // TODO Implement ask again logic here
+              onPress={() => {}}
+            />
+          )
+      } else return renderInputs()
+    } else return renderInputs()
+  }
+
+  const renderInputs = () => {
+    return (
+      <View style={styles.inputView}>
+        {room.data.isFromLink && !room.data.freePoints && (
+          <AppButton
+            icon="checkmark"
+            iconSize={24}
+            style={{ width: 40, height: 40 }}
+            onPress={() => setIsFinishQuestionModalVisible(true)}
+          />
+        )}
+        <AppInput
+          style={styles.input}
+          placeholder="Enter your message..."
+          placeholderTextColor={Colors.gray}
+          value={message}
+          onChange={onChangeMessage}
+        />
+        <AppButton
+          icon="send"
+          iconSize={16}
+          disabled={!message}
+          style={{ width: 40, height: 40 }}
+          onPress={message ? onSendMessage : () => {}}
+        />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -254,30 +302,7 @@ const Conversation = ({ navigation }) => {
             keyExtractor={(item) => String(item._id)}
           />
         </View>
-        <View style={styles.inputView}>
-          {room.data.isFromLink && !room.data.freePoints && (
-            <AppButton
-              icon="checkmark"
-              iconSize={24}
-              style={{ width: 40, height: 40 }}
-              onPress={() => setIsFinishQuestionModalVisible(true)}
-            />
-          )}
-          <AppInput
-            style={styles.input}
-            placeholder="Enter your message..."
-            placeholderTextColor={Colors.gray}
-            value={message}
-            onChange={onChangeMessage}
-          />
-          <AppButton
-            icon="send"
-            iconSize={16}
-            disabled={!message}
-            style={{ width: 40, height: 40 }}
-            onPress={message ? onSendMessage : () => {}}
-          />
-        </View>
+        {renderInputsCondition()}
       </Animated.View>
 
       <FinishAskingModal

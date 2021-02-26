@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
 import { getQuestions } from './questionsSlice'
+import { setRoom } from '../messages/messagesSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
 
@@ -26,6 +27,28 @@ export const askQuestion = createAsyncThunk(
     NavigationService.navigate(Screens.Main, { showSuccessModal: true })
   },
 )
+
+export const finishAskingAskRequest = createAsyncThunk(
+  'ask/finish',
+  async (callback, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const room = state.messages.room
+    const { data } = await request({
+      method: 'POST',
+      url: 'question/finish-ask-request',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        requesterNumber: room.members.filter((m) => m !== user.phoneNumber)[0],
+        roomId: room._id,
+      },
+    })
+    dispatch(setRoom(data.room))
+    callback()
+    return
+  },
+)
+
 const askSlice = createSlice({
   name: 'ask',
   initialState: {

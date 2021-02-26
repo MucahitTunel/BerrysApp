@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
@@ -8,6 +8,7 @@ import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { AppButton, AppText } from 'components'
 import Theme from 'theme'
+import { finishAskingAskRequest } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,9 +51,16 @@ const styles = StyleSheet.create({
 })
 
 const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
+  const dispatch = useDispatch()
+
   const onSubmit = () => {
-    alert('Set data.finished true')
+    dispatch(finishAskingAskRequest(closeModal))
   }
+
+  const closeModal = () => {
+    setModalVisible(false)
+  }
+
   return (
     <Modal
       isVisible={isModalVisible}
@@ -79,7 +87,7 @@ const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
                   backgroundColor: Colors.white,
                   marginTop: 12,
                 }}
-                onPress={() => setModalVisible(false)}
+                onPress={closeModal}
               />
             </View>
           </View>
