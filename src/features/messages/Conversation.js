@@ -222,6 +222,21 @@ const Conversation = ({ navigation }) => {
     )
   }
 
+  const getAskRequestButtonText = () => {
+    if (room.createdBy === user.phoneNumber) {
+      if (room.data.newRequest) return 'Waiting for user to accept'
+      else return 'Request to Ask Question'
+    } else {
+      if (room.data.newRequest) return 'Let them ask another question'
+      else return 'User Finished Asking'
+    }
+  }
+
+  const getAskRequestButtonActive = () => {
+    if (room.createdBy === user.phoneNumber) return room.data.newRequest
+    else return !room.data.newRequest
+  }
+
   const renderInputsCondition = () => {
     if (room.data.isFromAskMeAnything) {
       if (room.data.isFromLink) {
@@ -229,9 +244,10 @@ const Conversation = ({ navigation }) => {
         else
           return (
             <AppButton
-              text="Request to Ask Question"
+              text={getAskRequestButtonText()}
               // TODO Implement ask again logic here
               onPress={() => {}}
+              disabled={getAskRequestButtonActive()}
             />
           )
       } else return renderInputs()
@@ -241,14 +257,16 @@ const Conversation = ({ navigation }) => {
   const renderInputs = () => {
     return (
       <View style={styles.inputView}>
-        {room.data.isFromLink && !room.data.freePoints && (
-          <AppButton
-            icon="checkmark"
-            iconSize={24}
-            style={{ width: 40, height: 40 }}
-            onPress={() => setIsFinishQuestionModalVisible(true)}
-          />
-        )}
+        {room.createdBy === user.phoneNumber &&
+          room.data.isFromLink &&
+          !room.data.freePoints && (
+            <AppButton
+              icon="checkmark"
+              iconSize={24}
+              style={{ width: 40, height: 40 }}
+              onPress={() => setIsFinishQuestionModalVisible(true)}
+            />
+          )}
         <AppInput
           style={styles.input}
           placeholder="Enter your message..."
