@@ -68,7 +68,11 @@ const AskUserNameModal = ({
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const [name, setName] = useState('')
-  const [points, setPoints] = useState(POINTS[0].value)
+  const [points, setPoints] = useState(0)
+
+  useEffect(() => {
+    if (user?.selectedPoints) setPoints(user.selectedPoints)
+  }, [user?.selectedPoints])
 
   const onSubmit = () => {
     dispatch(updateName({ name }))
@@ -78,7 +82,6 @@ const AskUserNameModal = ({
     if (toAskMeScreen) {
       NavigationService.navigate(Screens.AskMe)
     }
-    setPoints(POINTS[0].value)
   }
 
   useEffect(() => {
@@ -112,7 +115,7 @@ const AskUserNameModal = ({
             </AppText>
             <Picker
               items={POINTS}
-              selectedValue={POINTS[0].value}
+              selectedValue={points}
               onChange={(value) => {
                 setPoints(value)
               }}

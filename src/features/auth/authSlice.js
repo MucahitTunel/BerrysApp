@@ -293,7 +293,7 @@ const authSlice = createSlice({
       state.loading = true
     },
     [requestToAsk.fulfilled]: (state) => {
-      state.loading = true
+      state.loading = false
     },
     [authBoot.pending]: (state) => {
       state.booting = true

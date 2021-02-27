@@ -1,15 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, Animated } from 'react-native'
 import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, FontSize } from 'constants'
-import { AppButton, AppText, AppInput } from 'components'
+import { AppButton, AppText } from 'components'
 import Theme from 'theme'
-import { setAskQuestion } from 'features/questions/askSlice'
-import { directMessage } from 'features/messages/messagesSlice'
+import { finishAskingAskRequest } from 'features/questions/askSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -51,24 +50,17 @@ const styles = StyleSheet.create({
   },
 })
 
-const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
+const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
   const dispatch = useDispatch()
-  const contacts = useSelector((state) => state.contacts.data)
-  const [question, setQuestion] = useState('')
+
   const onSubmit = () => {
-    const requester = contacts.find(
-      (c) => c.phoneNumber === request.userPhoneNumber,
-    )
-    dispatch(setAskQuestion(question))
-    setModalVisible(false)
-    setQuestion('')
-    dispatch(
-      directMessage({
-        userPhoneNumber: requester.phoneNumber,
-        askRequestId: request._id,
-      }),
-    )
+    dispatch(finishAskingAskRequest(closeModal))
   }
+
+  const closeModal = () => {
+    setModalVisible(false)
+  }
+
   return (
     <Modal
       isVisible={isModalVisible}
@@ -84,16 +76,10 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
             <AppText
               fontSize={FontSize.xLarge}
               style={{ marginBottom: 30, textAlign: 'center' }}>
-              {`Ask ${request.requester} your question`}
+              Are you satisfied with the answer?
             </AppText>
-            <AppInput
-              style={styles.input}
-              placeholder="Type your question"
-              onChange={(value) => setQuestion(value)}
-              value={question}
-            />
             <View style={styles.actions}>
-              <AppButton text="Submit" onPress={onSubmit} />
+              <AppButton text="Done With the Question" onPress={onSubmit} />
               <AppButton
                 text="Close"
                 textStyle={{ color: Colors.primary }}
@@ -101,7 +87,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
                   backgroundColor: Colors.white,
                   marginTop: 12,
                 }}
-                onPress={() => setModalVisible(false)}
+                onPress={closeModal}
               />
             </View>
           </View>
@@ -111,11 +97,9 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
   )
 }
 
-AskMyQuestionModal.propTypes = {
+FinishAskingModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
-  onGoToContactList: PropTypes.func,
-  fromMain: PropTypes.bool,
 }
 
-export default AskMyQuestionModal
+export default FinishAskingModal

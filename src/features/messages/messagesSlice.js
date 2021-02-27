@@ -22,21 +22,49 @@ const roomSortFunction = (room1, room2) => {
 
 export const directMessage = createAsyncThunk(
   'messages/directMessage',
-  async ({ userId }, { dispatch }) => {
-    const { data } = await request({
-      method: 'GET',
-      url: '/account/get-user-by-id',
-      params: {
-        userId,
-      },
-    })
-    const { user } = data
+  async (
+    { userId, isFromLink = false, userPhoneNumber = null, askRequestId = null },
+    { dispatch, getState },
+  ) => {
+    const state = getState()
+    let response
+
+    if (userPhoneNumber) {
+      response = await request({
+        method: 'GET',
+        url: '/account/get-user-by-number',
+        params: {
+          userPhoneNumber,
+        },
+      })
+    } else {
+      response = await request({
+        method: 'GET',
+        url: '/account/get-user-by-id',
+        params: {
+          userId,
+        },
+      })
+    }
+    const { user } = response.data
+
+    if (isFromLink) {
+      if (user.selectedPoints > state.auth.user.totalPoints) {
+        Alert.alert('Error', "You don't have enough points to ask a question")
+        NavigationService.goBack()
+        return
+      }
+    }
+
     if (user && user.phoneNumber) {
       dispatch(
         joinRoom({
           phoneNumber: user.phoneNumber,
           isFromAskMeAnything: true,
           linkOwnerName: user.name,
+          isFromLink,
+          isFreePoints: user.selectedPoints === 0,
+          askRequestId,
         }),
       )
     } else {
@@ -56,8 +84,12 @@ export const joinRoom = createAsyncThunk(
       linkOwnerName,
       isFromAskMeAnything = false,
       isFromContactsList = false,
+      // Used for direct message difference (contacts and public link)
+      isFromLink,
+      isFreePoints = false,
+      askRequestId,
     },
-    { getState },
+    { getState, dispatch },
   ) => {
     const state = getState()
     const user = state.auth.user
@@ -76,11 +108,14 @@ export const joinRoom = createAsyncThunk(
         linkOwnerName,
         isFromAskMeAnything,
         isFromContactsList,
+        isFromLink,
+        askRequestId,
       },
     })
     const { room } = data
+    if (isFromLink && isFreePoints) room.data.freePoints = true
+    dispatch(setRoom(room))
     NavigationService.navigate(Screens.Conversation)
-    return room
   },
 )
 
@@ -255,9 +290,10 @@ const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    [joinRoom.fulfilled]: (state, action) => {
+    /*     [joinRoom.fulfilled]: (state, action) => {
+      console.log('hrer')
       state.room = action.payload
-    },
+    }, */
     [getRoom.fulfilled]: (state, action) => {
       state.room = action.payload
     },

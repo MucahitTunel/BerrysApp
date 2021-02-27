@@ -22,10 +22,16 @@ import {
   readConversation,
   removeRoomWithNewMessages,
 } from 'features/messages/messagesSlice'
+import {
+  setAskQuestion,
+  renewAskRequest,
+  approveAskRequest,
+} from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
+import FinishAskingModal from './FinishAskingModal'
 
 const styles = StyleSheet.create({
   container: {
@@ -106,10 +112,15 @@ const Conversation = ({ navigation }) => {
   const [message, setMessage] = useState(null)
   const [commonGroup, setCommonGroup] = useState(null)
   const user = useSelector((state) => state.auth.user)
+  const question = useSelector((state) => state.ask.question)
   const room = useSelector((state) => state.messages.room)
   const messages = useSelector((state) => state.messages.messages)
   const description =
     room && room._id ? getConversationName(room).description : 'description'
+  const [
+    isFinishQuestionModalVisible,
+    setIsFinishQuestionModalVisible,
+  ] = useState(false)
 
   useEffect(() => {
     const getCommonGroup = async () => {
@@ -150,8 +161,20 @@ const Conversation = ({ navigation }) => {
     }
   }, [navigation, room, dispatch])
 
+  useEffect(() => {
+    if (room.data.isFromAskMeAnything) {
+      if (!room.data.isFromLink) {
+        if (question) {
+          dispatch(setAskQuestion(null))
+          onSendMessage(question)
+        }
+      }
+    }
+  }, [room, question, dispatch, onSendMessage])
+
   const onChangeMessage = (msg) => setMessage(msg)
-  const onSendMessage = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onSendMessage = (message) => {
     dispatch(
       sendMessage({
         content: message,
@@ -205,6 +228,72 @@ const Conversation = ({ navigation }) => {
       </View>
     )
   }
+
+  const getAskRequestButtonText = () => {
+    if (room.createdBy === user.phoneNumber) {
+      if (room.data.newRequest) return 'Waiting for user to accept'
+      else return 'Request to Ask Question'
+    } else {
+      if (room.data.newRequest) return 'Let them ask another question'
+      else return 'User Finished Asking'
+    }
+  }
+
+  const getAskRequestButtonActive = () => {
+    if (room.createdBy === user.phoneNumber) return room.data.newRequest
+    else return !room.data.newRequest
+  }
+
+  const renderInputsCondition = () => {
+    if (room.data.isFromAskMeAnything) {
+      if (room.data.isFromLink) {
+        if (!room.data.requestFinished) return renderInputs()
+        else
+          return (
+            <AppButton
+              text={getAskRequestButtonText()}
+              onPress={() => {
+                if (!room.data.newRequest) dispatch(renewAskRequest())
+                else dispatch(approveAskRequest())
+              }}
+              disabled={getAskRequestButtonActive()}
+            />
+          )
+      } else return renderInputs()
+    } else return renderInputs()
+  }
+
+  const renderInputs = () => {
+    return (
+      <View style={styles.inputView}>
+        {room.createdBy === user.phoneNumber &&
+          room.data.isFromLink &&
+          !room.data.freePoints && (
+            <AppButton
+              icon="checkmark"
+              iconSize={24}
+              style={{ width: 40, height: 40 }}
+              onPress={() => setIsFinishQuestionModalVisible(true)}
+            />
+          )}
+        <AppInput
+          style={styles.input}
+          placeholder="Enter your message..."
+          placeholderTextColor={Colors.gray}
+          value={message}
+          onChange={onChangeMessage}
+        />
+        <AppButton
+          icon="send"
+          iconSize={16}
+          disabled={!message}
+          style={{ width: 40, height: 40 }}
+          onPress={message ? () => onSendMessage(message) : () => {}}
+        />
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -240,23 +329,13 @@ const Conversation = ({ navigation }) => {
             keyExtractor={(item) => String(item._id)}
           />
         </View>
-        <View style={styles.inputView}>
-          <AppInput
-            style={styles.input}
-            placeholder="Enter your message..."
-            placeholderTextColor={Colors.gray}
-            value={message}
-            onChange={onChangeMessage}
-          />
-          <AppButton
-            icon="send"
-            iconSize={16}
-            disabled={!message}
-            style={{ width: 40, height: 40 }}
-            onPress={message ? onSendMessage : () => {}}
-          />
-        </View>
+        {renderInputsCondition()}
       </Animated.View>
+
+      <FinishAskingModal
+        isModalVisible={isFinishQuestionModalVisible}
+        setModalVisible={(value) => setIsFinishQuestionModalVisible(value)}
+      />
     </SafeAreaView>
   )
 }

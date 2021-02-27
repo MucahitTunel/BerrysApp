@@ -20,7 +20,7 @@ const DirectMessage = ({ route }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     if (route && route.params && route.params.userId) {
-      dispatch(directMessage({ userId: route.params.userId }))
+      dispatch(directMessage({ userId: route.params.userId, isFromLink: true }))
     }
   }, [route, dispatch])
   return (
