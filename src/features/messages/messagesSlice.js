@@ -23,7 +23,7 @@ const roomSortFunction = (room1, room2) => {
 export const directMessage = createAsyncThunk(
   'messages/directMessage',
   async (
-    { userId, isFromLink = false, userPhoneNumber = null },
+    { userId, isFromLink = false, userPhoneNumber = null, askRequestId = null },
     { dispatch, getState },
   ) => {
     const state = getState()
@@ -64,6 +64,7 @@ export const directMessage = createAsyncThunk(
           linkOwnerName: user.name,
           isFromLink,
           isFreePoints: user.selectedPoints === 0,
+          askRequestId,
         }),
       )
     } else {
@@ -86,6 +87,7 @@ export const joinRoom = createAsyncThunk(
       // Used for direct message difference (contacts and public link)
       isFromLink,
       isFreePoints = false,
+      askRequestId,
     },
     { getState, dispatch },
   ) => {
@@ -107,6 +109,7 @@ export const joinRoom = createAsyncThunk(
         isFromAskMeAnything,
         isFromContactsList,
         isFromLink,
+        askRequestId,
       },
     })
     const { room } = data

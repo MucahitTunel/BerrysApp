@@ -49,24 +49,6 @@ export const finishAskingAskRequest = createAsyncThunk(
   },
 )
 
-export const setAskedAskRequest = createAsyncThunk(
-  'ask/asked',
-  async (_, { getState, dispatch }) => {
-    const state = getState()
-    const user = state.auth.user
-    const room = state.messages.room
-    await request({
-      method: 'PUT',
-      url: 'question/ask-request',
-      data: {
-        userPhoneNumber: user.phoneNumber,
-        requesterNumber: room.members.filter((m) => m !== user.phoneNumber)[0],
-      },
-    })
-    return
-  },
-)
-
 const askSlice = createSlice({
   name: 'ask',
   initialState: {

@@ -22,7 +22,7 @@ import {
   readConversation,
   removeRoomWithNewMessages,
 } from 'features/messages/messagesSlice'
-import { setAskQuestion, setAskedAskRequest } from 'features/questions/askSlice'
+import { setAskQuestion } from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
@@ -163,7 +163,6 @@ const Conversation = ({ navigation }) => {
         if (question) {
           dispatch(setAskQuestion(null))
           onSendMessage(question)
-          dispatch(setAskedAskRequest())
         }
       }
     }

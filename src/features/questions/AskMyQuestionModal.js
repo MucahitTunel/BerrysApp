@@ -62,7 +62,12 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
     dispatch(setAskQuestion(question))
     setModalVisible(false)
     setQuestion('')
-    dispatch(directMessage({ userPhoneNumber: requester.phoneNumber }))
+    dispatch(
+      directMessage({
+        userPhoneNumber: requester.phoneNumber,
+        askRequestId: request._id,
+      }),
+    )
   }
   return (
     <Modal
