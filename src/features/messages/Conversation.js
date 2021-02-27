@@ -22,7 +22,7 @@ import {
   readConversation,
   removeRoomWithNewMessages,
 } from 'features/messages/messagesSlice'
-import { setAskQuestion } from 'features/questions/askSlice'
+import { setAskQuestion, setAskedAskRequest } from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
@@ -160,14 +160,18 @@ const Conversation = ({ navigation }) => {
   useEffect(() => {
     if (room.data.isFromAskMeAnything) {
       if (!room.data.isFromLink) {
-        setMessage(question)
-        setAskQuestion('')
+        if (question) {
+          dispatch(setAskQuestion(null))
+          onSendMessage(question)
+          dispatch(setAskedAskRequest())
+        }
       }
     }
-  }, [room, question])
+  }, [room, question, dispatch, onSendMessage])
 
   const onChangeMessage = (msg) => setMessage(msg)
-  const onSendMessage = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onSendMessage = (message) => {
     dispatch(
       sendMessage({
         content: message,
@@ -279,7 +283,7 @@ const Conversation = ({ navigation }) => {
           iconSize={16}
           disabled={!message}
           style={{ width: 40, height: 40 }}
-          onPress={message ? onSendMessage : () => {}}
+          onPress={message ? () => onSendMessage(message) : () => {}}
         />
       </View>
     )
