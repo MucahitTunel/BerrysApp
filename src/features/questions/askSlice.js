@@ -49,6 +49,47 @@ export const finishAskingAskRequest = createAsyncThunk(
   },
 )
 
+export const renewAskRequest = createAsyncThunk(
+  'ask/renew',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const room = state.messages.room
+    const { data } = await request({
+      method: 'POST',
+      url: 'question/renew-ask-request',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        requesterNumber: room.members.filter((m) => m !== user.phoneNumber)[0],
+        roomId: room._id,
+      },
+    })
+    dispatch(setRoom(data.room))
+    return
+  },
+)
+
+export const approveAskRequest = createAsyncThunk(
+  'ask/approve-new',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const room = state.messages.room
+    const { data } = await request({
+      method: 'POST',
+      url: 'question/approve-ask-request',
+      data: {
+        askingUserPhoneNumber: room.members.filter(
+          (m) => m !== user.phoneNumber,
+        )[0],
+        roomId: room._id,
+      },
+    })
+    dispatch(setRoom(data.room))
+    return
+  },
+)
+
 const askSlice = createSlice({
   name: 'ask',
   initialState: {

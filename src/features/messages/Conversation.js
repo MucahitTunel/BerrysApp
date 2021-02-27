@@ -22,7 +22,11 @@ import {
   readConversation,
   removeRoomWithNewMessages,
 } from 'features/messages/messagesSlice'
-import { setAskQuestion } from 'features/questions/askSlice'
+import {
+  setAskQuestion,
+  renewAskRequest,
+  approveAskRequest,
+} from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
@@ -248,8 +252,10 @@ const Conversation = ({ navigation }) => {
           return (
             <AppButton
               text={getAskRequestButtonText()}
-              // TODO Implement ask again logic here
-              onPress={() => {}}
+              onPress={() => {
+                if (!room.data.newRequest) dispatch(renewAskRequest())
+                else dispatch(approveAskRequest())
+              }}
               disabled={getAskRequestButtonActive()}
             />
           )

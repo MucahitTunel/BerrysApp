@@ -35,7 +35,7 @@ import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
 import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
 import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
-import { getRoom } from 'features/messages/messagesSlice'
+import { getRoom, setRoom } from 'features/messages/messagesSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -408,6 +408,13 @@ const Main = ({ route }) => {
             }
             break
           }
+          case 'RENEW_ASK_REQUEST':
+          case 'APPROVE_ASK_REQUEST':
+            if (additionalData.room) {
+              dispatch(setRoom(additionalData.room))
+              NavigationService.navigate(Screens.Conversation)
+            }
+            break
           default:
             break
         }
