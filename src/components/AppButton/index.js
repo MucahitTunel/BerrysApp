@@ -50,9 +50,11 @@ const AppButton = ({
   style,
   isLoading,
   shadow = true,
+  leftAlign,
 }) => {
   let btnIcon = styles.btnIcon
   let btnSecondary = styles.btnSecondary
+  let btn = { ...styles.btn }
   if (shadow) {
     btnIcon = { ...btnIcon, ...Theme.shadow }
     btnSecondary = {
@@ -61,8 +63,11 @@ const AppButton = ({
       shadowColor: 'rgba(235, 86, 81, 0.3)',
     }
   }
+  if (leftAlign) {
+    btn.alignItems = 'flex-start'
+  }
   const s = [
-    styles.btn,
+    btn,
     icon && styles.btnSecondary,
     icon && !text && btnIcon,
     disabled && styles.btnDisabled,
@@ -107,6 +112,7 @@ AppButton.propTypes = {
   disabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   shadow: PropTypes.bool,
+  leftAlign: PropTypes.bool,
 }
 
 AppButton.defaultProps = {

@@ -12,6 +12,7 @@ import ContactsList from './ContactsList'
 import ScaleTouchable from './ScaleTouchable'
 import AppBadge from './AppBadge'
 import SuccessModal from './SuccessModal'
+import PollItem from './PollItem'
 
 export {
   AppButton,
@@ -28,4 +29,5 @@ export {
   ScaleTouchable,
   AppBadge,
   SuccessModal,
+  PollItem,
 }
