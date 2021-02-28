@@ -268,7 +268,7 @@ const Conversation = ({ navigation }) => {
       <View style={styles.inputView}>
         {room.createdBy === user.phoneNumber &&
           room.data.isFromLink &&
-          !room.data.freePoints && (
+          room.pointsToTake !== 0 && (
             <AppButton
               icon="checkmark"
               iconSize={24}
@@ -335,6 +335,7 @@ const Conversation = ({ navigation }) => {
       <FinishAskingModal
         isModalVisible={isFinishQuestionModalVisible}
         setModalVisible={(value) => setIsFinishQuestionModalVisible(value)}
+        pointsToTake={room.pointsToTake}
       />
     </SafeAreaView>
   )

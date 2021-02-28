@@ -100,6 +100,21 @@ const AskUserNameModal = ({
           <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
         </View>
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
+          <AppButton
+            icon="close"
+            iconSize={15}
+            onPress={() => {
+              setName(user?.name ? user.name : '')
+              setModalVisible(false)
+            }}
+            style={{
+              height: 25,
+              width: 25,
+              position: 'relative',
+              top: 15,
+              left: Dimensions.Width - 30,
+            }}
+          />
           <View style={styles.content}>
             <AppInput
               style={styles.input}
@@ -122,18 +137,10 @@ const AskUserNameModal = ({
             />
             <View style={styles.actions}>
               <AppButton
-                text="Submit"
+                text="Continue"
                 onPress={onSubmit}
                 disabled={isBtnDisabled}
-              />
-              <AppButton
-                text="Close"
-                textStyle={{ color: Colors.primary }}
-                style={{ backgroundColor: Colors.white, marginBottom: 12 }}
-                onPress={() => {
-                  setName(user?.name ? user.name : '')
-                  setModalVisible(false)
-                }}
+                style={{ marginBottom: 12 }}
               />
             </View>
           </View>

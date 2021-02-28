@@ -50,7 +50,11 @@ const styles = StyleSheet.create({
   },
 })
 
-const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
+const FinishAskingModal = ({
+  isModalVisible,
+  setModalVisible,
+  pointsToTake,
+}) => {
   const dispatch = useDispatch()
 
   const onSubmit = () => {
@@ -75,13 +79,20 @@ const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
           <View style={styles.content}>
             <AppText
               fontSize={FontSize.xLarge}
-              style={{ marginBottom: 30, textAlign: 'center' }}>
+              style={{ marginBottom: 10, textAlign: 'center' }}>
               Are you satisfied with the answer?
             </AppText>
+            {pointsToTake !== 0 && (
+              <AppText
+                fontSize={FontSize.normal}
+                style={{ marginBottom: 20, textAlign: 'center' }}>
+                {pointsToTake} Points would be deducted from you
+              </AppText>
+            )}
             <View style={styles.actions}>
               <AppButton text="Done With the Question" onPress={onSubmit} />
               <AppButton
-                text="Close"
+                text="Not Yet"
                 textStyle={{ color: Colors.primary }}
                 style={{
                   backgroundColor: Colors.white,
@@ -100,6 +111,7 @@ const FinishAskingModal = ({ isModalVisible, setModalVisible }) => {
 FinishAskingModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
+  pointsToTake: PropTypes.number,
 }
 
 export default FinishAskingModal

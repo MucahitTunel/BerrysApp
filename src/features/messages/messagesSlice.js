@@ -63,7 +63,6 @@ export const directMessage = createAsyncThunk(
           isFromAskMeAnything: true,
           linkOwnerName: user.name,
           isFromLink,
-          isFreePoints: user.selectedPoints === 0,
           askRequestId,
         }),
       )
@@ -86,7 +85,6 @@ export const joinRoom = createAsyncThunk(
       isFromContactsList = false,
       // Used for direct message difference (contacts and public link)
       isFromLink,
-      isFreePoints = false,
       askRequestId,
     },
     { getState, dispatch },
@@ -113,7 +111,6 @@ export const joinRoom = createAsyncThunk(
       },
     })
     const { room } = data
-    if (isFromLink && isFreePoints) room.data.freePoints = true
     dispatch(setRoom(room))
     NavigationService.navigate(Screens.Conversation)
   },
