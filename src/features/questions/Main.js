@@ -187,6 +187,25 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
+  postTypesContainer: {
+    borderTopWidth: 1.5,
+    borderColor: Colors.grayLight,
+    height: 45,
+    width: Dimensions.Width - 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  postType: {
+    height: 25,
+    flex: 1,
+    backgroundColor: 'transparent',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: Colors.grayLight,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+  },
 })
 
 const RequestToAsk = ({ requests }) => {
@@ -504,31 +523,56 @@ const Main = ({ route }) => {
         initialValues={{ question }}
         onSubmit={onSubmit}>
         {({ values, handleSubmit, setFieldValue }) => (
-          <View style={styles.inputView}>
-            <Avatar source={Images.defaultAvatar} size={50} />
-            <AppInput
-              style={styles.input}
-              placeholder="Ask from people in your circles, anonymously..."
-              multiline
-              onChange={(value) => {
-                setFieldValue('question', value)
-                const url = checkURL(value)
-                setQuestionUrl(url)
-              }}
-              value={values.question}
-            />
-            <AppButton
-              text="Post"
-              textStyle={styles.sendBtnText}
-              icon="send"
-              iconSize={12}
-              disabled={!values.question}
-              style={[
-                styles.sendBtn,
-                !values.question && styles.sendBtnDisabled,
-              ]}
-              onPress={handleSubmit}
-            />
+          <View style={{ alignItems: 'center' }}>
+            <View style={styles.inputView}>
+              <Avatar source={Images.defaultAvatar} size={50} />
+              <AppInput
+                style={styles.input}
+                placeholder="Ask from people in your circles, anonymously..."
+                multiline
+                onChange={(value) => {
+                  setFieldValue('question', value)
+                  const url = checkURL(value)
+                  setQuestionUrl(url)
+                }}
+                value={values.question}
+              />
+              <AppButton
+                text="Post"
+                textStyle={styles.sendBtnText}
+                icon="send"
+                iconSize={12}
+                disabled={!values.question}
+                style={[
+                  styles.sendBtn,
+                  !values.question && styles.sendBtnDisabled,
+                ]}
+                onPress={handleSubmit}
+              />
+            </View>
+            <View style={styles.postTypesContainer}>
+              <AppButton
+                shadow={false}
+                icon="send"
+                iconSize={20}
+                iconColor={'#c6c6c6'}
+                style={[styles.postType, { borderLeftWidth: 0 }]}
+              />
+              <AppButton
+                shadow={false}
+                icon="send"
+                iconSize={20}
+                iconColor={'#c6c6c6'}
+                style={styles.postType}
+              />
+              <AppButton
+                shadow={false}
+                icon="send"
+                iconSize={20}
+                iconColor={'#c6c6c6'}
+                style={[styles.postType, { borderRightWidth: 0 }]}
+              />
+            </View>
           </View>
         )}
       </Formik>

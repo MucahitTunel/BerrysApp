@@ -27,14 +27,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    ...Theme.shadow,
-    shadowColor: 'rgba(235, 86, 81, 0.3)',
   },
   btnIcon: {
     width: 54,
     height: 54,
     borderRadius: 27,
-    ...Theme.shadow,
   },
   btnDisabled: {
     shadowOpacity: 0,
@@ -47,30 +44,47 @@ const AppButton = ({
   textStyle,
   icon,
   iconSize,
+  iconColor,
   onPress,
   disabled,
   style,
   isLoading,
-}) => (
-  <ScaleTouchable
-    disabled={disabled}
-    onPress={onPress}
-    style={[
-      styles.btn,
-      icon && styles.btnSecondary,
-      icon && !text && styles.btnIcon,
-      disabled && styles.btnDisabled,
-      style,
-    ]}>
-    {isLoading ? <ActivityIndicator /> : null}
-    {!isLoading && icon ? (
-      <AppIcon name={icon} color={Colors.white} size={iconSize} />
-    ) : null}
-    {!isLoading && text ? (
-      <AppText style={[styles.btnText, textStyle]}>{text}</AppText>
-    ) : null}
-  </ScaleTouchable>
-)
+  shadow = true,
+}) => {
+  let btnIcon = styles.btnIcon
+  let btnSecondary = styles.btnSecondary
+  if (shadow) {
+    btnIcon = { ...btnIcon, ...Theme.shadow }
+    btnSecondary = {
+      ...btnSecondary,
+      ...Theme.shadow,
+      shadowColor: 'rgba(235, 86, 81, 0.3)',
+    }
+  }
+  const s = [
+    styles.btn,
+    icon && styles.btnSecondary,
+    icon && !text && btnIcon,
+    disabled && styles.btnDisabled,
+    style,
+  ]
+
+  return (
+    <ScaleTouchable disabled={disabled} onPress={onPress} style={s}>
+      {isLoading ? <ActivityIndicator /> : null}
+      {!isLoading && icon ? (
+        <AppIcon
+          name={icon}
+          color={iconColor ? iconColor : Colors.white}
+          size={iconSize}
+        />
+      ) : null}
+      {!isLoading && text ? (
+        <AppText style={[styles.btnText, textStyle]}>{text}</AppText>
+      ) : null}
+    </ScaleTouchable>
+  )
+}
 
 export default AppButton
 
@@ -78,6 +92,7 @@ AppButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   icon: PropTypes.string,
   iconSize: PropTypes.number,
+  iconColor: PropTypes.string,
   text: PropTypes.string,
   color: PropTypes.string,
   error: PropTypes.string,
@@ -91,6 +106,7 @@ AppButton.propTypes = {
   ]),
   disabled: PropTypes.bool,
   isLoading: PropTypes.bool,
+  shadow: PropTypes.bool,
 }
 
 AppButton.defaultProps = {
