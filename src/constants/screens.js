@@ -28,4 +28,5 @@ export default {
   GroupCreate: 'GroupCreateScreen',
   GroupUpsert: 'GroupUpsertScreen',
   GroupAddMembers: 'GroupAddMembersScreen',
+  CreatePoll: 'CreatePoll',
 }

@@ -564,6 +564,7 @@ const Main = ({ route }) => {
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={styles.postType}
+                onPress={() => NavigationService.navigate(Screens.CreatePoll)}
               />
               <AppButton
                 shadow={false}

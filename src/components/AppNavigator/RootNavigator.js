@@ -34,6 +34,7 @@ import GroupList from 'features/groups/GroupList'
 import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
+import CreatePoll from 'features/questions/CreatePoll'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -147,6 +148,18 @@ const MainStack = () => (
       name={Screens.DirectMessage}
       component={DirectMessage}
       options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name={Screens.CreatePoll}
+      component={CreatePoll}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="CreatePoll"
+            headerLeft={<MainBackButton navigation={navigation} />}
+          />
+        ),
+      })}
     />
   </Stack.Navigator>
 )
