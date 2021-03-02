@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   StatusBar,
   StyleSheet,
@@ -8,10 +7,12 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
+import { setPollOptions } from '../questionSlice'
 import * as NavigationService from 'services/navigation'
-import { Dimensions, Colors, Screens, FontSize } from 'constants'
+import { setAskQuestion } from '../askSlice'
 
-import { PollItem, AppButton, AppText, AppInput } from 'components'
+import { PollInput, AppButton, AppText, AppInput } from 'components'
 
 const styles = StyleSheet.create({
   container: {
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
 
 export const CreatePoll = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.auth.user)
 
   const [question, setQuestion] = useState(null)
   const [options, setOptions] = useState([{ value: null }, { value: null }])
@@ -58,7 +58,7 @@ export const CreatePoll = () => {
     }
 
     return (
-      <PollItem
+      <PollInput
         onChange={onChange}
         selected
         itemIndex={index + 1}
@@ -81,6 +81,12 @@ export const CreatePoll = () => {
     if (!question) {
       return alert('You have to write a question to continue')
     }
+    dispatch(setPollOptions(options))
+    dispatch(setAskQuestion(question))
+    NavigationService.navigate(Screens.SelectContacts, {
+      otherQuestionType: true,
+      poll: true,
+    })
   }
 
   return (

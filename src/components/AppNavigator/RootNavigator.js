@@ -34,7 +34,8 @@ import GroupList from 'features/groups/GroupList'
 import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
-import CreatePoll from 'features/questions/CreatePoll'
+import CreatePoll from 'features/questions/Polls/CreatePoll'
+import PollDetails from 'features/questions/Polls/Detail'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -156,6 +157,18 @@ const MainStack = () => (
         header: () => (
           <Header
             title="CreatePoll"
+            headerLeft={<MainBackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.PollDetails}
+      component={PollDetails}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Poll Details"
             headerLeft={<MainBackButton navigation={navigation} />}
           />
         ),

@@ -43,6 +43,9 @@ export const authBoot = createAsyncThunk(
       channel.bind('QUESTION_ANSWERED', (data) => {
         dispatch(getQuestions())
       })
+      channel.bind('POLL_ASKED', (data) => {
+        dispatch(getQuestions())
+      })
       channel.bind('MESSAGE_RECEIVED', (data) => {
         // TODO XIN improvement
         // if I'm in the same room as roomId, don't call addRoomWithNewMessages

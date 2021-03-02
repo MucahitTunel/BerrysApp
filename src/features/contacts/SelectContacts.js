@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Alert, SafeAreaView, Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +9,7 @@ import {
   setAskGroups,
 } from 'features/questions/askSlice'
 import { Colors } from 'constants'
+import { createPoll } from '../questions/questionSlice'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
@@ -23,13 +25,15 @@ const SelectContacts = (props) => {
     }
     dispatch(setAskContacts(contacts))
     dispatch(setAskGroups(groups))
+
+    if (props.route.params?.poll) return dispatch(createPoll())
     dispatch(askQuestion(request))
   }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
-        isPostQuestion
+        isPostQuestion={!props.route.params?.otherQuestionType}
         showGroups
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"

@@ -13,8 +13,8 @@ export const getQuestions = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
       },
     })
-    const { questions, requestsToAsk } = data
-    return { questions, requestsToAsk }
+    const { questions, requestsToAsk, polls } = data
+    return { questions, requestsToAsk, polls }
   },
 )
 
@@ -35,11 +35,29 @@ export const hideQuestion = createAsyncThunk(
   },
 )
 
+export const hidePoll = createAsyncThunk(
+  'poll/hide',
+  async (pollId, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'poll/hide',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        pollId,
+      },
+    })
+    return pollId
+  },
+)
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState: {
     data: [],
     requestsToAsk: [],
+    polls: [],
     loading: false,
   },
   reducers: {
@@ -65,10 +83,14 @@ const questionsSlice = createSlice({
     [getQuestions.fulfilled]: (state, action) => {
       state.data = action.payload.questions
       state.requestsToAsk = action.payload.requestsToAsk
+      state.polls = action.payload.polls
       state.loading = false
     },
     [hideQuestion.fulfilled]: (state, action) => {
       state.data = state.data.filter((q) => q._id !== action.payload)
+    },
+    [hidePoll.fulfilled]: (state, action) => {
+      state.polls = state.polls.filter((p) => p._id !== action.payload)
     },
   },
 })

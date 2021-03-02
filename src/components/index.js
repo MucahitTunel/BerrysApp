@@ -12,6 +12,7 @@ import ContactsList from './ContactsList'
 import ScaleTouchable from './ScaleTouchable'
 import AppBadge from './AppBadge'
 import SuccessModal from './SuccessModal'
+import PollInput from './PollInput'
 import PollItem from './PollItem'
 
 export {
@@ -29,5 +30,6 @@ export {
   ScaleTouchable,
   AppBadge,
   SuccessModal,
+  PollInput,
   PollItem,
 }

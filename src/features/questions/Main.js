@@ -34,9 +34,13 @@ import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
 import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
-import { getQuestions, hideQuestion } from 'features/questions/questionsSlice'
+import {
+  getQuestions,
+  hideQuestion,
+  hidePoll,
+} from 'features/questions/questionsSlice'
 import { getRoom, setRoom } from 'features/messages/messagesSlice'
-import { getQuestion } from 'features/questions/questionSlice'
+import { getQuestion, getPoll } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
@@ -381,6 +385,76 @@ QuestionItem.propTypes = {
   }),
 }
 
+const PollItem = ({ data }) => {
+  const dispatch = useDispatch()
+
+  const onPress = () => {
+    dispatch(getPoll(data._id))
+    NavigationService.navigate(Screens.PollDetails)
+  }
+
+  const onRemovePoll = (direction, _id) => {
+    if (direction === 'right') {
+      dispatch(hidePoll(_id))
+    }
+  }
+
+  return (
+    <Swipeout
+      style={{ marginBottom: 4 }}
+      onOpen={(sectionID, rowId, direction) =>
+        onRemovePoll(direction, data._id)
+      }
+      right={swipeoutBtns}
+      backgroundColor="transparent"
+      buttonWidth={Dimensions.Width - 10}>
+      <ScaleTouchable style={[styles.questionItem]} onPress={onPress}>
+        <View style={{ flex: 1 }}>
+          <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
+            {data.question}
+          </AppText>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 12,
+            }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppText fontSize={15} color={Colors.gray}>{`Poll  -  `}</AppText>
+              <AppText
+                fontSize={15}
+                weight="medium"
+                style={{ marginRight: 38 }}>
+                {data.votes.length}
+                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
+              </AppText>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: 16,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <AppText color={Colors.gray} fontSize={FontSize.normal}>
+            {moment(data.createdAt).fromNow()}
+          </AppText>
+          <AppIcon
+            name="chevron-right"
+            size={20}
+            color={'rgba(128, 128, 128, 0.5)'}
+          />
+        </View>
+      </ScaleTouchable>
+    </Swipeout>
+  )
+}
+
+PollItem.propTypes = {
+  data: PropTypes.object,
+}
+
 const Main = ({ route }) => {
   const showSuccessModal =
     route && route.params && route.params.showSuccessModal
@@ -388,7 +462,7 @@ const Main = ({ route }) => {
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
-  const { data, requestsToAsk } = questions
+  const { requestsToAsk } = questions
   const keyboard = useKeyboard()
   const [questionUrl, setQuestionUrl] = useState(null)
   const [_, setQuestionFromModal] = useState(null)
@@ -399,6 +473,15 @@ const Main = ({ route }) => {
     false,
   )
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
+  const [listData, setListData] = useState([])
+
+  useEffect(() => {
+    setListData(
+      [...questions.data, ...questions.polls].sort(
+        (a, b) => b.createdAt - a.createdAt,
+      ),
+    )
+  }, [questions])
 
   useEffect(() => {
     dispatch(getQuestions())
@@ -424,6 +507,13 @@ const Main = ({ route }) => {
             if (additionalData.questionId) {
               dispatch(getQuestion(additionalData.questionId))
               NavigationService.navigate(Screens.Answers)
+            }
+            break
+          }
+          case 'POLL_ASKED': {
+            if (additionalData.pollId) {
+              dispatch(getPoll(additionalData.pollId))
+              NavigationService.navigate(Screens.PollDetails)
             }
             break
           }
@@ -513,7 +603,10 @@ const Main = ({ route }) => {
   }
 
   const isNewUser = user.isNew && !question
-  const renderItem = ({ item }) => <QuestionItem question={item} />
+  const renderItem = ({ item }) => {
+    if (item.type === 'question') return <QuestionItem question={item} />
+    if (item.type === 'poll') return <PollItem data={item} />
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -623,7 +716,7 @@ const Main = ({ route }) => {
       ) : (
         <View style={styles.flatListView}>
           <FlatList
-            data={data}
+            data={listData}
             renderItem={renderItem}
             keyExtractor={(item) => item._id}
             ListEmptyComponent={renderEmpty()}
