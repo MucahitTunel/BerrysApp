@@ -62,7 +62,7 @@ export const CreatePoll = () => {
         onChange={onChange}
         selected
         itemIndex={index + 1}
-        style={{ marginBottom: 10 }}
+        style={{ marginBottom: 10, marginLeft: 10 }}
         text={item.value}
       />
     )
