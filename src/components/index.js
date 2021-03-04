@@ -15,6 +15,7 @@ import SuccessModal from './SuccessModal'
 import PollInput from './PollInput'
 import PollItem from './PollItem'
 import CompareItem from './CompareItem'
+import TouchableWrapper from './TouchableWrapper'
 
 export {
   AppButton,
@@ -34,4 +35,5 @@ export {
   PollInput,
   PollItem,
   CompareItem,
+  TouchableWrapper,
 }

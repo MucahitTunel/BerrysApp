@@ -9,6 +9,8 @@ import {
   SafeAreaView,
   Animated,
   Keyboard,
+  Image,
+  ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
 import { AppText, AppInput, Header, AppButton, AppBadge } from 'components'
@@ -32,6 +34,8 @@ import getConversationName from 'utils/get-conversation-name'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { hideKeyBoard, showKeyboard } from 'utils'
 import FinishAskingModal from './FinishAskingModal'
+import { launchImageLibrary } from 'react-native-image-picker'
+import firebase from '../../services/firebase'
 
 const styles = StyleSheet.create({
   container: {
@@ -121,6 +125,7 @@ const Conversation = ({ navigation }) => {
     isFinishQuestionModalVisible,
     setIsFinishQuestionModalVisible,
   ] = useState(false)
+  const [imageLoading, setImageLoading] = useState(false)
 
   useEffect(() => {
     const getCommonGroup = async () => {
@@ -200,6 +205,28 @@ const Conversation = ({ navigation }) => {
     const { phoneNumber } = user
     const isMyMessage = msg.userPhoneNumber === phoneNumber
     const content = msg && msg.content
+
+    const renderContent = () => {
+      switch (msg.type) {
+        case 'image':
+          return (
+            <Image
+              source={{ uri: content }}
+              style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+            />
+          )
+        default:
+          return (
+            <AppText
+              fontSize={16}
+              weight="medium"
+              color={isMyMessage ? Colors.white : Colors.black}>
+              {content}
+            </AppText>
+          )
+      }
+    }
+
     return (
       <View
         style={[
@@ -211,12 +238,7 @@ const Conversation = ({ navigation }) => {
             styles.messageItemInner,
             isMyMessage && styles.myMessageItemInner,
           ]}>
-          <AppText
-            fontSize={16}
-            weight="medium"
-            color={isMyMessage ? Colors.white : Colors.black}>
-            {content}
-          </AppText>
+          {renderContent()}
           <View style={styles.messageItemTime}>
             <AppText
               fontSize={FontSize.normal}
@@ -263,6 +285,29 @@ const Conversation = ({ navigation }) => {
     } else return renderInputs()
   }
 
+  const onSendImage = (imageURL) => {
+    setImageLoading(true)
+    firebase.upload
+      .uploadDMImage(imageURL, room._id, user.phoneNumber)
+      .then((url) => {
+        setImageLoading(false)
+        dispatch(
+          sendMessage({
+            content: url,
+            roomId: room._id,
+            userPhoneNumber: user.phoneNumber,
+            type: 'image',
+          }),
+        )
+        const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
+        sendPushNotification(otherUserNumber, message, {
+          roomId: room._id,
+          type: 'MESSAGE_RECEIVED',
+        })
+      })
+      .catch((e) => console.log(e))
+  }
+
   const renderInputs = () => {
     return (
       <View style={styles.inputView}>
@@ -282,6 +327,24 @@ const Conversation = ({ navigation }) => {
           placeholderTextColor={Colors.gray}
           value={message}
           onChange={onChangeMessage}
+        />
+        <AppButton
+          icon="plus"
+          iconSize={16}
+          style={{ width: 40, height: 40, marginRight: 10 }}
+          onPress={async () => {
+            launchImageLibrary(
+              {
+                mediaType: 'photo',
+                quality: 0.5,
+              },
+              (response) => {
+                if (response.didCancel) return
+                if (response.errorCode) return
+                onSendImage(response.uri)
+              },
+            )
+          }}
         />
         <AppButton
           icon="send"
@@ -329,7 +392,14 @@ const Conversation = ({ navigation }) => {
             keyExtractor={(item) => String(item._id)}
           />
         </View>
-        {renderInputsCondition()}
+        {imageLoading ? (
+          <ActivityIndicator
+            style={{ marginVertical: 20 }}
+            color={Colors.primary}
+          />
+        ) : (
+          renderInputsCondition()
+        )}
       </Animated.View>
 
       <FinishAskingModal

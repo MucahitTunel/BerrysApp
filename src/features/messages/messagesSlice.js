@@ -227,7 +227,7 @@ export const sendPushNotification = createAsyncThunk(
 
 export const sendMessage = createAsyncThunk(
   'messages/send-message',
-  async ({ content, roomId, userPhoneNumber }) => {
+  async ({ content, roomId, userPhoneNumber, type = 'text' }) => {
     await request({
       method: 'POST',
       url: 'chat/message',
@@ -235,6 +235,7 @@ export const sendMessage = createAsyncThunk(
         content,
         roomId,
         userPhoneNumber,
+        type,
       },
     })
   },
