@@ -252,6 +252,10 @@ const RequestToAsk = ({ requests }) => {
       )
     }
   }
+
+  const invited =
+    requests.reduce((acc, request) => acc + request.receivers.length, 0) - 1
+
   return (
     <ScaleTouchable
       style={[
@@ -272,9 +276,10 @@ const RequestToAsk = ({ requests }) => {
             style={styles.requesterText}
             weight="medium"
             fontSize={FontSize.normal}>
-            {`You got invited by `}
             {renderRequester()}
-            {` to ask your questions anonymously`}
+            {` invited you${
+              invited ? ` and ${invited} more users` : ''
+            } to ask him your questions anonymously`}
           </AppText>
         </View>
       </View>
