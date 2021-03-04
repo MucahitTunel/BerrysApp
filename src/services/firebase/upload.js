@@ -7,6 +7,16 @@ const uploadCompareImage = async (file, userPhoneNumber) => {
   return reference.getDownloadURL()
 }
 
+const uploadQuestionImage = async (file, userPhoneNumber) => {
+  const time = new Date().getTime()
+  const reference = storage().ref(
+    `questionImages/${userPhoneNumber}/${time}.jpg`,
+  )
+  await reference.putFile(file)
+  return reference.getDownloadURL()
+}
+
 export default {
   uploadCompareImage,
+  uploadQuestionImage,
 }

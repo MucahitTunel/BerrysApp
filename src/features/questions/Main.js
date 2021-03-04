@@ -298,6 +298,7 @@ const QuestionItem = ({
     createdAt,
     flaggedBy = [],
     isNew,
+    image,
   },
 }) => {
   const user = useSelector((state) => state.auth.user)
@@ -340,6 +341,9 @@ const QuestionItem = ({
               marginTop: 12,
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppText fontSize={15} color={Colors.gray}>
+                {image ? 'Image  -  ' : ''}
+              </AppText>
               <AppText
                 fontSize={15}
                 weight="medium"
@@ -387,6 +391,7 @@ QuestionItem.propTypes = {
     totalVotes: PropTypes.number.isRequired,
     createdAt: PropTypes.number.isRequired,
     flaggedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+    image: PropTypes.string,
   }),
 }
 
@@ -658,13 +663,13 @@ const Main = ({ route }) => {
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
-    if (question) {
-      Keyboard.dismiss()
-      dispatch(setAskQuestion(question))
-      resetForm({})
-      setSubmitting(false)
-      NavigationService.navigate(Screens.SelectContacts)
-    }
+    Keyboard.dismiss()
+    dispatch(setAskQuestion(question !== '' ? question : null))
+    resetForm({})
+    setSubmitting(false)
+    NavigationService.navigate(Screens.SelectContacts, {
+      chooseImage: !!values.isImageButton,
+    })
   }
 
   const sendQuestionFromModal = (q) => {
@@ -702,7 +707,7 @@ const Main = ({ route }) => {
         enableReinitialize
         initialValues={{ question }}
         onSubmit={onSubmit}>
-        {({ values, handleSubmit, setFieldValue }) => (
+        {({ values, handleSubmit, setFieldValue, setValues }) => (
           <View style={{ alignItems: 'center' }}>
             <View style={styles.inputView}>
               <Avatar source={Images.defaultAvatar} size={50} />
@@ -737,6 +742,10 @@ const Main = ({ route }) => {
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={[styles.postType, { borderLeftWidth: 0 }]}
+                onPress={() => {
+                  setValues({ ...values, isImageButton: true })
+                  handleSubmit()
+                }}
               />
               <AppButton
                 shadow={false}

@@ -4,13 +4,23 @@ import { getQuestions } from './questionsSlice'
 import { setRoom } from '../messages/messagesSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
+import firebase from '../../services/firebase'
 
 export const askQuestion = createAsyncThunk(
   'ask/submit',
   async (requestToAsk, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { question, contacts, groups, isAnonymous } = state.ask
+    const { question, contacts, groups, isAnonymous, questionImage } = state.ask
+
+    let image = null
+    if (questionImage) {
+      image = await firebase.upload.uploadQuestionImage(
+        questionImage,
+        user.phoneNumber,
+      )
+    }
+
     await request({
       method: 'POST',
       url: 'question/add',
@@ -21,6 +31,7 @@ export const askQuestion = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
         isAnonymous,
         requestToAsk,
+        image,
       },
     })
     dispatch(getQuestions())
@@ -94,6 +105,7 @@ const askSlice = createSlice({
   name: 'ask',
   initialState: {
     question: null,
+    questionImage: null,
     contacts: [],
     groups: [],
     loading: false,
@@ -112,6 +124,9 @@ const askSlice = createSlice({
     setAskAnonymously: (state, action) => {
       state.isAnonymous = action.payload
     },
+    setQuestionImage: (state, action) => {
+      state.questionImage = action.payload
+    },
   },
   extraReducers: {
     [askQuestion.pending]: (state) => {
@@ -127,5 +142,11 @@ const askSlice = createSlice({
 
 export const {
   reducer: askReducer,
-  actions: { setAskQuestion, setAskContacts, setAskGroups, setAskAnonymously },
+  actions: {
+    setAskQuestion,
+    setAskContacts,
+    setAskGroups,
+    setAskAnonymously,
+    setQuestionImage,
+  },
 } = askSlice

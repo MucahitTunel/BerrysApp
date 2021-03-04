@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -18,7 +19,7 @@ import Modal from 'react-native-modal'
 import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { checkURL, hideKeyBoard, showKeyboard } from 'utils'
-import { Colors, FontSize } from 'constants'
+import { Colors, FontSize, Dimensions } from 'constants'
 import Images from 'assets/images'
 import {
   AppBadge,
@@ -411,6 +412,12 @@ const Answers = ({ navigation }) => {
                 <AppIcon name="flag" color={Colors.primary} size={20} />
               )}
             </View>
+            {question.image && (
+              <Image
+                source={{ uri: question.image }}
+                style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+              />
+            )}
             <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
               {isQuestionOwner ? (
                 renderPeopleInvited()

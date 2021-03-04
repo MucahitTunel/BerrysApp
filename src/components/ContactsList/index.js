@@ -9,6 +9,7 @@ import {
   StyleSheet,
   View,
   Alert,
+  Image,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Colors, Dimensions, FontSize } from 'constants'
@@ -16,7 +17,11 @@ import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
 import { getGroups } from 'features/groups/groupSlice'
-import { setAskAnonymously } from 'features/questions/askSlice'
+import {
+  setAskAnonymously,
+  setAskQuestion,
+  setQuestionImage,
+} from 'features/questions/askSlice'
 import AppButton from '../AppButton'
 import AppIcon from '../AppIcon'
 import AppImage from '../AppImage'
@@ -26,6 +31,7 @@ import Avatar from '../Avatar'
 import ScaleTouchable from '../ScaleTouchable'
 import ContactsListItem from '../ContactsListItem'
 import RecyclerList from '../RecyclerListView'
+import { launchImageLibrary } from 'react-native-image-picker'
 
 const styles = StyleSheet.create({
   container: {
@@ -294,6 +300,33 @@ const ContactsList = ({
     }
   }
 
+  const [image, setImage] = useState(null)
+  useEffect(() => {
+    if (route.params?.chooseImage) {
+      dispatch(setQuestionImage(null))
+      if (ask.question === '' || !ask.question)
+        dispatch(setAskQuestion('What do you think about this?'))
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          quality: 0.5,
+        },
+        (response) => {
+          if (response.didCancel) return
+          if (response.errorCode) return
+          setImage(response.uri)
+          dispatch(setQuestionImage(response.uri))
+        },
+      )
+    }
+  }, [route.params?.chooseImage, dispatch, ask])
+
+  const questionOnChange = (value) => {
+    dispatch(
+      setAskQuestion(value !== '' ? value : 'What do you think about this?'),
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -309,10 +342,21 @@ const ContactsList = ({
                 backgroundColor: Colors.white,
               }}>
               <Avatar source={Images.defaultAvatar} size={54} />
-              <AppText style={{ marginLeft: 16, flex: 1 }}>
-                {ask.question}
-              </AppText>
+              <AppInput
+                placeholder={ask.question}
+                value={ask.question}
+                onChange={questionOnChange}
+                placeholderTextColor={Colors.gray}
+                style={{ color: 'black', paddingRight: 90, paddingTop: 0 }}
+                multiline
+              />
             </View>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+              />
+            )}
             <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
               <ScaleTouchable onPress={toggleAnonymously}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
