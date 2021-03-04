@@ -738,7 +738,7 @@ const Main = ({ route }) => {
             <View style={styles.postTypesContainer}>
               <AppButton
                 shadow={false}
-                icon="send"
+                icon="image"
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={[styles.postType, { borderLeftWidth: 0 }]}
@@ -749,7 +749,7 @@ const Main = ({ route }) => {
               />
               <AppButton
                 shadow={false}
-                icon="send"
+                icon="poll"
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={styles.postType}
@@ -757,7 +757,7 @@ const Main = ({ route }) => {
               />
               <AppButton
                 shadow={false}
-                icon="send"
+                icon="versus"
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={[styles.postType, { borderRightWidth: 0 }]}
