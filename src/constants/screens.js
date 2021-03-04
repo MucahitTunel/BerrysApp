@@ -30,4 +30,6 @@ export default {
   GroupAddMembers: 'GroupAddMembersScreen',
   CreatePoll: 'CreatePoll',
   PollDetails: 'PollDetails',
+  CreateCompare: 'CreateCompare',
+  CompareDetails: 'CompareDetails',
 }

@@ -9,11 +9,12 @@ import {
   setAskGroups,
 } from 'features/questions/askSlice'
 import { Colors } from 'constants'
-import { createPoll } from '../questions/questionSlice'
+import { createPoll, createCompare } from '../questions/questionSlice'
 
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
+  const question = useSelector((state) => state.question)
   const onPressSubmit = (contacts, groups = [], request) => {
     Keyboard.dismiss()
     const MIN_NUM_RECEIVERS = 1
@@ -27,6 +28,7 @@ const SelectContacts = (props) => {
     dispatch(setAskGroups(groups))
 
     if (props.route.params?.poll) return dispatch(createPoll())
+    if (props.route.params?.compare) return dispatch(createCompare())
     dispatch(askQuestion(request))
   }
 
@@ -38,7 +40,7 @@ const SelectContacts = (props) => {
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle="Select contacts/groups:"
-        isLoading={ask.loading}
+        isLoading={ask.loading || question.loading}
         {...props}
       />
     </SafeAreaView>

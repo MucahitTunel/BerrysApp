@@ -36,6 +36,8 @@ import GroupUpsert from 'features/groups/GroupUpsert'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
 import CreatePoll from 'features/questions/Polls/CreatePoll'
 import PollDetails from 'features/questions/Polls/Detail'
+import CreateCompare from 'features/questions/Compare/Create'
+import CompareDetails from 'features/questions/Compare/Detail'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -156,7 +158,7 @@ const MainStack = () => (
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="CreatePoll"
+            title="Create Poll"
             headerLeft={<MainBackButton navigation={navigation} />}
           />
         ),
@@ -168,7 +170,31 @@ const MainStack = () => (
       options={({ navigation }) => ({
         header: () => (
           <Header
-            title="Poll Details"
+            title="Poll Results"
+            headerLeft={<MainBackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.CreateCompare}
+      component={CreateCompare}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Create Compare"
+            headerLeft={<MainBackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.CompareDetails}
+      component={CompareDetails}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Compare Results"
             headerLeft={<MainBackButton navigation={navigation} />}
           />
         ),

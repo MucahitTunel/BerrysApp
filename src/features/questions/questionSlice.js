@@ -4,6 +4,7 @@ import request from 'services/api'
 import { getQuestions } from './questionsSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
+import firebase from '../../services/firebase'
 
 export const getQuestion = createAsyncThunk(
   'question/get',
@@ -150,6 +151,75 @@ export const votePoll = createAsyncThunk(
   },
 )
 
+export const createCompare = createAsyncThunk(
+  'compare/create',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { contacts, groups, question } = state.ask
+    const { compareImages } = state.question
+
+    let uploadedImages = []
+
+    for (const image of compareImages) {
+      // eslint-disable-next-line no-await-in-loop
+      const url = await firebase.upload.uploadCompareImage(
+        image,
+        user.phoneNumber,
+      )
+      uploadedImages.push(url)
+    }
+
+    await request({
+      method: 'POST',
+      url: 'compare',
+      data: {
+        question,
+        images: uploadedImages,
+        userPhoneNumber: user.phoneNumber,
+        contacts,
+        groups,
+      },
+    })
+    dispatch(getQuestions())
+    NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+  },
+)
+
+export const getCompare = createAsyncThunk(
+  'compare/get',
+  async (compareId, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { data } = await request({
+      method: 'GET',
+      url: 'compare',
+      params: { compareId, userPhoneNumber: user.phoneNumber },
+    })
+    const { compare } = data
+    return compare
+  },
+)
+
+export const voteCompare = createAsyncThunk(
+  'compare/vote',
+  async (image, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { compare } = state.question
+    const { data } = await request({
+      method: 'POST',
+      url: 'compare/vote',
+      data: {
+        compareId: compare._id,
+        userPhoneNumber: user.phoneNumber,
+        image,
+      },
+    })
+    return data.compare
+  },
+)
+
 const questionSlice = createSlice({
   name: 'question',
   initialState: {
@@ -157,10 +227,15 @@ const questionSlice = createSlice({
     loading: false,
     pollOptions: [],
     poll: null,
+    compareImages: [],
+    compare: null,
   },
   reducers: {
     setPollOptions: (state, action) => {
       state.pollOptions = action.payload
+    },
+    setCompareImages: (state, action) => {
+      state.compareImages = action.payload
     },
   },
   extraReducers: {
@@ -171,16 +246,34 @@ const questionSlice = createSlice({
       state.data = action.payload
       state.loading = false
     },
+    [createPoll.pending]: (state) => {
+      state.loading = true
+    },
+    [createPoll.fulfilled]: (state) => {
+      state.loading = false
+    },
     [getPoll.fulfilled]: (state, action) => {
       state.poll = action.payload
     },
     [votePoll.fulfilled]: (state, action) => {
       state.poll = action.payload
     },
+    [createCompare.pending]: (state) => {
+      state.loading = true
+    },
+    [createCompare.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [getCompare.fulfilled]: (state, action) => {
+      state.compare = action.payload
+    },
+    [voteCompare.fulfilled]: (state, action) => {
+      state.compare = action.payload
+    },
   },
 })
 
 export const {
   reducer: questionReducer,
-  actions: { setPollOptions },
+  actions: { setPollOptions, setCompareImages },
 } = questionSlice

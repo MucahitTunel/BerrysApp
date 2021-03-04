@@ -14,6 +14,7 @@ import AppBadge from './AppBadge'
 import SuccessModal from './SuccessModal'
 import PollInput from './PollInput'
 import PollItem from './PollItem'
+import CompareItem from './CompareItem'
 
 export {
   AppButton,
@@ -32,4 +33,5 @@ export {
   SuccessModal,
   PollInput,
   PollItem,
+  CompareItem,
 }
