@@ -207,24 +207,21 @@ const Conversation = ({ navigation }) => {
     const content = msg && msg.content
 
     const renderContent = () => {
-      switch (msg.type) {
-        case 'image':
-          return (
-            <Image
-              source={{ uri: content }}
-              style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
-            />
-          )
-        default:
-          return (
-            <AppText
-              fontSize={16}
-              weight="medium"
-              color={isMyMessage ? Colors.white : Colors.black}>
-              {content}
-            </AppText>
-          )
-      }
+      if (msg.image)
+        return (
+          <Image
+            source={{ uri: msg.image }}
+            style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+          />
+        )
+      return (
+        <AppText
+          fontSize={16}
+          weight="medium"
+          color={isMyMessage ? Colors.white : Colors.black}>
+          {content}
+        </AppText>
+      )
     }
 
     return (
@@ -293,10 +290,10 @@ const Conversation = ({ navigation }) => {
         setImageLoading(false)
         dispatch(
           sendMessage({
-            content: url,
+            content: null,
             roomId: room._id,
             userPhoneNumber: user.phoneNumber,
-            type: 'image',
+            image: url,
           }),
         )
         const otherUserNumber = room.members.find((m) => m !== user.phoneNumber)
@@ -332,7 +329,7 @@ const Conversation = ({ navigation }) => {
           icon="plus"
           iconSize={16}
           style={{ width: 40, height: 40, marginRight: 10 }}
-          onPress={async () => {
+          onPress={() => {
             launchImageLibrary(
               {
                 mediaType: 'photo',

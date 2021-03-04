@@ -25,8 +25,18 @@ const uploadDMImage = async (file, roomId, userPhoneNumber) => {
   return reference.getDownloadURL()
 }
 
+const uploadCommentImage = async (file, questionId, userPhoneNumber) => {
+  const time = new Date().getTime()
+  const reference = storage().ref(
+    `commentImages/${questionId}/${userPhoneNumber}/${time}.jpg`,
+  )
+  await reference.putFile(file)
+  return reference.getDownloadURL()
+}
+
 export default {
   uploadCompareImage,
   uploadQuestionImage,
   uploadDMImage,
+  uploadCommentImage,
 }

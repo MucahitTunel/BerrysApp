@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ActivityIndicator,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -45,6 +46,8 @@ import {
 import { readQuestion } from 'features/questions/questionsSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
 import RNUrlPreview from 'react-native-url-preview'
+import { launchImageLibrary } from 'react-native-image-picker'
+import firebase from '../../services/firebase'
 
 const styles = StyleSheet.create({
   headerView: {
@@ -130,6 +133,7 @@ const Comment = ({
     isAnonymous,
     userPhoneNumber,
     username,
+    image,
   } = comment
   const dispatch = useDispatch()
   const voteComment = (value, questionId, commentId) =>
@@ -171,11 +175,18 @@ const Comment = ({
               {isAnonymous ? name : nonAnonymousName}
             </AppText>
           </TouchableOpacity>
-          <AppText
-            weight="italic"
-            fontSize={FontSize.normal}
-            style={{ lineHeight: 26 }}
-            color={Colors.gray}>{`"${content}"`}</AppText>
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+            />
+          ) : (
+            <AppText
+              weight="italic"
+              fontSize={FontSize.normal}
+              style={{ lineHeight: 26 }}
+              color={Colors.gray}>{`"${content}"`}</AppText>
+          )}
         </View>
       </View>
       <View style={styles.headerAnswerView}>
@@ -227,6 +238,8 @@ const Answers = ({ navigation }) => {
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
   const dispatch = useDispatch()
+  const [uploadedImage, setUploadedImage] = useState(null)
+  const [imageLoading, setImageLoading] = useState(false)
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     if (!isAnonymous && !user.name) {
       setIsAskUserNameModalVisible(true)
@@ -237,6 +250,7 @@ const Answers = ({ navigation }) => {
         comment: cmt,
         questionId: question._id,
         isAnonymous,
+        image: uploadedImage,
       }
       dispatch(submitComment(payload))
       resetForm({})
@@ -346,6 +360,18 @@ const Answers = ({ navigation }) => {
       setUrl(url)
     }
   }, [question])
+
+  const onSendImage = (imageURL, cb) => {
+    setImageLoading(true)
+    firebase.upload
+      .uploadCommentImage(imageURL, question._id, user.phoneNumber)
+      .then((url) => {
+        setUploadedImage(url)
+        cb()
+        setImageLoading(false)
+      })
+      .catch((e) => console.log(e))
+  }
 
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
@@ -474,27 +500,53 @@ const Answers = ({ navigation }) => {
         <View>
           <Formik initialValues={{ cmt: '' }} onSubmit={onSubmit}>
             {({ values, handleChange, handleSubmit }) => (
-              <View style={styles.inputView}>
-                <AppInput
-                  style={styles.input}
-                  placeholder={
-                    question.isAbleToAnswer
-                      ? 'Type a message...'
-                      : 'You cannot answer this question'
-                  }
-                  placeholderTextColor={Colors.gray}
-                  editable={question.isAbleToAnswer}
-                  onChange={handleChange('cmt')}
-                  value={values.cmt}
-                />
-                <AppButton
-                  icon="send"
-                  iconSize={16}
-                  disabled={!values.cmt}
-                  style={{ width: 40, height: 40 }}
-                  onPress={question.isAbleToAnswer ? handleSubmit : () => {}}
-                />
-              </View>
+              <>
+                {imageLoading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <View style={styles.inputView}>
+                    <AppInput
+                      style={styles.input}
+                      placeholder={
+                        question.isAbleToAnswer
+                          ? 'Type a message...'
+                          : 'You cannot answer this question'
+                      }
+                      placeholderTextColor={Colors.gray}
+                      editable={question.isAbleToAnswer}
+                      onChange={handleChange('cmt')}
+                      value={values.cmt}
+                    />
+                    <AppButton
+                      icon="plus"
+                      iconSize={16}
+                      style={{ width: 40, height: 40, marginRight: 10 }}
+                      onPress={() => {
+                        launchImageLibrary(
+                          {
+                            mediaType: 'photo',
+                            quality: 0.5,
+                          },
+                          (response) => {
+                            if (response.didCancel) return
+                            if (response.errorCode) return
+                            onSendImage(response.uri, handleSubmit)
+                          },
+                        )
+                      }}
+                    />
+                    <AppButton
+                      icon="send"
+                      iconSize={16}
+                      disabled={!values.cmt}
+                      style={{ width: 40, height: 40 }}
+                      onPress={
+                        question.isAbleToAnswer ? handleSubmit : () => {}
+                      }
+                    />
+                  </View>
+                )}
+              </>
             )}
           </Formik>
           <View
