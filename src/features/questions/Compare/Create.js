@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import * as NavigationService from 'services/navigation'
 import { setAskQuestion } from '../askSlice'
@@ -82,26 +88,28 @@ const CreateCompare = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <AppInput
-        style={styles.questionInput}
-        multiline
-        onChange={questionOnChange}
-        value={question}
-        placeholder="What do you want to ask to People?"
-      />
-      <View style={styles.imageContainer}>
-        <CompareItem image={firstImage} onPress={() => imageOnPress(0)} />
-        <CompareItem image={secondImage} onPress={() => imageOnPress(1)} />
-        <View style={styles.versus}>
-          <AppText
-            fontSize={FontSize.xxxLarge}
-            weight="bold"
-            color={Colors.primary}>
-            VS
-          </AppText>
+      <ScrollView>
+        <AppInput
+          style={styles.questionInput}
+          multiline
+          onChange={questionOnChange}
+          value={question}
+          placeholder="What do you want to ask to People?"
+        />
+        <View style={styles.imageContainer}>
+          <CompareItem image={firstImage} onPress={() => imageOnPress(0)} />
+          <CompareItem image={secondImage} onPress={() => imageOnPress(1)} />
+          <View style={styles.versus}>
+            <AppText
+              fontSize={FontSize.xxxLarge}
+              weight="bold"
+              color={Colors.primary}>
+              VS
+            </AppText>
+          </View>
         </View>
-      </View>
-      <AppButton style={{ margin: 20 }} onPress={buttonOnPress} text="Post" />
+        <AppButton style={{ margin: 20 }} onPress={buttonOnPress} text="Post" />
+      </ScrollView>
     </SafeAreaView>
   )
 }

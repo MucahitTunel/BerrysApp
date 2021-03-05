@@ -6,6 +6,8 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { setPollOptions } from '../questionSlice'
@@ -92,30 +94,35 @@ export const CreatePoll = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView contentContainerStyle={{ paddingBottom: 10, paddingTop: 10 }}>
-        <AppInput
-          style={styles.questionInput}
-          multiline
-          onChange={questionOnChange}
-          value={question}
-          placeholder="What do you want to ask to People?"
-        />
-        <View style={styles.itemSizeContainer}>
-          <AppText color={Colors.gray} weight="medium">
-            {`${options.length} / 10`}
-          </AppText>
-        </View>
-        {options.map((o, idx) => renderOption(o, idx))}
-        {options.length < 10 && (
-          <AppButton
-            style={styles.addOptionButton}
-            leftAlign
-            onPress={addOptionOnPress}
-            text="+ Add option"
-            textStyle={{ color: Colors.primary }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'position' : null}
+        keyboardVerticalOffset={30}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 10, paddingTop: 10 }}>
+          <AppInput
+            style={styles.questionInput}
+            multiline
+            onChange={questionOnChange}
+            value={question}
+            placeholder="What do you want to ask to People?"
           />
-        )}
-      </ScrollView>
+          <View style={styles.itemSizeContainer}>
+            <AppText color={Colors.gray} weight="medium">
+              {`${options.length} / 10`}
+            </AppText>
+          </View>
+          {options.map((o, idx) => renderOption(o, idx))}
+          {options.length < 10 && (
+            <AppButton
+              style={styles.addOptionButton}
+              leftAlign
+              onPress={addOptionOnPress}
+              text="+ Add option"
+              textStyle={{ color: Colors.primary }}
+            />
+          )}
+        </ScrollView>
+      </KeyboardAvoidingView>
       {options.filter((o) => o.value === null).length === 0 && (
         <AppButton
           style={{ margin: 20 }}
