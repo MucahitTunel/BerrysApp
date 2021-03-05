@@ -6,7 +6,7 @@ import { votePoll } from '../questionSlice'
 import * as NavigationService from 'services/navigation'
 
 import { PollItem, AppButton, AppText } from 'components'
-import { getQuestions } from '../questionsSlice'
+import { getQuestions, readPoll } from '../questionsSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +26,12 @@ export const PollDetail = () => {
   const [isVoted, setIsVoted] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
   const [votes, setVotes] = useState({})
+
+  useEffect(() => {
+    if (poll) {
+      dispatch(readPoll(poll._id))
+    }
+  }, [dispatch, poll])
 
   useEffect(() => {
     if (poll && user) {

@@ -6,7 +6,7 @@ import { voteCompare } from '../questionSlice'
 import * as NavigationService from 'services/navigation'
 
 import { AppButton, AppText, CompareItem } from 'components'
-import { getQuestions } from '../questionsSlice'
+import { getQuestions, readCompare } from '../questionsSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +42,12 @@ export const CompareDetail = () => {
   const [isVoted, setIsVoted] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
   const [votes, setVotes] = useState({})
+
+  useEffect(() => {
+    if (compare) {
+      dispatch(readCompare(compare._id))
+    }
+  }, [dispatch, compare])
 
   useEffect(() => {
     if (compare && user) {

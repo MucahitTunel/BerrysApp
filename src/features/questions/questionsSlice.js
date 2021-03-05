@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
+import { setAskQuestion } from './askSlice'
 
 export const getQuestions = createAsyncThunk(
   'questions/get',
-  async (_, { getState }) => {
+  async (_, { getState, dispatch }) => {
     const state = getState()
     const { user } = state.auth
     const { data } = await request({
@@ -13,6 +14,7 @@ export const getQuestions = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
       },
     })
+    dispatch(setAskQuestion(null))
     const { questions, requestsToAsk, polls, compares } = data
     return { questions, requestsToAsk, polls, compares }
   },
@@ -93,6 +95,34 @@ const questionsSlice = createSlice({
       })
       state.data = newQuestions
     },
+    readPoll: (state, action) => {
+      const pollId = action.payload
+      const newPolls = state.polls.map((p) => {
+        if (p._id !== pollId) {
+          return p
+        } else {
+          return {
+            ...p,
+            isNew: false,
+          }
+        }
+      })
+      state.data = newPolls
+    },
+    readCompare: (state, action) => {
+      const compareId = action.payload
+      const newCompares = state.compares.map((c) => {
+        if (c._id !== compareId) {
+          return c
+        } else {
+          return {
+            ...c,
+            isNew: false,
+          }
+        }
+      })
+      state.data = newCompares
+    },
   },
   extraReducers: {
     [getQuestions.pending]: (state) => {
@@ -119,5 +149,5 @@ const questionsSlice = createSlice({
 
 export const {
   reducer: questionsReducer,
-  actions: { readQuestion },
+  actions: { readQuestion, readCompare, readPoll },
 } = questionsSlice
