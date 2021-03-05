@@ -32,4 +32,5 @@ export default {
   PollDetails: 'PollDetails',
   CreateCompare: 'CreateCompare',
   CompareDetails: 'CompareDetails',
+  QuestionWithImage: 'QuestionWithImage',
 }

@@ -25,7 +25,10 @@ export const askQuestion = createAsyncThunk(
       method: 'POST',
       url: 'question/add',
       data: {
-        content: question,
+        content:
+          question !== '' && question
+            ? question
+            : 'What do you think about this?',
         contacts,
         groups,
         userPhoneNumber: user.phoneNumber,
@@ -34,6 +37,7 @@ export const askQuestion = createAsyncThunk(
         image,
       },
     })
+    dispatch(setQuestionImage(null))
     dispatch(getQuestions())
     NavigationService.navigate(Screens.Main, { showSuccessModal: true })
   },

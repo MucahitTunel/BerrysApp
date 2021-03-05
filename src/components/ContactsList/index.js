@@ -88,6 +88,7 @@ const ContactsList = ({
   }, [dispatch])
   const ask = useSelector((state) => state.ask)
   const user = useSelector((state) => state.auth.user)
+  const questionImage = useSelector((state) => state.ask.questionImage)
   const { isAnonymous } = ask
   const request = route?.params?.request
   const allContacts = useSelector((state) => state.contacts.data)
@@ -300,27 +301,6 @@ const ContactsList = ({
     }
   }
 
-  const [image, setImage] = useState(null)
-  useEffect(() => {
-    if (route.params?.chooseImage) {
-      dispatch(setQuestionImage(null))
-      if (ask.question === '' || !ask.question)
-        dispatch(setAskQuestion('What do you think about this?'))
-      launchImageLibrary(
-        {
-          mediaType: 'photo',
-          quality: 0.1,
-        },
-        (response) => {
-          if (response.didCancel) return
-          if (response.errorCode) return
-          setImage(response.uri)
-          dispatch(setQuestionImage(response.uri))
-        },
-      )
-    }
-  }, [route.params?.chooseImage, dispatch, ask])
-
   const questionOnChange = (value) => {
     dispatch(
       setAskQuestion(value !== '' ? value : 'What do you think about this?'),
@@ -343,7 +323,11 @@ const ContactsList = ({
               }}>
               <Avatar source={Images.defaultAvatar} size={54} />
               <AppInput
-                placeholder={ask.question}
+                placeholder={
+                  ask.question !== '' && ask.question
+                    ? ask.question
+                    : 'What do you think about this?'
+                }
                 value={ask.question}
                 onChange={questionOnChange}
                 placeholderTextColor={Colors.gray}
@@ -351,9 +335,9 @@ const ContactsList = ({
                 multiline
               />
             </View>
-            {image && (
+            {questionImage && (
               <Image
-                source={{ uri: image }}
+                source={{ uri: questionImage }}
                 style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
               />
             )}

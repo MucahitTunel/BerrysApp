@@ -672,13 +672,13 @@ const Main = ({ route }) => {
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
     const { question } = values
-    Keyboard.dismiss()
-    dispatch(setAskQuestion(question !== '' ? question : null))
-    resetForm({})
-    setSubmitting(false)
-    NavigationService.navigate(Screens.SelectContacts, {
-      chooseImage: !!values.isImageButton,
-    })
+    if (question) {
+      Keyboard.dismiss()
+      dispatch(setAskQuestion(question))
+      resetForm({})
+      setSubmitting(false)
+      NavigationService.navigate(Screens.SelectContacts)
+    }
   }
 
   const sendQuestionFromModal = (q) => {
@@ -751,10 +751,9 @@ const Main = ({ route }) => {
                 iconSize={20}
                 iconColor={'#c6c6c6'}
                 style={[styles.postType, { borderLeftWidth: 0 }]}
-                onPress={() => {
-                  setValues({ ...values, isImageButton: true })
-                  handleSubmit()
-                }}
+                onPress={() =>
+                  NavigationService.navigate(Screens.QuestionWithImage)
+                }
               />
               <AppButton
                 shadow={false}

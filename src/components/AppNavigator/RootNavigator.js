@@ -38,6 +38,7 @@ import CreatePoll from 'features/questions/Polls/CreatePoll'
 import PollDetails from 'features/questions/Polls/Detail'
 import CreateCompare from 'features/questions/Compare/Create'
 import CompareDetails from 'features/questions/Compare/Detail'
+import QuestionWithImage from 'features/questions/QuestionWithImage'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -195,6 +196,18 @@ const MainStack = () => (
         header: () => (
           <Header
             title="Compare Results"
+            headerLeft={<MainBackButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name={Screens.QuestionWithImage}
+      component={QuestionWithImage}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Post Image"
             headerLeft={<MainBackButton navigation={navigation} />}
           />
         ),
