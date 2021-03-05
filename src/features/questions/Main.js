@@ -423,7 +423,9 @@ const PollItem = ({ data }) => {
       right={swipeoutBtns}
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable style={[styles.questionItem]} onPress={onPress}>
+      <ScaleTouchable
+        style={[styles.questionItem, data.isNew && styles.newAnswer]}
+        onPress={onPress}>
         <View style={{ flex: 1 }}>
           <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
             {data.question}
@@ -493,7 +495,9 @@ const CompareItem = ({ data }) => {
       right={swipeoutBtns}
       backgroundColor="transparent"
       buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable style={[styles.questionItem]} onPress={onPress}>
+      <ScaleTouchable
+        style={[styles.questionItem, data.isNew && styles.newAnswer]}
+        onPress={onPress}>
         <View style={{ flex: 1 }}>
           <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
             {data.question

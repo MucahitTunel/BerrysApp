@@ -69,7 +69,7 @@ const CreateCompare = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
-        quality: 0.5,
+        quality: 0.1,
       },
       (response) => {
         if (response.didCancel) return
