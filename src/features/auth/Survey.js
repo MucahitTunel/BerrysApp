@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native'
 import { AppButton, AppIcon, AppText, ScaleTouchable } from 'components'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -38,7 +44,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     paddingHorizontal: 16,
-    flex: 1,
   },
   surveyItemText: {
     fontWeight: 'bold',
@@ -63,7 +68,7 @@ const Survey = () => {
           What would you like to ask?
         </AppText>
       </View>
-      <View style={styles.surveyList}>
+      <ScrollView contentContainerStyle={styles.surveyList}>
         {surveysList.map((item) => {
           return (
             <ScaleTouchable
@@ -93,8 +98,8 @@ const Survey = () => {
             </ScaleTouchable>
           )
         })}
-      </View>
-      <View style={{ marginTop: 40, marginBottom: 16, paddingHorizontal: 16 }}>
+      </ScrollView>
+      <View style={{ marginTop: 10, marginBottom: 16, paddingHorizontal: 16 }}>
         <AppButton
           text="Pick 1 to continue"
           onPress={onPressContinue}

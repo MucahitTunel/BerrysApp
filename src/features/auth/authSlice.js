@@ -283,6 +283,12 @@ const authSlice = createSlice({
         isNew: action.payload,
       }
     },
+    resetSurvey: (state, action) => {
+      state.user = {
+        ...state.user,
+        survey: null,
+      }
+    },
   },
   extraReducers: {
     [signIn.pending]: (state) => {
@@ -336,5 +342,5 @@ const authSlice = createSlice({
 
 export const {
   reducer: authReducer,
-  actions: { updatePoints, setUserIsNew },
+  actions: { updatePoints, setUserIsNew, resetSurvey },
 } = authSlice

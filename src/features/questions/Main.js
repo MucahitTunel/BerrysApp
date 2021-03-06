@@ -33,7 +33,11 @@ import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { setUserIsNew, updatePushToken } from 'features/auth/authSlice'
+import {
+  setUserIsNew,
+  updatePushToken,
+  resetSurvey,
+} from 'features/auth/authSlice'
 import {
   getQuestions,
   hideQuestion,
@@ -820,7 +824,7 @@ const Main = ({ route }) => {
                 style={styles.changeCategoryButton}
                 text="Change Category"
                 textStyle={{ fontSize: FontSize.normal }}
-                onPress={() => {}}
+                onPress={() => dispatch(resetSurvey())}
               />
             </View>
           </View>

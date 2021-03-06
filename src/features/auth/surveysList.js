@@ -140,4 +140,49 @@ export default [
       'If you could suddenly become invisible, what would you do?',
     ],
   },
+  {
+    id: 11,
+    icon: 'checkmark',
+    name: 'Self Growth',
+    value: 'Self Growth',
+    size: 40,
+    marginBottom: 10,
+    popularQuestions: [
+      /* 'If you were home by yourself all day, what would you do?',
+      'Have you ever peed yourself?',
+      'How often do you wash your undergarments?',
+      'What is the most illegal thing you have ever done?',
+      'If you could suddenly become invisible, what would you do?', */
+    ],
+  },
+  {
+    id: 12,
+    icon: 'chat1',
+    name: 'Mental Health',
+    value: 'Mental Health',
+    size: 28,
+    marginBottom: 10,
+    popularQuestions: [
+      /* 'If you were home by yourself all day, what would you do?',
+      'Have you ever peed yourself?',
+      'How often do you wash your undergarments?',
+      'What is the most illegal thing you have ever done?',
+      'If you could suddenly become invisible, what would you do?', */
+    ],
+  },
+  {
+    id: 13,
+    icon: 'group-senior',
+    name: 'Family',
+    value: 'Family',
+    size: 28,
+    marginBottom: 10,
+    popularQuestions: [
+      /* 'If you were home by yourself all day, what would you do?',
+      'Have you ever peed yourself?',
+      'How often do you wash your undergarments?',
+      'What is the most illegal thing you have ever done?',
+      'If you could suddenly become invisible, what would you do?', */
+    ],
+  },
 ]
