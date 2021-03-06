@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   SafeAreaView,
@@ -30,6 +30,10 @@ import {
   updateGroup,
   setCurrentGroupName,
 } from './groupSlice'
+import { AnswerRightButton } from 'components/NavButton'
+import { BlurView } from '@react-native-community/blur'
+import Modal from 'react-native-modal'
+import Theme from 'theme'
 
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +100,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
   },
+  modalBackdrop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+  },
+  modalInnerView: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
 })
 
 const CREATE_GROUP = 'Create Group'
@@ -116,17 +132,28 @@ const GroupUpsert = ({ navigation, route }) => {
   useEffect(() => {
     setGroupName(group.name)
   }, [group])
-  useEffect(() => {
-    const title = route.params.isCreate ? CREATE_GROUP : UPDATE_GROUP
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  useLayoutEffect(() => {
+    const title = isCreate ? CREATE_GROUP : UPDATE_GROUP
     navigation.setOptions({
       header: () => (
         <Header
           title={title}
           headerLeft={<BackButton navigation={navigation} />}
+          headerRight={
+            isCreate ? (
+              <View />
+            ) : (
+              <AnswerRightButton onPressDots={() => setIsModalVisible(true)} />
+            )
+          }
         />
       ),
     })
-  }, [navigation, route.params.isCreate])
+  }, [navigation, isCreate])
+
   if (loading) return <Loading />
   const groupCreator = isCreate
     ? {
@@ -147,6 +174,7 @@ const GroupUpsert = ({ navigation, route }) => {
     group && group.members
       ? group.members.filter((m) => m.role === 'admin').concat(groupCreator)
       : [groupCreator]
+  const isUserAdmin = admins.find((x) => x.phoneNumber === user.phoneNumber)
 
   const isGroupManager = (g) =>
     g.userPhoneNumber === user.phoneNumber ||
@@ -310,6 +338,33 @@ const GroupUpsert = ({ navigation, route }) => {
           />
         </View>
       </View>
+
+      {/* Flag question modal */}
+      <Modal
+        isVisible={isModalVisible}
+        style={[Theme.Modal.modalView]}
+        animationInTiming={300}
+        animationOutTiming={300}>
+        <View style={Theme.Modal.modalInnerView}>
+          <View style={styles.modalBackdrop}>
+            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+          </View>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            <View style={{ marginVertical: 16 }}>
+              <AppButton
+                text={isUserAdmin ? 'Delete group' : 'Leave group'}
+                onPress={() => {}}
+              />
+            </View>
+            <AppButton
+              text="Close"
+              textStyle={{ color: Colors.primary }}
+              style={{ backgroundColor: Colors.white }}
+              onPress={() => setIsModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   )
 }
