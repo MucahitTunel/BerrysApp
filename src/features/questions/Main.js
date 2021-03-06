@@ -215,6 +215,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },
+  changeCategoryContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 60,
+    justifyContent: 'space-between',
+  },
+  changeCategoryButton: {
+    height: 30,
+    marginBottom: 20,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+  },
 })
 
 const RequestToAsk = ({ requests }) => {
@@ -794,12 +807,22 @@ const Main = ({ route }) => {
               paddingHorizontal: 16,
               backgroundColor: Colors.background,
             }}>
-            <AppText weight="medium" fontSize={FontSize.xLarge}>
-              {`Popular Questions `}
-              <AppText color={Colors.gray} fontSize={FontSize.normal}>
-                (Tap to ask)
-              </AppText>
-            </AppText>
+            <View style={styles.changeCategoryContainer}>
+              <View>
+                <AppText weight="medium" fontSize={FontSize.xLarge}>
+                  Popular Questions
+                </AppText>
+                <AppText color={Colors.gray} fontSize={FontSize.normal}>
+                  Tap to ask
+                </AppText>
+              </View>
+              <AppButton
+                style={styles.changeCategoryButton}
+                text="Change Category"
+                textStyle={{ fontSize: FontSize.normal }}
+                onPress={() => {}}
+              />
+            </View>
           </View>
           <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
             {popularQuestions.map((q, index) => (
