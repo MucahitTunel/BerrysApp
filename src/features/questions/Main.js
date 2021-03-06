@@ -664,10 +664,13 @@ const Main = ({ route }) => {
       .popularQuestions
     setPopularQuestions(surveyQuestions || surveysList[0].popularQuestions)
     setQuestionFromModal(surveyQuestions[0])
+  }, [user])
+
+  useEffect(() => {
     if (showSuccessModal) {
       setSuccessModalVisible(true)
     }
-  }, [user, showSuccessModal])
+  }, [showSuccessModal])
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     setSubmitting(true)
@@ -702,7 +705,7 @@ const Main = ({ route }) => {
     setIsAskUserNameModalVisible(true)
   }
 
-  const isNewUser = user.isNew && !question
+  const isNewUser = user.isNew && listData.length === 0
   const renderItem = ({ item }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />

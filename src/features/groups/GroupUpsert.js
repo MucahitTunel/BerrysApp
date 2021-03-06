@@ -7,6 +7,7 @@ import {
   View,
   ScrollView,
   Alert,
+  Keyboard,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as NavigationService from 'services/navigation'
@@ -32,10 +33,18 @@ import {
   deleteGroup,
   leaveGroup,
 } from './groupSlice'
+import {
+  setAskGroups,
+  askQuestion,
+  setAskQuestion,
+} from 'features/questions/askSlice'
 import { AnswerRightButton } from 'components/NavButton'
 import { BlurView } from '@react-native-community/blur'
 import Modal from 'react-native-modal'
 import Theme from 'theme'
+import { Formik } from 'formik'
+import { checkURL } from 'utils'
+import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
   container: {
@@ -114,6 +123,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
+  inputView: {
+    paddingHorizontal: 16,
+    backgroundColor: Colors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: Dimensions.Width,
+  },
+  input: {
+    paddingTop: 20,
+    marginHorizontal: 10,
+    flex: 1,
+    fontSize: FontSize.large,
+    color: Colors.text,
+    height: 84,
+  },
+  sendBtn: {
+    height: 25,
+    width: 56,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sendBtnDisabled: {
+    backgroundColor: Colors.grayLight,
+  },
+  sendBtnText: {
+    fontSize: 13,
+    fontFamily: Fonts.euclidCircularAMedium,
+    marginLeft: 4,
+  },
 })
 
 const CREATE_GROUP = 'Create Group'
@@ -128,12 +168,14 @@ const GroupUpsert = ({ navigation, route }) => {
     isCreate ? state.group.new : state.group.current,
   )
   const user = useSelector((state) => state.auth.user)
+  const question = useSelector((state) => state.question.data)
   const contacts = useSelector((state) => state.contacts.data)
   const loading = useSelector((state) => state.group.loading)
   const [groupName, setGroupName] = useState(group.name)
   useEffect(() => {
     setGroupName(group.name)
   }, [group])
+  const [questionUrl, setQuestionUrl] = useState(null)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -238,6 +280,19 @@ const GroupUpsert = ({ navigation, route }) => {
     isUserAdmin ? dispatch(deleteGroup()) : dispatch(leaveGroup())
   }
 
+  const onQuestionPost = (values, { setSubmitting, resetForm }) => {
+    setSubmitting(true)
+    const { question } = values
+    if (question) {
+      Keyboard.dismiss()
+      dispatch(setAskQuestion(question))
+      dispatch(setAskGroups([group._id]))
+      dispatch(askQuestion())
+      resetForm({})
+      setSubmitting(false)
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -251,6 +306,47 @@ const GroupUpsert = ({ navigation, route }) => {
             style={styles.groupNameInput}
             onChange={onChangeGroupName}
           />
+          {!isCreate && (
+            <Formik
+              enableReinitialize
+              initialValues={{ question }}
+              onSubmit={onQuestionPost}>
+              {({ values, handleSubmit, setFieldValue, setValues }) => (
+                <View style={{ alignItems: 'center' }}>
+                  <View style={styles.inputView}>
+                    <AppInput
+                      style={styles.input}
+                      placeholder="Write a question..."
+                      multiline
+                      onChange={(value) => {
+                        setFieldValue('question', value)
+                        const url = checkURL(value)
+                        setQuestionUrl(url)
+                      }}
+                      value={values.question}
+                    />
+                    <AppButton
+                      text="Post"
+                      textStyle={styles.sendBtnText}
+                      icon="send"
+                      iconSize={12}
+                      disabled={!values.question}
+                      style={[
+                        styles.sendBtn,
+                        !values.question && styles.sendBtnDisabled,
+                      ]}
+                      onPress={handleSubmit}
+                    />
+                  </View>
+                </View>
+              )}
+            </Formik>
+          )}
+          {questionUrl && (
+            <View>
+              <RNUrlPreview text={questionUrl} />
+            </View>
+          )}
           <View style={styles.addMembersView}>
             <View style={styles.addMembersHeader}>
               <AppText weight="medium" fontSize={FontSize.xLarge}>
