@@ -89,6 +89,44 @@ export const updateGroup = createAsyncThunk(
   },
 )
 
+export const deleteGroup = createAsyncThunk(
+  'group/delete',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'group/delete',
+      data: {
+        groupId: state.group.current._id,
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    Alert.alert('Success', 'Your group has been deleted!')
+    dispatch(getGroups())
+    return
+  },
+)
+
+export const leaveGroup = createAsyncThunk(
+  'group/leave',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'group/leave',
+      data: {
+        groupId: state.group.current._id,
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    Alert.alert('Success', `You have left ${state.group.current.name} group!`)
+    dispatch(getGroups())
+    return
+  },
+)
+
 const groupSlice = createSlice({
   name: 'group',
   initialState: {

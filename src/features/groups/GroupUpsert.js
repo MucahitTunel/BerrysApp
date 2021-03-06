@@ -29,6 +29,8 @@ import {
   createGroup,
   updateGroup,
   setCurrentGroupName,
+  deleteGroup,
+  leaveGroup,
 } from './groupSlice'
 import { AnswerRightButton } from 'components/NavButton'
 import { BlurView } from '@react-native-community/blur'
@@ -230,6 +232,12 @@ const GroupUpsert = ({ navigation, route }) => {
     return data.name
   }
 
+  const groupExitOnPress = () => {
+    setIsModalVisible(false)
+    NavigationService.goBack()
+    isUserAdmin ? dispatch(deleteGroup()) : dispatch(leaveGroup())
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -353,7 +361,7 @@ const GroupUpsert = ({ navigation, route }) => {
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text={isUserAdmin ? 'Delete group' : 'Leave group'}
-                onPress={() => {}}
+                onPress={groupExitOnPress}
               />
             </View>
             <AppButton
