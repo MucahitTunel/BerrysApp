@@ -18,3 +18,7 @@ export function getCurrentRoute() {
 export function goBack() {
   return navigationRef.current?.goBack()
 }
+
+export function updateParams(params) {
+  return navigationRef.current?.setParams(params)
+}

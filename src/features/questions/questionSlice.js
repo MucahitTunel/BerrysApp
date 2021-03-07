@@ -163,17 +163,21 @@ export const createCompare = createAsyncThunk(
     const { contacts, groups, question } = state.ask
     const { compareImages } = state.question
 
+    setTimeout(() => {
+      NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+    }, 1200)
+
     let uploadedImages = []
 
-    for (const image of compareImages) {
-      // eslint-disable-next-line no-await-in-loop
-      const url = await firebase.upload.uploadCompareImage(
-        image,
-        user.phoneNumber,
-      )
-      uploadedImages.push(url)
-    }
-
+    await Promise.all(
+      compareImages.map(async (image) => {
+        const url = await firebase.upload.uploadCompareImage(
+          image,
+          user.phoneNumber,
+        )
+        uploadedImages.push(url)
+      }),
+    )
     await request({
       method: 'POST',
       url: 'compare',
@@ -186,7 +190,6 @@ export const createCompare = createAsyncThunk(
       },
     })
     dispatch(getQuestions())
-    NavigationService.navigate(Screens.Main, { showSuccessModal: true })
   },
 )
 

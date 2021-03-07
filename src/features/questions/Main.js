@@ -686,6 +686,7 @@ const Main = ({ route }) => {
   useEffect(() => {
     if (showSuccessModal) {
       setSuccessModalVisible(true)
+      NavigationService.updateParams({ showSuccessModal: false })
     }
   }, [showSuccessModal])
 
