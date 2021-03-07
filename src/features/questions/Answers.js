@@ -13,6 +13,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -285,6 +286,7 @@ const Answers = ({ navigation }) => {
     }
     setIsMessageModalVisible(false)
   }
+  const [imageModalVisible, setImageModalVisible] = useState(false)
 
   useLayoutEffect(() => {
     // Have to move this logic here because
@@ -439,10 +441,24 @@ const Answers = ({ navigation }) => {
               )}
             </View>
             {question.image && (
-              <Image
-                source={{ uri: question.image }}
-                style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
-              />
+              <TouchableOpacity onPress={() => setImageModalVisible(true)}>
+                <ImageBackground
+                  source={{ uri: question.image }}
+                  style={{
+                    height: Dimensions.Height / 7,
+                    resizeMode: 'contain',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 10,
+                  }}>
+                  <AppText
+                    color="white"
+                    weight="medium"
+                    fontSize={FontSize.xxLarge}>
+                    Click to zoom
+                  </AppText>
+                </ImageBackground>
+              </TouchableOpacity>
             )}
             <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
               {isQuestionOwner ? (
@@ -633,6 +649,25 @@ const Answers = ({ navigation }) => {
               />
             </View>
           </View>
+        </Modal>
+
+        {/* Question image modal */}
+        <Modal
+          isVisible={imageModalVisible}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <TouchableOpacity
+            style={Theme.Modal.modalInnerView}
+            onPress={() => setImageModalVisible(false)}>
+            <View style={styles.modalBackdrop}>
+              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+            </View>
+            <Image
+              source={{ uri: question.image }}
+              style={{ height: Dimensions.Height, resizeMode: 'contain' }}
+            />
+          </TouchableOpacity>
         </Modal>
       </Animated.View>
     </SafeAreaView>

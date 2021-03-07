@@ -50,7 +50,7 @@ import {
   getPoll,
   getCompare,
 } from 'features/questions/questionSlice'
-import { setAskQuestion } from 'features/questions/askSlice'
+import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import surveysList from '../auth/surveysList'
@@ -591,7 +591,7 @@ const Main = ({ route }) => {
         (a, b) => b.createdAt - a.createdAt,
       ),
     )
-  }, [questions])
+  }, [questions.data, questions.polls, questions.compares])
 
   useEffect(() => {
     dispatch(getQuestions())
@@ -694,6 +694,7 @@ const Main = ({ route }) => {
     const { question } = values
     if (question) {
       Keyboard.dismiss()
+      dispatch(setQuestionImage(null))
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)

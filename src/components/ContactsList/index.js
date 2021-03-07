@@ -10,6 +10,8 @@ import {
   View,
   Alert,
   Image,
+  ImageBackground,
+  TouchableOpacity,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Colors, Dimensions, FontSize } from 'constants'
@@ -17,11 +19,7 @@ import Fonts from 'assets/fonts'
 import Images from 'assets/images'
 import AskUserNameModal from '../../features/questions/AskUserNameModal'
 import { getGroups } from 'features/groups/groupSlice'
-import {
-  setAskAnonymously,
-  setAskQuestion,
-  setQuestionImage,
-} from 'features/questions/askSlice'
+import { setAskAnonymously, setAskQuestion } from 'features/questions/askSlice'
 import AppButton from '../AppButton'
 import AppIcon from '../AppIcon'
 import AppImage from '../AppImage'
@@ -31,7 +29,9 @@ import Avatar from '../Avatar'
 import ScaleTouchable from '../ScaleTouchable'
 import ContactsListItem from '../ContactsListItem'
 import RecyclerList from '../RecyclerListView'
-import { launchImageLibrary } from 'react-native-image-picker'
+import Theme from '../../theme'
+import { BlurView } from '@react-native-community/blur'
+import Modal from 'react-native-modal'
 
 const styles = StyleSheet.create({
   container: {
@@ -141,6 +141,7 @@ const ContactsList = ({
   const [groupedActiveContacts, setGroupedActiveContacts] = useState([])
   const [groupedInactiveContacts, setGroupedInctiveContacts] = useState([])
   const [contactsArr, setContactsArr] = useState([])
+  const [imageModalVisible, setImageModalVisible] = useState(false)
 
   const changeTabsView = (index) => {
     setTabIndex(index)
@@ -336,10 +337,23 @@ const ContactsList = ({
               />
             </View>
             {questionImage && (
-              <Image
-                source={{ uri: questionImage }}
-                style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
-              />
+              <TouchableOpacity onPress={() => setImageModalVisible(true)}>
+                <ImageBackground
+                  source={{ uri: questionImage }}
+                  style={{
+                    height: Dimensions.Height / 7,
+                    resizeMode: 'contain',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <AppText
+                    color="white"
+                    weight="medium"
+                    fontSize={FontSize.xxLarge}>
+                    Click to zoom
+                  </AppText>
+                </ImageBackground>
+              </TouchableOpacity>
             )}
             <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
               <ScaleTouchable onPress={toggleAnonymously}>
@@ -488,6 +502,32 @@ const ContactsList = ({
         isModalVisible={isAskUserNameModalVisible}
         setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
       />
+
+      {/* Question image modal */}
+      <Modal
+        isVisible={imageModalVisible}
+        style={[Theme.Modal.modalView]}
+        animationInTiming={300}
+        animationOutTiming={300}>
+        <TouchableOpacity
+          style={Theme.Modal.modalInnerView}
+          onPress={() => setImageModalVisible(false)}>
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: '100%',
+            }}>
+            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+          </View>
+          <Image
+            source={{ uri: questionImage }}
+            style={{ height: Dimensions.Height, resizeMode: 'contain' }}
+          />
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   )
 }
