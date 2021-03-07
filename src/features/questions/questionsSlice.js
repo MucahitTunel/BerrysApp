@@ -107,7 +107,7 @@ const questionsSlice = createSlice({
           }
         }
       })
-      state.data = newPolls
+      state.polls = newPolls
     },
     readCompare: (state, action) => {
       const compareId = action.payload
@@ -121,7 +121,7 @@ const questionsSlice = createSlice({
           }
         }
       })
-      state.data = newCompares
+      state.compares = newCompares
     },
   },
   extraReducers: {
