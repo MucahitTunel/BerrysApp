@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     borderRadius: 100,
+    backgroundColor: 'transparent',
   },
 })
 
@@ -825,7 +826,7 @@ const Main = ({ route }) => {
               <AppButton
                 style={styles.changeCategoryButton}
                 text="Change Category"
-                textStyle={{ fontSize: FontSize.normal }}
+                textStyle={{ fontSize: FontSize.normal, color: Colors.primary }}
                 onPress={() => dispatch(resetSurvey())}
               />
             </View>
