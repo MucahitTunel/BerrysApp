@@ -81,7 +81,6 @@ export const Messages = ({ navigation }) => {
   const { loading, rooms } = messagesState
 
   useEffect(() => {
-    dispatch(getRooms())
     navigation.addListener('focus', () => {
       dispatch(getRooms())
     })
