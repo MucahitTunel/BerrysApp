@@ -13,6 +13,12 @@ export const askQuestion = createAsyncThunk(
     const user = state.auth.user
     const { question, contacts, groups, isAnonymous, questionImage } = state.ask
 
+    if (questionImage) {
+      setTimeout(() => {
+        NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+      }, 1200)
+    }
+
     let image = null
     if (questionImage) {
       image = await firebase.upload.uploadQuestionImage(
@@ -39,7 +45,8 @@ export const askQuestion = createAsyncThunk(
     })
     dispatch(setQuestionImage(null))
     dispatch(getQuestions())
-    NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+    if (!questionImage)
+      NavigationService.navigate(Screens.Main, { showSuccessModal: true })
   },
 )
 
