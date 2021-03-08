@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const Messages = ({ navigation }) => {
+export const Messages = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const messagesState = useSelector((state) => state.messages)
@@ -82,9 +82,11 @@ export const Messages = ({ navigation }) => {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
+      if (route.params?.fromMain)
+        return NavigationService.updateParams({ fromMain: false })
       dispatch(getRooms())
     })
-  }, [dispatch, navigation])
+  }, [dispatch, navigation, route])
 
   const onPressConversation = (conversation) => {
     dispatch(setRoom(conversation))
@@ -160,6 +162,7 @@ export const Messages = ({ navigation }) => {
 
 Messages.propTypes = {
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
+  route: PropTypes.object,
 }
 
 export default Messages

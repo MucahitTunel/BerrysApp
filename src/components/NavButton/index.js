@@ -43,7 +43,12 @@ export const MessagesButton = ({ navigation }) => {
   const roomsWithNewMessages =
     useSelector((state) => state.messages.roomsWithNewMessages) || []
   return (
-    <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
+    <ScaleTouchable
+      onPress={() =>
+        navigation.navigate(Screens.Messages, {
+          fromMain: true,
+        })
+      }>
       <AppIcon name="chat" color={Colors.white} />
       {roomsWithNewMessages.length > 0 && <View style={styles.dotMessage} />}
     </ScaleTouchable>

@@ -303,10 +303,10 @@ const messagesSlice = createSlice({
       state.messages = action.payload
     },
     [getRooms.pending]: (state) => {
-      state.loading = true
+      // state.loading = true
     },
     [getRooms.fulfilled]: (state, action) => {
-      state.loading = false
+      // state.loading = false
       state.rooms = action.payload
     },
   },

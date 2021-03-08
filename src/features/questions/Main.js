@@ -44,7 +44,7 @@ import {
   hidePoll,
   hideCompare,
 } from 'features/questions/questionsSlice'
-import { getRoom, setRoom } from 'features/messages/messagesSlice'
+import { getRoom, setRoom, getRooms } from 'features/messages/messagesSlice'
 import {
   getQuestion,
   getPoll,
@@ -670,6 +670,10 @@ const Main = ({ route }) => {
       OneSignal.removeEventListener('opened', onOpened)
       OneSignal.removeEventListener('ids', onIds)
     }
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getRooms())
   }, [dispatch])
 
   useEffect(() => {
