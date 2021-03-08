@@ -63,7 +63,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>icomoon.ttf</string>
@@ -72,7 +72,23 @@
 		<string>EuclidCircularA-Regular.ttf</string>
 		<string>EuclidCircularA-SemiBold.ttf</string>
 		<string>EuclidCircularA-Italic.ttf</string>
-		<string></string>
+		<string/>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
