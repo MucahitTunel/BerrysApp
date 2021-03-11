@@ -11,7 +11,14 @@ export const askQuestion = createAsyncThunk(
   async (requestToAsk, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { question, contacts, groups, isAnonymous, questionImage } = state.ask
+    const {
+      question,
+      contacts,
+      groups,
+      isAnonymous,
+      questionImage,
+      isAskExperts,
+    } = state.ask
 
     if (questionImage) {
       setTimeout(() => {
@@ -36,11 +43,12 @@ export const askQuestion = createAsyncThunk(
             ? question
             : 'What do you think about this?',
         contacts,
-        groups,
+        groups: groups.map((g) => g._id),
         userPhoneNumber: user.phoneNumber,
         isAnonymous,
         requestToAsk,
         image,
+        isAskExperts,
       },
     })
     dispatch(setQuestionImage(null))
@@ -121,6 +129,7 @@ const askSlice = createSlice({
     groups: [],
     loading: false,
     isAnonymous: true,
+    isAskExperts: false,
   },
   reducers: {
     setAskQuestion: (state, action) => {
@@ -137,6 +146,9 @@ const askSlice = createSlice({
     },
     setQuestionImage: (state, action) => {
       state.questionImage = action.payload
+    },
+    setIsAskExperts: (state, action) => {
+      state.isAskExperts = action.payload
     },
   },
   extraReducers: {
@@ -159,5 +171,6 @@ export const {
     setAskGroups,
     setAskAnonymously,
     setQuestionImage,
+    setIsAskExperts,
   },
 } = askSlice

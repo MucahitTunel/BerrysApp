@@ -6,6 +6,7 @@ export default {
   grayLight: 'rgba(151, 151, 151, 0.2)',
   background: 'rgb(248, 248, 250)',
   white: '#ffffff',
+  blackDimmed: '#00000040',
   text: '#14171a',
   blue: '#205eff',
   textRed: '#ff4a5d',

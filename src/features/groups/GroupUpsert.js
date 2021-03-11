@@ -286,7 +286,7 @@ const GroupUpsert = ({ navigation, route }) => {
     if (question) {
       Keyboard.dismiss()
       dispatch(setAskQuestion(question))
-      dispatch(setAskGroups([group._id]))
+      dispatch(setAskGroups([group]))
       dispatch(askQuestion())
       resetForm({})
       setSubmitting(false)

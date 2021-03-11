@@ -81,6 +81,7 @@ const ContactsList = ({
   isLoading,
   defaultItem,
   selectedItems = [],
+  selectedGroups = [],
 }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -133,7 +134,9 @@ const ContactsList = ({
         return !!c[checkCondition]
       }),
   )
-  const [tabIndex, setTabIndex] = React.useState(0)
+  const [tabIndex, setTabIndex] = React.useState(
+    route.params?.tab === 'group' ? 1 : 0,
+  )
   const [routes] = React.useState([
     { key: 'first', title: 'Contacts' },
     { key: 'second', title: 'Groups' },
@@ -146,6 +149,19 @@ const ContactsList = ({
   const changeTabsView = (index) => {
     setTabIndex(index)
   }
+
+  // If there are selected groups
+  // Add them to the main contact list
+  // It will mark them as selected
+  useEffect(() => {
+    const add = []
+    selectedGroups.forEach((groupId) => {
+      const group = allGroups.find((g) => g._id === groupId)
+      if (group) add.push(group)
+    })
+    if (add.length !== 0) setContacts([...contacts, ...add])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGroups])
 
   const onChangeSearchText = (value) => {
     setSearchText(value)
@@ -296,7 +312,7 @@ const ContactsList = ({
     } else {
       onPressSubmit(
         contacts.filter((item) => item.type === 'contact'),
-        contacts.filter((item) => item.type === 'group').map((g) => g._id),
+        contacts.filter((item) => item.type === 'group'),
         request,
       )
     }
@@ -389,10 +405,10 @@ const ContactsList = ({
                     marginVertical: 12,
                     flexWrap: 'wrap',
                   }}>
-                  {contacts.map((contact) => {
+                  {contacts.map((contact, index) => {
                     return (
                       <ScaleTouchable
-                        key={contact._id}
+                        key={index}
                         onPressItem={contact}
                         onPress={onSelectContact}
                         style={{
@@ -545,6 +561,7 @@ ContactsList.propTypes = {
   isLoading: PropTypes.bool,
   defaultItem: PropTypes.object,
   selectedItems: PropTypes.array,
+  selectedGroups: PropTypes.array,
 }
 
 ContactsList.defaultProps = {
@@ -556,6 +573,7 @@ ContactsList.defaultProps = {
   isLoading: false,
   defaultItem: null,
   selectedItems: [],
+  selectedGroups: [],
 }
 
 export default ContactsList

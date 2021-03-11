@@ -39,6 +39,7 @@ import PollDetails from 'features/questions/Polls/Detail'
 import CreateCompare from 'features/questions/Compare/Create'
 import CompareDetails from 'features/questions/Compare/Detail'
 import QuestionWithImage from 'features/questions/QuestionWithImage'
+import PostQuestion from 'features/questions/PostQuestion'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -213,6 +214,7 @@ const MainStack = () => (
         ),
       })}
     />
+    <Stack.Screen name={Screens.PostQuestion} component={PostQuestion} />
   </Stack.Navigator>
 )
 

@@ -61,7 +61,6 @@ const CreateCompare = () => {
     dispatch(setCompareImages([firstImage, secondImage]))
     dispatch(setAskQuestion(question))
     NavigationService.navigate(Screens.SelectContacts, {
-      otherQuestionType: true,
       compare: true,
     })
   }

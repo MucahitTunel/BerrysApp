@@ -86,7 +86,6 @@ export const CreatePoll = () => {
     dispatch(setPollOptions(options))
     dispatch(setAskQuestion(question))
     NavigationService.navigate(Screens.SelectContacts, {
-      otherQuestionType: true,
       poll: true,
     })
   }

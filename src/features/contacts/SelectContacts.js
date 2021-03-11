@@ -29,18 +29,20 @@ const SelectContacts = (props) => {
 
     if (props.route.params?.poll) return dispatch(createPoll())
     if (props.route.params?.compare) return dispatch(createCompare())
+    if (props.route.params?.postQuestion) return props.navigation.goBack()
     dispatch(askQuestion(request))
   }
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
-        isPostQuestion={!props.route.params?.otherQuestionType}
         showGroups
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle="Select contacts/groups:"
         isLoading={ask.loading || question.loading}
+        submitText={props.route.params?.submitText}
+        selectedItems={props.route.params?.selectedItems}
+        selectedGroups={props.route.params?.selectedGroups}
         {...props}
       />
     </SafeAreaView>

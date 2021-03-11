@@ -21,8 +21,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export const BackButton = ({ navigation }) => (
-  <ScaleTouchable onPress={() => navigation.goBack()}>
+export const BackButton = ({ navigation, onPress }) => (
+  <ScaleTouchable
+    onPress={() => {
+      if (onPress) onPress()
+      navigation.goBack()
+    }}>
     <AppIcon name="arrow-backward" color={Colors.white} size={14} />
   </ScaleTouchable>
 )

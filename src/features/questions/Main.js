@@ -276,10 +276,7 @@ const RequestToAsk = ({ requests }) => {
 
   return (
     <ScaleTouchable
-      style={[
-        styles.questionItem,
-        { borderTopWidth: 4, borderTopColor: Colors.background },
-      ]}
+      style={[styles.questionItem]}
       onPress={() => onPressRequestToAsk()}>
       <View style={{ flex: 1 }}>
         <View
@@ -704,7 +701,7 @@ const Main = ({ route }) => {
       dispatch(setAskQuestion(question))
       resetForm({})
       setSubmitting(false)
-      NavigationService.navigate(Screens.SelectContacts)
+      NavigationService.navigate(Screens.PostQuestion)
     }
   }
 
@@ -730,7 +727,8 @@ const Main = ({ route }) => {
   }
 
   const isNewUser = user.isNew && listData.length === 0
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
+    if (index === 0) return <RequestToAsk requests={requestsToAsk} />
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />
     if (item.type === 'compare') return <CompareItem data={item} />
@@ -744,7 +742,12 @@ const Main = ({ route }) => {
         initialValues={{ question }}
         onSubmit={onSubmit}>
         {({ values, handleSubmit, setFieldValue, setValues }) => (
-          <View style={{ alignItems: 'center' }}>
+          <View
+            style={{
+              alignItems: 'center',
+              borderBottomWidth: 4,
+              borderBottomColor: Colors.background,
+            }}>
             <View style={styles.inputView}>
               <Avatar source={Images.defaultAvatar} size={50} />
               <AppInput
@@ -809,7 +812,6 @@ const Main = ({ route }) => {
           <RNUrlPreview text={questionUrl} />
         </View>
       )}
-      <RequestToAsk requests={requestsToAsk} />
       {isNewUser ? (
         <View style={{ flex: 1 }}>
           <View
@@ -860,9 +862,9 @@ const Main = ({ route }) => {
       ) : (
         <View style={styles.flatListView}>
           <FlatList
-            data={listData}
+            data={[null, ...listData]}
             renderItem={renderItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(_, index) => index.toString()}
             ListEmptyComponent={renderEmpty()}
             refreshing={false}
             onRefresh={() => dispatch(getQuestions())}

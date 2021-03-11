@@ -117,7 +117,7 @@ export const createPoll = createAsyncThunk(
         options: pollOptions,
         userPhoneNumber: user.phoneNumber,
         contacts,
-        groups,
+        groups: groups.map((g) => g._id),
       },
     })
     dispatch(getQuestions())
@@ -186,7 +186,7 @@ export const createCompare = createAsyncThunk(
         images: uploadedImages,
         userPhoneNumber: user.phoneNumber,
         contacts,
-        groups,
+        groups: groups.map((g) => g._id),
       },
     })
     dispatch(getQuestions())

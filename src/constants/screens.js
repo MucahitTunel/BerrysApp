@@ -33,4 +33,5 @@ export default {
   CreateCompare: 'CreateCompare',
   CompareDetails: 'CompareDetails',
   QuestionWithImage: 'QuestionWithImage',
+  PostQuestion: 'PostQuestion',
 }
