@@ -215,6 +215,7 @@ const PostQuestion = ({ navigation }) => {
                   height: 40,
                   width: 40,
                 }}
+                disabled
               />
               <AppText
                 style={styles.selectionRowText}
@@ -238,6 +239,7 @@ const PostQuestion = ({ navigation }) => {
                   height: 40,
                   width: 40,
                 }}
+                disabled
               />
               <AppText
                 style={styles.selectionRowText}
@@ -262,6 +264,7 @@ const PostQuestion = ({ navigation }) => {
                   height: 40,
                   width: 40,
                 }}
+                disabled
               />
               <AppText
                 style={styles.selectionRowText}
@@ -287,6 +290,7 @@ const PostQuestion = ({ navigation }) => {
                   height: 40,
                   width: 40,
                 }}
+                disabled
               />
               <AppText
                 style={styles.selectionRowText}

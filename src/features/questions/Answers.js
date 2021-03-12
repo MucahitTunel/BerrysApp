@@ -135,6 +135,7 @@ const Comment = ({
     userPhoneNumber,
     username,
     image,
+    isExpert,
   } = comment
   const dispatch = useDispatch()
   const voteComment = (value, questionId, commentId) =>
@@ -149,6 +150,7 @@ const Comment = ({
   const downVoteComment = (commentId) =>
     voteComment(-1, question._id, commentId)
   const onPressUser = () => {
+    if (isExpert) return
     const { phoneNumber } = user
     const { userPhoneNumber } = comment
     if (phoneNumber !== userPhoneNumber) {
