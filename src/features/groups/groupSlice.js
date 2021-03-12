@@ -127,6 +127,66 @@ export const leaveGroup = createAsyncThunk(
   },
 )
 
+export const activateJoinLink = createAsyncThunk(
+  'group/activate-join-link',
+  async (_, { getState }) => {
+    const state = getState()
+    const group = state.group.current
+    await request({
+      method: 'POST',
+      url: 'group/join-link/activate',
+      data: {
+        groupId: group._id,
+      },
+    })
+    Alert.alert('Success', `You have activated the join link!`)
+    return {
+      ...group,
+      joinableByLink: true,
+    }
+  },
+)
+
+export const deactivateJoinLink = createAsyncThunk(
+  'group/deactivate-join-link',
+  async (_, { getState }) => {
+    const state = getState()
+    const group = state.group.current
+    await request({
+      method: 'POST',
+      url: 'group/join-link/deactivate',
+      data: {
+        groupId: group._id,
+      },
+    })
+    Alert.alert('Success', `You have deactivated the join link!`)
+    return {
+      ...group,
+      joinableByLink: false,
+    }
+  },
+)
+
+export const joinGroupByLink = createAsyncThunk(
+  'group/deactivate-join-link',
+  async ({ groupId }, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { data } = await request({
+      method: 'POST',
+      url: 'group/join',
+      data: {
+        groupId,
+        userPhoneNumber: user.phoneNumber,
+        userName: user.name,
+      },
+    })
+    Alert.alert('Success', `You have joined the "${data.group.name}" group!`)
+    NavigationService.navigate(Screens.GroupList)
+    dispatch(getGroups())
+  },
+)
+
 const groupSlice = createSlice({
   name: 'group',
   initialState: {
@@ -257,6 +317,12 @@ const groupSlice = createSlice({
     },
     [updateGroup.fulfilled]: (state) => {
       state.loading = false
+    },
+    [activateJoinLink.fulfilled]: (state, action) => {
+      state.current = action.payload
+    },
+    [deactivateJoinLink.fulfilled]: (state, action) => {
+      state.current = action.payload
     },
   },
 })

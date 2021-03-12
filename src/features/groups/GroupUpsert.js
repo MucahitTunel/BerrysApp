@@ -32,6 +32,8 @@ import {
   setCurrentGroupName,
   deleteGroup,
   leaveGroup,
+  activateJoinLink,
+  deactivateJoinLink,
 } from './groupSlice'
 import {
   setAskGroups,
@@ -45,6 +47,7 @@ import Theme from 'theme'
 import { Formik } from 'formik'
 import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
+import Clipboard from '@react-native-community/clipboard'
 
 const styles = StyleSheet.create({
   container: {
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingHorizontal: 16,
     height: 100,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   addMembersView: {
     backgroundColor: Colors.white,
@@ -154,6 +157,24 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.euclidCircularAMedium,
     marginLeft: 4,
   },
+  copyLink: {
+    padding: 16,
+    backgroundColor: Colors.white,
+    borderBottomWidth: 4,
+    borderColor: Colors.background,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  copyLinkItemIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(251, 222, 221, .4)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
 })
 
 const CREATE_GROUP = 'Create Group'
@@ -178,6 +199,8 @@ const GroupUpsert = ({ navigation, route }) => {
   const [questionUrl, setQuestionUrl] = useState(null)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const joinURL = `https://api.berrysapp.com/app/group/${group._id}`
 
   useLayoutEffect(() => {
     const title = isCreate ? CREATE_GROUP : UPDATE_GROUP
@@ -306,6 +329,34 @@ const GroupUpsert = ({ navigation, route }) => {
             style={styles.groupNameInput}
             onChange={onChangeGroupName}
           />
+          {group.joinableByLink && (
+            <ScaleTouchable
+              style={styles.copyLink}
+              onPress={() => {
+                Clipboard.setString(joinURL)
+                Alert.alert('Success', 'The URL has been copied to clipboard')
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  maxWidth: '70%',
+                }}>
+                <View style={styles.copyLinkItemIcon}>
+                  <AppIcon name="share" color={Colors.primary} size={20} />
+                </View>
+                <View>
+                  <AppText fontSize={FontSize.normal} weight="medium">
+                    COPY & SHARE JOIN LINK
+                  </AppText>
+                  <AppText fontSize={FontSize.normal} color={Colors.gray}>
+                    {joinURL}
+                  </AppText>
+                </View>
+              </View>
+              <AppIcon name="copy" size={20} color={Colors.primary} />
+            </ScaleTouchable>
+          )}
           {!isCreate && (
             <Formik
               enableReinitialize
@@ -454,6 +505,19 @@ const GroupUpsert = ({ navigation, route }) => {
             <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
           </View>
           <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            {isUserAdmin && (
+              <AppButton
+                text={
+                  group.joinableByLink
+                    ? 'Deactivate join link'
+                    : 'Activate join link'
+                }
+                onPress={() => {
+                  if (group.joinableByLink) dispatch(deactivateJoinLink())
+                  else dispatch(activateJoinLink())
+                }}
+              />
+            )}
             <View style={{ marginVertical: 16 }}>
               <AppButton
                 text={isUserAdmin ? 'Delete group' : 'Leave group'}

@@ -34,4 +34,5 @@ export default {
   CompareDetails: 'CompareDetails',
   QuestionWithImage: 'QuestionWithImage',
   PostQuestion: 'PostQuestion',
+  JoinGroupByLink: 'JoinGroupByLink',
 }

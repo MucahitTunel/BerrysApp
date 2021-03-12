@@ -34,6 +34,7 @@ import GroupList from 'features/groups/GroupList'
 import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
+import JoinGroupByLink from 'features/groups/JoinGroupByLink'
 import CreatePoll from 'features/questions/Polls/CreatePoll'
 import PollDetails from 'features/questions/Polls/Detail'
 import CreateCompare from 'features/questions/Compare/Create'
@@ -297,6 +298,11 @@ const GroupStack = () => (
     />
     <Stack.Screen name={Screens.GroupUpsert} component={GroupUpsert} />
     <Stack.Screen name={Screens.GroupAddMembers} component={GroupAddMembers} />
+    <Stack.Screen
+      name={Screens.JoinGroupByLink}
+      component={JoinGroupByLink}
+      options={{ headerShown: false }}
+    />
   </Stack.Navigator>
 )
 
