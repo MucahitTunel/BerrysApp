@@ -3,28 +3,34 @@ import { StyleSheet, View, SafeAreaView } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
-import { Colors } from 'constants'
+import { Colors, Dimensions } from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
 
 const slider = [
   {
     id: 0,
-    image: Images.carousel1,
-    title: 'Ask Anonymously',
-    description: 'Ask Anonymously your Friends, Family and Peers',
+    image: Images.newCarousel1,
+    title: 'Ask Questions',
+    description: 'Ask our experts or people you now any questions you have',
   },
   {
     id: 1,
-    image: Images.carousel2,
-    title: 'Select Contacts to Ask',
+    image: Images.newCarousel2,
+    title: 'Chat Anonymously',
     description: 'Get honest answers for your awkward and sensitive questions',
   },
   {
     id: 2,
-    image: Images.carousel3,
-    title: 'Get Honest Answers',
-    description: 'Ask anonymously & publicly. Ask only people selected by you',
+    image: Images.newCarousel3,
+    title: 'Join Groups',
+    description: 'Create your own groups or join one to discuss any topic',
+  },
+  {
+    id: 3,
+    image: Images.newCarousel4,
+    title: 'Answer Questions',
+    description: 'Get questions from people and earn points for answering',
   },
 ]
 
@@ -70,7 +76,7 @@ const Onboarding = () => {
       style={{
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.background,
       }}>
       <View style={{ flex: 5 }}>
         <Swiper
@@ -88,9 +94,13 @@ const Onboarding = () => {
                     source={Images.logo}
                     width={102}
                     height={30}
-                    style={{ marginBottom: '40%' }}
+                    style={{ marginTop: '10%', marginBottom: 10 }}
                   />
-                  <AppImage source={slide.image} width={190} height={194} />
+                  <AppImage
+                    source={slide.image}
+                    width={Dimensions.Width}
+                    height={350}
+                  />
                 </View>
                 <View style={Theme.Slider.textView}>
                   <AppText text={slide.title} style={Theme.Slider.itemTitle}>
