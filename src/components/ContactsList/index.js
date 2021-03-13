@@ -135,7 +135,7 @@ const ContactsList = ({
       }),
   )
   const [tabIndex, setTabIndex] = React.useState(
-    route.params?.tab === 'group' ? 1 : 0,
+    route?.params?.tab === 'group' ? 1 : 0,
   )
   const [routes] = React.useState([
     { key: 'first', title: 'Contacts' },
