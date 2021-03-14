@@ -891,9 +891,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -921,9 +921,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -961,9 +961,9 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp.OneSignalNotificationServiceExtension";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -998,9 +998,9 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp.OneSignalNotificationServiceExtension";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -1039,9 +1039,9 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp.BerrysShare";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1076,9 +1076,9 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.berrys.nickapp.BerrysShare";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;

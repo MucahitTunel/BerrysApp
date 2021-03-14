@@ -124,26 +124,28 @@ const PostQuestion = ({ navigation }) => {
     })
   }
 
-  const renderContacts = (list, isContact) => {
-    const remove = (id) => {
-      if (isContact)
-        dispatch(setAskContacts(contacts.filter((c) => c._id !== id)))
-      else dispatch(setAskGroups(groups.filter((c) => c._id !== id)))
-    }
-
+  const renderContacts = () => {
     return (
       <View
         style={{
           flexDirection: 'row',
-          marginVertical: 12,
           marginHorizontal: 10,
           flexWrap: 'wrap',
         }}>
-        {list.map((item) => {
+        {[...contacts, ...groups].map((item) => {
           return (
             <ScaleTouchable
               key={item._id}
-              onPress={() => remove(item._id)}
+              onPress={() => {
+                if (item.type === 'contact')
+                  dispatch(
+                    setAskContacts(contacts.filter((c) => c._id !== item._id)),
+                  )
+                else
+                  dispatch(
+                    setAskGroups(groups.filter((c) => c._id !== item._id)),
+                  )
+              }}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -351,6 +353,7 @@ const PostQuestion = ({ navigation }) => {
                   borderRadius: 5,
                   marginLeft: 10,
                   marginTop: 10,
+                  marginBottom: 10,
                 }}>
                 <AppText
                   color={Colors.gray}
@@ -374,6 +377,7 @@ const PostQuestion = ({ navigation }) => {
                     borderRadius: 5,
                     marginLeft: 10,
                     marginTop: 10,
+                    marginBottom: 10,
                   }}>
                   <AppText
                     color={Colors.gray}
@@ -398,7 +402,7 @@ const PostQuestion = ({ navigation }) => {
                   paddingHorizontal: 8,
                   borderRadius: 5,
                   marginLeft: 10,
-                  marginTop: 10,
+                  marginBottom: 10,
                   width: Dimensions.Width / 2.6,
                 }}>
                 <AppText
@@ -411,33 +415,7 @@ const PostQuestion = ({ navigation }) => {
                 <AppIcon name="triangle" size={6} color={Colors.gray} />
               </ScaleTouchable>
             )}
-            {contacts.length > 0 && (
-              <>
-                <AppText
-                  weight="medium"
-                  color="black"
-                  fontSize={FontSize.large}
-                  style={{ marginLeft: 10, marginTop: 20 }}>
-                  Contacts
-                </AppText>
-                {renderContacts(contacts, true)}
-              </>
-            )}
-            {groups.length > 0 && (
-              <>
-                <AppText
-                  weight="medium"
-                  color="black"
-                  fontSize={FontSize.large}
-                  style={{
-                    marginLeft: 10,
-                    marginTop: contacts.length === 0 ? 20 : 0,
-                  }}>
-                  Groups
-                </AppText>
-                {renderContacts(groups, false)}
-              </>
-            )}
+            {(contacts.length > 0 || groups.length > 0) && renderContacts()}
           </ScrollView>
         </View>
         <AppButton
