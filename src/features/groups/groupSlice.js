@@ -54,18 +54,20 @@ export const createGroup = createAsyncThunk(
 export const getGroup = createAsyncThunk(
   'group/get',
   async (groupId, { getState }) => {
-    const state = getState()
-    const user = state.auth.user
-    const { data } = await request({
-      method: 'GET',
-      url: 'group',
-      params: {
-        groupId,
-        userPhoneNumber: user.phoneNumber,
-      },
+    return new Promise(async (resolve) => {
+      const state = getState()
+      const user = state.auth.user
+      const { data } = await request({
+        method: 'GET',
+        url: 'group',
+        params: {
+          groupId,
+          userPhoneNumber: user.phoneNumber,
+        },
+      })
+      const { group } = data
+      resolve(group)
     })
-    const { group } = data
-    return group
   },
 )
 
