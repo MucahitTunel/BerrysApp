@@ -13,6 +13,7 @@ import {
 } from 'components/NavButton'
 import { Screens } from 'constants'
 import Onboarding from 'features/auth/Onboarding'
+import AppOnboarding from 'features/auth/AppOnboarding'
 import Splash from 'features/auth/Splash'
 import PhoneVerification from 'features/auth/PhoneVerification'
 import Main from 'features/questions/Main'
@@ -59,165 +60,182 @@ const SurveyStack = () => (
   </Stack.Navigator>
 )
 
-const MainStack = () => (
+const OnboardingStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={Screens.Main}
-      component={Main}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="points"
-            headerLeft={<MenuButton navigation={navigation} />}
-            headerRight={<MessagesButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen name={Screens.Answers} component={Answers} />
-    <Stack.Screen name={Screens.RequestToAsk} component={RequestToAsk} />
-    <Stack.Screen
-      name={Screens.SelectContacts}
-      component={SelectContacts}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Post Question"
-            headerLeft={<BackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.Preview}
-      component={Preview}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Preview"
-            headerLeft={<BackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.AskMe}
-      component={AskMe}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Ask me"
-            headerLeft={<BackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.ContactsToAskMe}
-      component={ContactsToAskMe}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Select Contacts To Ask Me"
-            headerLeft={<BackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.Messages}
-      component={Messages}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Messages"
-            headerLeft={<MainBackButton navigation={navigation} />}
-            headerRight={<ComposeButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen name={Screens.Conversation} component={Conversation} />
-    <Stack.Screen
-      name={Screens.MessageContacts}
-      component={MessageContacts}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Select a contact to send messages"
-            headerLeft={<MessagesBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.DirectMessage}
-      component={DirectMessage}
+      name={Screens.AppOnboarding}
+      component={AppOnboarding}
       options={{ headerShown: false }}
     />
-    <Stack.Screen
-      name={Screens.CreatePoll}
-      component={CreatePoll}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Create Poll"
-            headerLeft={<MainBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.PollDetails}
-      component={PollDetails}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Poll Results"
-            headerLeft={<MainBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.CreateCompare}
-      component={CreateCompare}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Create Compare"
-            headerLeft={<MainBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.CompareDetails}
-      component={CompareDetails}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Compare Results"
-            headerLeft={<MainBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen
-      name={Screens.QuestionWithImage}
-      component={QuestionWithImage}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header
-            title="Post Image"
-            headerLeft={<MainBackButton navigation={navigation} />}
-          />
-        ),
-      })}
-    />
-    <Stack.Screen name={Screens.PostQuestion} component={PostQuestion} />
   </Stack.Navigator>
 )
+
+const MainStack = () => {
+  const auth = useSelector((state) => state.auth) || {}
+  const { onboarding } = auth
+  if (onboarding) {
+    return <OnboardingStack />
+  }
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={Screens.Main}
+        component={Main}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="points"
+              headerLeft={<MenuButton navigation={navigation} />}
+              headerRight={<MessagesButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen name={Screens.Answers} component={Answers} />
+      <Stack.Screen name={Screens.RequestToAsk} component={RequestToAsk} />
+      <Stack.Screen
+        name={Screens.SelectContacts}
+        component={SelectContacts}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Post Question"
+              headerLeft={<BackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.Preview}
+        component={Preview}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Preview"
+              headerLeft={<BackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.AskMe}
+        component={AskMe}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Ask me"
+              headerLeft={<BackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.ContactsToAskMe}
+        component={ContactsToAskMe}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Select Contacts To Ask Me"
+              headerLeft={<BackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.Messages}
+        component={Messages}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Messages"
+              headerLeft={<MainBackButton navigation={navigation} />}
+              headerRight={<ComposeButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen name={Screens.Conversation} component={Conversation} />
+      <Stack.Screen
+        name={Screens.MessageContacts}
+        component={MessageContacts}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Select a contact to send messages"
+              headerLeft={<MessagesBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.DirectMessage}
+        component={DirectMessage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={Screens.CreatePoll}
+        component={CreatePoll}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Create Poll"
+              headerLeft={<MainBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.PollDetails}
+        component={PollDetails}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Poll Results"
+              headerLeft={<MainBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.CreateCompare}
+        component={CreateCompare}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Create Compare"
+              headerLeft={<MainBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.CompareDetails}
+        component={CompareDetails}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Compare Results"
+              headerLeft={<MainBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name={Screens.QuestionWithImage}
+        component={QuestionWithImage}
+        options={({ navigation }) => ({
+          header: () => (
+            <Header
+              title="Post Image"
+              headerLeft={<MainBackButton navigation={navigation} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen name={Screens.PostQuestion} component={PostQuestion} />
+    </Stack.Navigator>
+  )
+}
 
 const ImportGmailContactsStack = () => (
   <Stack.Navigator>

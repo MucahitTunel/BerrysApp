@@ -14,18 +14,6 @@ const slider = [
     title: 'Ask Anonymously',
     description: 'Ask Anonymously your Friends, Family and Peers',
   },
-  {
-    id: 1,
-    image: Images.carousel2,
-    title: 'Select Contacts to Ask',
-    description: 'Get honest answers for your awkward and sensitive questions',
-  },
-  {
-    id: 2,
-    image: Images.carousel3,
-    title: 'Get Honest Answers',
-    description: 'Ask anonymously & publicly. Ask only people selected by you',
-  },
 ]
 
 const styles = StyleSheet.create({
@@ -37,9 +25,7 @@ const styles = StyleSheet.create({
     height: 90,
     borderTopWidth: 1,
     borderTopColor: Colors.grayLight,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
 })
 
@@ -107,26 +93,7 @@ const Onboarding = () => {
       </View>
       <View style={styles.bottomViewWrapper}>
         <View style={styles.bottomView}>
-          <AppLink
-            text={swiperIndex !== 2 ? 'Skip' : ''}
-            color={Colors.primary}
-            onPress={openSignInModal}
-            style={{ minWidth: 60 }}
-          />
-          <View style={Theme.Slider.dotWrapper}>
-            {slider.map((slide) => (
-              <View
-                key={slide.id}
-                style={[
-                  Theme.Slider.dot,
-                  slide.id === swiperIndex && {
-                    backgroundColor: Colors.primary,
-                  },
-                ]}
-              />
-            ))}
-          </View>
-          <AppButton icon={'arrow-forward'} onPress={handleNextSwiper} />
+          <AppButton text="Sign In" onPress={handleNextSwiper} />
         </View>
       </View>
       <SignInModal

@@ -166,12 +166,9 @@ export const resendVerifyCode = createAsyncThunk(
 
 export const submitSurvey = createAsyncThunk(
   'auth/submitSurvey',
-  async ({ value }, { getState }) => {
+  async ({ value }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    setTimeout(() => {
-      NavigationService.navigate(Screens.Main)
-    }, 1000)
     request({
       method: 'POST',
       url: 'survey',
@@ -185,6 +182,7 @@ export const submitSurvey = createAsyncThunk(
       survey: value,
     }
     await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
+    if (!user.surveyResetted) dispatch(setOnBoarding(true))
     return value
   },
 )
@@ -269,8 +267,12 @@ const authSlice = createSlice({
     user: null,
     loading: false,
     booting: true,
+    onboarding: false,
   },
   reducers: {
+    setOnBoarding: (state, action) => {
+      state.onboarding = action.payload
+    },
     updatePoints: (state, action) => {
       state.user = {
         ...state.user,
@@ -287,6 +289,7 @@ const authSlice = createSlice({
       state.user = {
         ...state.user,
         survey: null,
+        surveyResetted: true,
       }
     },
   },
@@ -342,5 +345,5 @@ const authSlice = createSlice({
 
 export const {
   reducer: authReducer,
-  actions: { updatePoints, setUserIsNew, resetSurvey },
+  actions: { updatePoints, setUserIsNew, resetSurvey, setUser, setOnBoarding },
 } = authSlice

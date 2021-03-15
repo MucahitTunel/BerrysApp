@@ -10,6 +10,11 @@ import checkmark from './checkmark-circle.png'
 import checkmarkSelected from './checkmark-circle-selected.png'
 import googleIcon from './google-icon.png'
 
+import onboarding1 from './AppOnboarding/onboarding-1.png'
+import onboarding2 from './AppOnboarding/onboarding-2.png'
+import onboarding3 from './AppOnboarding/onboarding-3.png'
+import onboarding4 from './AppOnboarding/onboarding-4.png'
+
 // Create a group
 import education from './education.png'
 import groupSenior from './group-senior.png'
@@ -34,4 +39,8 @@ export default {
   home,
   running,
   work,
+  onboarding1,
+  onboarding2,
+  onboarding3,
+  onboarding4,
 }

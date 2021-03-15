@@ -35,4 +35,5 @@ export default {
   QuestionWithImage: 'QuestionWithImage',
   PostQuestion: 'PostQuestion',
   JoinGroupByLink: 'JoinGroupByLink',
+  AppOnboarding: 'AppOnboarding',
 }
