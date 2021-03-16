@@ -45,6 +45,7 @@ const CompareItem = ({
   voteNumber,
   isVoted,
   isResult,
+  isCreator,
 }) => {
   return (
     <TouchableOpacity
@@ -63,7 +64,9 @@ const CompareItem = ({
             styles.selected,
             { backgroundColor: selected ? Colors.primary : Colors.gray },
           ]}>
-          <AppText color="white">{isVoted ? voteNumber + '%' : ''}</AppText>
+          <AppText color="white">
+            {isVoted || isCreator ? voteNumber + '%' : ''}
+          </AppText>
         </View>
       )}
     </TouchableOpacity>
@@ -77,6 +80,7 @@ CompareItem.propTypes = {
   voteNumber: PropTypes.number,
   isVoted: PropTypes.bool,
   isResult: PropTypes.bool,
+  isCreator: PropTypes.bool,
 }
 
 export default CompareItem

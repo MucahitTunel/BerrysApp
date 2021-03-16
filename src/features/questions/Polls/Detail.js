@@ -73,7 +73,7 @@ export const PollDetail = () => {
           style={{ marginBottom: isVoted ? null : 15 }}
           voteNumber={votes[index] ? parseInt(votes[index].toFixed(0)) : 0}
         />
-        {isVoted && (
+        {(poll.userPhoneNumber === user.phoneNumber || isVoted) && (
           <AppText
             fontSize={15}
             color={Colors.gray}

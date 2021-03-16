@@ -111,6 +111,7 @@ export const CompareDetail = () => {
           voteNumber={votes[0] ? parseInt(votes[0].toFixed(0)) : 0}
           isVoted={isVoted}
           isResult
+          isCreator={compare.userPhoneNumber === user.phoneNumber}
         />
         <CompareItem
           image={compare?.images[1]}
@@ -119,6 +120,7 @@ export const CompareDetail = () => {
           voteNumber={votes[1] ? parseInt(votes[1].toFixed(0)) : 0}
           isVoted={isVoted}
           isResult
+          isCreator={compare.userPhoneNumber === user.phoneNumber}
         />
         <View style={styles.versus}>
           <AppText
