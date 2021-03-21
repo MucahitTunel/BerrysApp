@@ -165,7 +165,7 @@ export const createCompare = createAsyncThunk(
 
     setTimeout(() => {
       NavigationService.navigate(Screens.Main, { showSuccessModal: true })
-    }, 1200)
+    }, 2000)
 
     let uploadedImages = []
 
