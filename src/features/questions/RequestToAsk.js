@@ -90,14 +90,17 @@ const RequestToAsk = ({ navigation, route }) => {
       <StatusBar barStyle="light-content" />
       <ScrollView style={{ flex: 1 }}>
         {requests.map((request) => {
+          const invited = request.receivers.length
           return (
             <View key={request._id} style={styles.requestItem}>
               <View style={styles.requestItemHeader}>
                 <AppText weight="medium" style={{ marginRight: 10 }}>
                   {request.requester ? request.requester : 'Someone'}
-                  <AppText
-                    weight="medium"
-                    color={Colors.gray}>{` invited you ask`}</AppText>
+                  <AppText weight="medium" color={Colors.gray}>{` invited ${
+                    invited
+                      ? `${invited} ${invited === 1 ? 'user' : 'users'}`
+                      : 'you'
+                  } to ask`}</AppText>
                 </AppText>
                 <AppText color={Colors.gray} fontSize={FontSize.normal}>
                   {moment(request.createdAt).fromNow()}

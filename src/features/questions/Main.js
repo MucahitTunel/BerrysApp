@@ -244,35 +244,43 @@ const RequestToAsk = ({ requests }) => {
     })
   }
   const renderRequester = () => {
-    if (requests.length === 1) {
+    // const invited = requests.reduce((acc, request) => acc + request.receivers.length, 0) - 1
+
+    const uniqueRequests = []
+    requests.map((r) => {
+      if (
+        !uniqueRequests.find((ur) => ur.userPhoneNumber === r.userPhoneNumber)
+      )
+        uniqueRequests.push(r)
+    })
+
+    if (uniqueRequests.length === 1) {
       return (
         <AppText color={Colors.primary} fontSize={FontSize.normal}>
-          {requests[0].requester}
+          {uniqueRequests[0].requester}
         </AppText>
       )
     } else {
+      const amount = uniqueRequests.length - 1
       return (
         <AppText weight="medium" fontSize={FontSize.normal}>
           <AppText
             color={Colors.primary}
             fontSize={FontSize.normal}
             weight="medium">
-            {requests[0].requester}
+            {uniqueRequests[0].requester}
           </AppText>
           {` and `}
           <AppText
             color={Colors.primary}
             fontSize={FontSize.normal}
             weight="medium">
-            {`${requests.length - 1} People`}
+            {`${amount}${amount === 1 ? ' User' : ' Users'}`}
           </AppText>
         </AppText>
       )
     }
   }
-
-  const invited =
-    requests.reduce((acc, request) => acc + request.receivers.length, 0) - 1
 
   return (
     <ScaleTouchable
@@ -292,9 +300,7 @@ const RequestToAsk = ({ requests }) => {
             weight="medium"
             fontSize={FontSize.normal}>
             {renderRequester()}
-            {` invited you${
-              invited ? ` and ${invited} more users` : ''
-            } to ask him your questions anonymously`}
+            {` invited you to ask your questions anonymously`}
           </AppText>
         </View>
       </View>
@@ -752,7 +758,7 @@ const Main = ({ route }) => {
               <Avatar source={Images.defaultAvatar} size={50} />
               <AppInput
                 style={styles.input}
-                placeholder="Ask from people in your circles, anonymously..."
+                placeholder="Ask anonymously your contacts..."
                 multiline
                 onChange={(value) => {
                   setFieldValue('question', value)
