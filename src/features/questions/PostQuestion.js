@@ -335,7 +335,13 @@ const PostQuestion = ({ navigation }) => {
               value={question}
               onChange={questionOnChange}
               placeholderTextColor={Colors.gray}
-              style={{ color: 'black', paddingRight: 90, paddingTop: 0 }}
+              style={{
+                color: 'black',
+                paddingRight: 90,
+                paddingTop: 0,
+                height: undefined,
+                maxHeight: 180,
+              }}
               multiline
             />
           </View>
