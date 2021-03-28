@@ -598,7 +598,6 @@ const Main = ({ route }) => {
   }, [questions.data, questions.polls, questions.compares])
 
   useEffect(() => {
-    dispatch(getQuestions())
     dispatch(loadContacts())
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)

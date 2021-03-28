@@ -46,14 +46,20 @@ export const authBoot = createAsyncThunk(
       channel.bind('POLL_ASKED', (data) => {
         dispatch(getQuestions())
       })
+      channel.bind('COMPARE_ASKED', (data) => {
+        dispatch(getQuestions())
+      })
       channel.bind('MESSAGE_RECEIVED', (data) => {
         // TODO XIN improvement
         // if I'm in the same room as roomId, don't call addRoomWithNewMessages
         dispatch(addRoomWithNewMessages(data.message.roomId))
       })
-      await postSignIn(userData)
-      dispatch(getUser(userData.phoneNumber))
-    }
+      dispatch(getQuestions(userData.phoneNumber)).then(async () => {
+        dispatch(setBooting(false))
+        await postSignIn(userData)
+        dispatch(getUser(userData.phoneNumber))
+      })
+    } else dispatch(setBooting(false))
     return userData
   },
 )
@@ -270,6 +276,9 @@ const authSlice = createSlice({
     onboarding: false,
   },
   reducers: {
+    setBooting: (state, action) => {
+      state.booting = action.payload
+    },
     setOnBoarding: (state, action) => {
       state.onboarding = action.payload
     },
@@ -311,7 +320,7 @@ const authSlice = createSlice({
       state.booting = true
     },
     [authBoot.fulfilled]: (state, action) => {
-      state.booting = false
+      // state.booting = false
       state.user = action.payload
     },
     [authBoot.rejected]: (state) => {
@@ -345,5 +354,12 @@ const authSlice = createSlice({
 
 export const {
   reducer: authReducer,
-  actions: { updatePoints, setUserIsNew, resetSurvey, setUser, setOnBoarding },
+  actions: {
+    updatePoints,
+    setUserIsNew,
+    resetSurvey,
+    setUser,
+    setOnBoarding,
+    setBooting,
+  },
 } = authSlice

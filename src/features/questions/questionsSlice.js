@@ -4,19 +4,21 @@ import { setAskQuestion } from './askSlice'
 
 export const getQuestions = createAsyncThunk(
   'questions/get',
-  async (_, { getState, dispatch }) => {
-    const state = getState()
-    const { user } = state.auth
-    const { data } = await request({
-      method: 'GET',
-      url: 'questions',
-      params: {
-        userPhoneNumber: user.phoneNumber,
-      },
+  async (phoneNumber, { getState, dispatch }) => {
+    return new Promise(async (resolve) => {
+      const state = getState()
+      const { user } = state.auth
+      const { data } = await request({
+        method: 'GET',
+        url: 'questions',
+        params: {
+          userPhoneNumber: phoneNumber ? phoneNumber : user.phoneNumber,
+        },
+      })
+      dispatch(setAskQuestion(null))
+      const { questions, requestsToAsk, polls, compares } = data
+      resolve({ questions, requestsToAsk, polls, compares })
     })
-    dispatch(setAskQuestion(null))
-    const { questions, requestsToAsk, polls, compares } = data
-    return { questions, requestsToAsk, polls, compares }
   },
 )
 
