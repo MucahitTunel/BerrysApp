@@ -294,7 +294,9 @@ const GroupUpsert = ({ navigation, route }) => {
       (c) => c.phoneNumber === data.phoneNumber,
     )
     if (contactIndex > 0) return contacts[contactIndex].name
-    return data.name
+    if (isUserAdmin) return data.phoneNumber
+    if (data.isAppUser && data.inAppName) return data.inAppName
+    return `Anonymous ${Math.floor(Math.random() * 999) + 100}`
   }
 
   const groupExitOnPress = () => {
