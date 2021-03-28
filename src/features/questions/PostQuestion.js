@@ -1,10 +1,12 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react'
+import React, { useLayoutEffect, useEffect } from 'react'
 import {
   View,
   SafeAreaView,
   StyleSheet,
   BackHandler,
   ScrollView,
+  Linking,
+  AppState,
 } from 'react-native'
 import {
   AppInput,
@@ -30,8 +32,8 @@ import { AnswerRightButton, BackButton } from 'components/NavButton'
 import Images from 'assets/images'
 import PropTypes from 'prop-types'
 import BottomSheet from 'reanimated-bottom-sheet'
-// import { loadContacts } from 'features/contacts/contactsSlice'
-import { contactSettingsAlert } from 'features/contacts/helpers'
+import { loadContacts } from 'features/contacts/contactsSlice'
+// import { contactSettingsAlert } from 'features/contacts/helpers'
 
 const styles = StyleSheet.create({
   container: {
@@ -71,6 +73,7 @@ const PostQuestion = ({ navigation }) => {
   const selectedGroups = groups.map((g) => g._id)
 
   const swiperRef = React.useRef(null)
+  const appState = React.useRef(AppState.currentState)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -94,8 +97,20 @@ const PostQuestion = ({ navigation }) => {
   }, [navigation, dispatch, swiperRef])
 
   useEffect(() => {
-    if (!contactPermission) return contactSettingsAlert()
-  }, [contactPermission])
+    if (allContacts.length === 0) dispatch(loadContacts())
+    const _handleAppStateChange = (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      )
+        if (allContacts.length === 0) dispatch(loadContacts())
+      appState.current = nextAppState
+    }
+    AppState.addEventListener('change', _handleAppStateChange)
+    return () => {
+      AppState.removeEventListener('change', _handleAppStateChange)
+    }
+  }, [allContacts, dispatch])
 
   useEffect(() => {
     const listener = () => {
@@ -214,10 +229,7 @@ const PostQuestion = ({ navigation }) => {
           </AppText>
           <ScaleTouchable
             style={styles.selectionRow}
-            onPress={() => {
-              if (!contactPermission) return contactSettingsAlert()
-              dispatch(setAskContacts([]))
-            }}>
+            onPress={() => dispatch(setAskContacts([]))}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppButton
                 icon={contacts.length === 0 ? 'checkmark' : 'profile'}
@@ -242,10 +254,7 @@ const PostQuestion = ({ navigation }) => {
           </ScaleTouchable>
           <ScaleTouchable
             style={styles.selectionRow}
-            onPress={() => {
-              if (!contactPermission) return contactSettingsAlert()
-              navigateContactList(true)
-            }}>
+            onPress={() => navigateContactList(true)}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppButton
                 icon={contacts.length !== 0 ? 'checkmark' : 'profile'}
@@ -364,6 +373,19 @@ const PostQuestion = ({ navigation }) => {
               multiline
             />
           </View>
+          {!contactPermission && (
+            <AppButton
+              text="Sync your contacts"
+              onPress={() => Linking.openSettings()}
+              style={{
+                height: 30,
+                marginVertical: 5,
+                marginHorizontal: 20,
+                backgroundColor: Colors.primary,
+              }}
+              textStyle={{ fontSize: FontSize.large }}
+            />
+          )}
           <ScrollView>
             <View style={{ flexDirection: 'row' }}>
               <ScaleTouchable
