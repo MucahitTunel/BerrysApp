@@ -70,6 +70,7 @@ const GroupAddMembers = ({ navigation, route }) => {
         subTitle={subTitle}
         defaultItem={groupCreator}
         selectedItems={selectedItems}
+        showSelected={false}
       />
     </SafeAreaView>
   )

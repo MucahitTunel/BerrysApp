@@ -82,6 +82,7 @@ const ContactsList = ({
   defaultItem,
   selectedItems = [],
   selectedGroups = [],
+  showSelected,
 }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -393,7 +394,7 @@ const ContactsList = ({
           </>
         )}
         <View style={styles.filterWrapper}>
-          {!singleSelect && (
+          {!singleSelect && showSelected && (
             <>
               <AppText fontSize={FontSize.xLarge} weight="medium">
                 {subTitle}
@@ -562,6 +563,7 @@ ContactsList.propTypes = {
   defaultItem: PropTypes.object,
   selectedItems: PropTypes.array,
   selectedGroups: PropTypes.array,
+  showSelected: PropTypes.bool,
 }
 
 ContactsList.defaultProps = {
@@ -574,6 +576,7 @@ ContactsList.defaultProps = {
   defaultItem: null,
   selectedItems: [],
   selectedGroups: [],
+  showSelected: true,
 }
 
 export default ContactsList
