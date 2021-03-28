@@ -1,4 +1,4 @@
-import { Platform, PermissionsAndroid } from 'react-native'
+import { Platform, PermissionsAndroid, Linking, Alert } from 'react-native'
 import Contacts from 'react-native-contacts'
 import forEach from 'lodash/forEach'
 import uniqueId from 'lodash/uniqueId'
@@ -120,4 +120,22 @@ export const formatContacts = ({ phoneBookContacts, user }) => {
     })
   })
   return contacts
+}
+
+export const contactSettingsAlert = () => {
+  Alert.alert(
+    'Contacts Permission',
+    'You need to enable contacts in app settings to select your contacts',
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Go to App Settings',
+        style: 'default',
+        onPress: () => Linking.openSettings(),
+      },
+    ],
+  )
 }

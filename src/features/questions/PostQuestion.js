@@ -30,6 +30,8 @@ import { AnswerRightButton, BackButton } from 'components/NavButton'
 import Images from 'assets/images'
 import PropTypes from 'prop-types'
 import BottomSheet from 'reanimated-bottom-sheet'
+// import { loadContacts } from 'features/contacts/contactsSlice'
+import { contactSettingsAlert } from 'features/contacts/helpers'
 
 const styles = StyleSheet.create({
   container: {
@@ -56,6 +58,9 @@ const PostQuestion = ({ navigation }) => {
   const dispatch = useDispatch()
   const question = useSelector((state) => state.ask.question)
   const contacts = useSelector((state) => state.ask.contacts)
+  const contactPermission = useSelector(
+    (state) => state.contacts.contactPermission,
+  )
   const groups = useSelector((state) => state.ask.groups)
   const loading = useSelector((state) => state.ask.loading)
   const isAnonymous = useSelector((state) => state.ask.isAnonymous)
@@ -87,6 +92,10 @@ const PostQuestion = ({ navigation }) => {
       ),
     })
   }, [navigation, dispatch, swiperRef])
+
+  useEffect(() => {
+    if (!contactPermission) return contactSettingsAlert()
+  }, [contactPermission])
 
   useEffect(() => {
     const listener = () => {
@@ -205,7 +214,10 @@ const PostQuestion = ({ navigation }) => {
           </AppText>
           <ScaleTouchable
             style={styles.selectionRow}
-            onPress={() => dispatch(setAskContacts([]))}>
+            onPress={() => {
+              if (!contactPermission) return contactSettingsAlert()
+              dispatch(setAskContacts([]))
+            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppButton
                 icon={contacts.length === 0 ? 'checkmark' : 'profile'}
@@ -218,6 +230,7 @@ const PostQuestion = ({ navigation }) => {
                   width: 40,
                 }}
                 disabled
+                onPress={() => {}}
               />
               <AppText
                 style={styles.selectionRowText}
@@ -229,7 +242,10 @@ const PostQuestion = ({ navigation }) => {
           </ScaleTouchable>
           <ScaleTouchable
             style={styles.selectionRow}
-            onPress={() => navigateContactList(true)}>
+            onPress={() => {
+              if (!contactPermission) return contactSettingsAlert()
+              navigateContactList(true)
+            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppButton
                 icon={contacts.length !== 0 ? 'checkmark' : 'profile'}
@@ -242,6 +258,7 @@ const PostQuestion = ({ navigation }) => {
                   width: 40,
                 }}
                 disabled
+                onPress={() => {}}
               />
               <AppText
                 style={styles.selectionRowText}
@@ -267,6 +284,7 @@ const PostQuestion = ({ navigation }) => {
                   width: 40,
                 }}
                 disabled
+                onPress={() => {}}
               />
               <AppText
                 style={styles.selectionRowText}
@@ -293,6 +311,7 @@ const PostQuestion = ({ navigation }) => {
                   width: 40,
                 }}
                 disabled
+                onPress={() => {}}
               />
               <AppText
                 style={styles.selectionRowText}

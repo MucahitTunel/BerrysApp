@@ -187,6 +187,7 @@ const contactsSlice = createSlice({
   initialState: {
     data: [],
     loading: false,
+    contactPermission: false,
   },
   reducers: {},
   extraReducers: {
@@ -202,6 +203,7 @@ const contactsSlice = createSlice({
     [loadContacts.fulfilled]: (state, action) => {
       state.loading = false
       state.data = action.payload
+      state.contactPermission = true
     },
     [saveContacts.fulfilled]: (state, action) => {
       state.loading = false
