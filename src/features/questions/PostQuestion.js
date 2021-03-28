@@ -375,11 +375,11 @@ const PostQuestion = ({ navigation }) => {
           </View>
           {!contactPermission && (
             <AppButton
-              text="Sync your contacts"
+              text="Sync Your Contacts"
               onPress={() => Linking.openSettings()}
               style={{
                 height: 30,
-                marginVertical: 5,
+                marginTop: 10,
                 marginHorizontal: 20,
                 backgroundColor: Colors.primary,
               }}
