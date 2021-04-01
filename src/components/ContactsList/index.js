@@ -146,6 +146,7 @@ const ContactsList = ({
   const [groupedInactiveContacts, setGroupedInctiveContacts] = useState([])
   const [contactsArr, setContactsArr] = useState([])
   const [imageModalVisible, setImageModalVisible] = useState(false)
+  const [showRecentlySeen, setShowRecentlySeen] = useState(false)
 
   const changeTabsView = (index) => {
     setTabIndex(index)
@@ -262,7 +263,12 @@ const ContactsList = ({
       .map((c) => {
         return { ...c, type: 'contact' }
       })
-    const sortedActiveContacts = activeContacts.sort(sortAlphabetically)
+
+    let sortedActiveContacts
+    if (activeContacts.length > 3) {
+      sortedActiveContacts = activeContacts.sort(sortAlphabetically)
+      setShowRecentlySeen(true)
+    } else sortedActiveContacts = []
     setGroupedActiveContacts(sortedActiveContacts)
 
     const inactiveContacts = allContacts.filter((c) => !c.isAppUser)
@@ -490,6 +496,14 @@ const ContactsList = ({
               borderColor: Colors.background,
             }}
           />
+        )}
+        {showRecentlySeen && tabIndex === 0 && (
+          <AppText
+            weight="medium"
+            fontSize={FontSize.xLarge}
+            style={{ marginLeft: 15, marginVertical: 10 }}>
+            Recently Seen
+          </AppText>
         )}
         {(isShowingGroups ? allGroups.length > 0 : contactsArr.length > 0) && (
           <RecyclerList
