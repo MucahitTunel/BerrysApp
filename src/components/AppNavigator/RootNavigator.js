@@ -60,24 +60,18 @@ const SurveyStack = () => (
   </Stack.Navigator>
 )
 
-const OnboardingStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name={Screens.AppOnboarding}
-      component={AppOnboarding}
-      options={{ headerShown: false }}
-    />
-  </Stack.Navigator>
-)
-
 const MainStack = () => {
   const auth = useSelector((state) => state.auth) || {}
   const { onboarding } = auth
-  if (onboarding) {
-    return <OnboardingStack />
-  }
   return (
     <Stack.Navigator>
+      {onboarding && (
+        <Stack.Screen
+          name={Screens.AppOnboarding}
+          component={AppOnboarding}
+          options={{ headerShown: false }}
+        />
+      )}
       <Stack.Screen
         name={Screens.Main}
         component={Main}
@@ -99,7 +93,7 @@ const MainStack = () => {
         options={({ navigation }) => ({
           header: () => (
             <Header
-              title="Post Question"
+              title={onboarding ? 'Send Invite' : 'Post Queestion'}
               headerLeft={<BackButton navigation={navigation} />}
             />
           ),

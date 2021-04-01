@@ -267,6 +267,25 @@ export const requestToAsk = createAsyncThunk(
   },
 )
 
+export const sendInvite = createAsyncThunk(
+  'auth/sendInvite',
+  async ({ contacts, name }, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'account/send-invite',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        contacts,
+        name,
+      },
+    })
+    dispatch(setOnBoarding(false))
+    NavigationService.navigate(Screens.Main)
+  },
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {

@@ -8,6 +8,7 @@ import {
   setAskContacts,
   setAskGroups,
 } from 'features/questions/askSlice'
+import { sendInvite } from 'features/auth/authSlice'
 import { Colors } from 'constants'
 import { createPoll, createCompare } from '../questions/questionSlice'
 
@@ -24,6 +25,14 @@ const SelectContacts = (props) => {
         `You have to select at least ${MIN_NUM_RECEIVERS} contacts/groups in order to proceed`,
       )
     }
+
+    if (props.route.params.isOnboarding) {
+      dispatch(
+        sendInvite({ contacts, name: props.route.params.onboardingName }),
+      )
+      return
+    }
+
     dispatch(setAskContacts(contacts))
     dispatch(setAskGroups(groups))
 
@@ -35,10 +44,12 @@ const SelectContacts = (props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
-        showGroups
+        showGroups={!props.route.params.isOnboarding}
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
-        subTitle="Select contacts/groups:"
+        subTitle={`Select contacts${
+          !props.route.params.isOnboarding ? '/groups:' : ''
+        }`}
         isLoading={ask.loading || question.loading}
         submitText={props.route.params?.submitText}
         selectedItems={props.route.params?.selectedItems}
