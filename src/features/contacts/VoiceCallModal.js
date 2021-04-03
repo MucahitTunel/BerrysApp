@@ -49,13 +49,14 @@ const styles = StyleSheet.create({
   },
 })
 
-const LeaveVoiceCallModal = ({
+const VoiceCallModal = ({
+  question,
   isModalVisible,
   setModalVisible,
-  leaveOnPress,
+  onPress,
 }) => {
   const onSubmit = () => {
-    leaveOnPress()
+    onPress()
   }
 
   const closeModal = () => {
@@ -77,12 +78,12 @@ const LeaveVoiceCallModal = ({
             <AppText
               fontSize={FontSize.xLarge}
               style={{ marginBottom: 10, textAlign: 'center' }}>
-              Are you sure you want to leave?
+              {question}
             </AppText>
             <View style={styles.actions}>
-              <AppButton text="Leave Voice Call" onPress={onSubmit} />
+              <AppButton text="Yes" onPress={onSubmit} />
               <AppButton
-                text="Not Yet"
+                text="No"
                 textStyle={{ color: Colors.primary }}
                 style={{
                   backgroundColor: Colors.white,
@@ -98,10 +99,11 @@ const LeaveVoiceCallModal = ({
   )
 }
 
-LeaveVoiceCallModal.propTypes = {
+VoiceCallModal.propTypes = {
   isModalVisible: PropTypes.bool,
   setModalVisible: PropTypes.func,
-  leaveOnPress: PropTypes.func,
+  onPress: PropTypes.func,
+  question: PropTypes.string,
 }
 
-export default LeaveVoiceCallModal
+export default VoiceCallModal
