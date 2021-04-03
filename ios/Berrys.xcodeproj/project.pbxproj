@@ -346,10 +346,12 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BerrysTests" */;
 			buildPhases = (
 				DD1C02E6F5DAC2B6333EB1BF /* [CP] Check Pods Manifest.lock */,
+				9ABDBF26C426D69B37F9D4AB /* [CP] Prepare Artifacts */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				015B5147999B84377951B738 /* [CP] Copy Pods Resources */,
+				C2993366384CB49BA5AD60BF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -367,6 +369,7 @@
 			buildPhases = (
 				4D6E4FE114F2278E0280D3DE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
+				EA416F4F95727C7676D36938 /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -374,6 +377,7 @@
 				4DC8C4D4F253ABCE27349F40 /* [CP] Copy Pods Resources */,
 				22FEA2EA24C2F07C00DF1261 /* Embed App Extensions */,
 				EFB112037DEDB995519BFF6B /* [CP-User] [RNFB] Core Configuration */,
+				DE2165708790CA7828A6E1B8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -435,7 +439,6 @@
 						CreatedOnToolsVersion = 6.2;
 						LastSwiftMigration = 1210;
 						ProvisioningStyle = Manual;
-						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = CFA46LTYK2;
@@ -531,7 +534,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		015B5147999B84377951B738 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -681,6 +684,48 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9ABDBF26C426D69B37F9D4AB /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-artifacts.sh",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.xcframework",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-artifacts.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C2993366384CB49BA5AD60BF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DD1C02E6F5DAC2B6333EB1BF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -701,6 +746,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE2165708790CA7828A6E1B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA416F4F95727C7676D36938 /* [CP] Prepare Artifacts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-artifacts.sh",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.xcframework",
+				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.xcframework",
+			);
+			name = "[CP] Prepare Artifacts";
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EFB112037DEDB995519BFF6B /* [CP-User] [RNFB] Core Configuration */ = {
@@ -807,7 +893,6 @@
 			baseConfigurationReference = 5612032BFDFE870A832EE47F /* Pods-Berrys-BerrysTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -834,7 +919,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "BerrysTests/BerrysTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Debug;
 		};
@@ -843,7 +927,6 @@
 			baseConfigurationReference = 652B183153DD9DEB6264A975 /* Pods-Berrys-BerrysTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
@@ -866,7 +949,6 @@
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BerrysTests/BerrysTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Berrys.app/Berrys";
 			};
 			name = Release;
 		};

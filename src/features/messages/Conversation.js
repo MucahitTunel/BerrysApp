@@ -15,7 +15,7 @@ import {
 import moment from 'moment'
 import { AppText, AppInput, Header, AppButton, AppBadge } from 'components'
 import { MessagesBackButton } from 'components/NavButton'
-import { Dimensions, Colors, FontSize } from 'constants'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { pusher } from 'features/auth/authSlice'
 import {
   getMessages,
@@ -146,6 +146,19 @@ const Conversation = ({ navigation }) => {
           <Header
             title={title}
             headerLeft={<MessagesBackButton navigation={navigation} />}
+            headerRight={
+              <AppButton
+                shadow={false}
+                icon="phone"
+                iconSize={18}
+                onPress={voiceCallOnPress}
+                style={{
+                  backgroundColor: 'transparent',
+                  marginLeft: -30,
+                  right: -10,
+                }}
+              />
+            }
           />
         ),
       })
@@ -164,6 +177,7 @@ const Conversation = ({ navigation }) => {
         pusher.unsubscribe(room._id)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, room, dispatch])
 
   useEffect(() => {
@@ -199,6 +213,16 @@ const Conversation = ({ navigation }) => {
   }
   const sendPushNotification = (phoneNumber, message, payload) => {
     dispatch(sendPushNotificationAction({ phoneNumber, message, payload }))
+  }
+
+  const voiceCallOnPress = () => {
+    const otherUser = room.members.filter((p) => p !== user.phoneNumber)[0]
+    navigation.navigate(Screens.VoiceCall, {
+      isCreate: true,
+      invitedUser: otherUser,
+      userName: getConversationName(room).title,
+      roomId: room._id,
+    })
   }
 
   const renderMessage = (msg) => {

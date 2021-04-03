@@ -56,6 +56,7 @@ import store from 'state/store'
 import surveysList from '../auth/surveysList'
 import AskUserNameModal from './AskUserNameModal'
 import { checkURL } from 'utils'
+import getConversationName from 'utils/get-conversation-name'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -644,6 +645,15 @@ const Main = ({ route }) => {
               NavigationService.navigate(Screens.Conversation)
             }
             break
+          case 'JOIN_VOICE_CALL':
+            if (additionalData.room) {
+              NavigationService.navigate(Screens.VoiceCall, {
+                isCreate: false,
+                roomId: additionalData.channelName,
+                token: additionalData.token,
+                userName: getConversationName(additionalData.room).title,
+              })
+            }
           default:
             break
         }

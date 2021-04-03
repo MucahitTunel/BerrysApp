@@ -182,6 +182,24 @@ export const blacklistContacts = createAsyncThunk(
   },
 )
 
+export const createVoiceCall = createAsyncThunk(
+  'call/voice/create',
+  async ({ roomId, invitedUser }, {}) => {
+    return new Promise(async (resolve) => {
+      const { data } = await request({
+        method: 'POST',
+        url: 'call/voice/create',
+        data: {
+          channelName: roomId,
+          invitedUser,
+        },
+      })
+      const { token } = data
+      resolve(token)
+    })
+  },
+)
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {

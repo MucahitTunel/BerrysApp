@@ -36,4 +36,5 @@ export default {
   PostQuestion: 'PostQuestion',
   JoinGroupByLink: 'JoinGroupByLink',
   AppOnboarding: 'AppOnboarding',
+  VoiceCall: 'VoiceCall',
 }

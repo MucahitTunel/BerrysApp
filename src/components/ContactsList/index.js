@@ -271,7 +271,9 @@ const ContactsList = ({
     } else sortedActiveContacts = []
     setGroupedActiveContacts(sortedActiveContacts)
 
-    const inactiveContacts = allContacts.filter((c) => !c.isAppUser)
+    const inactiveContacts = allContacts.filter((c) =>
+      sortedActiveContacts.length === 0 ? true : !c.isAppUser,
+    )
     const sortedContacts = inactiveContacts.sort(sortAlphabetically)
     const groupedContacts = sortedContacts.reduce((r, e) => {
       // get first letter of name of current element

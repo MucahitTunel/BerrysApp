@@ -7561,6 +7561,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-agora@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-agora/-/react-native-agora-3.3.2.tgz#aaf9288c3c697a9d2ce99875524d29df9f6fef4d"
+  integrity sha512-jfDz8w2a0xWd/GaC+xoypt4bmie5JaH00hrEp/ODnPBX8sKGUg5TJqLZUchYG/rY2Yh32vS5F7q+CTNyBrls7g==
+
 react-native-animatable@1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"

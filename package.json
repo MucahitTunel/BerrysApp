@@ -40,6 +40,7 @@
     "pusher-js": "^6.0.3",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-agora": "^3.3.2",
     "react-native-config": "^1.2.1",
     "react-native-contacts": "^5.2.5",
     "react-native-country-picker-modal": "^1.11.0",
