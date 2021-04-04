@@ -28,6 +28,7 @@
 		996DE827255708950006277C /* EuclidCircularA-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 996DE824255708950006277C /* EuclidCircularA-Medium.ttf */; };
 		996DE828255708950006277C /* EuclidCircularA-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 996DE825255708950006277C /* EuclidCircularA-Regular.ttf */; };
 		996DE829255708950006277C /* EuclidCircularA-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 996DE826255708950006277C /* EuclidCircularA-SemiBold.ttf */; };
+		9A2D83462619CB1D00152EBE /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */; };
 		D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */ = {isa = PBXBuildFile; fileRef = 2F04990EB9024D4CA5AF2415 /* icomoon.woff */; };
 		FF990A0699DFBB50C98C919B /* libPods-Berrys-BerrysTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */; };
 /* End PBXBuildFile section */
@@ -131,6 +132,7 @@
 		996DE824255708950006277C /* EuclidCircularA-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EuclidCircularA-Medium.ttf"; path = "../src/assets/fonts/EuclidCircularA-Medium.ttf"; sourceTree = "<group>"; };
 		996DE825255708950006277C /* EuclidCircularA-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EuclidCircularA-Regular.ttf"; path = "../src/assets/fonts/EuclidCircularA-Regular.ttf"; sourceTree = "<group>"; };
 		996DE826255708950006277C /* EuclidCircularA-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EuclidCircularA-SemiBold.ttf"; path = "../src/assets/fonts/EuclidCircularA-SemiBold.ttf"; sourceTree = "<group>"; };
+		9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "Berrys/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		A81285525EB0492A9E11805A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-BerrysTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Berrys-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 		13B07FAE1A68108700A75B9A /* Berrys */ = {
 			isa = PBXGroup;
 			children = (
+				9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */,
 				22BD859D254452E40055129E /* LaunchScreen.storyboard */,
 				22FEA2D724C2D45A00DF1261 /* Berrys.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -346,7 +349,6 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BerrysTests" */;
 			buildPhases = (
 				DD1C02E6F5DAC2B6333EB1BF /* [CP] Check Pods Manifest.lock */,
-				9ABDBF26C426D69B37F9D4AB /* [CP] Prepare Artifacts */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -369,7 +371,6 @@
 			buildPhases = (
 				4D6E4FE114F2278E0280D3DE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
-				EA416F4F95727C7676D36938 /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -501,6 +502,7 @@
 				4E6B86CC48184778978990BC /* icomoon.ttf in Resources */,
 				D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */,
 				22FF2DAB250E9EF4002E082D /* GoogleService-Info.plist in Resources */,
+				9A2D83462619CB1D00152EBE /* AppCenter-Config.plist in Resources */,
 				22BD859E254452E40055129E /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -685,32 +687,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9ABDBF26C426D69B37F9D4AB /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-artifacts.sh",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-artifacts.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C2993366384CB49BA5AD60BF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -718,10 +694,23 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraAIDenoiseExtension/AgoraAIDenoiseExtension.framework/AgoraAIDenoiseExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcKit/AgoraRtcKit.framework/AgoraRtcKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Agoraffmpeg/Agoraffmpeg.framework/Agoraffmpeg",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraCore/AgoraCore.framework/AgoraCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraSoundTouch/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Agorafdkaac/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraDav1dExtension/AgoraDav1dExtension.framework/AgoraDav1dExtension",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -757,38 +746,27 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraAIDenoiseExtension/AgoraAIDenoiseExtension.framework/AgoraAIDenoiseExtension",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraRtcKit/AgoraRtcKit.framework/AgoraRtcKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Agoraffmpeg/Agoraffmpeg.framework/Agoraffmpeg",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraCore/AgoraCore.framework/AgoraCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraSoundTouch/AgoraSoundTouch.framework/AgoraSoundTouch",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Agorafdkaac/Agorafdkaac.framework/Agorafdkaac",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AgoraDav1dExtension/AgoraDav1dExtension.framework/AgoraDav1dExtension",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraAIDenoiseExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraRtcKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agoraffmpeg.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraSoundTouch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Agorafdkaac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AgoraDav1dExtension.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EA416F4F95727C7676D36938 /* [CP] Prepare Artifacts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-artifacts.sh",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraAIDenoiseExtension.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agoraffmpeg.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraCore.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraSoundTouch.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/Agorafdkaac.xcframework",
-				"${PODS_ROOT}/AgoraRtcEngine_iOS/AgoraDav1dExtension.xcframework",
-			);
-			name = "[CP] Prepare Artifacts";
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/cocoapods-artifacts-${CONFIGURATION}.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-artifacts.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EFB112037DEDB995519BFF6B /* [CP-User] [RNFB] Core Configuration */ = {
@@ -979,7 +957,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -1009,7 +987,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -1049,7 +1027,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
@@ -1086,7 +1064,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
@@ -1127,7 +1105,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;
@@ -1164,7 +1142,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;

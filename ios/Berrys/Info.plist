@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Berrys (staging)</string>
+	<string>Berrys (dev)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Berrys (staging)</string>
+	<string>Berrys (dev)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.1077486878775-677br80qgvmoopsil0ngq5ugt4ou6ckv</string>
+				<string>com.googleusercontent.apps.615848313420-6v1e8iqqmkc4v0pfmf9b2g4iulk4l8hr</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1617466804</string>
+	<string>1617525598</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -65,7 +65,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select photos to post with questions and compares</string>
 	<key>UIAppFonts</key>
@@ -76,7 +76,7 @@
 		<string>EuclidCircularA-Regular.ttf</string>
 		<string>EuclidCircularA-SemiBold.ttf</string>
 		<string>EuclidCircularA-Italic.ttf</string>
-		<string></string>
+		<string/>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
