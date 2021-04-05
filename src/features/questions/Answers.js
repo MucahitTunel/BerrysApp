@@ -336,13 +336,17 @@ const Answers = ({ navigation }) => {
           <AppText weight="italic" color={Colors.gray}>
             To:{' '}
           </AppText>
-          {question.receivers.map((receiver, index) => (
-            <View key={receiver.phoneNumber}>
-              <AppText weight="italic" color={Colors.gray}>
-                {receiver.name} {index < question.receivers.length - 1 && ', '}
-              </AppText>
-            </View>
-          ))}
+          {question.receivers.map((receiver, index) => {
+            if (!receiver) return null
+            return (
+              <View key={receiver.phoneNumber}>
+                <AppText weight="italic" color={Colors.gray}>
+                  {receiver.name}{' '}
+                  {index < question.receivers.length - 1 && ', '}
+                </AppText>
+              </View>
+            )
+          })}
         </View>
       )
     }
