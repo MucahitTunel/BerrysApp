@@ -68,3 +68,4 @@ GoogleService-Info*.plist
 .ruby-version
 
 AppCenter-Config.plist
+appcenter-config.json

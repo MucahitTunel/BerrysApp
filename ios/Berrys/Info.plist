@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1617525598</string>
+	<string>1617534511</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -66,6 +66,8 @@
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The purpose for accessing the microphone, such as for a call or interactive live streaming.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select photos to post with questions and compares</string>
 	<key>UIAppFonts</key>

@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end',
-    flexDirection: 'row',
+    justifyContent: 'flex-end',
     marginBottom: 50,
+    alignItems: 'center',
   },
   button: {
     marginHorizontal: 10,
@@ -42,6 +42,7 @@ const VoiceCall = ({ route, navigation }) => {
   const [engine, setEngine] = useState(null)
   const [speakerPhone, setSpeakerPhone] = useState(false)
   const [openMicrophone, setOpenMicrophone] = useState(true)
+  const [distorted, setDistorted] = useState(false)
 
   useEffect(() => {
     const requestCameraAndAudioPermission = async () => {
@@ -149,6 +150,16 @@ const VoiceCall = ({ route, navigation }) => {
       })
   }
 
+  const switchDistortion = async () => {
+    if (distorted) {
+      await engine.setLocalVoicePitch(1)
+      setDistorted(false)
+    } else {
+      await engine.setLocalVoicePitch(0.82)
+      setDistorted(true)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <AppText
@@ -161,36 +172,63 @@ const VoiceCall = ({ route, navigation }) => {
       <Avatar source={Images.defaultAvatar} size={150} />
       <View style={styles.buttonContainer}>
         <AppButton
-          icon="volume-high"
-          iconColor={speakerPhone ? 'white' : Colors.primary}
+          icon="mask"
+          iconColor={distorted ? 'white' : Colors.primary}
           iconSize={20}
-          onPress={switchSpeakerphone}
-          style={[
-            styles.button,
-            { backgroundColor: speakerPhone ? Colors.primary : 'transparent' },
-          ]}
-          shadow={false}
-        />
-        <AppButton
-          icon="mute"
-          iconColor={!openMicrophone ? 'white' : Colors.primary}
-          iconSize={20}
-          onPress={switchMicrophone}
+          onPress={switchDistortion}
           style={[
             styles.button,
             {
-              backgroundColor: !openMicrophone ? Colors.primary : 'transparent',
+              backgroundColor: distorted ? Colors.primary : 'transparent',
+              marginBottom: 10,
             },
           ]}
           shadow={false}
         />
-        <AppButton
-          icon="close"
-          iconSize={20}
-          onPress={() => setIsLeaveModalVisible(true)}
-          style={[styles.button]}
-          shadow={false}
-        />
+        <AppText
+          weight="medium"
+          fontSize={FontSize.xLarge}
+          color={Colors.primary}
+          style={{ marginBottom: 20 }}>
+          {!distorted ? 'Distortion is off' : 'Distortion is on'}
+        </AppText>
+        <View style={{ flexDirection: 'row' }}>
+          <AppButton
+            icon="volume-high"
+            iconColor={speakerPhone ? 'white' : Colors.primary}
+            iconSize={20}
+            onPress={switchSpeakerphone}
+            style={[
+              styles.button,
+              {
+                backgroundColor: speakerPhone ? Colors.primary : 'transparent',
+              },
+            ]}
+            shadow={false}
+          />
+          <AppButton
+            icon="mute"
+            iconColor={!openMicrophone ? 'white' : Colors.primary}
+            iconSize={20}
+            onPress={switchMicrophone}
+            style={[
+              styles.button,
+              {
+                backgroundColor: !openMicrophone
+                  ? Colors.primary
+                  : 'transparent',
+              },
+            ]}
+            shadow={false}
+          />
+          <AppButton
+            icon="close"
+            iconSize={20}
+            onPress={() => setIsLeaveModalVisible(true)}
+            style={[styles.button]}
+            shadow={false}
+          />
+        </View>
       </View>
 
       <LeaveModal
@@ -205,7 +243,8 @@ const VoiceCall = ({ route, navigation }) => {
         isModalVisible={isAnonymousModalVisible}
         setModalVisible={(value) => setIsAnonymousModalVisible(value)}
         onPress={() => {
-          engine.setLocalVoicePitch(0.76)
+          engine.setLocalVoicePitch(0.82)
+          setDistorted(true)
           setIsAnonymousModalVisible(false)
         }}
       />
