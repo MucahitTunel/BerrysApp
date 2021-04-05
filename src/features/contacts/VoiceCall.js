@@ -10,6 +10,9 @@ import AnonymousModal from './VoiceCallModal'
 import Config from 'react-native-config'
 import { useDispatch } from 'react-redux'
 import { createVoiceCall } from 'features/contacts/contactsSlice'
+import Sound from 'react-native-sound'
+
+Sound.setCategory('Playback')
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +46,8 @@ const VoiceCall = ({ route, navigation }) => {
   const [speakerPhone, setSpeakerPhone] = useState(false)
   const [openMicrophone, setOpenMicrophone] = useState(true)
   const [distorted, setDistorted] = useState(false)
+  const [ringingSound, setRingingSound] = useState(null)
+  const [users, setUsers] = useState(0)
 
   useEffect(() => {
     const requestCameraAndAudioPermission = async () => {
@@ -71,6 +76,22 @@ const VoiceCall = ({ route, navigation }) => {
     }
   }, [])
 
+  const loadRinging = () => {
+    const ringing = new Sound('ringing.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load sound')
+        return
+      }
+
+      setRingingSound(ringing)
+      ringing.setNumberOfLoops(-1)
+      ringing.play((success) => {
+        if (success) console.log('playback success')
+        else console.log('playback fail')
+      })
+    })
+  }
+
   useEffect(() => {
     try {
       let cleanup
@@ -81,6 +102,7 @@ const VoiceCall = ({ route, navigation }) => {
         await engine.setAudioProfile(0, 1)
 
         if (route.params.isCreate) {
+          loadRinging()
           const res = await dispatch(
             createVoiceCall({
               roomId: route.params.roomId,
@@ -97,34 +119,29 @@ const VoiceCall = ({ route, navigation }) => {
             .catch((e) => alert('There was a problem joining the call'))
         }
 
-        /* engine.addListener('UserJoined', (uid, elapsed) => {
-                    console.log('UserJoined', uid, elapsed)
-                    if (peerIds.indexOf(uid) === -1) setPeerIds([...peerIds, uid])
-                }) */
-
-        /* engine.addListener('UserOffline', (uid, reason) => {
-                    console.log('UserOffline', uid, reason)
-                    setPeerIds(peerIds.filter(id => id !== uid))
-                }) */
-
-        /* engine.addListener('JoinChannelSuccess', (channel, uid, elapsed) => {
-                    console.log('JoinChannelSuccess', channel, uid, elapsed)
-                    setJoined(true)
-                }) */
+        engine.addListener('UserJoined', (uid, elapsed) => {
+          setUsers(users + 1)
+        })
       })
 
       return () => cleanup.removeAllListeners()
     } catch (error) {
       console.log(error)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route, dispatch])
 
+  useEffect(() => {
+    if (users > 0) {
+      if (ringingSound) ringingSound.release()
+    }
+  }, [users, ringingSound])
+
   const leaveChannel = () => {
+    if (ringingSound) ringingSound.release()
     setIsLeaveModalVisible(false)
     engine.leaveChannel().then(() => {
       navigation.goBack()
-      /* setPeerIds([])
-                setJoined(false) */
     })
   }
 

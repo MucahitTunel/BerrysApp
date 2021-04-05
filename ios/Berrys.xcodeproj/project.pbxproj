@@ -29,6 +29,7 @@
 		996DE828255708950006277C /* EuclidCircularA-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 996DE825255708950006277C /* EuclidCircularA-Regular.ttf */; };
 		996DE829255708950006277C /* EuclidCircularA-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 996DE826255708950006277C /* EuclidCircularA-SemiBold.ttf */; };
 		9A2D83462619CB1D00152EBE /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */; };
+		9AA22B20261AEDE50032C59F /* ringing.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9AA22B1B261AEDE50032C59F /* ringing.mp3 */; };
 		D469A9BE1BA247FBBE90D9C2 /* icomoon.woff in Resources */ = {isa = PBXBuildFile; fileRef = 2F04990EB9024D4CA5AF2415 /* icomoon.woff */; };
 		FF990A0699DFBB50C98C919B /* libPods-Berrys-BerrysTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */; };
 /* End PBXBuildFile section */
@@ -133,6 +134,7 @@
 		996DE825255708950006277C /* EuclidCircularA-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EuclidCircularA-Regular.ttf"; path = "../src/assets/fonts/EuclidCircularA-Regular.ttf"; sourceTree = "<group>"; };
 		996DE826255708950006277C /* EuclidCircularA-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EuclidCircularA-SemiBold.ttf"; path = "../src/assets/fonts/EuclidCircularA-SemiBold.ttf"; sourceTree = "<group>"; };
 		9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "Berrys/AppCenter-Config.plist"; sourceTree = "<group>"; };
+		9AA22B1B261AEDE50032C59F /* ringing.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ringing.mp3; path = ../../../../Downloads/ringing.mp3; sourceTree = "<group>"; };
 		A81285525EB0492A9E11805A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		AEC6FEC2FF794125C73FD02F /* libPods-Berrys-BerrysTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Berrys-BerrysTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B23C7B3E2484EEFF001903FB /* Berrys-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Berrys-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		13B07FAE1A68108700A75B9A /* Berrys */ = {
 			isa = PBXGroup;
 			children = (
+				9AA22B1B261AEDE50032C59F /* ringing.mp3 */,
 				9A2D83452619CB1D00152EBE /* AppCenter-Config.plist */,
 				22BD859D254452E40055129E /* LaunchScreen.storyboard */,
 				22FEA2D724C2D45A00DF1261 /* Berrys.entitlements */,
@@ -496,6 +499,7 @@
 				996DE827255708950006277C /* EuclidCircularA-Medium.ttf in Resources */,
 				996DE829255708950006277C /* EuclidCircularA-SemiBold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9AA22B20261AEDE50032C59F /* ringing.mp3 in Resources */,
 				9904F3C32559982D006F00A4 /* EuclidCircularA-Italic.ttf in Resources */,
 				996DE828255708950006277C /* EuclidCircularA-Regular.ttf in Resources */,
 				594928BF3063488EBD7F3CC8 /* icomoon.svg in Resources */,

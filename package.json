@@ -60,6 +60,7 @@
     "react-native-screens": "^2.9.0",
     "react-native-share": "^4.1.0",
     "react-native-slick": "^1.6.0",
+    "react-native-sound": "^0.11.0",
     "react-native-swipeout": "^2.3.6",
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^2.15.2",
