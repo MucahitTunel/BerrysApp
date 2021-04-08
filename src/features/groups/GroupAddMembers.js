@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView, StyleSheet } from 'react-native'
 import { ContactsList, Header } from 'components'
 import { Colors, Dimensions, Screens } from 'constants'
@@ -25,7 +25,13 @@ const styles = StyleSheet.create({
 
 const GroupAddMembers = ({ navigation, route }) => {
   const dispatch = useDispatch()
+  const allContacts = useSelector((state) => state.contacts.data)
   const { isAdmin, isCreate, groupCreator, list } = route.params
+
+  const nonContact = list.filter(
+    (c) => !allContacts.find((ac) => ac.phoneNumber === c.phoneNumber),
+  )
+
   useEffect(() => {
     navigation.setOptions({
       header: () => (
@@ -38,7 +44,7 @@ const GroupAddMembers = ({ navigation, route }) => {
   }, [navigation, route.params.isAdmin])
 
   const onPressSubmit = (members) => {
-    const filtered = members.filter((m) => !m.isDefaultItem)
+    const filtered = [...members.filter((m) => !m.isDefaultItem), ...nonContact]
     if (isCreate) {
       if (isAdmin) {
         dispatch(setNewGroupAdmins(filtered))
