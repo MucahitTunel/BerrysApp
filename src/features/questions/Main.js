@@ -10,6 +10,7 @@ import {
   StyleSheet,
   View,
   Keyboard,
+  Image,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Formik } from 'formik'
@@ -316,6 +317,44 @@ const RequestToAsk = ({ requests }) => {
   )
 }
 
+const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
+  const onPressQuestion = () => {
+    dispatch(getQuestion(questionId))
+    NavigationService.navigate(Screens.Answers)
+  }
+
+  return (
+    <View>
+      <Image
+        source={{ uri: image }}
+        style={{ height: 250, width: undefined }}
+      />
+      <ScaleTouchable
+        style={[
+          {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 15,
+            paddingVertical: 10,
+            borderBottomWidth: 4,
+            borderColor: Colors.background,
+          },
+          isNew && styles.newAnswer,
+        ]}
+        onPress={onPressQuestion}>
+        <AppText color="black" fontSize={FontSize.large} weight="medium">
+          Comment
+        </AppText>
+        <AppIcon
+          name="chevron-right"
+          size={20}
+          color={'rgba(128, 128, 128, 0.5)'}
+        />
+      </ScaleTouchable>
+    </View>
+  )
+}
+
 const QuestionItem = ({
   question: {
     _id,
@@ -330,6 +369,17 @@ const QuestionItem = ({
 }) => {
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
+
+  if (image)
+    return (
+      <RenderQuestionImage
+        questionId={_id}
+        isNew={isNew}
+        image={image}
+        dispatch={dispatch}
+      />
+    )
+
   if (!user) return null
   const { phoneNumber } = user
   const isFlagged = flaggedBy.includes(phoneNumber)

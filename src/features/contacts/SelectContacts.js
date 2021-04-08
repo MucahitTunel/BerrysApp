@@ -26,7 +26,7 @@ const SelectContacts = (props) => {
       )
     }
 
-    if (props.route.params.isOnboarding) {
+    if (props.route.params?.isOnboarding) {
       dispatch(
         sendInvite({ contacts, name: props.route.params.onboardingName }),
       )
@@ -44,11 +44,11 @@ const SelectContacts = (props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
       <ContactsList
-        showGroups={!props.route.params.isOnboarding}
+        showGroups={!props.route.params?.isOnboarding}
         onPressSubmit={onPressSubmit}
         checkCondition="isSelected"
         subTitle={`Select contacts${
-          !props.route.params.isOnboarding ? '/groups:' : ''
+          !props.route.params?.isOnboarding ? '/groups:' : ''
         }`}
         isLoading={ask.loading || question.loading}
         submitText={props.route.params?.submitText}
