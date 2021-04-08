@@ -29,6 +29,7 @@ import {
   Avatar,
   ScaleTouchable,
   SuccessModal,
+  CompareItem,
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
@@ -44,12 +45,14 @@ import {
   hideQuestion,
   hidePoll,
   hideCompare,
+  setCompares,
 } from 'features/questions/questionsSlice'
 import { getRoom, setRoom, getRooms } from 'features/messages/messagesSlice'
 import {
   getQuestion,
   getPoll,
   getCompare,
+  voteCompare,
 } from 'features/questions/questionSlice'
 import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -317,6 +320,122 @@ const RequestToAsk = ({ requests }) => {
   )
 }
 
+const RenderCompare = ({ compare }) => {
+  const style = { width: Dimensions.Width / 2.03 }
+
+  const user = useSelector((state) => state.auth.user)
+  const compares = useSelector((state) => state.questions.compares)
+  const dispatch = useDispatch()
+
+  const [isVoted, setIsVoted] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const [votes, setVotes] = useState({})
+
+  useEffect(() => {
+    if (compare && user) {
+      let voted = false
+      let votes = {}
+
+      compare.votes.forEach((v) => {
+        if (votes[v.value]) votes[v.value]++
+        else {
+          votes[v.value] = 1
+        }
+        if (v.userPhoneNumber === user.phoneNumber) voted = v
+      })
+
+      if (voted) {
+        setIsVoted(true)
+        setSelectedOption(voted.value)
+      } else {
+        setIsVoted(false)
+        setSelectedOption(null)
+      }
+
+      Object.keys(votes).forEach((option) => {
+        votes[option] = (100 / compare.votes.length) * votes[option]
+      })
+      setVotes(votes)
+    }
+  }, [compare, user])
+
+  const imageOnPress = (index) => {
+    setSelectedOption(index)
+    dispatch(voteCompare({ image: index, compareId: compare?._id }))
+    dispatch(
+      setCompares(
+        compares.map((c) => {
+          if (c._id === compare._id) {
+            return {
+              ...c,
+              votes: [
+                ...compare.votes,
+                { userPhoneNumber: user.phoneNumber, value: index },
+              ],
+            }
+          } else return c
+        }),
+      ),
+    )
+  }
+
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 4,
+        borderColor: Colors.background,
+        borderTopWidth: 4,
+        paddingBottom: 5,
+      }}>
+      <CompareItem
+        image={compare?.images[0]}
+        onPress={() => imageOnPress(0)}
+        selected={selectedOption === 0}
+        voteNumber={votes[0] ? parseInt(votes[0].toFixed(0)) : 0}
+        isVoted={isVoted}
+        isResult
+        isCreator={compare.userPhoneNumber === user.phoneNumber}
+        style={style}
+        imageStyle={style}
+        selectedStyle={style}
+      />
+      <CompareItem
+        image={compare?.images[1]}
+        onPress={() => imageOnPress(1)}
+        selected={selectedOption === 1}
+        voteNumber={votes[1] ? parseInt(votes[1].toFixed(0)) : 0}
+        isVoted={isVoted}
+        isResult
+        isCreator={compare.userPhoneNumber === user.phoneNumber}
+        style={style}
+        imageStyle={style}
+        selectedStyle={style}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          height: 60,
+          width: 60,
+          borderRadius: 30,
+          left: Dimensions.Width / 2.37,
+          top: Dimensions.Height / 5,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <AppText
+          fontSize={FontSize.xxxLarge}
+          weight="bold"
+          color={Colors.primary}>
+          VS
+        </AppText>
+      </View>
+    </View>
+  )
+}
+
 const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
@@ -544,7 +663,7 @@ PollItem.propTypes = {
   data: PropTypes.object,
 }
 
-const CompareItem = ({ data }) => {
+/* const CompareItem = ({ data }) => {
   const dispatch = useDispatch()
 
   const onPress = () => {
@@ -614,7 +733,7 @@ const CompareItem = ({ data }) => {
       </ScaleTouchable>
     </Swipeout>
   )
-}
+} */
 
 CompareItem.propTypes = {
   data: PropTypes.object,
@@ -796,7 +915,8 @@ const Main = ({ route }) => {
     if (index === 0) return <RequestToAsk requests={requestsToAsk} />
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />
-    if (item.type === 'compare') return <CompareItem data={item} />
+    // if (item.type === 'compare') return <CompareItem data={item} />
+    if (item.type === 'compare') return <RenderCompare compare={item} />
   }
 
   return (

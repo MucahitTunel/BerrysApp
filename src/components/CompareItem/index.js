@@ -46,13 +46,19 @@ const CompareItem = ({
   isVoted,
   isResult,
   isCreator,
+  style,
+  imageStyle,
+  selectedStyle,
 }) => {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { ...style }]}
       onPress={onPress}
       disabled={selected || isVoted}>
-      <Image source={{ uri: image }} style={styles.image} />
+      <Image
+        source={{ uri: image }}
+        style={[styles.image, { ...imageStyle }]}
+      />
       {!image && (
         <View style={styles.addContainer}>
           <AppIcon name="plus" size={26} color={Colors.primary} />
@@ -63,6 +69,7 @@ const CompareItem = ({
           style={[
             styles.selected,
             { backgroundColor: selected ? Colors.primary : Colors.gray },
+            { ...selectedStyle },
           ]}>
           <AppText color="white">
             {isVoted || isCreator ? voteNumber + '%' : ''}
@@ -81,6 +88,9 @@ CompareItem.propTypes = {
   isVoted: PropTypes.bool,
   isResult: PropTypes.bool,
   isCreator: PropTypes.bool,
+  style: PropTypes.bool,
+  imageStyle: PropTypes.bool,
+  selectedStyle: PropTypes.bool,
 }
 
 export default CompareItem

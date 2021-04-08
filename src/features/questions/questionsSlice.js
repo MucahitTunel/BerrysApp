@@ -125,6 +125,9 @@ const questionsSlice = createSlice({
       })
       state.compares = newCompares
     },
+    setCompares: (state, action) => {
+      state.compares = action.payload
+    },
   },
   extraReducers: {
     [getQuestions.pending]: (state) => {
@@ -151,5 +154,5 @@ const questionsSlice = createSlice({
 
 export const {
   reducer: questionsReducer,
-  actions: { readQuestion, readCompare, readPoll },
+  actions: { readQuestion, readCompare, readPoll, setCompares },
 } = questionsSlice

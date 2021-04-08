@@ -210,15 +210,14 @@ export const getCompare = createAsyncThunk(
 
 export const voteCompare = createAsyncThunk(
   'compare/vote',
-  async (image, { getState, dispatch }) => {
+  async ({ image, compareId }, { getState }) => {
     const state = getState()
     const user = state.auth.user
-    const { compare } = state.question
     const { data } = await request({
       method: 'POST',
       url: 'compare/vote',
       data: {
-        compareId: compare._id,
+        compareId,
         userPhoneNumber: user.phoneNumber,
         image,
       },
