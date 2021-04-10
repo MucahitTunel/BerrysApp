@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect } from 'react'
+import React, { useLayoutEffect, useEffect, useState } from 'react'
 import {
   View,
   SafeAreaView,
@@ -69,11 +69,19 @@ const PostQuestion = ({ navigation }) => {
   const isAskExperts = useSelector((state) => state.ask.isAskExperts)
   const allContacts = useSelector((state) => state.contacts.data)
 
+  const [allContactsSelected, setAllContactsSelected] = useState(false)
+
   const selectedItems = contacts.map((c) => c.phoneNumber)
   const selectedGroups = groups.map((g) => g._id)
 
   const swiperRef = React.useRef(null)
   const appState = React.useRef(AppState.currentState)
+
+  useEffect(() => {
+    dispatch(setAskContacts([]))
+    dispatch(setAskGroups([]))
+    dispatch(setIsAskExperts(false))
+  }, [dispatch])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -133,7 +141,14 @@ const PostQuestion = ({ navigation }) => {
     if (!question) {
       return alert('You have to write a question to continue!')
     }
-    if (contacts.length === 0) dispatch(setAskContacts(allContacts))
+    if (
+      !isAskExperts &&
+      !allContactsSelected &&
+      groups.length === 0 &&
+      contacts.length === 0
+    )
+      return alert('You have to select people to send your question!')
+    if (allContactsSelected) dispatch(setAskContacts(allContacts))
     dispatch(askQuestion())
   }
 
@@ -229,15 +244,24 @@ const PostQuestion = ({ navigation }) => {
           </AppText>
           <ScaleTouchable
             style={styles.selectionRow}
-            onPress={() => dispatch(setAskContacts([]))}>
+            onPress={() => {
+              setAllContactsSelected(true)
+              dispatch(setAskContacts([]))
+            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <AppButton
-                icon={contacts.length === 0 ? 'checkmark' : 'profile'}
+                icon={
+                  allContactsSelected && contacts.length === 0
+                    ? 'checkmark'
+                    : 'profile'
+                }
                 iconSize={24}
                 shadow={false}
                 style={{
                   backgroundColor:
-                    contacts.length === 0 ? Colors.primary : Colors.grayLight,
+                    allContactsSelected && contacts.length === 0
+                      ? Colors.primary
+                      : Colors.grayLight,
                   height: 40,
                   width: 40,
                 }}
@@ -411,9 +435,12 @@ const PostQuestion = ({ navigation }) => {
                 </AppText>
                 <AppIcon name="triangle" size={6} color={Colors.gray} />
               </ScaleTouchable>
-              {contacts.length === 0 && (
+              {allContactsSelected && contacts.length === 0 && (
                 <ScaleTouchable
-                  onPress={() => swiperRef.current.snapTo(0)}
+                  onPress={() => {
+                    setAllContactsSelected(false)
+                    swiperRef.current.snapTo(0)
+                  }}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -433,7 +460,7 @@ const PostQuestion = ({ navigation }) => {
                     style={{ marginRight: 15 }}>
                     All Contacts
                   </AppText>
-                  <AppIcon name="triangle" size={6} color={Colors.gray} />
+                  <AppIcon name="close" size={10} color={Colors.gray} />
                 </ScaleTouchable>
               )}
             </View>
