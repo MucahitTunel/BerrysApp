@@ -384,10 +384,9 @@ const RenderCompare = ({ compare }) => {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderBottomWidth: 5,
+        borderBottomWidth: 4,
         borderColor: Colors.background,
-        paddingBottom: 6,
-        marginBottom: 5,
+        paddingBottom: 10,
       }}>
       <CompareItem
         image={compare?.images[0]}
