@@ -169,9 +169,27 @@ const PostQuestion = ({ navigation }) => {
         style={{
           flexDirection: 'row',
           marginHorizontal: 10,
+          marginRight: 50,
           flexWrap: 'wrap',
+          alignItems: 'center',
         }}>
-        {[...contacts, ...groups].map((item) => {
+        {[...contacts, ...groups, 'icon'].map((item) => {
+          if (item === 'icon') {
+            return (
+              <AppButton
+                icon="plus"
+                iconSize={18}
+                iconColor={Colors.primary}
+                shadow={false}
+                style={{
+                  backgroundColor: Colors.primaryDimmed,
+                  height: 30,
+                  width: 30,
+                }}
+                onPress={() => swiperRef.current.snapTo(0)}
+              />
+            )
+          }
           return (
             <ScaleTouchable
               key={item._id}
@@ -411,36 +429,23 @@ const PostQuestion = ({ navigation }) => {
             />
           )}
           <ScrollView>
-            <View style={{ flexDirection: 'row' }}>
-              <ScaleTouchable
-                onPress={toggleAnonymously}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AppText
+                color="black"
+                fontSize={FontSize.normal}
+                weight="medium"
+                style={{ marginLeft: 20 }}>
+                Me:
+              </AppText>
+              <View
                 style={{
+                  flexWrap: 'wrap',
+                  width: '100%',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  borderWidth: 1,
-                  borderColor: 'rgba(151, 151, 151, 0.53)',
-                  paddingVertical: 5,
-                  paddingHorizontal: 8,
-                  borderRadius: 5,
-                  marginLeft: 10,
-                  marginTop: 10,
-                  marginBottom: 10,
                 }}>
-                <AppText
-                  color={Colors.gray}
-                  fontSize={FontSize.normal}
-                  weight="medium"
-                  style={{ marginRight: 15 }}>
-                  {isAnonymous ? 'Anonymous' : 'Not Anonymous'}
-                </AppText>
-                <AppIcon name="triangle" size={6} color={Colors.gray} />
-              </ScaleTouchable>
-              {allContactsSelected && contacts.length === 0 && (
                 <ScaleTouchable
-                  onPress={() => {
-                    setAllContactsSelected(false)
-                    swiperRef.current.snapTo(0)
-                  }}
+                  onPress={toggleAnonymously}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -451,45 +456,85 @@ const PostQuestion = ({ navigation }) => {
                     borderRadius: 5,
                     marginLeft: 10,
                     marginTop: 10,
-                    marginBottom: 10,
                   }}>
                   <AppText
                     color={Colors.gray}
                     fontSize={FontSize.normal}
                     weight="medium"
                     style={{ marginRight: 15 }}>
-                    All Contacts
+                    {isAnonymous ? 'Anonymous' : 'Not Anonymous'}
                   </AppText>
-                  <AppIcon name="close" size={10} color={Colors.gray} />
+                  <AppIcon name="triangle" size={6} color={Colors.gray} />
                 </ScaleTouchable>
-              )}
+                {allContactsSelected && contacts.length === 0 && (
+                  <ScaleTouchable
+                    onPress={() => {
+                      setAllContactsSelected(false)
+                      swiperRef.current.snapTo(0)
+                    }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      borderWidth: 1,
+                      borderColor: 'rgba(151, 151, 151, 0.53)',
+                      paddingVertical: 5,
+                      paddingHorizontal: 8,
+                      borderRadius: 5,
+                      marginLeft: 10,
+                      marginTop: 10,
+                    }}>
+                    <AppText
+                      color={Colors.gray}
+                      fontSize={FontSize.normal}
+                      weight="medium"
+                      style={{ marginRight: 15 }}>
+                      All Contacts
+                    </AppText>
+                    <AppIcon name="close" size={10} color={Colors.gray} />
+                  </ScaleTouchable>
+                )}
+                {isAskExperts && (
+                  <ScaleTouchable
+                    onPress={() => dispatch(setIsAskExperts(false))}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      borderWidth: 1,
+                      borderColor: 'rgba(151, 151, 151, 0.53)',
+                      paddingVertical: 5,
+                      paddingHorizontal: 8,
+                      borderRadius: 5,
+                      marginLeft: 10,
+                      marginTop: 10,
+                      width: Dimensions.Width / 2.6,
+                    }}>
+                    <AppText
+                      color={Colors.gray}
+                      fontSize={FontSize.normal}
+                      weight="medium"
+                      style={{ marginRight: 15 }}>
+                      Berry's Experts
+                    </AppText>
+                    <AppIcon name="close" size={10} color={Colors.gray} />
+                  </ScaleTouchable>
+                )}
+              </View>
             </View>
-            {isAskExperts && (
-              <ScaleTouchable
-                onPress={() => dispatch(setIsAskExperts(false))}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  borderColor: 'rgba(151, 151, 151, 0.53)',
-                  paddingVertical: 5,
-                  paddingHorizontal: 8,
-                  borderRadius: 5,
-                  marginLeft: 10,
-                  marginBottom: 10,
-                  width: Dimensions.Width / 2.6,
-                }}>
-                <AppText
-                  color={Colors.gray}
-                  fontSize={FontSize.normal}
-                  weight="medium"
-                  style={{ marginRight: 15 }}>
-                  Berry's Experts
-                </AppText>
-                <AppIcon name="triangle" size={6} color={Colors.gray} />
-              </ScaleTouchable>
-            )}
-            {(contacts.length > 0 || groups.length > 0) && renderContacts()}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 20,
+              }}>
+              <AppText
+                color="black"
+                fontSize={FontSize.normal}
+                weight="medium"
+                style={{ marginLeft: 20, marginRight: 5 }}>
+                To:
+              </AppText>
+              {renderContacts()}
+            </View>
           </ScrollView>
         </View>
         <AppButton
