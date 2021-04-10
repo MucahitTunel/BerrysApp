@@ -384,10 +384,10 @@ const RenderCompare = ({ compare }) => {
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderBottomWidth: 4,
+        borderBottomWidth: 5,
         borderColor: Colors.background,
-        borderTopWidth: 4,
-        paddingBottom: 5,
+        paddingBottom: 6,
+        marginBottom: 5,
       }}>
       <CompareItem
         image={compare?.images[0]}
@@ -446,7 +446,7 @@ const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
     <View>
       <Image
         source={{ uri: image }}
-        style={{ height: 250, width: undefined }}
+        style={{ height: Dimensions.Width, width: undefined }}
       />
       <ScaleTouchable
         style={[
@@ -739,7 +739,7 @@ CompareItem.propTypes = {
   data: PropTypes.object,
 }
 
-const Main = ({ route }) => {
+const Main = ({ route, navigation }) => {
   const showSuccessModal =
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
@@ -789,21 +789,21 @@ const Main = ({ route }) => {
           case 'QUESTION_ASKED': {
             if (additionalData.questionId) {
               dispatch(getQuestion(additionalData.questionId))
-              NavigationService.navigate(Screens.Answers)
+              navigation.navigate(Screens.Answers)
             }
             break
           }
           case 'POLL_ASKED': {
             if (additionalData.pollId) {
               dispatch(getPoll(additionalData.pollId))
-              NavigationService.navigate(Screens.PollDetails)
+              navigation.navigate(Screens.PollDetails)
             }
             break
           }
           case 'COMPARE_ASKED': {
             if (additionalData.compareId) {
               dispatch(getCompare(additionalData.compareId))
-              NavigationService.navigate(Screens.CompareDetails)
+              navigation.navigate(Screens.CompareDetails)
             }
             break
           }
@@ -811,12 +811,12 @@ const Main = ({ route }) => {
           case 'APPROVE_ASK_REQUEST':
             if (additionalData.room) {
               dispatch(setRoom(additionalData.room))
-              NavigationService.navigate(Screens.Conversation)
+              navigation.navigate(Screens.Conversation)
             }
             break
           case 'JOIN_VOICE_CALL':
             if (additionalData.room) {
-              NavigationService.navigate(Screens.VoiceCall, {
+              navigation.navigate(Screens.VoiceCall, {
                 isCreate: false,
                 roomId: additionalData.channelName,
                 token: additionalData.token,
@@ -851,6 +851,7 @@ const Main = ({ route }) => {
       OneSignal.removeEventListener('opened', onOpened)
       OneSignal.removeEventListener('ids', onIds)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
   useEffect(() => {
