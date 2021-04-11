@@ -738,7 +738,7 @@ CompareItem.propTypes = {
   data: PropTypes.object,
 }
 
-const Main = ({ route, navigation }) => {
+const Main = ({ route }) => {
   const showSuccessModal =
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
@@ -766,6 +766,10 @@ const Main = ({ route, navigation }) => {
     )
   }, [questions.data, questions.polls, questions.compares])
 
+  const delay = (cb, time) => {
+    setTimeout(cb, 1000 * time)
+  }
+
   useEffect(() => {
     dispatch(loadContacts())
     const onReceived = (notification) =>
@@ -788,21 +792,21 @@ const Main = ({ route, navigation }) => {
           case 'QUESTION_ASKED': {
             if (additionalData.questionId) {
               dispatch(getQuestion(additionalData.questionId))
-              navigation.navigate(Screens.Answers)
+              delay(() => NavigationService.navigate(Screens.Answers), 1)
             }
             break
           }
           case 'POLL_ASKED': {
             if (additionalData.pollId) {
               dispatch(getPoll(additionalData.pollId))
-              navigation.navigate(Screens.PollDetails)
+              delay(() => NavigationService.navigate(Screens.PollDetails), 1)
             }
             break
           }
           case 'COMPARE_ASKED': {
             if (additionalData.compareId) {
               dispatch(getCompare(additionalData.compareId))
-              navigation.navigate(Screens.CompareDetails)
+              delay(() => NavigationService.navigate(Screens.CompareDetails), 1)
             }
             break
           }
@@ -810,17 +814,21 @@ const Main = ({ route, navigation }) => {
           case 'APPROVE_ASK_REQUEST':
             if (additionalData.room) {
               dispatch(setRoom(additionalData.room))
-              navigation.navigate(Screens.Conversation)
+              delay(() => NavigationService.navigate(Screens.Conversation), 1)
             }
             break
           case 'JOIN_VOICE_CALL':
             if (additionalData.room) {
-              navigation.navigate(Screens.VoiceCall, {
-                isCreate: false,
-                roomId: additionalData.channelName,
-                token: additionalData.token,
-                userName: getConversationName(additionalData.room).title,
-              })
+              delay(
+                () =>
+                  NavigationService.navigate(Screens.VoiceCall, {
+                    isCreate: false,
+                    roomId: additionalData.channelName,
+                    token: additionalData.token,
+                    userName: getConversationName(additionalData.room).title,
+                  }),
+                1,
+              )
             }
           default:
             break
