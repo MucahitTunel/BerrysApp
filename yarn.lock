@@ -7691,6 +7691,11 @@ react-native-keyboard-listener@^1.1.0:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-kochava-tracker@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-kochava-tracker/-/react-native-kochava-tracker-1.4.2.tgz#18c27779f42de04c08b65b3deb239bd02e76b44c"
+  integrity sha512-XUXU9dSNwZ4f4JDuYKIx+6kSOKUaiVArX3plQlpciOccjYgQergZvGcDMvyo5JaVpHuLRRsUsefv+mY70cHQbQ==
+
 react-native-linear-gradient@^2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"

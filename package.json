@@ -50,6 +50,7 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^3.2.1",
     "react-native-keyboard-listener": "^1.1.0",
+    "react-native-kochava-tracker": "^1.4.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^1.4.0",
     "react-native-modal": "^11.6.1",
