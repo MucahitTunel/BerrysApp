@@ -945,7 +945,8 @@ const Main = ({ route }) => {
               <Avatar source={Images.defaultAvatar} size={50} />
               <AppInput
                 style={styles.input}
-                placeholder="Ask anonymously your contacts..."
+                // placeholder="Ask anonymously your contacts..."
+                placeholder="dsadsadsadas"
                 multiline
                 onChange={(value) => {
                   setFieldValue('question', value)
