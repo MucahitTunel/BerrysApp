@@ -10,6 +10,7 @@ import generateVerificationCode from 'utils/generate-verification-code'
 import { formatPhoneNumber } from '../contacts/helpers'
 import { getQuestions } from '../questions/questionsSlice'
 import { addRoomWithNewMessages } from '../messages/messagesSlice'
+import KochavaTracker from 'react-native-kochava-tracker'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -25,9 +26,19 @@ export const postSignIn = async (userData, isFromBoot = false) => {
   }
 }
 
+const initKochava = () => {
+  const configMapObject = {}
+  configMapObject[KochavaTracker.PARAM_ANDROID_APP_GUID_STRING_KEY] =
+    Config.KOCHAVA_ANDROID_APP_GUID
+  configMapObject[KochavaTracker.PARAM_IOS_APP_GUID_STRING_KEY] =
+    Config.KOCHAVA_IOS_APP_GUID
+  KochavaTracker.configure(configMapObject)
+}
+
 export const authBoot = createAsyncThunk(
   'auth/boot',
   async (_, { dispatch }) => {
+    initKochava()
     const userDataString = await AsyncStorage.getItem('userData')
     const userData = JSON.parse(userDataString)
     if (userData && userData.phoneNumber) {
