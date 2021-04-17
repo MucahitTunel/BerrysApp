@@ -240,86 +240,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const RequestToAsk = ({ requests }) => {
-  const user = useSelector((state) => state.auth.user)
-  if (!user || !requests.length) return null
-  const onPressRequestToAsk = () => {
-    NavigationService.navigate(Screens.RequestToAsk, {
-      requests,
-    })
-  }
-  const renderRequester = () => {
-    // const invited = requests.reduce((acc, request) => acc + request.receivers.length, 0) - 1
-
-    const uniqueRequests = []
-    requests.map((r) => {
-      if (
-        !uniqueRequests.find((ur) => ur.userPhoneNumber === r.userPhoneNumber)
-      )
-        uniqueRequests.push(r)
-    })
-
-    if (uniqueRequests.length === 1) {
-      return (
-        <AppText color={Colors.primary} fontSize={FontSize.normal}>
-          {uniqueRequests[0].requester}
-        </AppText>
-      )
-    } else {
-      const amount = uniqueRequests.length - 1
-      return (
-        <AppText weight="medium" fontSize={FontSize.normal}>
-          <AppText
-            color={Colors.primary}
-            fontSize={FontSize.normal}
-            weight="medium">
-            {uniqueRequests[0].requester}
-          </AppText>
-          {` and `}
-          <AppText
-            color={Colors.primary}
-            fontSize={FontSize.normal}
-            weight="medium">
-            {`${amount}${amount === 1 ? ' User' : ' Users'}`}
-          </AppText>
-        </AppText>
-      )
-    }
-  }
-
-  return (
-    <ScaleTouchable
-      style={[styles.questionItem]}
-      onPress={() => onPressRequestToAsk()}>
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <View style={styles.requesterIcon}>
-            <AppImage source={Images.message} width={17} height={15} />
-          </View>
-          <AppText
-            style={styles.requesterText}
-            weight="medium"
-            fontSize={FontSize.normal}>
-            {renderRequester()}
-            {` invited you to ask your questions anonymously`}
-          </AppText>
-        </View>
-      </View>
-      <View
-        style={{
-          marginLeft: 16,
-          flexDirection: 'row',
-        }}>
-        <AppIcon name="chevron-right" size={20} color={Colors.primary} />
-      </View>
-    </ScaleTouchable>
-  )
-}
-
 const RenderCompare = ({ compare }) => {
   const style = { width: Dimensions.Width / 2.03 }
 
@@ -745,7 +665,6 @@ const Main = ({ route }) => {
   const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
   const question = useSelector((state) => state.ask.question)
-  const { requestsToAsk } = questions
   const keyboard = useKeyboard()
   const [questionUrl, setQuestionUrl] = useState(null)
   const [_, setQuestionFromModal] = useState(null)
@@ -920,7 +839,6 @@ const Main = ({ route }) => {
 
   const isNewUser = user.isNew && listData.length === 0
   const renderItem = ({ item, index }) => {
-    if (index === 0) return <RequestToAsk requests={requestsToAsk} />
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />
     // if (item.type === 'compare') return <CompareItem data={item} />
@@ -1055,7 +973,7 @@ const Main = ({ route }) => {
       ) : (
         <View style={styles.flatListView}>
           <FlatList
-            data={[null, ...listData]}
+            data={listData}
             renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
             ListEmptyComponent={renderEmpty()}

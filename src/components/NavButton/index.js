@@ -46,6 +46,7 @@ export const MessagesBackButton = ({ navigation }) => (
 export const MessagesButton = ({ navigation }) => {
   const roomsWithNewMessages =
     useSelector((state) => state.messages.roomsWithNewMessages) || []
+  const requestsToAsk = useSelector((state) => state.questions.requestsToAsk)
   return (
     <ScaleTouchable
       onPress={() =>
@@ -54,7 +55,9 @@ export const MessagesButton = ({ navigation }) => {
         })
       }>
       <AppIcon name="chat" color={Colors.white} />
-      {roomsWithNewMessages.length > 0 && <View style={styles.dotMessage} />}
+      {(roomsWithNewMessages.length > 0 || requestsToAsk.length > 0) && (
+        <View style={styles.dotMessage} />
+      )}
     </ScaleTouchable>
   )
 }

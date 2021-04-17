@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,10 +11,18 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Dimensions, Colors, Screens, FontSize } from 'constants'
-import { Avatar, AppText, AppIcon, Loading } from 'components'
+import {
+  Avatar,
+  AppText,
+  AppIcon,
+  Loading,
+  ScaleTouchable,
+  AppImage,
+} from 'components'
 import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
 import { getRooms, setRoom } from 'features/messages/messagesSlice'
+import Images from 'assets/images'
 
 moment.locale('en', {
   relativeTime: {
@@ -77,6 +86,7 @@ const styles = StyleSheet.create({
 export const Messages = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
+  const questions = useSelector((state) => state.questions)
   const messagesState = useSelector((state) => state.messages)
   const { loading, rooms } = messagesState
 
@@ -91,6 +101,108 @@ export const Messages = ({ route, navigation }) => {
   const onPressConversation = (conversation) => {
     dispatch(setRoom(conversation))
     NavigationService.navigate(Screens.Conversation)
+  }
+
+  const RequestToAsk = ({ requests }) => {
+    const user = useSelector((state) => state.auth.user)
+    if (!user || !requests.length) return null
+    const onPressRequestToAsk = () => {
+      NavigationService.navigate(Screens.RequestToAsk, {
+        requests,
+      })
+    }
+    const renderRequester = () => {
+      // const invited = requests.reduce((acc, request) => acc + request.receivers.length, 0) - 1
+
+      const uniqueRequests = []
+      requests.map((r) => {
+        if (
+          !uniqueRequests.find((ur) => ur.userPhoneNumber === r.userPhoneNumber)
+        )
+          uniqueRequests.push(r)
+      })
+
+      if (uniqueRequests.length === 1) {
+        return (
+          <AppText color={Colors.primary} fontSize={FontSize.normal}>
+            {uniqueRequests[0].requester}
+          </AppText>
+        )
+      } else {
+        const amount = uniqueRequests.length - 1
+        return (
+          <AppText weight="medium" fontSize={FontSize.normal}>
+            <AppText
+              color={Colors.primary}
+              fontSize={FontSize.normal}
+              weight="medium">
+              {uniqueRequests[0].requester}
+            </AppText>
+            {` and `}
+            <AppText
+              color={Colors.primary}
+              fontSize={FontSize.normal}
+              weight="medium">
+              {`${amount}${amount === 1 ? ' User' : ' Users'}`}
+            </AppText>
+          </AppText>
+        )
+      }
+    }
+
+    return (
+      <ScaleTouchable
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: 16,
+          paddingRight: 12,
+          backgroundColor: Colors.white,
+          borderBottomWidth: 4,
+          borderColor: Colors.background,
+        }}
+        onPress={() => onPressRequestToAsk()}>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: 'rgba(235, 84, 80, 0.19)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 10,
+              }}>
+              <AppImage source={Images.message} width={17} height={15} />
+            </View>
+            <AppText
+              style={{
+                marginRight: 5,
+                lineHeight: 20,
+                flex: 1,
+                flexWrap: 'wrap',
+              }}
+              weight="medium"
+              fontSize={FontSize.normal}>
+              {renderRequester()}
+              {` invited you to ask your questions anonymously`}
+            </AppText>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: 16,
+            flexDirection: 'row',
+          }}>
+          <AppIcon name="chevron-right" size={20} color={Colors.primary} />
+        </View>
+      </ScaleTouchable>
+    )
   }
 
   const renderConversationItem = (conversation, index, rooms) => {
@@ -142,6 +254,7 @@ export const Messages = ({ route, navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.flatListView}>
+        <RequestToAsk requests={questions.requestsToAsk} />
         {loading ? (
           <Loading />
         ) : (
