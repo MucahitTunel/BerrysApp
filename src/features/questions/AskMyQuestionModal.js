@@ -8,7 +8,13 @@ import { BlurView } from '@react-native-community/blur'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { AppButton, AppText, AppInput } from 'components'
 import Theme from 'theme'
-import { setAskQuestion } from 'features/questions/askSlice'
+import {
+  setAskQuestion,
+  setIsAskExperts,
+  setAskContacts,
+  setAskGroups,
+  askQuestion,
+} from 'features/questions/askSlice'
 import { directMessage } from 'features/messages/messagesSlice'
 
 const styles = StyleSheet.create({
@@ -56,18 +62,29 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
   const contacts = useSelector((state) => state.contacts.data)
   const [question, setQuestion] = useState('')
   const onSubmit = () => {
-    const requester = contacts.find(
-      (c) => c.phoneNumber === request.userPhoneNumber,
-    )
+    if (!question) return
     dispatch(setAskQuestion(question))
+
+    if (request.isExpert) {
+      dispatch(setAskContacts([]))
+      dispatch(setAskGroups([]))
+      dispatch(setIsAskExperts(true))
+
+      dispatch(askQuestion())
+    } else {
+      const requester = contacts.find(
+        (c) => c.phoneNumber === request.userPhoneNumber,
+      )
+      dispatch(
+        directMessage({
+          userPhoneNumber: requester.phoneNumber,
+          askRequestId: request._id,
+        }),
+      )
+    }
+
     setModalVisible(false)
     setQuestion('')
-    dispatch(
-      directMessage({
-        userPhoneNumber: requester.phoneNumber,
-        askRequestId: request._id,
-      }),
-    )
   }
   return (
     <Modal
@@ -89,7 +106,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
             <AppInput
               style={styles.input}
               placeholder="Type your question"
-              onChange={(value) => setQuestion(value)}
+              onChange={(value) => setQuestion(value === '' ? null : value)}
               value={question}
             />
             <View style={styles.actions}>

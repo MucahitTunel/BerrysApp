@@ -90,6 +90,28 @@ export const Messages = ({ route, navigation }) => {
   const messagesState = useSelector((state) => state.messages)
   const { loading, rooms } = messagesState
 
+  // If a user posts a question, they are not new anymore
+  const isNewUser = !(
+    questions.data.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+    questions.compares.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+    questions.polls.find((q) => user.phoneNumber === q.userPhoneNumber)
+  )
+  const askRequests = isNewUser
+    ? [
+        {
+          receivers: [
+            {
+              hasAsked: false,
+              phoneNumber: '+905358982130',
+            },
+          ],
+          requester: `Berry's Expert`,
+          isExpert: true,
+        },
+        ...questions.requestsToAsk,
+      ]
+    : questions.requestsToAsk
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       if (route.params?.fromMain)
@@ -254,7 +276,7 @@ export const Messages = ({ route, navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.flatListView}>
-        <RequestToAsk requests={questions.requestsToAsk} />
+        <RequestToAsk requests={askRequests} />
         {loading ? (
           <Loading />
         ) : (

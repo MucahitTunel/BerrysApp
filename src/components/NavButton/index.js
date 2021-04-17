@@ -46,7 +46,13 @@ export const MessagesBackButton = ({ navigation }) => (
 export const MessagesButton = ({ navigation }) => {
   const roomsWithNewMessages =
     useSelector((state) => state.messages.roomsWithNewMessages) || []
-  const requestsToAsk = useSelector((state) => state.questions.requestsToAsk)
+  const questions = useSelector((state) => state.questions)
+  const user = useSelector((state) => state.auth.user)
+  const isNewUser = !(
+    questions.data.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+    questions.compares.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+    questions.polls.find((q) => user.phoneNumber === q.userPhoneNumber)
+  )
   return (
     <ScaleTouchable
       onPress={() =>
@@ -55,9 +61,9 @@ export const MessagesButton = ({ navigation }) => {
         })
       }>
       <AppIcon name="chat" color={Colors.white} />
-      {(roomsWithNewMessages.length > 0 || requestsToAsk.length > 0) && (
-        <View style={styles.dotMessage} />
-      )}
+      {(roomsWithNewMessages.length > 0 ||
+        questions.requestsToAsk.length > 0 ||
+        isNewUser) && <View style={styles.dotMessage} />}
     </ScaleTouchable>
   )
 }
