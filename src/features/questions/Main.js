@@ -58,7 +58,6 @@ import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import surveysList from '../auth/surveysList'
-import AskUserNameModal from './AskUserNameModal'
 import { checkURL } from 'utils'
 import getConversationName from 'utils/get-conversation-name'
 
@@ -671,9 +670,6 @@ const Main = ({ route }) => {
   const [popularQuestions, setPopularQuestions] = useState(
     surveysList[0].popularQuestions,
   )
-  const [isAskUserNameModalVisible, setIsAskUserNameModalVisible] = useState(
-    false,
-  )
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [listData, setListData] = useState([])
 
@@ -834,7 +830,7 @@ const Main = ({ route }) => {
   )
 
   const onPressAskMeAnything = () => {
-    setIsAskUserNameModalVisible(true)
+    NavigationService.navigate(Screens.AskMe)
   }
 
   const isNewUser = user.isNew && listData.length === 0
@@ -993,13 +989,6 @@ const Main = ({ route }) => {
           style={styles.askBtn}
         />
       )}
-
-      {/* AskUserNameModal */}
-      <AskUserNameModal
-        isModalVisible={isAskUserNameModalVisible}
-        setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
-        toAskMeScreen
-      />
 
       {isSuccessModalVisible && (
         <SuccessModal

@@ -43,6 +43,7 @@ import CompareDetails from 'features/questions/Compare/Detail'
 import QuestionWithImage from 'features/questions/QuestionWithImage'
 import PostQuestion from 'features/questions/PostQuestion'
 import VoiceCall from 'features/contacts/VoiceCall'
+import Account from 'features/contacts/Account'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -336,6 +337,23 @@ const AuthStack = () => (
   </Stack.Navigator>
 )
 
+const AccountStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name={Screens.Account}
+      component={Account}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Account"
+            headerLeft={<MenuButton navigation={navigation} />}
+          />
+        ),
+      })}
+    />
+  </Stack.Navigator>
+)
+
 const RootNavigator = () => {
   const auth = useSelector((state) => state.auth) || {}
   const { user, booting = true } = auth
@@ -354,6 +372,7 @@ const RootNavigator = () => {
         initialRouteName={Screens.MainStack}
         drawerContent={(props) => <SideBarMenu {...props} />}>
         <Drawer.Screen name={Screens.MainStack} component={MainStack} />
+        <Drawer.Screen name={Screens.AccountStack} component={AccountStack} />
         <Drawer.Screen
           name={Screens.ImportGmailContactsStack}
           component={ImportGmailContactsStack}

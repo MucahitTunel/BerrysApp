@@ -66,7 +66,6 @@ export const authBoot = createAsyncThunk(
         dispatch(addRoomWithNewMessages(data.message.roomId))
       })
       dispatch(getQuestions(userData.phoneNumber)).then(async () => {
-        dispatch(setBooting(false))
         await postSignIn(userData)
         dispatch(getUser(userData.phoneNumber))
       })
@@ -79,17 +78,21 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await AsyncStorage.removeItem('userData')
 })
 
-export const getUser = createAsyncThunk('auth/getUser', async (phoneNumber) => {
-  const { data } = await request({
-    method: 'GET',
-    url: 'account/get-user',
-    params: {
-      phoneNumber,
-    },
-  })
-  const { user } = data
-  return user
-})
+export const getUser = createAsyncThunk(
+  'auth/getUser',
+  async (phoneNumber, { dispatch }) => {
+    const { data } = await request({
+      method: 'GET',
+      url: 'account/get-user',
+      params: {
+        phoneNumber,
+      },
+    })
+    dispatch(setBooting(false))
+    const { user } = data
+    return user
+  },
+)
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
@@ -351,7 +354,7 @@ const authSlice = createSlice({
     },
     [authBoot.fulfilled]: (state, action) => {
       // state.booting = false
-      state.user = action.payload
+      // state.user = action.payload
     },
     [authBoot.rejected]: (state) => {
       state.booting = false

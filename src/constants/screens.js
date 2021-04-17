@@ -37,5 +37,6 @@ export default {
   JoinGroupByLink: 'JoinGroupByLink',
   AppOnboarding: 'AppOnboarding',
   VoiceCall: 'VoiceCall',
+  AccountStack: 'AccountStack',
   Account: 'AccountScreen',
 }
