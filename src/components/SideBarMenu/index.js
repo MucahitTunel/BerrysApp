@@ -12,6 +12,10 @@ import AppLink from '../AppLink'
 
 const menu = [
   {
+    name: 'Account',
+    screen: Screens.Account,
+  },
+  {
     name: 'Main',
     screen: Screens.MainStack,
   },

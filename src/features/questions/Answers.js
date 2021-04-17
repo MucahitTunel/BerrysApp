@@ -330,26 +330,28 @@ const Answers = ({ navigation }) => {
         </View>
       )
     }
-    if (question.receivers.length) {
-      return (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
-          <AppText weight="italic" color={Colors.gray}>
-            To:{' '}
-          </AppText>
-          {question.receivers.map((receiver, index) => {
-            if (!receiver) return null
-            return (
-              <View key={receiver.phoneNumber}>
-                <AppText weight="italic" color={Colors.gray}>
-                  {receiver.name}{' '}
-                  {index < question.receivers.length - 1 && ', '}
-                </AppText>
-              </View>
-            )
-          })}
-        </View>
-      )
-    }
+    return (
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '70%' }}>
+        <AppText weight="italic" color={Colors.gray}>
+          To:
+          {`${
+            question.isAskExperts
+              ? ` Berry's Expert${question.receivers.length > 0 ? ', ' : ''}`
+              : ' '
+          }`}
+        </AppText>
+        {question.receivers.map((receiver, index) => {
+          if (!receiver) return null
+          return (
+            <View key={receiver.phoneNumber}>
+              <AppText weight="italic" color={Colors.gray}>
+                {receiver.name} {index < question.receivers.length - 1 && ', '}
+              </AppText>
+            </View>
+          )
+        })}
+      </View>
+    )
   }
 
   const [url, setUrl] = useState(null)
