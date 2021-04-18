@@ -226,6 +226,24 @@ export const voteCompare = createAsyncThunk(
   },
 )
 
+export const votePopularQuestion = createAsyncThunk(
+  'popular-questions/vote',
+  async ({ vote, popularId }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'popular-questions/vote',
+      data: {
+        popularId,
+        userPhoneNumber: user.phoneNumber,
+        vote,
+      },
+    })
+    return
+  },
+)
+
 const questionSlice = createSlice({
   name: 'question',
   initialState: {
@@ -242,6 +260,9 @@ const questionSlice = createSlice({
     },
     setCompareImages: (state, action) => {
       state.compareImages = action.payload
+    },
+    setPoll: (state, action) => {
+      state.poll = action.payload
     },
   },
   extraReducers: {
@@ -281,5 +302,5 @@ const questionSlice = createSlice({
 
 export const {
   reducer: questionReducer,
-  actions: { setPollOptions, setCompareImages },
+  actions: { setPollOptions, setCompareImages, setPoll },
 } = questionSlice

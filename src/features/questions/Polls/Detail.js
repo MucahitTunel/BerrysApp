@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StatusBar, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { Dimensions, Colors, FontSize } from 'constants'
-import { votePoll } from '../questionSlice'
+import { votePoll, votePopularQuestion, setPoll } from '../questionSlice'
+import { setPopularPolls } from '../questionsSlice'
 import * as NavigationService from 'services/navigation'
+import PropTypes from 'prop-types'
 
 import { PollItem, AppButton, AppText } from 'components'
 import { getQuestions, readPoll } from '../questionsSlice'
@@ -18,14 +20,21 @@ const styles = StyleSheet.create({
   voteText: { marginLeft: 10, marginBottom: 15, marginTop: 5 },
 })
 
-export const PollDetail = () => {
+export const PollDetail = ({ route }) => {
   const dispatch = useDispatch()
   const poll = useSelector((state) => state.question.poll)
+  const popularPolls = useSelector((state) => state.questions.popularPolls)
   const user = useSelector((state) => state.auth.user)
 
   const [isVoted, setIsVoted] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
   const [votes, setVotes] = useState({})
+
+  useEffect(() => {
+    if (route.params.isPopular) {
+      dispatch(setPoll(route.params.poll))
+    }
+  }, [route, dispatch])
 
   useEffect(() => {
     if (poll) {
@@ -91,7 +100,35 @@ export const PollDetail = () => {
       return NavigationService.goBack()
     }
     if (selectedOption === null) return alert('You have to select an option!')
-    dispatch(votePoll(selectedOption))
+    if (route.params.isPopular) {
+      dispatch(
+        votePopularQuestion({ popularId: poll._id, vote: selectedOption }),
+      )
+      dispatch(
+        setPoll({
+          ...poll,
+          votes: [
+            ...poll.votes,
+            { userPhoneNumber: user.phoneNumber, value: selectedOption },
+          ],
+        }),
+      )
+      dispatch(
+        setPopularPolls(
+          popularPolls.map((p) => {
+            if (p._id === poll._id)
+              return {
+                ...p,
+                votes: [
+                  ...p.votes,
+                  { userPhoneNumber: user.phoneNumber, value: selectedOption },
+                ],
+              }
+            return p
+          }),
+        ),
+      )
+    } else dispatch(votePoll(selectedOption))
   }
 
   if (!poll) return null
@@ -123,6 +160,8 @@ export const PollDetail = () => {
   )
 }
 
-PollDetail.propTypes = {}
+PollDetail.propTypes = {
+  route: PropTypes.object,
+}
 
 export default PollDetail

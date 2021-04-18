@@ -22,6 +22,17 @@ export const getQuestions = createAsyncThunk(
   },
 )
 
+export const getPopularQuestions = createAsyncThunk(
+  'popular-questions/get',
+  async (_, {}) => {
+    const { data } = await request({
+      method: 'GET',
+      url: 'popular-questions',
+    })
+    return data
+  },
+)
+
 export const hideQuestion = createAsyncThunk(
   'questions/hide',
   async (questionId, { getState }) => {
@@ -81,6 +92,8 @@ const questionsSlice = createSlice({
     polls: [],
     compares: [],
     loading: false,
+    popularPolls: [],
+    popularCompares: [],
   },
   reducers: {
     readQuestion: (state, action) => {
@@ -128,6 +141,12 @@ const questionsSlice = createSlice({
     setCompares: (state, action) => {
       state.compares = action.payload
     },
+    setPopularPolls: (state, action) => {
+      state.popularPolls = action.payload
+    },
+    setPopularCompares: (state, action) => {
+      state.popularCompares = action.payload
+    },
   },
   extraReducers: {
     [getQuestions.pending]: (state) => {
@@ -149,10 +168,21 @@ const questionsSlice = createSlice({
     [hideCompare.fulfilled]: (state, action) => {
       state.compares = state.compares.filter((p) => p._id !== action.payload)
     },
+    [getPopularQuestions.fulfilled]: (state, action) => {
+      state.popularCompares = action.payload.compares
+      state.popularPolls = action.payload.polls
+    },
   },
 })
 
 export const {
   reducer: questionsReducer,
-  actions: { readQuestion, readCompare, readPoll, setCompares },
+  actions: {
+    readQuestion,
+    readCompare,
+    readPoll,
+    setCompares,
+    setPopularPolls,
+    setPopularCompares,
+  },
 } = questionsSlice

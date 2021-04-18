@@ -46,6 +46,8 @@ import {
   hidePoll,
   hideCompare,
   setCompares,
+  getPopularQuestions,
+  setPopularCompares,
 } from 'features/questions/questionsSlice'
 import { getRoom, setRoom, getRooms } from 'features/messages/messagesSlice'
 import {
@@ -53,6 +55,7 @@ import {
   getPoll,
   getCompare,
   voteCompare,
+  votePopularQuestion,
 } from 'features/questions/questionSlice'
 import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -239,10 +242,13 @@ const styles = StyleSheet.create({
   },
 })
 
-const RenderCompare = ({ compare }) => {
+const RenderCompare = ({ compare, isPopular }) => {
   const style = { width: Dimensions.Width / 2.03 }
 
   const user = useSelector((state) => state.auth.user)
+  const popularCompares = useSelector(
+    (state) => state.questions.popularCompares,
+  )
   const compares = useSelector((state) => state.questions.compares)
   const dispatch = useDispatch()
 
@@ -280,22 +286,41 @@ const RenderCompare = ({ compare }) => {
 
   const imageOnPress = (index) => {
     setSelectedOption(index)
-    dispatch(voteCompare({ image: index, compareId: compare?._id }))
-    dispatch(
-      setCompares(
-        compares.map((c) => {
-          if (c._id === compare._id) {
-            return {
-              ...c,
-              votes: [
-                ...compare.votes,
-                { userPhoneNumber: user.phoneNumber, value: index },
-              ],
-            }
-          } else return c
-        }),
-      ),
-    )
+    if (isPopular) {
+      dispatch(votePopularQuestion({ vote: index, popularId: compare._id }))
+      dispatch(
+        setPopularCompares(
+          popularCompares.map((c) => {
+            if (c._id === compare._id) {
+              return {
+                ...c,
+                votes: [
+                  ...compare.votes,
+                  { userPhoneNumber: user.phoneNumber, value: index },
+                ],
+              }
+            } else return c
+          }),
+        ),
+      )
+    } else {
+      dispatch(voteCompare({ image: index, compareId: compare?._id }))
+      dispatch(
+        setCompares(
+          compares.map((c) => {
+            if (c._id === compare._id) {
+              return {
+                ...c,
+                votes: [
+                  ...compare.votes,
+                  { userPhoneNumber: user.phoneNumber, value: index },
+                ],
+              }
+            } else return c
+          }),
+        ),
+      )
+    }
   }
 
   return (
@@ -509,12 +534,15 @@ QuestionItem.propTypes = {
   }),
 }
 
-const PollItem = ({ data }) => {
+const PollItem = ({ data, isPopular }) => {
   const dispatch = useDispatch()
 
   const onPress = () => {
-    dispatch(getPoll(data._id))
-    NavigationService.navigate(Screens.PollDetails)
+    if (!isPopular) dispatch(getPoll(data._id))
+    NavigationService.navigate(Screens.PollDetails, {
+      isPopular,
+      poll: data,
+    })
   }
 
   const onRemovePoll = (direction, _id) => {
@@ -581,78 +609,6 @@ PollItem.propTypes = {
   data: PropTypes.object,
 }
 
-/* const CompareItem = ({ data }) => {
-  const dispatch = useDispatch()
-
-  const onPress = () => {
-    dispatch(getCompare(data._id))
-    NavigationService.navigate(Screens.CompareDetails)
-  }
-
-  const onRemoveCompare = (direction, _id) => {
-    if (direction === 'right') {
-      dispatch(hideCompare(_id))
-    }
-  }
-
-  return (
-    <Swipeout
-      style={{ marginBottom: 4 }}
-      onOpen={(sectionID, rowId, direction) =>
-        onRemoveCompare(direction, data._id)
-      }
-      right={swipeoutBtns}
-      backgroundColor="transparent"
-      buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable
-        style={[styles.questionItem, data.isNew && styles.newAnswer]}
-        onPress={onPress}>
-        <View style={{ flex: 1 }}>
-          <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
-            {data.question
-              ? data.question
-              : 'What do you think about this compare?'}
-          </AppText>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText
-                fontSize={15}
-                color={Colors.gray}>{`Compare  -  `}</AppText>
-              <AppText
-                fontSize={15}
-                weight="medium"
-                style={{ marginRight: 38 }}>
-                {data.votes.length}
-                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
-              </AppText>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            marginLeft: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <AppText color={Colors.gray} fontSize={FontSize.normal}>
-            {moment(data.createdAt).fromNow()}
-          </AppText>
-          <AppIcon
-            name="chevron-right"
-            size={20}
-            color={'rgba(128, 128, 128, 0.5)'}
-          />
-        </View>
-      </ScaleTouchable>
-    </Swipeout>
-  )
-} */
-
 CompareItem.propTypes = {
   data: PropTypes.object,
 }
@@ -675,11 +631,21 @@ const Main = ({ route }) => {
 
   useEffect(() => {
     setListData(
-      [...questions.data, ...questions.polls, ...questions.compares].sort(
-        (a, b) => b.createdAt - a.createdAt,
-      ),
+      [
+        ...questions.popularPolls,
+        ...questions.popularCompares,
+        ...questions.data,
+        ...questions.polls,
+        ...questions.compares,
+      ].sort((a, b) => b.createdAt - a.createdAt),
     )
-  }, [questions.data, questions.polls, questions.compares])
+  }, [
+    questions.data,
+    questions.polls,
+    questions.compares,
+    questions.popularPolls,
+    questions.popularCompares,
+  ])
 
   const delay = (cb, time) => {
     setTimeout(cb, 1000 * time)
@@ -777,6 +743,7 @@ const Main = ({ route }) => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(getPopularQuestions())
     dispatch(getRooms())
   }, [dispatch])
 
@@ -837,8 +804,10 @@ const Main = ({ route }) => {
   const renderItem = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />
-    // if (item.type === 'compare') return <CompareItem data={item} />
     if (item.type === 'compare') return <RenderCompare compare={item} />
+    if (item.type === 'popular-compare')
+      return <RenderCompare compare={item} isPopular />
+    if (item.type === 'popular-poll') return <PollItem data={item} isPopular />
   }
 
   return (
@@ -974,7 +943,10 @@ const Main = ({ route }) => {
             keyExtractor={(_, index) => index.toString()}
             ListEmptyComponent={renderEmpty()}
             refreshing={false}
-            onRefresh={() => dispatch(getQuestions())}
+            onRefresh={() => {
+              dispatch(getQuestions())
+              dispatch(getPopularQuestions())
+            }}
             contentContainerStyle={{ paddingBottom: 60 }}
           />
         </View>
