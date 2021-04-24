@@ -83,6 +83,7 @@ const ContactsList = ({
   selectedItems = [],
   selectedGroups = [],
   showSelected,
+  checkboxComponent,
 }) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -499,6 +500,7 @@ const ContactsList = ({
             }}
           />
         )}
+        {checkboxComponent && checkboxComponent()}
         {showRecentlySeen && tabIndex === 0 && (
           <AppText
             weight="medium"
@@ -580,6 +582,7 @@ ContactsList.propTypes = {
   selectedItems: PropTypes.array,
   selectedGroups: PropTypes.array,
   showSelected: PropTypes.bool,
+  checkboxComponent: PropTypes.any,
 }
 
 ContactsList.defaultProps = {
@@ -593,6 +596,7 @@ ContactsList.defaultProps = {
   selectedItems: [],
   selectedGroups: [],
   showSelected: true,
+  checkboxComponent: null,
 }
 
 export default ContactsList

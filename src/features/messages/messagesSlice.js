@@ -86,6 +86,7 @@ export const joinRoom = createAsyncThunk(
       // Used for direct message difference (contacts and public link)
       isFromLink,
       askRequestId,
+      isAnonymous,
     },
     { getState, dispatch },
   ) => {
@@ -108,6 +109,7 @@ export const joinRoom = createAsyncThunk(
         isFromContactsList,
         isFromLink,
         askRequestId,
+        isAnonymous,
       },
     })
     const { room } = data

@@ -9,6 +9,7 @@ export const getConversationName = (room) => {
   const NOT_ANONYMOUS =
     "You're not anonymous. Your friend wants to talk specifically with you"
   const ANONYMOUS = "You're anonymous and your identity won't be revealed"
+  const PUBLIC = "You're not anonymous to your friend"
   const { data: customData, createdBy, members, createdAt } = room
   const state = store.getState()
   const {
@@ -35,15 +36,24 @@ export const getConversationName = (room) => {
     if (isRoomCreator) {
       // this is the room creator
       if (data && data.length) {
-        const contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
+        let contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
         if (contact && contact.name) {
           return {
             title: contact.name,
-            description: ANONYMOUS,
+            description: customData.isAnonymous ? ANONYMOUS : PUBLIC,
           }
         }
       }
     } else {
+      if (!customData.isAnonymous) {
+        let contact = data.find((c) => c.phoneNumber === otherUserPhoneNumber)
+        if (contact && contact.name) {
+          return {
+            title: contact.name,
+            description: NOT_ANONYMOUS,
+          }
+        }
+      }
       // not a room creator
       return {
         title: `Anonymous ${number}`,
