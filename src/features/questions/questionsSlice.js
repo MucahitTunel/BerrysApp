@@ -24,10 +24,15 @@ export const getQuestions = createAsyncThunk(
 
 export const getPopularQuestions = createAsyncThunk(
   'popular-questions/get',
-  async (_, {}) => {
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
     const { data } = await request({
       method: 'GET',
       url: 'popular-questions',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
     })
     return data
   },
