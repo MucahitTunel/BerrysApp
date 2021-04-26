@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-
 import * as NavigationService from 'services/navigation'
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import {
@@ -17,7 +16,8 @@ import {
   AppButton,
   Loading,
 } from 'components'
-import { getGroups, getGroup } from './groupSlice'
+import { getGroups, getGroup, getFacebookGroups } from './groupSlice'
+import facebookService from '../../services/facebook'
 
 const styles = StyleSheet.create({
   container: {
@@ -89,9 +89,25 @@ const GroupList = () => {
       </View>
     </View>
   )
+
+  // TODO Change here
+  const facebookLogin = async () => {
+    const data = await facebookService.getFacebookUserData()
+    // EAARiyYwwHYMBAPqbhbwKFsFSjP99ZAO8ZCGPXh1VnEiaKiQif98COZBAjAS72o0xVWGOdUzlgJQhMZA9v9XlcuFWWSSnWyo3rCOkpTfIEsmKqRSiMF7Oc2i7RSX0gAtRERrZAbfalfx3ZCBKcUTAK8KPdWCOdhjKzNAwaA4NmolZAglZBWFNElOZBZASCMpbH7B6fDJjrYJi5WK7B8k4RCeB0Fk2aqOsPxyuUVAazWcfHs4SmIWoSZBsnh6
+    console.log(data)
+    dispatch(
+      getFacebookGroups({ userId: data.userID, token: data.accessToken }),
+    )
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
+      {/* <AppButton
+        text="Integrate Facebook Groups"
+        style={{ marginTop: 10, marginHorizontal: 15, backgroundColor: 'rgb(108,131,193)' }}
+        onPress={facebookLogin}
+      /> */}
       <ScrollView>
         <View style={styles.groupBox}>
           <AppText weight="medium" style={{ marginBottom: 16 }}>

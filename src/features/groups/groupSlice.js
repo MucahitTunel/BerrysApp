@@ -189,6 +189,18 @@ export const joinGroupByLink = createAsyncThunk(
   },
 )
 
+// TODO Change here
+export const getFacebookGroups = createAsyncThunk(
+  'group/get-facebook-groups',
+  async ({ userId, token }) => {
+    const { data } = await request({
+      method: 'GET',
+      url: `https://graph.facebook.com/v10.0/${userId}/groups?access_token=${token}`,
+    })
+    console.log(data)
+  },
+)
+
 const groupSlice = createSlice({
   name: 'group',
   initialState: {
