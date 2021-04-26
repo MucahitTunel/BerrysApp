@@ -11,6 +11,8 @@ target 'Berrys' do
   # Custom pods
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
   pod 'GoogleSignIn', '~> 5.0.2'
+  pod 'FacebookSDK'
+  pod 'FacebookSDK/LoginKit'
 
   target 'BerrysTests' do
     inherit! :complete

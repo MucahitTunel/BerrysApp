@@ -550,6 +550,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys-BerrysTests/Pods-Berrys-BerrysTests-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -571,6 +572,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
@@ -646,6 +648,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Berrys/Pods-Berrys-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
@@ -667,6 +670,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
@@ -961,7 +965,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -991,7 +995,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev;
 				PRODUCT_NAME = Berrys;
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging 1604171382";
 				SWIFT_OBJC_BRIDGING_HEADER = "Berrys-Bridging-Header.h";
@@ -1031,7 +1035,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
@@ -1068,7 +1072,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.OneSignalNotificationServiceExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.OneSignalNotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.OneSignalNotificationServiceExtension";
 				SKIP_INSTALL = YES;
@@ -1109,7 +1113,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;
@@ -1146,7 +1150,7 @@
 					"$(inherited)",
 					"-DFB_SONARKIT_ENABLED=1",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.staging.BerrysShare;
+				PRODUCT_BUNDLE_IDENTIFIER = com.berrys.nickapp.dev.BerrysShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.berrys.nickapp.staging.BerrysShare";
 				SKIP_INSTALL = YES;
