@@ -163,6 +163,7 @@ const questionsSlice = createSlice({
     loading: false,
     popularPolls: [],
     popularCompares: [],
+    popularQuestions: [],
     myQuestions: [],
     myPolls: [],
     myCompares: [],
