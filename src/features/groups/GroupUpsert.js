@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   Keyboard,
+  FlatList,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as NavigationService from 'services/navigation'
@@ -34,6 +35,7 @@ import {
   leaveGroup,
   activateJoinLink,
   deactivateJoinLink,
+  getSharedPosts,
 } from './groupSlice'
 import {
   setAskGroups,
@@ -48,6 +50,7 @@ import { Formik } from 'formik'
 import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
 import Clipboard from '@react-native-community/clipboard'
+import { QuestionItem, PollItem, RenderCompare } from '../questions/Main'
 
 const styles = StyleSheet.create({
   container: {
@@ -175,6 +178,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 16,
   },
+  sharedPostsContainer: {
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
 })
 
 const CREATE_GROUP = 'Create Group'
@@ -193,9 +200,14 @@ const GroupUpsert = ({ navigation, route }) => {
   const contacts = useSelector((state) => state.contacts.data)
   const loading = useSelector((state) => state.group.loading)
   const [groupName, setGroupName] = useState(group.name)
+  const sharedQuestions = useSelector((state) => state.group.sharedQuestions)
+  const sharedPolls = useSelector((state) => state.group.sharedPolls)
+  const sharedCompares = useSelector((state) => state.group.sharedCompares)
+
   useEffect(() => {
     setGroupName(group.name)
-  }, [group])
+    dispatch(getSharedPosts())
+  }, [group, dispatch])
   const [questionUrl, setQuestionUrl] = useState(null)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -316,6 +328,12 @@ const GroupUpsert = ({ navigation, route }) => {
       resetForm({})
       setSubmitting(false)
     }
+  }
+
+  const renderSharedPosts = ({ item, index }) => {
+    if (item.type === 'question') return <QuestionItem question={item} />
+    if (item.type === 'poll') return <PollItem data={item} />
+    if (item.type === 'compare') return <RenderCompare compare={item} />
   }
 
   return (
@@ -485,6 +503,18 @@ const GroupUpsert = ({ navigation, route }) => {
                 </AppText>
               )}
             </View>
+          </View>
+          <AppText
+            weight="medium"
+            fontSize={FontSize.xLarge}
+            style={{ marginLeft: 10, marginTop: 15 }}>
+            Shared Posts
+          </AppText>
+          <View style={styles.sharedPostsContainer}>
+            <FlatList
+              data={[...sharedQuestions, ...sharedPolls, ...sharedCompares]}
+              renderItem={renderSharedPosts}
+            />
           </View>
         </ScrollView>
         <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>

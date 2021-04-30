@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const RenderCompare = ({ compare, isPopular }) => {
+export const RenderCompare = ({ compare, isPopular }) => {
   const style = { width: Dimensions.Width / 2.03 }
 
   const user = useSelector((state) => state.auth.user)
@@ -418,7 +418,7 @@ const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
   )
 }
 
-const QuestionItem = ({
+export const QuestionItem = ({
   question: {
     _id,
     content,
@@ -548,7 +548,7 @@ QuestionItem.propTypes = {
   }),
 }
 
-const PollItem = ({ data, isPopular }) => {
+export const PollItem = ({ data, isPopular }) => {
   const dispatch = useDispatch()
 
   const onPress = () => {

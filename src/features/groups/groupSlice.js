@@ -189,6 +189,41 @@ export const joinGroupByLink = createAsyncThunk(
   },
 )
 
+export const getSharedPosts = createAsyncThunk(
+  'group/get-shared-posts',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const { data } = await request({
+      method: 'GET',
+      url: 'group/posts',
+      params: {
+        groupId: state.group.current._id,
+      },
+    })
+    dispatch(
+      setSharedQuestions(
+        data.questions.map((q) => {
+          return { ...q, type: 'question' }
+        }),
+      ),
+    )
+    dispatch(
+      setSharedPolls(
+        data.polls.map((p) => {
+          return { ...p, type: 'poll' }
+        }),
+      ),
+    )
+    dispatch(
+      setSharedCompares(
+        data.compares.map((c) => {
+          return { ...c, type: 'compare' }
+        }),
+      ),
+    )
+  },
+)
+
 // TODO Change here
 export const getFacebookGroups = createAsyncThunk(
   'group/get-facebook-groups',
@@ -212,6 +247,9 @@ const groupSlice = createSlice({
     current: {},
     groups: [],
     loading: false,
+    sharedQuestions: [],
+    sharedPolls: [],
+    sharedCompares: [],
   },
   reducers: {
     setNewGroupName: (state, action) => {
@@ -304,6 +342,15 @@ const groupSlice = createSlice({
         (m) => m.phoneNumber !== member.phoneNumber,
       )
     },
+    setSharedQuestions: (state, action) => {
+      state.sharedQuestions = action.payload
+    },
+    setSharedPolls: (state, action) => {
+      state.sharedPolls = action.payload
+    },
+    setSharedCompares: (state, action) => {
+      state.sharedCompares = action.payload
+    },
   },
   extraReducers: {
     [getGroup.pending]: (state) => {
@@ -354,5 +401,8 @@ export const {
     setCurrentGroupMembers,
     setCurrentGroupAdmins,
     setCurrentGroupName,
+    setSharedQuestions,
+    setSharedPolls,
+    setSharedCompares,
   },
 } = groupSlice
