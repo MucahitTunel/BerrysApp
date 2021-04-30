@@ -8,7 +8,7 @@ export default [
     marginBottom: 10,
     popularQuestions: [
       'What advice would you give the ‘5-year-old you’?',
-      'What must you do daily to keep yourself ‘sane’ ?',
+      'What must you do daily to keep yourself ‘sane’?',
       'Do you like the sound of your own voice?  How does it sound when you are complaining?',
       'What do you need to learn but won’t admit to?',
       'Is trust more important than love, or is it the other way round?',

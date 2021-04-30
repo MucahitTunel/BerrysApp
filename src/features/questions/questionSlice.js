@@ -23,9 +23,13 @@ export const getQuestion = createAsyncThunk(
 
 export const voteComment = createAsyncThunk(
   'comment/vote',
-  async ({ value, commentId, questionId }, { getState, dispatch }) => {
+  async (
+    { value, commentId, questionId, isPopular = false },
+    { getState, dispatch },
+  ) => {
     const state = getState()
     const user = state.auth.user
+    const question = state.question.data
     await request({
       method: 'POST',
       url: 'comment/vote',
@@ -35,13 +39,24 @@ export const voteComment = createAsyncThunk(
         commentId,
       },
     })
-    dispatch(getQuestion(questionId))
+    if (!isPopular) dispatch(getQuestion(questionId))
+    else
+      dispatch(
+        setQuestion({
+          ...question,
+          comments: question.comments.map((c) => {
+            return c._id === commentId
+              ? { ...c, totalVotes: c.totalVotes + 1 }
+              : c
+          }),
+        }),
+      )
   },
 )
 
 export const voteQuestion = createAsyncThunk(
   'question/vote',
-  async ({ value, questionId }, { getState, dispatch }) => {
+  async ({ value, questionId, isPopular = false }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     await request({
@@ -82,14 +97,15 @@ export const flagQuestion = createAsyncThunk(
 export const submitComment = createAsyncThunk(
   'comment/submit',
   async (
-    { comment, questionId, isAnonymous, image = null },
+    { comment, questionId, isAnonymous, image = null, isPopular = false },
     { getState, dispatch },
   ) => {
     const state = getState()
     const user = state.auth.user
-    await request({
+    const question = state.question.data
+    const { data } = await request({
       method: 'POST',
-      url: 'comment',
+      url: isPopular ? 'popular-questions/comment' : 'comment',
       data: {
         userPhoneNumber: user.phoneNumber,
         comment,
@@ -98,7 +114,15 @@ export const submitComment = createAsyncThunk(
         image,
       },
     })
-    dispatch(getQuestion(questionId))
+    if (!isPopular) dispatch(getQuestion(questionId))
+    else {
+      dispatch(
+        setQuestion({
+          ...question,
+          comments: [...question.comments, data.cmt],
+        }),
+      )
+    }
   },
 )
 
@@ -228,9 +252,10 @@ export const voteCompare = createAsyncThunk(
 
 export const votePopularQuestion = createAsyncThunk(
   'popular-questions/vote',
-  async ({ vote, popularId }, { getState }) => {
+  async ({ vote, popularId, isQuestion }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
+    const question = state.question.data
     await request({
       method: 'POST',
       url: 'popular-questions/vote',
@@ -240,7 +265,10 @@ export const votePopularQuestion = createAsyncThunk(
         vote,
       },
     })
-    return
+    if (isQuestion)
+      dispatch(
+        setQuestion({ ...question, totalVotes: question.totalVotes + 1 }),
+      )
   },
 )
 
@@ -263,6 +291,9 @@ const questionSlice = createSlice({
     },
     setPoll: (state, action) => {
       state.poll = action.payload
+    },
+    setQuestion: (state, action) => {
+      state.data = action.payload
     },
   },
   extraReducers: {
@@ -302,5 +333,5 @@ const questionSlice = createSlice({
 
 export const {
   reducer: questionReducer,
-  actions: { setPollOptions, setCompareImages, setPoll },
+  actions: { setPollOptions, setCompareImages, setPoll, setQuestion },
 } = questionSlice

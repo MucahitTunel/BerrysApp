@@ -56,6 +56,7 @@ import {
   getCompare,
   voteCompare,
   votePopularQuestion,
+  setQuestion,
 } from 'features/questions/questionSlice'
 import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -422,12 +423,14 @@ const QuestionItem = ({
     _id,
     content,
     comments = 0,
+    commentData,
     totalVotes = 0,
     createdAt,
     flaggedBy = [],
     isNew,
     image,
   },
+  isPopular,
 }) => {
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
@@ -446,8 +449,19 @@ const QuestionItem = ({
   const { phoneNumber } = user
   const isFlagged = flaggedBy.includes(phoneNumber)
   const onPressQuestion = (questionId) => {
-    dispatch(getQuestion(questionId))
-    NavigationService.navigate(Screens.Answers)
+    if (isPopular)
+      dispatch(
+        setQuestion({
+          _id,
+          content,
+          comments: commentData,
+          createdAt,
+          isAbleToAnswer: true,
+          totalVotes,
+        }),
+      )
+    else dispatch(getQuestion(questionId))
+    NavigationService.navigate(Screens.Answers, { isPopular })
   }
   const onRemoveQuestion = (direction, _id) => {
     if (direction === 'right') {
@@ -632,6 +646,7 @@ const Main = ({ route }) => {
   useEffect(() => {
     setListData(
       [
+        ...questions.popularQuestions,
         ...questions.popularPolls,
         ...questions.popularCompares,
         ...questions.data,
@@ -645,6 +660,7 @@ const Main = ({ route }) => {
     questions.compares,
     questions.popularPolls,
     questions.popularCompares,
+    questions.popularQuestions,
   ])
 
   const delay = (cb, time) => {
@@ -803,6 +819,8 @@ const Main = ({ route }) => {
   const isNewUser = user.isNew && listData.length === 0
   const renderItem = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
+    if (item.type === 'popular-question')
+      return <QuestionItem question={item} isPopular />
     if (item.type === 'poll') return <PollItem data={item} />
     if (item.type === 'compare') return <RenderCompare compare={item} />
     if (item.type === 'popular-compare')

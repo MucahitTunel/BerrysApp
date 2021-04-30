@@ -43,6 +43,7 @@ import {
   submitComment,
   voteComment as voteCommentAction,
   voteQuestion as voteQuestionAction,
+  votePopularQuestion,
 } from 'features/questions/questionSlice'
 import { readQuestion } from 'features/questions/questionsSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
@@ -124,6 +125,7 @@ const Comment = ({
   user,
   setComment,
   setIsMessageModalVisible,
+  isPopular,
 }) => {
   const {
     _id,
@@ -144,6 +146,7 @@ const Comment = ({
         value,
         commentId,
         questionId,
+        isPopular,
       }),
     )
   const upVoteComment = (commentId) => voteComment(1, question._id, commentId)
@@ -226,9 +229,10 @@ Comment.propTypes = {
   question: PropTypes.objectOf(PropTypes.any).isRequired,
   setIsMessageModalVisible: PropTypes.func.isRequired,
   setComment: PropTypes.func.isRequired,
+  isPopular: PropTypes.bool,
 }
 
-const Answers = ({ navigation }) => {
+const Answers = ({ route, navigation }) => {
   let keyboardHeight = useRef(new Animated.Value(0))
   const [isFlagModalVisible, setIsFlagModalVisible] = useState(false)
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
@@ -243,6 +247,7 @@ const Answers = ({ navigation }) => {
   const dispatch = useDispatch()
   const [uploadedImage, setUploadedImage] = useState(null)
   const [imageLoading, setImageLoading] = useState(false)
+
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     if (!isAnonymous && !user.name) {
       setIsAskUserNameModalVisible(true)
@@ -254,6 +259,7 @@ const Answers = ({ navigation }) => {
         questionId: question._id,
         isAnonymous,
         image: uploadedImage,
+        isPopular: route.params.isPopular,
       }
       dispatch(submitComment(payload))
       resetForm({})
@@ -262,13 +268,25 @@ const Answers = ({ navigation }) => {
       Keyboard.dismiss()
     }
   }
-  const voteQuestion = (value, questionId) =>
-    dispatch(
-      voteQuestionAction({
-        value,
-        questionId,
-      }),
-    )
+
+  const voteQuestion = (value, questionId) => {
+    if (route.params.isPopular) {
+      dispatch(
+        votePopularQuestion({
+          popularId: questionId,
+          vote: value,
+          isQuestion: true,
+        }),
+      )
+    } else
+      dispatch(
+        voteQuestionAction({
+          value,
+          questionId,
+        }),
+      )
+  }
+
   const upVoteQuestion = () => voteQuestion(1, question._id)
   const downVoteQuestion = () => voteQuestion(-1, question._id)
   const refreshQuestion = (questionId) => dispatch(getQuestion(questionId))
@@ -299,14 +317,16 @@ const Answers = ({ navigation }) => {
         <Header
           headerLeft={<BackButton navigation={navigation} />}
           headerRight={
-            <AnswerRightButton
-              onPressDots={() => setIsFlagModalVisible(true)}
-            />
+            route.params.isPopular ? null : (
+              <AnswerRightButton
+                onPressDots={() => setIsFlagModalVisible(true)}
+              />
+            )
           }
         />
       ),
     })
-  }, [navigation])
+  }, [navigation, route])
 
   useEffect(() => {
     if (question) {
@@ -507,6 +527,7 @@ const Answers = ({ navigation }) => {
                   user={user}
                   setIsMessageModalVisible={setIsMessageModalVisible}
                   setComment={setComment}
+                  isPopular={route.params.isPopular}
                 />
               )}
               keyExtractor={(item) => item._id}
@@ -686,6 +707,7 @@ Answers.propTypes = {
   navigation: PropTypes.shape({
     setParams: PropTypes.func,
   }).isRequired,
+  route: PropTypes.object,
 }
 
 export default Answers
