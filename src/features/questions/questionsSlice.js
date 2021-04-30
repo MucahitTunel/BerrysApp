@@ -22,6 +22,70 @@ export const getQuestions = createAsyncThunk(
   },
 )
 
+export const getMyPosts = createAsyncThunk(
+  'my-posts',
+  async (_, { dispatch }) => {
+    dispatch(getMyQuestions())
+    dispatch(getMyPolls())
+    dispatch(getMyCompares())
+    return
+  },
+)
+
+export const getMyQuestions = createAsyncThunk(
+  'questions/my-posts',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'questions/my-posts',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.questions.map((q) => {
+      return { ...q, type: 'question' }
+    })
+  },
+)
+
+export const getMyPolls = createAsyncThunk(
+  'polls/my-posts',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'polls/my-posts',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.polls.map((p) => {
+      return { ...p, type: 'poll' }
+    })
+  },
+)
+
+export const getMyCompares = createAsyncThunk(
+  'compares/my-posts',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'compares/my-posts',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.compares.map((c) => {
+      return { ...c, type: 'compare' }
+    })
+  },
+)
+
 export const getPopularQuestions = createAsyncThunk(
   'popular-questions/get',
   async (_, { getState }) => {
@@ -99,6 +163,9 @@ const questionsSlice = createSlice({
     loading: false,
     popularPolls: [],
     popularCompares: [],
+    myQuestions: [],
+    myPolls: [],
+    myCompares: [],
   },
   reducers: {
     readQuestion: (state, action) => {
@@ -177,6 +244,15 @@ const questionsSlice = createSlice({
       state.popularCompares = action.payload.compares
       state.popularPolls = action.payload.polls
       state.popularQuestions = action.payload.questions
+    },
+    [getMyQuestions.fulfilled]: (state, action) => {
+      state.myQuestions = action.payload
+    },
+    [getMyPolls.fulfilled]: (state, action) => {
+      state.myPolls = action.payload
+    },
+    [getMyCompares.fulfilled]: (state, action) => {
+      state.myCompares = action.payload
     },
   },
 })

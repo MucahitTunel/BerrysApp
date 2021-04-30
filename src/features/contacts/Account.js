@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, FlatList, ScrollView } from 'react-native'
 import { AppButton, AppInput, AppText } from 'components'
 import { Colors, FontSize } from 'constants'
 import { useDispatch, useSelector } from 'react-redux'
 import Picker from '../../components/Picker'
 import { updateName, updateSelectedPoints } from 'features/auth/authSlice'
+import { getMyPosts } from 'features/questions/questionsSlice'
+import { RenderCompare, QuestionItem, PollItem } from '../questions/Main'
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +14,6 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   infoContainer: {
-    flex: 1,
     paddingHorizontal: 10,
   },
 })
@@ -26,13 +27,19 @@ const POINTS = [
 const Account = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
+
+  const myQuestions = useSelector((state) => state.questions.myQuestions)
+  const myPolls = useSelector((state) => state.questions.myPolls)
+  const myCompares = useSelector((state) => state.questions.myCompares)
+
   const [name, setName] = useState('')
   const [points, setPoints] = useState(0)
   const [showPoints, setShowPoints] = useState(false)
 
   useEffect(() => {
     setName(user?.name ? user.name : '')
-  }, [user])
+    dispatch(getMyPosts())
+  }, [user, dispatch])
 
   useEffect(() => {
     if (user?.selectedPoints) setPoints(user.selectedPoints)
@@ -49,9 +56,15 @@ const Account = () => {
     dispatch(updateSelectedPoints(points))
   }
 
+  const renderMyPosts = ({ item, index }) => {
+    if (item.type === 'question') return <QuestionItem question={item} />
+    if (item.type === 'poll') return <PollItem data={item} />
+    if (item.type === 'compare') return <RenderCompare compare={item} />
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.infoContainer}>
+      <ScrollView contentContainerStyle={styles.infoContainer}>
         <AppText
           fontSize={FontSize.large}
           weight="italic"
@@ -90,7 +103,19 @@ const Account = () => {
             }}
           />
         )}
-      </View>
+        <AppText
+          weight="medium"
+          style={{ marginLeft: 10 }}
+          fontSize={FontSize.xLarge}>
+          My Posts
+        </AppText>
+        <View style={{ marginVertical: 15 }}>
+          <FlatList
+            data={[...myQuestions, ...myPolls, ...myCompares]}
+            renderItem={renderMyPosts}
+          />
+        </View>
+      </ScrollView>
       <AppButton
         text="Update account"
         onPress={onSubmit}

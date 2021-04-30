@@ -507,7 +507,7 @@ const GroupUpsert = ({ navigation, route }) => {
           <AppText
             weight="medium"
             fontSize={FontSize.xLarge}
-            style={{ marginLeft: 10, marginTop: 15 }}>
+            style={{ marginLeft: 15, marginTop: 15 }}>
             Shared Posts
           </AppText>
           <View style={styles.sharedPostsContainer}>
