@@ -50,6 +50,7 @@ import { joinRoom } from 'features/messages/messagesSlice'
 import RNUrlPreview from 'react-native-url-preview'
 import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
+import * as NavigationService from '../../services/navigation'
 
 const styles = StyleSheet.create({
   headerView: {
@@ -315,7 +316,12 @@ const Answers = ({ route, navigation }) => {
     navigation.setOptions({
       header: () => (
         <Header
-          headerLeft={<BackButton navigation={navigation} />}
+          headerLeft={
+            <BackButton
+              navigation={navigation}
+              onPress={() => NavigationService.goBack()}
+            />
+          }
           headerRight={
             route.params.isPopular ? null : (
               <AnswerRightButton

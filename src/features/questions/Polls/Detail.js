@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StatusBar, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { Dimensions, Colors, FontSize } from 'constants'
+import { Header } from 'components'
+import { BackButton } from 'components/NavButton'
 import { votePoll, votePopularQuestion, setPoll } from '../questionSlice'
 import { setPopularPolls } from '../questionsSlice'
 import * as NavigationService from 'services/navigation'
@@ -20,7 +22,7 @@ const styles = StyleSheet.create({
   voteText: { marginLeft: 10, marginBottom: 15, marginTop: 5 },
 })
 
-export const PollDetail = ({ route }) => {
+export const PollDetail = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const poll = useSelector((state) => state.question.poll)
   const popularPolls = useSelector((state) => state.questions.popularPolls)
@@ -69,6 +71,22 @@ export const PollDetail = ({ route }) => {
       setVotes(votes)
     }
   }, [poll, user])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <Header
+          title="Poll Details"
+          headerLeft={
+            <BackButton
+              navigation={navigation}
+              onPress={() => NavigationService.goBack()}
+            />
+          }
+        />
+      ),
+    })
+  }, [navigation, route])
 
   const renderOption = (item, index) => {
     return (
@@ -162,6 +180,7 @@ export const PollDetail = ({ route }) => {
 
 PollDetail.propTypes = {
   route: PropTypes.object,
+  navigation: PropTypes.object,
 }
 
 export default PollDetail

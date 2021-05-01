@@ -383,7 +383,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
 const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
-    NavigationService.navigate(Screens.Answers)
+    NavigationService.navigate(Screens.Answers, { isPopular: false })
   }
 
   return (
@@ -689,7 +689,13 @@ const Main = ({ route }) => {
           case 'QUESTION_ASKED': {
             if (additionalData.questionId) {
               dispatch(getQuestion(additionalData.questionId))
-              delay(() => NavigationService.navigate(Screens.Answers), 1)
+              delay(
+                () =>
+                  NavigationService.navigate(Screens.Answers, {
+                    isPopular: false,
+                  }),
+                1,
+              )
             }
             break
           }
