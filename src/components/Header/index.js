@@ -7,11 +7,12 @@ import Fonts from 'assets/fonts'
 import { useSelector } from 'react-redux'
 import AppText from '../AppText'
 
-const linearGradient = [Colors.primary, Colors.primaryLight]
+const linearGradient = [Colors.purple, Colors.purple]
 
 const styles = StyleSheet.create({
   header: {
     height: 94,
+    paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

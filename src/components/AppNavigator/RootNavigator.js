@@ -80,7 +80,7 @@ const MainStack = () => {
         options={({ navigation }) => ({
           header: () => (
             <Header
-              title="points"
+              title="Berrys"
               headerLeft={<MenuButton navigation={navigation} />}
               headerRight={<MessagesButton navigation={navigation} />}
             />

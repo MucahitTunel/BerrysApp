@@ -70,7 +70,7 @@ export const MessagesButton = ({ navigation }) => {
 
 export const MenuButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.toggleDrawer()}>
-    <AppImage source={Images.menu} width={28} height={14} />
+    <AppImage source={Images.menu} width={25} height={10} />
   </ScaleTouchable>
 )
 
