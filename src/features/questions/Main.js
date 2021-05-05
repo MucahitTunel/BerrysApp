@@ -30,6 +30,7 @@ import {
   ScaleTouchable,
   SuccessModal,
   CompareItem,
+  // CardSwiper
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
