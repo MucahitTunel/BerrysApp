@@ -13,19 +13,45 @@ import SelectContacts from 'features/contacts/SelectContacts'
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
 
+
+    const getHeader = (route) => {
+        const routeName = route.state
+        ? route.state.routes[route.state.index].name
+        : route.params?.screen || 'MainScreen'
+    
+        switch (routeName) {
+            case 'MainScreen':
+                return (
+                    <Header
+                        title="Berrys"
+                        // headerLeft={<BackButton navigation={navigation} />}
+                    />
+                )
+            case 'MessagesScreen':
+                return (
+                    <Header
+                        title="Messages"
+                        // headerLeft={<BackButton navigation={navigation} />}
+                    />
+                )
+            case 'GroupListScreen':
+                return (
+                    <Header
+                        title="My Groups"
+                        // headerLeft={<BackButton navigation={navigation} />}
+                    />
+                )
+            }
+    }
+
     return (
         <MainStack.Navigator mode="modal">
             <MainStack.Screen
                 name={'tab-stack'}
                 component={TabStack}
-                options={({ navigation }) => ({
-                    header: () => (
-                        <Header
-                            title="Berrys"
-                            headerLeft={<BackButton navigation={navigation} />}
-                        />
-                    ),
-                    })}
+                options={({ route }) => ({
+                    header: () => getHeader(route)
+                })}
             />
             <MainStack.Screen
                 name={Screens.SelectContacts}
@@ -33,8 +59,8 @@ export default MainStackScreen = ({ navigation }) => {
                 options={({ navigation }) => ({
                 header: () => (
                     <Header
-                    title="Select Contacts"
-                    headerLeft={<BackButton navigation={navigation} />}
+                        title="Select Contacts"
+                        headerLeft={<BackButton navigation={navigation} />}
                     />
                 ),
                 })}
