@@ -14,4 +14,5 @@ export default {
   yellow: '#f8f841',
   purple: '#34153F',
   purpleLight: '#E9E9FA',
+  purpleDimmed: '#DFE4F4',
 }

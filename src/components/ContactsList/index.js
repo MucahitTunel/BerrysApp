@@ -413,7 +413,7 @@ const ContactsList = ({
                   <View
                     style={{
                       flexDirection: 'row',
-                      marginVertical: 12,
+                      marginVertical: 10,
                       flexWrap: 'wrap',
                     }}>
                     {contacts.map((contact, index) => {
@@ -423,24 +423,23 @@ const ContactsList = ({
                           onPressItem={contact}
                           onPress={onSelectContact}
                           style={{
+                            marginRight: 10,
                             flexDirection: 'row',
                             alignItems: 'center',
                             borderWidth: 1,
-                            borderColor: 'rgba(151, 151, 151, 0.53)',
-                            paddingVertical: 4,
-                            paddingHorizontal: 8,
-                            borderRadius: 5,
-                            marginRight: 10,
+                            borderColor: 'black',
+                            padding: 10,
+                            borderRadius: 10,
                             marginBottom: 10,
                           }}>
                           <AppText
-                            color={Colors.gray}
+                            color="black"
                             fontSize={FontSize.normal}
                             weight="medium"
                             style={{ marginRight: 10 }}>
                             {contact.name}
                           </AppText>
-                          <AppIcon name="close" size={10} color={Colors.gray} />
+                          <AppIcon name="close" size={12} color="black" />
                         </ScaleTouchable>
                       )
                     })}

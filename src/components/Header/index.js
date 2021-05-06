@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 40,
+    paddingTop: 50,
   },
   headerText: {
     fontSize: FontSize.xLarge,

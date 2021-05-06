@@ -76,6 +76,7 @@ const PostQuestion = ({ navigation }) => {
   const allContacts = useSelector((state) => state.contacts.data)
 
   const [allContactsSelected, setAllContactsSelected] = useState(false)
+  const [sheetOpened, setSheetOpened] = useState(false)
 
   const selectedItems = contacts.map((c) => c.phoneNumber)
   const selectedGroups = groups.map((g) => g._id)
@@ -271,7 +272,7 @@ const PostQuestion = ({ navigation }) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: Colors.blackDimmed,
+          backgroundColor: !sheetOpened ? 'transparent' : Colors.blackDimmed,
           paddingTop: Dimensions.Height,
         }}>
         <View
@@ -318,7 +319,7 @@ const PostQuestion = ({ navigation }) => {
                     backgroundColor:
                       allContactsSelected && contacts.length === 0
                         ? Colors.purple
-                        : Colors.grayLight,
+                        : Colors.purpleDimmed,
                     height: 50,
                     width: 50,
                     borderRadius: 10,
@@ -345,7 +346,9 @@ const PostQuestion = ({ navigation }) => {
                   shadow={false}
                   style={{
                     backgroundColor:
-                      contacts.length !== 0 ? Colors.purple : Colors.grayLight,
+                      contacts.length !== 0
+                        ? Colors.purple
+                        : Colors.purpleDimmed,
                     height: 50,
                     width: 50,
                     borderRadius: 10,
@@ -369,7 +372,7 @@ const PostQuestion = ({ navigation }) => {
                   shadow={false}
                   style={{
                     backgroundColor:
-                      groups.length !== 0 ? Colors.purple : Colors.grayLight,
+                      groups.length !== 0 ? Colors.purple : Colors.purpleDimmed,
                     height: 50,
                     width: 50,
                     borderRadius: 10,
@@ -394,7 +397,7 @@ const PostQuestion = ({ navigation }) => {
                   style={{
                     backgroundColor: isAskExperts
                       ? Colors.purple
-                      : Colors.grayLight,
+                      : Colors.purpleDimmed,
                     height: 50,
                     width: 50,
                     borderRadius: 10,
@@ -567,6 +570,8 @@ const PostQuestion = ({ navigation }) => {
           renderContent={Selection}
           enabledContentTapInteraction={false}
           enabledInnerScrolling={false}
+          onOpenStart={() => setSheetOpened(true)}
+          onCloseStart={() => setSheetOpened(false)}
         />
       </SafeAreaView>
     </Layout>

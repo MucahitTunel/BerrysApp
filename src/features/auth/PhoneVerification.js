@@ -7,7 +7,7 @@ import { AppInput, AppButton, AppText, AppLink } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
 
-const linearGradientColors = [Colors.primary, Colors.primaryLight]
+const linearGradientColors = [Colors.purple, Colors.purple]
 
 const styles = {
   modalView: {
@@ -76,8 +76,8 @@ const PhoneVerification = () => {
               </View>
               <AppButton
                 text="Submit"
-                style={{ backgroundColor: Colors.white }}
-                textStyle={{ color: Colors.primary }}
+                style={{ backgroundColor: Colors.purpleLight }}
+                textStyle={{ color: Colors.purple }}
                 disabled={loading || !values.verifyCode}
                 isLoading={loading}
                 onPress={handleSubmit}
