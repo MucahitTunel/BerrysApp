@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import TouchableWrapper from '../TouchableWrapper'
-import AppImage from '../AppImage'
+import AppIcon from '../AppIcon'
 import Avatar from '../Avatar'
 import AppText from '../AppText'
 import Images from 'assets/images'
@@ -29,17 +29,23 @@ const ContactsListItem = ({
   return (
     <TouchableWrapper style={style} onPressItem={item} onPress={onPress}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Avatar source={Images.defaultAvatar} size={38} />
+        <Avatar source={Images.newProfile} size={28} />
         <AppText style={{ marginLeft: 10 }} weight="medium">
           {text || ''}
           {isContact && <AppText color={Colors.gray}>{rightText}</AppText>}
         </AppText>
       </View>
       <View>
-        <AppImage
-          source={isChecked ? Images.checkmarkSelected : Images.checkmark}
-          width={20}
-          height={20}
+        <AppIcon
+          name="checkmark"
+          size={22}
+          color={Colors.background}
+          style={{
+            backgroundColor: isChecked
+              ? Colors.purple
+              : Colors.backgroundDarker,
+          }}
+          background
         />
       </View>
     </TouchableWrapper>

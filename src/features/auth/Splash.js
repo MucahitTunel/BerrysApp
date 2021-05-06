@@ -7,7 +7,7 @@ import { Colors } from 'constants'
 import Images from 'assets/images'
 import { authBoot } from 'features/auth/authSlice'
 
-const linearGradient = [Colors.primary, Colors.primaryLight]
+const linearGradient = [Colors.purple, Colors.purple]
 
 const Splash = () => {
   const dispatch = useDispatch()

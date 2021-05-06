@@ -26,6 +26,7 @@ import AppImage from '../AppImage'
 import AppInput from '../AppInput'
 import AppText from '../AppText'
 import Avatar from '../Avatar'
+import Layout from '../Layout'
 import ScaleTouchable from '../ScaleTouchable'
 import ContactsListItem from '../ContactsListItem'
 import RecyclerList from '../RecyclerListView'
@@ -37,11 +38,10 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   flatListView: {
-    backgroundColor: Colors.white,
     flex: 1,
     paddingHorizontal: 16,
   },
@@ -55,13 +55,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(151, 151, 151, 0.2)',
   },
   filterWrapper: {
-    backgroundColor: Colors.white,
     paddingVertical: 14,
     paddingHorizontal: 16,
   },
   searchInput: { paddingLeft: 10, flex: 1 },
   sectionHeader: {
-    backgroundColor: Colors.white,
     paddingTop: 10,
     paddingLeft: 20,
   },
@@ -335,235 +333,240 @@ const ContactsList = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <ScrollView>
-        {isPostQuestion && (
-          <>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 24,
-                paddingHorizontal: 16,
-                backgroundColor: Colors.white,
-              }}>
-              <Avatar source={Images.defaultAvatar} size={54} />
-              <AppInput
-                placeholder={
-                  ask.question !== '' && ask.question
-                    ? ask.question
-                    : 'What do you think about this?'
-                }
-                value={ask.question}
-                onChange={questionOnChange}
-                placeholderTextColor={Colors.gray}
-                style={{ color: 'black', paddingRight: 90, paddingTop: 0 }}
-                multiline
-              />
-            </View>
-            {questionImage && (
-              <TouchableOpacity onPress={() => setImageModalVisible(true)}>
-                <ImageBackground
-                  source={{ uri: questionImage }}
-                  style={{
-                    height: Dimensions.Height / 7,
-                    resizeMode: 'contain',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <AppText
-                    color="white"
-                    weight="medium"
-                    fontSize={FontSize.xxLarge}>
-                    Click to zoom
-                  </AppText>
-                </ImageBackground>
-              </TouchableOpacity>
-            )}
-            <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
-              <ScaleTouchable onPress={toggleAnonymously}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <AppImage
-                    source={
-                      isAnonymous ? Images.checkmarkSelected : Images.checkmark
-                    }
-                    width={20}
-                    height={20}
-                  />
-                  <AppText
-                    style={{ marginLeft: 10 }}
-                    color={Colors.text}
-                    fontSize={FontSize.large}>
-                    Ask Anonymously
-                  </AppText>
-                </View>
-              </ScaleTouchable>
-            </View>
-          </>
-        )}
-        <View style={styles.filterWrapper}>
-          {!singleSelect && showSelected && (
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <ScrollView>
+          {isPostQuestion && (
             <>
-              <AppText fontSize={FontSize.xLarge} weight="medium">
-                {subTitle}
-              </AppText>
-              {contacts.length > 0 && (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginVertical: 12,
-                    flexWrap: 'wrap',
-                  }}>
-                  {contacts.map((contact, index) => {
-                    return (
-                      <ScaleTouchable
-                        key={index}
-                        onPressItem={contact}
-                        onPress={onSelectContact}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          borderWidth: 1,
-                          borderColor: 'rgba(151, 151, 151, 0.53)',
-                          paddingVertical: 4,
-                          paddingHorizontal: 8,
-                          borderRadius: 5,
-                          marginRight: 10,
-                          marginBottom: 10,
-                        }}>
-                        <AppText
-                          color={Colors.gray}
-                          fontSize={FontSize.normal}
-                          weight="medium"
-                          style={{ marginRight: 10 }}>
-                          {contact.name}
-                        </AppText>
-                        <AppIcon name="close" size={10} color={Colors.gray} />
-                      </ScaleTouchable>
-                    )
-                  })}
-                </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 24,
+                  paddingHorizontal: 16,
+                  backgroundColor: Colors.white,
+                }}>
+                <Avatar source={Images.defaultAvatar} size={54} />
+                <AppInput
+                  placeholder={
+                    ask.question !== '' && ask.question
+                      ? ask.question
+                      : 'What do you think about this?'
+                  }
+                  value={ask.question}
+                  onChange={questionOnChange}
+                  placeholderTextColor={Colors.gray}
+                  style={{ color: 'black', paddingRight: 90, paddingTop: 0 }}
+                  multiline
+                />
+              </View>
+              {questionImage && (
+                <TouchableOpacity onPress={() => setImageModalVisible(true)}>
+                  <ImageBackground
+                    source={{ uri: questionImage }}
+                    style={{
+                      height: Dimensions.Height / 7,
+                      resizeMode: 'contain',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <AppText
+                      color="white"
+                      weight="medium"
+                      fontSize={FontSize.xxLarge}>
+                      Click to zoom
+                    </AppText>
+                  </ImageBackground>
+                </TouchableOpacity>
               )}
+              <View style={{ paddingVertical: 12, paddingHorizontal: 16 }}>
+                <ScaleTouchable onPress={toggleAnonymously}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <AppImage
+                      source={
+                        isAnonymous
+                          ? Images.checkmarkSelected
+                          : Images.checkmark
+                      }
+                      width={20}
+                      height={20}
+                    />
+                    <AppText
+                      style={{ marginLeft: 10 }}
+                      color={Colors.text}
+                      fontSize={FontSize.large}>
+                      Ask Anonymously
+                    </AppText>
+                  </View>
+                </ScaleTouchable>
+              </View>
             </>
           )}
-          <View>
-            <View
-              style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
-              <AppIcon name="search" color={Colors.gray} size={20} />
-            </View>
-            <AppInput
-              placeholder="Search"
-              placeholderTextColor={Colors.gray}
-              value={searchText}
-              icon="search"
-              style={{
-                backgroundColor: Colors.background,
-                paddingLeft: 50,
-                fontSize: 15,
-                fontFamily: Fonts.euclidCircularAMedium,
-                color: Colors.text,
-              }}
-              onChange={onChangeSearchText}
-            />
-          </View>
-        </View>
-        {showGroups && (
-          <TabView
-            navigationState={{ index: tabIndex, routes }}
-            renderTabBar={(props) => (
-              <TabBar
-                style={{ backgroundColor: Colors.white }}
-                renderLabel={({ route, focused }) => (
-                  <AppText
-                    color={focused ? Colors.text : '#808080'}
-                    weight="medium"
-                    fontSize={17}>
-                    {route.title}
-                  </AppText>
+          <View style={styles.filterWrapper}>
+            {!singleSelect && showSelected && (
+              <>
+                <AppText fontSize={FontSize.xLarge} weight="medium">
+                  {subTitle}
+                </AppText>
+                {contacts.length > 0 && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: 12,
+                      flexWrap: 'wrap',
+                    }}>
+                    {contacts.map((contact, index) => {
+                      return (
+                        <ScaleTouchable
+                          key={index}
+                          onPressItem={contact}
+                          onPress={onSelectContact}
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            borderWidth: 1,
+                            borderColor: 'rgba(151, 151, 151, 0.53)',
+                            paddingVertical: 4,
+                            paddingHorizontal: 8,
+                            borderRadius: 5,
+                            marginRight: 10,
+                            marginBottom: 10,
+                          }}>
+                          <AppText
+                            color={Colors.gray}
+                            fontSize={FontSize.normal}
+                            weight="medium"
+                            style={{ marginRight: 10 }}>
+                            {contact.name}
+                          </AppText>
+                          <AppIcon name="close" size={10} color={Colors.gray} />
+                        </ScaleTouchable>
+                      )
+                    })}
+                  </View>
                 )}
-                indicatorStyle={{ backgroundColor: Colors.primary }}
-                {...props}
-              />
+              </>
             )}
-            renderScene={SceneMap({
-              first: TabRoute,
-              second: TabRoute,
-            })}
-            onIndexChange={changeTabsView}
-            initialLayout={{
-              height: 0,
-            }}
-            style={{
-              borderBottomWidth: 1,
-              borderColor: Colors.background,
-            }}
-          />
-        )}
-        {checkboxComponent && checkboxComponent()}
-        {showRecentlySeen && tabIndex === 0 && (
-          <AppText
-            weight="medium"
-            fontSize={FontSize.xLarge}
-            style={{ marginLeft: 15, marginVertical: 10 }}>
-            Recently Seen
-          </AppText>
-        )}
-        {(isShowingGroups ? allGroups.length > 0 : contactsArr.length > 0) && (
-          <RecyclerList
-            data={isShowingGroups ? allGroups : contactsArr}
-            rowRenderer={isShowingGroups ? renderGroup : renderContact}
-            extendedState={seledtedContactIds}
-          />
-        )}
-      </ScrollView>
-      <View
-        style={{
-          padding: 10,
-          backgroundColor: Colors.white,
-        }}>
-        {!keyboard.keyboardShown && (
-          <AppButton
-            isLoading={isLoading}
-            disabled={isLoading}
-            onPress={onPress}
-            text={submitText}
-          />
-        )}
-      </View>
-
-      {/* AskUserNameModal */}
-      <AskUserNameModal
-        isModalVisible={isAskUserNameModalVisible}
-        setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
-      />
-
-      {/* Question image modal */}
-      <Modal
-        isVisible={imageModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <TouchableOpacity
-          style={Theme.Modal.modalInnerView}
-          onPress={() => setImageModalVisible(false)}>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              height: '100%',
-              width: '100%',
-            }}>
-            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+            <View>
+              <View
+                style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
+                <AppIcon name="search" color={Colors.gray} size={20} />
+              </View>
+              <AppInput
+                placeholder="Search"
+                placeholderTextColor={Colors.gray}
+                value={searchText}
+                icon="search"
+                style={{
+                  backgroundColor: 'white',
+                  paddingLeft: 50,
+                  fontSize: 15,
+                  fontFamily: Fonts.euclidCircularAMedium,
+                  color: Colors.text,
+                }}
+                onChange={onChangeSearchText}
+              />
+            </View>
           </View>
-          <Image
-            source={{ uri: questionImage }}
-            style={{ height: Dimensions.Height, resizeMode: 'contain' }}
-          />
-        </TouchableOpacity>
-      </Modal>
-    </SafeAreaView>
+          {showGroups && (
+            <TabView
+              navigationState={{ index: tabIndex, routes }}
+              renderTabBar={(props) => (
+                <TabBar
+                  style={{ backgroundColor: Colors.background }}
+                  renderLabel={({ route, focused }) => (
+                    <AppText
+                      color={focused ? Colors.text : '#808080'}
+                      weight="medium"
+                      fontSize={17}>
+                      {route.title}
+                    </AppText>
+                  )}
+                  indicatorStyle={{ backgroundColor: Colors.purple }}
+                  {...props}
+                />
+              )}
+              renderScene={SceneMap({
+                first: TabRoute,
+                second: TabRoute,
+              })}
+              onIndexChange={changeTabsView}
+              initialLayout={{
+                height: 0,
+              }}
+              style={{
+                borderBottomWidth: 1,
+                borderColor: Colors.background,
+              }}
+            />
+          )}
+          {checkboxComponent && checkboxComponent()}
+          {showRecentlySeen && tabIndex === 0 && (
+            <AppText
+              weight="medium"
+              fontSize={FontSize.xLarge}
+              style={{ marginLeft: 15, marginVertical: 10 }}>
+              Recently Seen
+            </AppText>
+          )}
+          {(isShowingGroups
+            ? allGroups.length > 0
+            : contactsArr.length > 0) && (
+            <RecyclerList
+              data={isShowingGroups ? allGroups : contactsArr}
+              rowRenderer={isShowingGroups ? renderGroup : renderContact}
+              extendedState={seledtedContactIds}
+            />
+          )}
+        </ScrollView>
+        <View
+          style={{
+            padding: 10,
+          }}>
+          {!keyboard.keyboardShown && (
+            <AppButton
+              isLoading={isLoading}
+              disabled={isLoading}
+              onPress={onPress}
+              text={submitText}
+            />
+          )}
+        </View>
+
+        {/* AskUserNameModal */}
+        <AskUserNameModal
+          isModalVisible={isAskUserNameModalVisible}
+          setModalVisible={(value) => setIsAskUserNameModalVisible(value)}
+        />
+
+        {/* Question image modal */}
+        <Modal
+          isVisible={imageModalVisible}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <TouchableOpacity
+            style={Theme.Modal.modalInnerView}
+            onPress={() => setImageModalVisible(false)}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: '100%',
+                width: '100%',
+              }}>
+              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+            </View>
+            <Image
+              source={{ uri: questionImage }}
+              style={{ height: Dimensions.Height, resizeMode: 'contain' }}
+            />
+          </TouchableOpacity>
+        </Modal>
+      </SafeAreaView>
+    </Layout>
   )
 }
 

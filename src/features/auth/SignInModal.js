@@ -20,7 +20,7 @@ import { signIn } from 'features/auth/authSlice'
 import Images from 'assets/images'
 import ScaleTouchable from '../../components/ScaleTouchable'
 
-const linearGradient = [Colors.primary, Colors.primaryLight]
+const linearGradient = [Colors.purple, Colors.purple]
 
 const styles = StyleSheet.create({
   countryPickerWrapper: {
@@ -143,7 +143,7 @@ const SignInModal = ({ isVisible, onClose }) => {
                     disabled={isSubmitting || !values.phoneNumber}
                     onPress={handleSubmit}
                     style={{ backgroundColor: Colors.white }}
-                    textStyle={{ color: Colors.primary }}
+                    textStyle={{ color: Colors.purple }}
                   />
                   <AppText
                     fontSize={FontSize.normal}

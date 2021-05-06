@@ -93,7 +93,11 @@ const Onboarding = () => {
       </View>
       <View style={styles.bottomViewWrapper}>
         <View style={styles.bottomView}>
-          <AppButton text="Sign In" onPress={handleNextSwiper} />
+          <AppButton
+            text="Sign In"
+            onPress={handleNextSwiper}
+            style={{ backgroundColor: Colors.purple }}
+          />
         </View>
       </View>
       <SignInModal

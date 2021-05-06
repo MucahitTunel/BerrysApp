@@ -17,6 +17,7 @@ import PollItem from './PollItem'
 import CompareItem from './CompareItem'
 import TouchableWrapper from './TouchableWrapper'
 import CardSwiper from './CardSwiper'
+import Layout from './Layout'
 
 export {
   AppButton,
@@ -38,4 +39,5 @@ export {
   CompareItem,
   TouchableWrapper,
   CardSwiper,
+  Layout,
 }

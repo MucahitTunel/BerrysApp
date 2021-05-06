@@ -15,6 +15,7 @@ import {
   Avatar,
   ScaleTouchable,
   AppIcon,
+  Layout,
 } from 'components'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { useDispatch, useSelector } from 'react-redux'
@@ -39,20 +40,25 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   selectionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: 20,
-    justifyContent: 'space-between',
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1.5,
-    paddingBottom: 10,
+    width: 85,
   },
   selectionRowText: {
+    textAlign: 'center',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    borderRadius: 10,
     marginLeft: 10,
+    marginTop: 10,
   },
 })
 
@@ -133,8 +139,8 @@ const PostQuestion = ({ navigation }) => {
     dispatch(setAskQuestion(value !== '' ? value : null))
   }
 
-  const toggleAnonymously = () => {
-    dispatch(setAskAnonymously(!isAnonymous))
+  const toggleAnonymously = (value) => {
+    dispatch(setAskAnonymously(value))
   }
 
   const onPress = () => {
@@ -173,16 +179,54 @@ const PostQuestion = ({ navigation }) => {
           flexWrap: 'wrap',
           alignItems: 'center',
         }}>
+        {allContactsSelected && contacts.length === 0 && (
+          <ScaleTouchable
+            onPress={() => {
+              setAllContactsSelected(false)
+              swiperRef.current.snapTo(0)
+            }}
+            style={[styles.itemContainer, { marginLeft: 0, marginRight: 10 }]}>
+            <AppText
+              color="black"
+              fontSize={FontSize.normal}
+              weight="medium"
+              style={{ marginRight: 10 }}>
+              All Contacts
+            </AppText>
+            <AppIcon name="close" size={12} color={Colors.purple} />
+          </ScaleTouchable>
+        )}
+        {isAskExperts && (
+          <ScaleTouchable
+            onPress={() => dispatch(setIsAskExperts(false))}
+            style={[
+              styles.itemContainer,
+              {
+                width: Dimensions.Width / 2.6,
+                marginLeft: 0,
+                marginRight: 10,
+              },
+            ]}>
+            <AppText
+              color="black"
+              fontSize={FontSize.normal}
+              weight="medium"
+              style={{ marginRight: 10 }}>
+              Berry's Experts
+            </AppText>
+            <AppIcon name="close" size={12} color={Colors.purple} />
+          </ScaleTouchable>
+        )}
         {[...contacts, ...groups, 'icon'].map((item) => {
           if (item === 'icon') {
             return (
               <AppButton
                 icon="plus"
                 iconSize={18}
-                iconColor={Colors.primary}
+                iconColor="white"
                 shadow={false}
                 style={{
-                  backgroundColor: Colors.primaryDimmed,
+                  backgroundColor: Colors.purple,
                   height: 30,
                   width: 30,
                 }}
@@ -203,25 +247,18 @@ const PostQuestion = ({ navigation }) => {
                     setAskGroups(groups.filter((c) => c._id !== item._id)),
                   )
               }}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 1,
-                borderColor: 'rgba(151, 151, 151, 0.53)',
-                paddingVertical: 4,
-                paddingHorizontal: 8,
-                borderRadius: 5,
-                marginRight: 10,
-                marginBottom: 10,
-              }}>
+              style={[
+                styles.itemContainer,
+                { marginLeft: 0, marginRight: 10 },
+              ]}>
               <AppText
-                color={Colors.gray}
+                color="black"
                 fontSize={FontSize.normal}
                 weight="medium"
                 style={{ marginRight: 10 }}>
                 {item.name}
               </AppText>
-              <AppIcon name="close" size={10} color={Colors.gray} />
+              <AppIcon name="close" size={12} color={Colors.purple} />
             </ScaleTouchable>
           )
         })}
@@ -245,6 +282,7 @@ const PostQuestion = ({ navigation }) => {
             backgroundColor: 'white',
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
+            alignItems: 'center',
           }}>
           <View style={{ alignItems: 'center' }}>
             <View
@@ -258,306 +296,280 @@ const PostQuestion = ({ navigation }) => {
             />
           </View>
           <AppText color="black" fontSize={FontSize.xLarge} weight="medium">
-            Who can see & Answer to your post?
+            Who can see & Answer to your post
           </AppText>
-          <ScaleTouchable
-            style={styles.selectionRow}
-            onPress={() => {
-              setAllContactsSelected(true)
-              dispatch(setAskContacts([]))
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppButton
-                icon={
-                  allContactsSelected && contacts.length === 0
-                    ? 'checkmark'
-                    : 'profile'
-                }
-                iconSize={24}
-                shadow={false}
-                style={{
-                  backgroundColor:
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <ScaleTouchable
+              style={styles.selectionRow}
+              onPress={() => {
+                setAllContactsSelected(true)
+                dispatch(setAskContacts([]))
+              }}>
+              <View style={{ alignItems: 'center' }}>
+                <AppButton
+                  icon={
                     allContactsSelected && contacts.length === 0
-                      ? Colors.primary
+                      ? 'checkmark'
+                      : 'profile'
+                  }
+                  iconSize={24}
+                  shadow={false}
+                  style={{
+                    backgroundColor:
+                      allContactsSelected && contacts.length === 0
+                        ? Colors.purple
+                        : Colors.grayLight,
+                    height: 50,
+                    width: 50,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                  }}
+                  disabled
+                  onPress={() => {}}
+                />
+                <AppText
+                  numberOfLines={2}
+                  style={styles.selectionRowText}
+                  color="black">
+                  All Contacts
+                </AppText>
+              </View>
+            </ScaleTouchable>
+            <ScaleTouchable
+              style={styles.selectionRow}
+              onPress={() => navigateContactList(true)}>
+              <View style={{ alignItems: 'center' }}>
+                <AppButton
+                  icon={contacts.length !== 0 ? 'checkmark' : 'profile'}
+                  iconSize={24}
+                  shadow={false}
+                  style={{
+                    backgroundColor:
+                      contacts.length !== 0 ? Colors.purple : Colors.grayLight,
+                    height: 50,
+                    width: 50,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                  }}
+                  disabled
+                  onPress={() => {}}
+                />
+                <AppText style={styles.selectionRowText} color="black">
+                  Select Contacts
+                </AppText>
+              </View>
+            </ScaleTouchable>
+            <ScaleTouchable
+              style={styles.selectionRow}
+              onPress={() => navigateContactList(false)}>
+              <View style={{ alignItems: 'center' }}>
+                <AppButton
+                  icon={groups.length !== 0 ? 'checkmark' : 'group-senior'}
+                  iconSize={18}
+                  shadow={false}
+                  style={{
+                    backgroundColor:
+                      groups.length !== 0 ? Colors.purple : Colors.grayLight,
+                    height: 50,
+                    width: 50,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                  }}
+                  disabled
+                  onPress={() => {}}
+                />
+                <AppText style={styles.selectionRowText} color="black">
+                  Select Groups
+                </AppText>
+              </View>
+            </ScaleTouchable>
+            <ScaleTouchable
+              style={styles.selectionRow}
+              onPress={() => dispatch(setIsAskExperts(true))}>
+              <View style={{ alignItems: 'center' }}>
+                <AppButton
+                  icon={isAskExperts ? 'checkmark' : 'message-dot'}
+                  iconSize={18}
+                  shadow={false}
+                  style={{
+                    backgroundColor: isAskExperts
+                      ? Colors.purple
                       : Colors.grayLight,
-                  height: 40,
-                  width: 40,
-                }}
-                disabled
-                onPress={() => {}}
-              />
-              <AppText
-                style={styles.selectionRowText}
-                weight="medium"
-                color="black">
-                All Contacts
-              </AppText>
-            </View>
-          </ScaleTouchable>
-          <ScaleTouchable
-            style={styles.selectionRow}
-            onPress={() => navigateContactList(true)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppButton
-                icon={contacts.length !== 0 ? 'checkmark' : 'profile'}
-                iconSize={24}
-                shadow={false}
-                style={{
-                  backgroundColor:
-                    contacts.length !== 0 ? Colors.primary : Colors.grayLight,
-                  height: 40,
-                  width: 40,
-                }}
-                disabled
-                onPress={() => {}}
-              />
-              <AppText
-                style={styles.selectionRowText}
-                weight="medium"
-                color="black">
-                Select Contacts
-              </AppText>
-            </View>
-            <AppIcon name="chevron-right" size={24} color={Colors.gray} />
-          </ScaleTouchable>
-          <ScaleTouchable
-            style={styles.selectionRow}
-            onPress={() => navigateContactList(false)}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppButton
-                icon={groups.length !== 0 ? 'checkmark' : 'group-senior'}
-                iconSize={18}
-                shadow={false}
-                style={{
-                  backgroundColor:
-                    groups.length !== 0 ? Colors.primary : Colors.grayLight,
-                  height: 40,
-                  width: 40,
-                }}
-                disabled
-                onPress={() => {}}
-              />
-              <AppText
-                style={styles.selectionRowText}
-                weight="medium"
-                color="black">
-                Select Groups
-              </AppText>
-            </View>
-            <AppIcon name="chevron-right" size={24} color={Colors.gray} />
-          </ScaleTouchable>
-          <ScaleTouchable
-            style={styles.selectionRow}
-            onPress={() => dispatch(setIsAskExperts(true))}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppButton
-                icon={isAskExperts ? 'checkmark' : 'message-dot'}
-                iconSize={18}
-                shadow={false}
-                style={{
-                  backgroundColor: isAskExperts
-                    ? Colors.primary
-                    : Colors.grayLight,
-                  height: 40,
-                  width: 40,
-                }}
-                disabled
-                onPress={() => {}}
-              />
-              <AppText
-                style={styles.selectionRowText}
-                weight="medium"
-                color="black">
-                Berry's Experts
-              </AppText>
-            </View>
-          </ScaleTouchable>
+                    height: 50,
+                    width: 50,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                  }}
+                  disabled
+                  onPress={() => {}}
+                />
+                <AppText style={styles.selectionRowText} color="black">
+                  Berry's Experts
+                </AppText>
+              </View>
+            </ScaleTouchable>
+          </View>
         </View>
       </View>
     )
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flex: 1,
-          }}>
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <View style={{ flex: 1 }}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingTop: 20,
-              paddingBottom: 10,
-              paddingHorizontal: 16,
-              backgroundColor: Colors.white,
-              borderBottomColor: Colors.background,
-              borderBottomWidth: 4,
+              flex: 1,
             }}>
-            <Avatar source={Images.defaultAvatar} size={54} />
-            <AppInput
-              placeholder={
-                question !== '' && question
-                  ? question
-                  : 'What do you think about this?'
-              }
-              value={question}
-              onChange={questionOnChange}
-              placeholderTextColor={Colors.gray}
-              style={{
-                color: 'black',
-                paddingRight: 90,
-                paddingTop: 0,
-                height: undefined,
-                maxHeight: 180,
-              }}
-              multiline
-            />
-          </View>
-          {!contactPermission && (
-            <AppButton
-              text="Sync Your Contacts"
-              onPress={() => Linking.openSettings()}
-              style={{
-                height: 30,
-                marginTop: 10,
-                marginHorizontal: 20,
-                backgroundColor: Colors.primary,
-              }}
-              textStyle={{ fontSize: FontSize.large }}
-            />
-          )}
-          <ScrollView>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText
-                color="black"
-                fontSize={FontSize.normal}
-                weight="medium"
-                style={{ marginLeft: 20 }}>
-                Me:
-              </AppText>
-              <View
-                style={{
-                  flexWrap: 'wrap',
-                  width: '100%',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <ScaleTouchable
-                  onPress={toggleAnonymously}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    borderWidth: 1,
-                    borderColor: 'rgba(151, 151, 151, 0.53)',
-                    paddingVertical: 5,
-                    paddingHorizontal: 8,
-                    borderRadius: 5,
-                    marginLeft: 10,
-                    marginTop: 10,
-                  }}>
-                  <AppText
-                    color={Colors.gray}
-                    fontSize={FontSize.normal}
-                    weight="medium"
-                    style={{ marginRight: 15 }}>
-                    {isAnonymous ? 'Anonymous' : 'Not Anonymous'}
-                  </AppText>
-                  <AppIcon name="triangle" size={6} color={Colors.gray} />
-                </ScaleTouchable>
-                {allContactsSelected && contacts.length === 0 && (
-                  <ScaleTouchable
-                    onPress={() => {
-                      setAllContactsSelected(false)
-                      swiperRef.current.snapTo(0)
-                    }}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: 'rgba(151, 151, 151, 0.53)',
-                      paddingVertical: 5,
-                      paddingHorizontal: 8,
-                      borderRadius: 5,
-                      marginLeft: 10,
-                      marginTop: 10,
-                    }}>
-                    <AppText
-                      color={Colors.gray}
-                      fontSize={FontSize.normal}
-                      weight="medium"
-                      style={{ marginRight: 15 }}>
-                      All Contacts
-                    </AppText>
-                    <AppIcon name="close" size={10} color={Colors.gray} />
-                  </ScaleTouchable>
-                )}
-                {isAskExperts && (
-                  <ScaleTouchable
-                    onPress={() => dispatch(setIsAskExperts(false))}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      borderWidth: 1,
-                      borderColor: 'rgba(151, 151, 151, 0.53)',
-                      paddingVertical: 5,
-                      paddingHorizontal: 8,
-                      borderRadius: 5,
-                      marginLeft: 10,
-                      marginTop: 10,
-                      width: Dimensions.Width / 2.6,
-                    }}>
-                    <AppText
-                      color={Colors.gray}
-                      fontSize={FontSize.normal}
-                      weight="medium"
-                      style={{ marginRight: 15 }}>
-                      Berry's Experts
-                    </AppText>
-                    <AppIcon name="close" size={10} color={Colors.gray} />
-                  </ScaleTouchable>
-                )}
-              </View>
-            </View>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginTop: 20,
+                paddingBottom: 20,
+                paddingHorizontal: 16,
+                paddingLeft: 30,
+                borderBottomColor: Colors.backgroundDarker,
+                borderBottomWidth: 1,
+                marginBottom: 10,
               }}>
-              <AppText
-                color="black"
-                fontSize={FontSize.normal}
-                weight="medium"
-                style={{ marginLeft: 20, marginRight: 5 }}>
-                To:
-              </AppText>
-              {renderContacts()}
+              <Avatar source={Images.newProfile} size={24} />
+              <AppInput
+                placeholder={
+                  question !== '' && question
+                    ? question
+                    : 'What do you think about today?'
+                }
+                value={question}
+                onChange={questionOnChange}
+                placeholderTextColor={Colors.gray}
+                style={{
+                  color: 'black',
+                  marginLeft: 15,
+                  paddingRight: 90,
+                  paddingTop: 0,
+                  height: undefined,
+                  maxHeight: 180,
+                }}
+                multiline
+              />
             </View>
-          </ScrollView>
+            {!contactPermission && (
+              <AppButton
+                text="Sync Your Contacts"
+                onPress={() => Linking.openSettings()}
+                style={{
+                  height: 30,
+                  marginTop: 10,
+                  marginHorizontal: 20,
+                  backgroundColor: Colors.primary,
+                }}
+                textStyle={{ fontSize: FontSize.large }}
+              />
+            )}
+            <ScrollView>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <AppText
+                  color="black"
+                  fontSize={FontSize.normal}
+                  weight="medium"
+                  style={{ marginLeft: 20 }}>
+                  Me:
+                </AppText>
+                <View
+                  style={{
+                    flexWrap: 'wrap',
+                    width: '100%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <ScaleTouchable
+                    onPress={() => toggleAnonymously(true)}
+                    style={[
+                      styles.itemContainer,
+                      {
+                        backgroundColor: isAnonymous
+                          ? Colors.purpleLight
+                          : 'transparent',
+                      },
+                    ]}>
+                    <Avatar
+                      source={Images.newAnonymous}
+                      size={24}
+                      overflow="visible"
+                      style={{ marginRight: 10 }}
+                    />
+                    <AppText
+                      color={isAnonymous ? Colors.purple : 'black'}
+                      fontSize={FontSize.normal}
+                      weight="medium">
+                      Anonymous
+                    </AppText>
+                  </ScaleTouchable>
+                  <ScaleTouchable
+                    onPress={() => toggleAnonymously(false)}
+                    style={[
+                      styles.itemContainer,
+                      {
+                        backgroundColor: !isAnonymous
+                          ? Colors.purpleLight
+                          : 'transparent',
+                      },
+                    ]}>
+                    <Avatar
+                      source={Images.newNotAnonymous}
+                      size={24}
+                      overflow="visible"
+                      style={{ marginRight: 10 }}
+                    />
+                    <AppText
+                      color={!isAnonymous ? Colors.purple : 'black'}
+                      fontSize={FontSize.normal}
+                      weight="medium">
+                      Not Anonymous
+                    </AppText>
+                  </ScaleTouchable>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 20,
+                }}>
+                <AppText
+                  color="black"
+                  fontSize={FontSize.normal}
+                  weight="medium"
+                  style={{ marginLeft: 20, marginRight: 5 }}>
+                  To:
+                </AppText>
+                {renderContacts()}
+              </View>
+            </ScrollView>
+          </View>
+          <AppButton
+            text="Confirm Post"
+            onPress={onPress}
+            style={{
+              marginBottom: 20,
+              marginHorizontal: 20,
+              backgroundColor: loading ? Colors.grayLight : Colors.purple,
+            }}
+            isLoading={loading}
+            disabled={loading}
+          />
         </View>
-        <AppButton
-          text="Confirm Post"
-          onPress={onPress}
-          style={{
-            marginBottom: 20,
-            marginHorizontal: 20,
-            backgroundColor: loading ? Colors.grayLight : Colors.primary,
-          }}
-          isLoading={loading}
-          disabled={loading}
+        <BottomSheet
+          ref={swiperRef}
+          snapPoints={['130%', 0]}
+          initialSnap={1}
+          renderContent={Selection}
+          enabledContentTapInteraction={false}
+          enabledInnerScrolling={false}
         />
-      </View>
-      <BottomSheet
-        ref={swiperRef}
-        snapPoints={['160%', 0]}
-        initialSnap={1}
-        renderContent={() => Selection()}
-        enabledContentTapInteraction={false}
-        enabledInnerScrolling={false}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </Layout>
   )
 }
 

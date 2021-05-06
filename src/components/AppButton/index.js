@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 6,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.purple,
   },
   btnText: {
     fontFamily: Fonts.euclidCircularAMedium,

@@ -11,13 +11,13 @@ const linearGradient = [Colors.purple, Colors.purple]
 
 const styles = StyleSheet.create({
   header: {
-    height: 94,
-    paddingBottom: 20,
+    // height: 94,
+    paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 30,
+    paddingTop: 40,
   },
   headerText: {
     fontSize: FontSize.xLarge,
@@ -36,9 +36,9 @@ const Header = ({ title, headerRight, headerLeft }) => {
       colors={linearGradient}
       start={{ x: 0.25, y: 0.5 }}
       end={{ x: 0.75, y: 0.5 }}>
-      {headerLeft}
+      <View style={{ flex: 1 }}>{headerLeft}</View>
       <AppText style={styles.headerText}>{titleText}</AppText>
-      {headerRight}
+      <View style={{ flex: 1, alignItems: 'flex-end' }}>{headerRight}</View>
     </LinearGradient>
   )
 }

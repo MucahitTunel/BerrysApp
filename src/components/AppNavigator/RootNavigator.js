@@ -1,7 +1,10 @@
 import React from 'react'
+import { Image, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Colors } from 'constants'
 import { Header, SideBarMenu } from 'components'
 import {
   BackButton,
@@ -45,8 +48,16 @@ import PostQuestion from 'features/questions/PostQuestion'
 import VoiceCall from 'features/contacts/VoiceCall'
 import Account from 'features/contacts/Account'
 
+import MainStack from './MainNavigator'
+
+import HOME_FILLED from 'assets/images/new-design/homeFilled.png'
+import GROUP_EMPTY from 'assets/images/new-design/groupEmpty.png'
+import MESSAGE_EMPTY from 'assets/images/new-design/messageEmpty.png'
+import PROFILE_EMPTY from 'assets/images/new-design/profileEmpty.png'
+
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
+const Tab = createBottomTabNavigator()
 
 const SurveyStack = () => (
   <Stack.Navigator>
@@ -62,7 +73,7 @@ const SurveyStack = () => (
   </Stack.Navigator>
 )
 
-const MainStack = () => {
+const MainnStack = () => {
   const auth = useSelector((state) => state.auth) || {}
   const { onboarding } = auth
   return (
@@ -355,6 +366,8 @@ const AccountStack = () => (
 )
 
 const RootNavigator = () => {
+  const renderNull = () => null
+
   const auth = useSelector((state) => state.auth) || {}
   const { user, booting = true } = auth
   if (booting) {
@@ -368,22 +381,10 @@ const RootNavigator = () => {
   }
   if (user && !user.isVerifying) {
     return (
-      <Drawer.Navigator
-        initialRouteName={Screens.MainStack}
-        drawerContent={(props) => <SideBarMenu {...props} />}>
-        <Drawer.Screen name={Screens.MainStack} component={MainStack} />
-        <Drawer.Screen name={Screens.AccountStack} component={AccountStack} />
-        <Drawer.Screen
-          name={Screens.ImportGmailContactsStack}
-          component={ImportGmailContactsStack}
-        />
-        <Drawer.Screen
-          name={Screens.FollowContactsStack}
-          component={FollowContactsStack}
-        />
-        <Drawer.Screen name={Screens.ReportStack} component={ReportStack} />
-        <Drawer.Screen name={Screens.GroupStack} component={GroupStack} />
-      </Drawer.Navigator>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name={'main'} component={MainStack} />
+        <Tab.Screen name={Screens.GroupStack} component={GroupStack} />
+      </Stack.Navigator>
     )
   }
   return <Splash />

@@ -22,6 +22,10 @@ import home from './home.png'
 import running from './running.png'
 import work from './work.png'
 
+import newProfile from './new-design/profileEmpty.png'
+import newAnonymous from './new-design/anonymous.png'
+import newNotAnonymous from './new-design/notAnonymous.png'
+
 export default {
   logo,
   logoWhite,
@@ -43,4 +47,7 @@ export default {
   onboarding2,
   onboarding3,
   onboarding4,
+  newProfile,
+  newAnonymous,
+  newNotAnonymous,
 }

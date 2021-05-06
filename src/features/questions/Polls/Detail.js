@@ -2,7 +2,7 @@ import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StatusBar, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { Dimensions, Colors, FontSize } from 'constants'
-import { Header } from 'components'
+import { Header, Layout } from 'components'
 import { BackButton } from 'components/NavButton'
 import { votePoll, votePopularQuestion, setPoll } from '../questionSlice'
 import { setPopularPolls } from '../questionsSlice'
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   voteText: { marginLeft: 10, marginBottom: 15, marginTop: 5 },
@@ -151,30 +151,33 @@ export const PollDetail = ({ route, navigation }) => {
 
   if (!poll) return null
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <ScrollView contentContainerStyle={{ paddingBottom: 20, paddingTop: 20 }}>
-        <AppText
-          color={'black'}
-          fontSize={FontSize.xxxLarge}
-          weight="medium"
-          style={{ paddingLeft: 10, marginBottom: 30 }}>
-          {poll.question}
-        </AppText>
-        {poll.options.map((o, idx) => renderOption(o, idx))}
-      </ScrollView>
-      <AppButton
-        style={{
-          margin: 20,
-          backgroundColor: isVoted ? 'white' : Colors.primary,
-          borderWidth: 1,
-          borderColor: Colors.grayLight,
-        }}
-        onPress={buttonOnPress}
-        text={isVoted ? 'Done' : 'Vote'}
-        textStyle={{ color: isVoted ? Colors.primary : 'white' }}
-      />
-    </SafeAreaView>
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 20, paddingTop: 20 }}>
+          <AppText
+            color={'black'}
+            fontSize={FontSize.xxxLarge}
+            weight="medium"
+            style={{ paddingLeft: 10, marginBottom: 30 }}>
+            {poll.question}
+          </AppText>
+          {poll.options.map((o, idx) => renderOption(o, idx))}
+        </ScrollView>
+        <AppButton
+          style={{
+            margin: 20,
+            backgroundColor: isVoted ? 'white' : Colors.primary,
+            borderWidth: 1,
+            borderColor: Colors.grayLight,
+          }}
+          onPress={buttonOnPress}
+          text={isVoted ? 'Done' : 'Vote'}
+          textStyle={{ color: isVoted ? Colors.primary : 'white' }}
+        />
+      </SafeAreaView>
+    </Layout>
   )
 }
 

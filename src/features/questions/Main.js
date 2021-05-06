@@ -30,6 +30,7 @@ import {
   ScaleTouchable,
   SuccessModal,
   CompareItem,
+  Layout,
   // CardSwiper
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   questionItem: {
@@ -836,164 +837,171 @@ const Main = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <Formik
-        enableReinitialize
-        initialValues={{ question }}
-        onSubmit={onSubmit}>
-        {({ values, handleSubmit, setFieldValue, setValues }) => (
-          <View
-            style={{
-              alignItems: 'center',
-              borderBottomWidth: 4,
-              borderBottomColor: Colors.background,
-            }}>
-            <View style={styles.inputView}>
-              <Avatar source={Images.defaultAvatar} size={50} />
-              <AppInput
-                style={styles.input}
-                placeholder="Ask anonymously your contacts..."
-                multiline
-                onChange={(value) => {
-                  setFieldValue('question', value)
-                  const url = checkURL(value)
-                  setQuestionUrl(url)
-                }}
-                value={values.question}
-              />
-              <AppButton
-                text="Post"
-                textStyle={styles.sendBtnText}
-                icon="send"
-                iconSize={12}
-                disabled={!values.question}
-                style={[
-                  styles.sendBtn,
-                  !values.question && styles.sendBtnDisabled,
-                ]}
-                onPress={handleSubmit}
-              />
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <Formik
+          enableReinitialize
+          initialValues={{ question }}
+          onSubmit={onSubmit}>
+          {({ values, handleSubmit, setFieldValue, setValues }) => (
+            <View
+              style={{
+                alignItems: 'center',
+                borderBottomWidth: 4,
+                borderBottomColor: Colors.background,
+              }}>
+              <View style={styles.inputView}>
+                <Avatar source={Images.defaultAvatar} size={50} />
+                <AppInput
+                  style={styles.input}
+                  placeholder="Ask anonymously your contacts..."
+                  multiline
+                  onChange={(value) => {
+                    setFieldValue('question', value)
+                    const url = checkURL(value)
+                    setQuestionUrl(url)
+                  }}
+                  value={values.question}
+                />
+                <AppButton
+                  text="Post"
+                  textStyle={styles.sendBtnText}
+                  icon="send"
+                  iconSize={12}
+                  disabled={!values.question}
+                  style={[
+                    styles.sendBtn,
+                    !values.question && styles.sendBtnDisabled,
+                  ]}
+                  onPress={handleSubmit}
+                />
+              </View>
+              <View style={styles.postTypesContainer}>
+                <AppButton
+                  shadow={false}
+                  icon="image"
+                  iconSize={20}
+                  iconColor={'#c6c6c6'}
+                  style={[styles.postType, { borderLeftWidth: 0 }]}
+                  onPress={() =>
+                    NavigationService.navigate(Screens.QuestionWithImage)
+                  }
+                />
+                <AppButton
+                  shadow={false}
+                  icon="poll"
+                  iconSize={20}
+                  iconColor={'#c6c6c6'}
+                  style={styles.postType}
+                  onPress={() => NavigationService.navigate(Screens.CreatePoll)}
+                />
+                <AppButton
+                  shadow={false}
+                  icon="versus"
+                  iconSize={20}
+                  iconColor={'#c6c6c6'}
+                  style={[styles.postType, { borderRightWidth: 0 }]}
+                  onPress={() =>
+                    NavigationService.navigate(Screens.CreateCompare)
+                  }
+                />
+              </View>
             </View>
-            <View style={styles.postTypesContainer}>
-              <AppButton
-                shadow={false}
-                icon="image"
-                iconSize={20}
-                iconColor={'#c6c6c6'}
-                style={[styles.postType, { borderLeftWidth: 0 }]}
-                onPress={() =>
-                  NavigationService.navigate(Screens.QuestionWithImage)
-                }
-              />
-              <AppButton
-                shadow={false}
-                icon="poll"
-                iconSize={20}
-                iconColor={'#c6c6c6'}
-                style={styles.postType}
-                onPress={() => NavigationService.navigate(Screens.CreatePoll)}
-              />
-              <AppButton
-                shadow={false}
-                icon="versus"
-                iconSize={20}
-                iconColor={'#c6c6c6'}
-                style={[styles.postType, { borderRightWidth: 0 }]}
-                onPress={() =>
-                  NavigationService.navigate(Screens.CreateCompare)
-                }
-              />
-            </View>
+          )}
+        </Formik>
+        {questionUrl && (
+          <View>
+            <RNUrlPreview text={questionUrl} />
           </View>
         )}
-      </Formik>
-      {questionUrl && (
-        <View>
-          <RNUrlPreview text={questionUrl} />
-        </View>
-      )}
-      {isNewUser ? (
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              paddingVertical: 10,
-              paddingHorizontal: 16,
-              backgroundColor: Colors.background,
-            }}>
-            <View style={styles.changeCategoryContainer}>
-              <View>
-                <AppText weight="medium" fontSize={FontSize.xLarge}>
-                  Popular Questions
-                </AppText>
-                <AppText color={Colors.gray} fontSize={FontSize.normal}>
-                  Tap to ask
-                </AppText>
-              </View>
-              <AppButton
-                style={styles.changeCategoryButton}
-                text="Change Category"
-                textStyle={{ fontSize: FontSize.normal, color: Colors.primary }}
-                onPress={() => dispatch(resetSurvey())}
-              />
-            </View>
-          </View>
-          <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-            {popularQuestions.map((q, index) => (
-              <ScaleTouchable
-                key={`${index}_${q}`}
-                style={[
-                  styles.questionItem,
-                  index === popularQuestions.length - 1 &&
-                    styles.lastQuestionItem,
-                ]}
-                onPress={() => sendQuestionFromModal(q)}>
-                <AppText style={{ flex: 1, paddingRight: 24 }} weight="medium">
-                  {q}
-                </AppText>
-                <AppIcon
-                  name="chevron-right"
-                  size={20}
-                  color={'rgba(128, 128, 128, 0.5)'}
+        {isNewUser ? (
+          <View style={{ flex: 1 }}>
+            <View
+              style={{
+                paddingVertical: 10,
+                paddingHorizontal: 16,
+                backgroundColor: Colors.background,
+              }}>
+              <View style={styles.changeCategoryContainer}>
+                <View>
+                  <AppText weight="medium" fontSize={FontSize.xLarge}>
+                    Popular Questions
+                  </AppText>
+                  <AppText color={Colors.gray} fontSize={FontSize.normal}>
+                    Tap to ask
+                  </AppText>
+                </View>
+                <AppButton
+                  style={styles.changeCategoryButton}
+                  text="Change Category"
+                  textStyle={{
+                    fontSize: FontSize.normal,
+                    color: Colors.primary,
+                  }}
+                  onPress={() => dispatch(resetSurvey())}
                 />
-              </ScaleTouchable>
-            ))}
-          </ScrollView>
-        </View>
-      ) : (
-        <View style={styles.flatListView}>
-          <FlatList
-            data={listData}
-            renderItem={renderItem}
-            keyExtractor={(_, index) => index.toString()}
-            ListEmptyComponent={renderEmpty()}
-            refreshing={false}
-            onRefresh={() => {
-              dispatch(getQuestions())
-              dispatch(getPopularQuestions())
-            }}
-            contentContainerStyle={{ paddingBottom: 60 }}
+              </View>
+            </View>
+            <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+              {popularQuestions.map((q, index) => (
+                <ScaleTouchable
+                  key={`${index}_${q}`}
+                  style={[
+                    styles.questionItem,
+                    index === popularQuestions.length - 1 &&
+                      styles.lastQuestionItem,
+                  ]}
+                  onPress={() => sendQuestionFromModal(q)}>
+                  <AppText
+                    style={{ flex: 1, paddingRight: 24 }}
+                    weight="medium">
+                    {q}
+                  </AppText>
+                  <AppIcon
+                    name="chevron-right"
+                    size={20}
+                    color={'rgba(128, 128, 128, 0.5)'}
+                  />
+                </ScaleTouchable>
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <View style={styles.flatListView}>
+            <FlatList
+              data={listData}
+              renderItem={renderItem}
+              keyExtractor={(_, index) => index.toString()}
+              ListEmptyComponent={renderEmpty()}
+              refreshing={false}
+              onRefresh={() => {
+                dispatch(getQuestions())
+                dispatch(getPopularQuestions())
+              }}
+              contentContainerStyle={{ paddingBottom: 60 }}
+            />
+          </View>
+        )}
+        {!keyboard.keyboardShown && (
+          <AppButton
+            text="Ask Me"
+            textStyle={{ marginLeft: 16 }}
+            icon="message-dot"
+            iconSize={20}
+            onPress={onPressAskMeAnything}
+            style={styles.askBtn}
           />
-        </View>
-      )}
-      {!keyboard.keyboardShown && (
-        <AppButton
-          text="Ask Me"
-          textStyle={{ marginLeft: 16 }}
-          icon="message-dot"
-          iconSize={20}
-          onPress={onPressAskMeAnything}
-          style={styles.askBtn}
-        />
-      )}
+        )}
 
-      {isSuccessModalVisible && (
-        <SuccessModal
-          isModalVisible={true}
-          closeModal={() => setSuccessModalVisible(false)}
-        />
-      )}
-    </SafeAreaView>
+        {isSuccessModalVisible && (
+          <SuccessModal
+            isModalVisible={true}
+            closeModal={() => setSuccessModalVisible(false)}
+          />
+        )}
+      </SafeAreaView>
+    </Layout>
   )
 }
 
