@@ -25,6 +25,11 @@ import work from './work.png'
 import newProfile from './new-design/profileEmpty.png'
 import newAnonymous from './new-design/anonymous.png'
 import newNotAnonymous from './new-design/notAnonymous.png'
+import groupFilled from './new-design/groupFilled.png'
+import folderFilled from './new-design/folderFilled.png'
+import logout from './new-design/logout.png'
+import graphFilled from './new-design/graphFilled.png'
+import edit from './new-design/edit.png'
 
 export default {
   logo,
@@ -47,7 +52,13 @@ export default {
   onboarding2,
   onboarding3,
   onboarding4,
+  // New images
   newProfile,
   newAnonymous,
   newNotAnonymous,
+  groupFilled,
+  folderFilled,
+  logout,
+  graphFilled,
+  edit,
 }

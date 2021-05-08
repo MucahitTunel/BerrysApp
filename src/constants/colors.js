@@ -15,4 +15,5 @@ export default {
   purple: '#34153F',
   purpleLight: '#E9E9FA',
   purpleDimmed: '#DFE4F4',
+  purpleText: '#181B41',
 }
