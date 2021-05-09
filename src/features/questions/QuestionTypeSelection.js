@@ -252,9 +252,11 @@ const QuestionTypeSelection = ({ navigation }) => {
       case 'pencil':
         if (!message) return alert('Please write a question to continue!')
         NavigationService.navigate(Screens.PostQuestion)
+        break
       case 'image':
         if (!questionImage) return alert('Please add an image to continue!')
         NavigationService.navigate(Screens.SelectContacts)
+        break
       case 'poll':
         if (!message) return alert('Please write a question to continue!')
         if (pollOptions.filter((p) => p.value === null).length > 0)
@@ -263,6 +265,7 @@ const QuestionTypeSelection = ({ navigation }) => {
         NavigationService.navigate(Screens.SelectContacts, {
           poll: true,
         })
+        break
       case 'versus':
         if (!firstCompareImage || !secondCompareImage)
           return alert('Please add images to continue!')
@@ -270,6 +273,7 @@ const QuestionTypeSelection = ({ navigation }) => {
         NavigationService.navigate(Screens.SelectContacts, {
           compare: true,
         })
+        break
     }
   }
 
