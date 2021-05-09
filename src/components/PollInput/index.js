@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 60,
-    width: Dimensions.Width - 20,
-    borderWidth: 1,
-    borderColor: Colors.grayLight,
     color: 'black',
+    backgroundColor: 'white',
+    borderRadius: 15,
+    flex: 1,
   },
 })
 

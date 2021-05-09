@@ -52,7 +52,7 @@ export default TabStackScreen = ({ navigation }) => {
           listeners={({ navigation, route }) => ({
             tabPress: (e) => {
               e.preventDefault()
-              navigation.navigate(Screens.PostQuestion)
+              navigation.navigate(Screens.QuestionTypeSelection)
             }
           })}
         />

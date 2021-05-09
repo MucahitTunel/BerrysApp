@@ -39,4 +39,5 @@ export default {
   VoiceCall: 'VoiceCall',
   AccountStack: 'AccountStack',
   Account: 'AccountScreen',
+  QuestionTypeSelection: 'QuestionTypeSelectionScreen',
 }

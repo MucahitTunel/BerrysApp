@@ -6,13 +6,13 @@ import { Header, Layout } from 'components'
 import { BackButton } from 'components/NavButton'
 
 import TabStack from './TabNavigator'
+import QuestionTypeSelection from 'features/questions/QuestionTypeSelection'
 import PostQuestion from 'features/questions/PostQuestion'
 import PollDetails from 'features/questions/Polls/Detail'
 import SelectContacts from 'features/contacts/SelectContacts'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
-
 
     const getHeader = (route) => {
         const routeName = route.state
@@ -64,6 +64,10 @@ export default MainStackScreen = ({ navigation }) => {
                     />
                 ),
                 })}
+            />
+            <MainStack.Screen
+                name={Screens.QuestionTypeSelection}
+                component={QuestionTypeSelection}
             />
             <MainStack.Screen
                 name={Screens.PostQuestion}

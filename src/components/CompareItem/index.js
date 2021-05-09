@@ -1,40 +1,45 @@
 import React from 'react'
 import { Image, View, StyleSheet, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
-import { Dimensions, Colors } from 'constants'
+import { Dimensions, Colors, FontSize } from 'constants'
 
 import AppIcon from '../AppIcon'
 import AppText from '../AppText'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.grayLight,
-    height: Dimensions.Height / 2,
-    width: Dimensions.Width / 2.3,
+    backgroundColor: 'white',
+    height: Dimensions.Height / 3,
+    width: Dimensions.Width / 2.4,
   },
   image: {
     resizeMode: 'cover',
-    height: Dimensions.Height / 2,
-    width: Dimensions.Width / 2.3,
+    height: Dimensions.Height / 3,
+    width: Dimensions.Width / 2.4,
   },
   addContainer: {
-    height: 40,
-    width: 40,
+    height: 45,
+    width: 45,
     borderRadius: 100,
-    backgroundColor: Colors.primaryDimmed,
+    borderWidth: 1,
+    borderColor: Colors.purpleDimmed,
     position: 'absolute',
-    left: Dimensions.Width / 6,
-    top: Dimensions.Height / 4.7,
+    alignSelf: 'center',
+    top: '30%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   selected: {
-    height: 55,
-    width: Dimensions.Width / 2.3,
+    width: Dimensions.Width / 3.5,
     position: 'absolute',
-    top: Dimensions.Height / 2.35,
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
+    bottom: '10%',
+    backgroundColor: Colors.purpleLight,
+    height: 40,
+    paddingHorizontal: 10,
   },
 })
 
@@ -48,34 +53,58 @@ const CompareItem = ({
   isCreator,
   style,
   imageStyle,
-  selectedStyle,
+  left,
 }) => {
   return (
     <TouchableOpacity
-      style={[styles.container, { ...style }]}
+      style={[
+        styles.container,
+        {
+          ...style,
+          borderTopLeftRadius: left ? 25 : 0,
+          borderBottomLeftRadius: left ? 25 : 0,
+          borderTopRightRadius: !left ? 25 : 0,
+          borderBottomRightRadius: !left ? 25 : 0,
+        },
+      ]}
       onPress={onPress}
       disabled={selected || isVoted}>
       <Image
         source={{ uri: image }}
-        style={[styles.image, { ...imageStyle }]}
+        style={[
+          styles.image,
+          {
+            ...imageStyle,
+            borderTopLeftRadius: left ? 25 : 0,
+            borderBottomLeftRadius: left ? 25 : 0,
+            borderTopRightRadius: !left ? 25 : 0,
+            borderBottomRightRadius: !left ? 25 : 0,
+          },
+        ]}
       />
       {!image && (
         <View style={styles.addContainer}>
-          <AppIcon name="plus" size={26} color={Colors.primary} />
+          <AppIcon name="camera-outline" size={24} color={Colors.purple} />
         </View>
       )}
-      {isResult && (
-        <View
-          style={[
-            styles.selected,
-            { backgroundColor: selected ? Colors.primary : Colors.gray },
-            { ...selectedStyle },
-          ]}>
-          <AppText color="white">
-            {isVoted || isCreator ? voteNumber + '%' : ''}
+      {!image && (
+        <View style={[styles.selected]}>
+          <AppText
+            color={Colors.purple}
+            fontSize={FontSize.medium}
+            weight="bold">
+            Add Image
           </AppText>
         </View>
       )}
+      {(isResult && isVoted) ||
+        (isCreator && (
+          <View style={[styles.selected]}>
+            <AppText color={Colors.purple}>
+              {isVoted || isCreator ? voteNumber + '%' : ''}
+            </AppText>
+          </View>
+        ))}
     </TouchableOpacity>
   )
 }
@@ -91,6 +120,7 @@ CompareItem.propTypes = {
   style: PropTypes.bool,
   imageStyle: PropTypes.bool,
   selectedStyle: PropTypes.bool,
+  left: PropTypes.bool,
 }
 
 export default CompareItem

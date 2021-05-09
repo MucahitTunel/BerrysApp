@@ -5,17 +5,13 @@ import PropTypes from 'prop-types'
 import {
   FlatList,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   View,
-  Keyboard,
   Image,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
-import { Formik } from 'formik'
 import moment from 'moment'
-import RNUrlPreview from 'react-native-url-preview'
 import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
@@ -23,10 +19,7 @@ import Config from 'react-native-config'
 import {
   AppButton,
   AppIcon,
-  AppImage,
-  AppInput,
   AppText,
-  Avatar,
   ScaleTouchable,
   SuccessModal,
   CompareItem,
@@ -34,19 +27,13 @@ import {
   // CardSwiper
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
-import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import {
-  setUserIsNew,
-  updatePushToken,
-  resetSurvey,
-} from 'features/auth/authSlice'
+import { updatePushToken } from 'features/auth/authSlice'
 import {
   getQuestions,
   hideQuestion,
   hidePoll,
-  hideCompare,
   setCompares,
   getPopularQuestions,
   setPopularCompares,
@@ -60,11 +47,9 @@ import {
   votePopularQuestion,
   setQuestion,
 } from 'features/questions/questionSlice'
-import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
+import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
-import surveysList from '../auth/surveysList'
-import { checkURL } from 'utils'
 import getConversationName from 'utils/get-conversation-name'
 
 ReceiveSharingIntent.getReceivedFiles(
@@ -633,24 +618,17 @@ const Main = ({ route }) => {
   const showSuccessModal =
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.auth.user)
   const questions = useSelector((state) => state.questions)
-  const question = useSelector((state) => state.ask.question)
   const keyboard = useKeyboard()
-  const [questionUrl, setQuestionUrl] = useState(null)
-  const [_, setQuestionFromModal] = useState(null)
-  const [popularQuestions, setPopularQuestions] = useState(
-    surveysList[0].popularQuestions,
-  )
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [listData, setListData] = useState([])
 
   useEffect(() => {
     setListData(
       [
-        ...questions.popularQuestions,
+        /* ...questions.popularQuestions,
         ...questions.popularPolls,
-        ...questions.popularCompares,
+        ...questions.popularCompares, */
         ...questions.data,
         ...questions.polls,
         ...questions.compares,
@@ -767,21 +745,9 @@ const Main = ({ route }) => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(getPopularQuestions())
+    // dispatch(getPopularQuestions())
     dispatch(getRooms())
   }, [dispatch])
-
-  useEffect(() => {
-    const url = checkURL(question)
-    setQuestionUrl(url)
-  }, [questions, question])
-  useEffect(() => {
-    const { survey = surveysList[0].value } = user
-    const surveyQuestions = surveysList.find((x) => x.value === survey)
-      .popularQuestions
-    setPopularQuestions(surveyQuestions || surveysList[0].popularQuestions)
-    setQuestionFromModal(surveyQuestions[0])
-  }, [user])
 
   useEffect(() => {
     if (showSuccessModal) {
@@ -789,25 +755,6 @@ const Main = ({ route }) => {
       NavigationService.updateParams({ showSuccessModal: false })
     }
   }, [showSuccessModal])
-
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
-    setSubmitting(true)
-    const { question } = values
-    if (question) {
-      Keyboard.dismiss()
-      dispatch(setQuestionImage(null))
-      dispatch(setAskQuestion(question))
-      resetForm({})
-      setSubmitting(false)
-      NavigationService.navigate(Screens.PostQuestion)
-    }
-  }
-
-  const sendQuestionFromModal = (q) => {
-    dispatch(setUserIsNew(false))
-    dispatch(setAskQuestion(q))
-    NavigationService.navigate(Screens.SelectContacts)
-  }
 
   const renderEmpty = () => (
     <View
@@ -824,7 +771,6 @@ const Main = ({ route }) => {
     NavigationService.navigate(Screens.AskMe)
   }
 
-  const isNewUser = user.isNew && listData.length === 0
   const renderItem = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'popular-question')
@@ -840,149 +786,20 @@ const Main = ({ route }) => {
     <Layout>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Formik
-          enableReinitialize
-          initialValues={{ question }}
-          onSubmit={onSubmit}>
-          {({ values, handleSubmit, setFieldValue, setValues }) => (
-            <View
-              style={{
-                alignItems: 'center',
-                borderBottomWidth: 4,
-                borderBottomColor: Colors.background,
-              }}>
-              <View style={styles.inputView}>
-                <Avatar source={Images.defaultAvatar} size={50} />
-                <AppInput
-                  style={styles.input}
-                  placeholder="Ask anonymously your contacts..."
-                  multiline
-                  onChange={(value) => {
-                    setFieldValue('question', value)
-                    const url = checkURL(value)
-                    setQuestionUrl(url)
-                  }}
-                  value={values.question}
-                />
-                <AppButton
-                  text="Post"
-                  textStyle={styles.sendBtnText}
-                  icon="send"
-                  iconSize={12}
-                  disabled={!values.question}
-                  style={[
-                    styles.sendBtn,
-                    !values.question && styles.sendBtnDisabled,
-                  ]}
-                  onPress={handleSubmit}
-                />
-              </View>
-              <View style={styles.postTypesContainer}>
-                <AppButton
-                  shadow={false}
-                  icon="image"
-                  iconSize={20}
-                  iconColor={'#c6c6c6'}
-                  style={[styles.postType, { borderLeftWidth: 0 }]}
-                  onPress={() =>
-                    NavigationService.navigate(Screens.QuestionWithImage)
-                  }
-                />
-                <AppButton
-                  shadow={false}
-                  icon="poll"
-                  iconSize={20}
-                  iconColor={'#c6c6c6'}
-                  style={styles.postType}
-                  onPress={() => NavigationService.navigate(Screens.CreatePoll)}
-                />
-                <AppButton
-                  shadow={false}
-                  icon="versus"
-                  iconSize={20}
-                  iconColor={'#c6c6c6'}
-                  style={[styles.postType, { borderRightWidth: 0 }]}
-                  onPress={() =>
-                    NavigationService.navigate(Screens.CreateCompare)
-                  }
-                />
-              </View>
-            </View>
-          )}
-        </Formik>
-        {questionUrl && (
-          <View>
-            <RNUrlPreview text={questionUrl} />
-          </View>
-        )}
-        {isNewUser ? (
-          <View style={{ flex: 1 }}>
-            <View
-              style={{
-                paddingVertical: 10,
-                paddingHorizontal: 16,
-                backgroundColor: Colors.background,
-              }}>
-              <View style={styles.changeCategoryContainer}>
-                <View>
-                  <AppText weight="medium" fontSize={FontSize.xLarge}>
-                    Popular Questions
-                  </AppText>
-                  <AppText color={Colors.gray} fontSize={FontSize.normal}>
-                    Tap to ask
-                  </AppText>
-                </View>
-                <AppButton
-                  style={styles.changeCategoryButton}
-                  text="Change Category"
-                  textStyle={{
-                    fontSize: FontSize.normal,
-                    color: Colors.primary,
-                  }}
-                  onPress={() => dispatch(resetSurvey())}
-                />
-              </View>
-            </View>
-            <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-              {popularQuestions.map((q, index) => (
-                <ScaleTouchable
-                  key={`${index}_${q}`}
-                  style={[
-                    styles.questionItem,
-                    index === popularQuestions.length - 1 &&
-                      styles.lastQuestionItem,
-                  ]}
-                  onPress={() => sendQuestionFromModal(q)}>
-                  <AppText
-                    style={{ flex: 1, paddingRight: 24 }}
-                    weight="medium">
-                    {q}
-                  </AppText>
-                  <AppIcon
-                    name="chevron-right"
-                    size={20}
-                    color={'rgba(128, 128, 128, 0.5)'}
-                  />
-                </ScaleTouchable>
-              ))}
-            </ScrollView>
-          </View>
-        ) : (
-          <View style={styles.flatListView}>
-            <FlatList
-              data={listData}
-              renderItem={renderItem}
-              keyExtractor={(_, index) => index.toString()}
-              ListEmptyComponent={renderEmpty()}
-              refreshing={false}
-              onRefresh={() => {
-                dispatch(getQuestions())
-                dispatch(getPopularQuestions())
-              }}
-              contentContainerStyle={{ paddingBottom: 60 }}
-            />
-          </View>
-        )}
+        <View style={styles.flatListView}>
+          <FlatList
+            data={listData}
+            renderItem={renderItem}
+            keyExtractor={(_, index) => index.toString()}
+            ListEmptyComponent={renderEmpty()}
+            refreshing={false}
+            onRefresh={() => {
+              dispatch(getQuestions())
+              dispatch(getPopularQuestions())
+            }}
+            contentContainerStyle={{ paddingBottom: 60 }}
+          />
+        </View>
         {!keyboard.keyboardShown && (
           <AppButton
             text="Ask Me"

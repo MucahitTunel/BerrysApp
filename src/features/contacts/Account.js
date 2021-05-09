@@ -19,7 +19,11 @@ import { Colors, FontSize } from 'constants'
 import Images from 'assets/images'
 import { useDispatch, useSelector } from 'react-redux'
 import Picker from '../../components/Picker'
-import { updateName, updateSelectedPoints } from 'features/auth/authSlice'
+import {
+  updateName,
+  updateSelectedPoints,
+  logout,
+} from 'features/auth/authSlice'
 import { getMyPosts } from 'features/questions/questionsSlice'
 import { RenderCompare, QuestionItem, PollItem } from '../questions/Main'
 
@@ -236,7 +240,7 @@ const Account = () => {
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}
             />
-            {renderItem('logout')}
+            {renderItem('logout', () => dispatch(logout()))}
             {/* <AppText
           fontSize={FontSize.large}
           weight="italic"
