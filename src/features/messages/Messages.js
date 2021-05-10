@@ -18,6 +18,7 @@ import {
   Loading,
   ScaleTouchable,
   AppImage,
+  Layout,
 } from 'components'
 import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
@@ -47,39 +48,55 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.grayLight,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   flatListView: {
-    backgroundColor: Colors.white,
     flex: 1,
   },
   conversationItemOuter: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 30,
   },
   conversationItemInner: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.grayLight,
   },
   conversationItemChild: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  noBottomBorder: {
-    borderBottomWidth: 0,
+    height: '100%',
   },
   dotNewMessage: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: Colors.primary,
     position: 'absolute',
-    top: 10,
+    top: 45,
     right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  onlineIndicator: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#48EF97',
+    position: 'absolute',
+    top: 0,
+    left: '18%',
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  avatarBackGround: {
+    height: 70,
+    width: 70,
+    borderRadius: 35,
+    backgroundColor: Colors.grayLight,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 
@@ -91,18 +108,18 @@ export const Messages = ({ route, navigation }) => {
   const { loading, rooms } = messagesState
 
   // If a user posts a question, they are not new anymore
-  const isNewUser = !(
+  const isNewUser = true /* !(
     questions.data.find((q) => user.phoneNumber === q.userPhoneNumber) ||
     questions.compares.find((q) => user.phoneNumber === q.userPhoneNumber) ||
     questions.polls.find((q) => user.phoneNumber === q.userPhoneNumber)
-  )
+  ) */
   const askRequests = isNewUser
     ? [
         {
           receivers: [
             {
               hasAsked: false,
-              phoneNumber: '+905358982130',
+              phoneNumber: user.phoneNumber,
             },
           ],
           requester: `Berry's Expert`,
@@ -153,18 +170,18 @@ export const Messages = ({ route, navigation }) => {
       } else {
         const amount = uniqueRequests.length - 1
         return (
-          <AppText weight="medium" fontSize={FontSize.normal}>
+          <AppText weight="bold" fontSize={FontSize.normal}>
             <AppText
               color={Colors.primary}
               fontSize={FontSize.normal}
-              weight="medium">
+              weight="bold">
               {uniqueRequests[0].requester}
             </AppText>
             {` and `}
             <AppText
               color={Colors.primary}
               fontSize={FontSize.normal}
-              weight="medium">
+              weight="bold">
               {`${amount}${amount === 1 ? ' User' : ' Users'}`}
             </AppText>
           </AppText>
@@ -178,10 +195,11 @@ export const Messages = ({ route, navigation }) => {
           flexDirection: 'row',
           alignItems: 'center',
           padding: 16,
-          paddingRight: 12,
-          backgroundColor: Colors.white,
-          borderBottomWidth: 4,
-          borderColor: Colors.background,
+          paddingTop: 0,
+          paddingHorizontal: 10,
+          borderBottomWidth: 1,
+          borderColor: Colors.grayLight,
+          marginHorizontal: 20,
         }}
         onPress={() => onPressRequestToAsk()}>
         <View style={{ flex: 1 }}>
@@ -192,15 +210,15 @@ export const Messages = ({ route, navigation }) => {
             }}>
             <View
               style={{
-                width: 36,
-                height: 36,
-                borderRadius: 18,
+                width: 70,
+                height: 70,
+                borderRadius: 35,
                 backgroundColor: 'rgba(235, 84, 80, 0.19)',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: 10,
               }}>
-              <AppImage source={Images.message} width={17} height={15} />
+              <AppImage source={Images.message} width={20} height={25} />
             </View>
             <AppText
               style={{
@@ -208,8 +226,9 @@ export const Messages = ({ route, navigation }) => {
                 lineHeight: 20,
                 flex: 1,
                 flexWrap: 'wrap',
+                color: 'black',
               }}
-              weight="medium"
+              weight="bold"
               fontSize={FontSize.normal}>
               {renderRequester()}
               {` invited you to ask your questions anonymously`}
@@ -221,50 +240,50 @@ export const Messages = ({ route, navigation }) => {
             marginLeft: 16,
             flexDirection: 'row',
           }}>
-          <AppIcon name="chevron-right" size={20} color={Colors.primary} />
+          <AppIcon name="chevron-right" size={20} color="black" />
         </View>
       </ScaleTouchable>
     )
   }
 
-  const renderConversationItem = (conversation, index, rooms) => {
-    const { lastMessage, isNew } = conversation
+  const renderConversationItem = ({ item, index }) => {
+    const { lastMessage, isNew } = item
     const content = (lastMessage && lastMessage.content) || ''
     const isMyMessage =
       lastMessage && user.phoneNumber === lastMessage.userPhoneNumber
     const time = (lastMessage && lastMessage.createdAt) || Date.now()
     const timeText = moment(time).fromNow()
-    const title = getConversationName(conversation).title
+    const title = getConversationName(item).title
     return (
       <TouchableOpacity
         style={styles.conversationItemOuter}
-        onPress={() => onPressConversation(conversation)}>
-        <View
-          style={[
-            styles.conversationItemInner,
-            index === rooms.length - 1 && styles.noBottomBorder,
-          ]}>
+        onPress={() => onPressConversation(item)}>
+        <View style={styles.conversationItemInner}>
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
-            <Avatar size={40} />
-            <View style={{ marginLeft: 10, width: '80%' }}>
-              <AppText weight={isNew ? 'bold' : 'medium'}>{title}</AppText>
+            <View style={styles.avatarBackGround}>
+              <Avatar size={28} source={Images.newProfile} />
+            </View>
+            {/* {true && <View style={styles.onlineIndicator} />} */}
+            <View style={{ marginLeft: 15, width: '80%' }}>
+              <AppText weight="bold" style={{ color: 'black' }}>
+                {title}
+              </AppText>
               <AppText
                 numberOfLines={1}
                 ellipsizeMode="tail"
-                color={isNew ? Colors.text : Colors.gray}
+                color={Colors.gray}
                 fontSize={FontSize.normal}
                 style={{ marginTop: 4 }}>{`${
-                isMyMessage ? 'You:' : ''
-              } ${content}`}</AppText>
+                isMyMessage ? 'You: ' : ''
+              }${content}`}</AppText>
             </View>
           </View>
-          <View style={[styles.conversationItemChild]}>
+          <View
+            style={[
+              styles.conversationItemChild,
+              { alignItems: 'flex-start' },
+            ]}>
             <AppText color={Colors.gray}>{timeText}</AppText>
-            <AppIcon
-              name="chevron-right"
-              size={20}
-              color={'rgba(128, 128, 128, 0.5)'}
-            />
           </View>
           {isNew && <View style={styles.dotNewMessage} />}
         </View>
@@ -273,25 +292,25 @@ export const Messages = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.flatListView}>
-        <RequestToAsk requests={askRequests} />
-        {loading ? (
-          <Loading />
-        ) : (
-          <FlatList
-            data={rooms}
-            renderItem={({ item, index }) =>
-              renderConversationItem(item, index, rooms)
-            }
-            keyExtractor={(item) => item._id}
-            refreshing={loading}
-            onRefresh={() => dispatch(getRooms())}
-          />
-        )}
+    <Layout>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.flatListView}>
+          <RequestToAsk requests={askRequests} />
+          {loading ? (
+            <Loading />
+          ) : (
+            <FlatList
+              data={rooms}
+              renderItem={renderConversationItem}
+              keyExtractor={(item) => item._id}
+              refreshing={loading}
+              onRefresh={() => dispatch(getRooms())}
+            />
+          )}
+        </View>
       </View>
-    </View>
+    </Layout>
   )
 }
 

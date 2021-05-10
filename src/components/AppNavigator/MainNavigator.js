@@ -2,14 +2,15 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screens } from 'constants'
-import { Header, Layout } from 'components'
-import { BackButton } from 'components/NavButton'
+import { Header } from 'components'
+import { BackButton, ComposeButton } from 'components/NavButton'
 
 import TabStack from './TabNavigator'
 import QuestionTypeSelection from 'features/questions/QuestionTypeSelection'
 import PostQuestion from 'features/questions/PostQuestion'
 import PollDetails from 'features/questions/Polls/Detail'
 import SelectContacts from 'features/contacts/SelectContacts'
+import Conversation from 'features/messages/Conversation'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -31,7 +32,7 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="Messages"
-                        // headerLeft={<BackButton navigation={navigation} />}
+                        headerRight={<ComposeButton navigation={navigation} />}
                     />
                 )
             case 'GroupListScreen':
@@ -81,6 +82,7 @@ export default MainStackScreen = ({ navigation }) => {
                     ),
                     })}
             />
+            <MainStack.Screen name={Screens.Conversation} component={Conversation} />
             <MainStack.Screen
                 name={Screens.PollDetails}
                 component={PollDetails}

@@ -87,9 +87,9 @@ export const AnswerRightButton = ({ onPressDots }) => {
 export const ComposeButton = ({ navigation }) => {
   return (
     <ScaleTouchable
-      style={{ padding: 10 }}
+      style={{ padding: 10, backgroundColor: 'white', borderRadius: 100 }}
       onPress={() => navigation.navigate(Screens.MessageContacts)}>
-      <AppIcon name="plus" size={24} color={Colors.white} />
+      <AppIcon name="plus" size={24} color={Colors.purple} />
     </ScaleTouchable>
   )
 }

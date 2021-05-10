@@ -13,7 +13,14 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import moment from 'moment'
-import { AppText, AppInput, Header, AppButton, AppBadge } from 'components'
+import {
+  AppText,
+  AppInput,
+  Header,
+  AppButton,
+  AppBadge,
+  Layout,
+} from 'components'
 import { MessagesBackButton } from 'components/NavButton'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { pusher } from 'features/auth/authSlice'
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   contentView: {
@@ -50,26 +57,39 @@ const styles = StyleSheet.create({
   },
   messageItemOuter: {
     marginBottom: 4,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     paddingHorizontal: 16,
   },
   messageItemInner: {
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 20,
     borderRadius: 4,
+    borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 0,
     borderWidth: 1,
     borderColor: Colors.grayLight,
-    width: '80%',
+    backgroundColor: 'white',
+    marginVertical: 2,
   },
   myMessageItemInner: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colors.purple,
     borderWidth: 0,
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4,
+    borderTopRightRadius: 16,
+    borderBottomRightRadius: 0,
     borderTopLeftRadius: 16,
     borderBottomLeftRadius: 16,
+  },
+  imageMessage: {
+    height: 300,
+    justifyContent: null,
+    alignItems: null,
+    width: '90%',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   messageItemTime: {
     flexDirection: 'row',
@@ -79,13 +99,12 @@ const styles = StyleSheet.create({
   inputView: {
     padding: 16,
     paddingBottom: 10,
-    backgroundColor: Colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
-    height: 48,
-    borderRadius: 24,
+    height: 70,
+    borderRadius: 10,
     marginLeft: 10,
     flex: 1,
     borderWidth: 1,
@@ -94,16 +113,18 @@ const styles = StyleSheet.create({
     fontSize: FontSize.large,
     paddingVertical: 14,
     paddingHorizontal: 16,
+    paddingRight: 105,
     marginRight: 10,
+    backgroundColor: 'white',
   },
   descriptionBox: {
-    backgroundColor: Colors.white,
     paddingVertical: 10,
+    paddingTop: 0,
     paddingHorizontal: 12,
   },
   description: {
     marginLeft: 8,
-    color: Colors.primaryLight,
+    color: Colors.purpleText,
     textAlign: 'center',
     fontSize: 14,
   },
@@ -225,24 +246,29 @@ const Conversation = ({ navigation }) => {
     })
   }
 
-  const renderMessage = (msg) => {
+  const renderMessage = ({ item }) => {
     const { phoneNumber } = user
-    const isMyMessage = msg.userPhoneNumber === phoneNumber
-    const content = msg && msg.content
+    const isMyMessage = item.userPhoneNumber === phoneNumber
+    const content = item && item.content
 
     const renderContent = () => {
-      if (msg.image)
+      if (item.image)
         return (
           <Image
-            source={{ uri: msg.image }}
-            style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
+            source={{ uri: item.image }}
+            style={{
+              flex: 1,
+              borderRadius: 16,
+              borderBottomLeftRadius: isMyMessage ? 16 : 0,
+              borderBottomRightRadius: isMyMessage ? 0 : 16,
+            }}
           />
         )
       return (
         <AppText
-          fontSize={16}
+          fontSize={14}
           weight="medium"
-          color={isMyMessage ? Colors.white : Colors.black}>
+          color={isMyMessage ? Colors.white : Colors.purpleText}>
           {content}
         </AppText>
       )
@@ -252,21 +278,20 @@ const Conversation = ({ navigation }) => {
       <View
         style={[
           styles.messageItemOuter,
-          { justifyContent: `flex-${isMyMessage ? 'end' : 'start'}` },
+          { alignItems: `flex-${isMyMessage ? 'end' : 'start'}` },
         ]}>
         <View
           style={[
             styles.messageItemInner,
             isMyMessage && styles.myMessageItemInner,
+            item.image && styles.imageMessage,
           ]}>
           {renderContent()}
-          <View style={styles.messageItemTime}>
-            <AppText
-              fontSize={FontSize.normal}
-              color={isMyMessage ? Colors.white : Colors.gray}>
-              {moment(msg.createdAt).format('HH:mm')}
-            </AppText>
-          </View>
+        </View>
+        <View style={styles.messageItemTime}>
+          <AppText fontSize={FontSize.normal} color={Colors.gray}>
+            {moment(item.createdAt).format('HH:mm')}
+          </AppText>
         </View>
       </View>
     )
@@ -344,7 +369,7 @@ const Conversation = ({ navigation }) => {
           )}
         <AppInput
           style={styles.input}
-          placeholder="Enter your message..."
+          placeholder="Send messages..."
           placeholderTextColor={Colors.gray}
           value={message}
           onChange={onChangeMessage}
@@ -352,7 +377,13 @@ const Conversation = ({ navigation }) => {
         <AppButton
           icon="plus"
           iconSize={16}
-          style={{ width: 40, height: 40, marginRight: 10 }}
+          style={{
+            width: 40,
+            height: 40,
+            marginRight: 10,
+            position: 'absolute',
+            right: '20%',
+          }}
           onPress={() => {
             launchImageLibrary(
               {
@@ -368,10 +399,18 @@ const Conversation = ({ navigation }) => {
           }}
         />
         <AppButton
+          shadow={false}
           icon="send"
           iconSize={16}
+          iconColor={Colors.purple}
           disabled={!message}
-          style={{ width: 40, height: 40 }}
+          style={{
+            width: 40,
+            height: 40,
+            position: 'absolute',
+            right: '10%',
+            backgroundColor: Colors.grayLight,
+          }}
           onPress={message ? () => onSendMessage(message) : () => {}}
         />
       </View>
@@ -379,56 +418,58 @@ const Conversation = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View
-        style={[{ flex: 1, paddingBottom: keyboardHeight.current }]}>
-        <StatusBar barStyle="light-content" />
-        <KeyboardListener
-          onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
-          onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
-        />
-        {commonGroup && commonGroup.name && (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '100%',
-              flexDirection: 'row',
-              paddingTop: 4,
-            }}>
-            <AppBadge text={commonGroup.name} />
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <Animated.View
+          style={[{ flex: 1, paddingBottom: keyboardHeight.current }]}>
+          <StatusBar barStyle="light-content" />
+          <KeyboardListener
+            onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
+            onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
+          />
+          {commonGroup && commonGroup.name && (
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                flexDirection: 'row',
+                top: -10,
+              }}>
+              <AppBadge text={commonGroup.name} />
+            </View>
+          )}
+          <View style={styles.descriptionBox}>
+            <AppText style={styles.description}>{description}</AppText>
           </View>
-        )}
-        <View style={styles.descriptionBox}>
-          <AppText style={styles.description}>{description}</AppText>
-        </View>
-        <View style={styles.contentView}>
-          <FlatList
-            inverted
-            ref={(e) => {
-              listRef = e
-            }}
-            data={messages}
-            renderItem={({ item }) => renderMessage(item)}
-            keyExtractor={(item) => String(item._id)}
-          />
-        </View>
-        {imageLoading ? (
-          <ActivityIndicator
-            style={{ marginVertical: 20 }}
-            color={Colors.primary}
-          />
-        ) : (
-          renderInputsCondition()
-        )}
-      </Animated.View>
+          <View style={styles.contentView}>
+            <FlatList
+              inverted
+              ref={(e) => {
+                listRef = e
+              }}
+              data={messages}
+              renderItem={renderMessage}
+              keyExtractor={(item) => String(item._id)}
+            />
+          </View>
+          {imageLoading ? (
+            <ActivityIndicator
+              style={{ marginVertical: 20 }}
+              color={Colors.purple}
+            />
+          ) : (
+            renderInputsCondition()
+          )}
+        </Animated.View>
 
-      <FinishAskingModal
-        isModalVisible={isFinishQuestionModalVisible}
-        setModalVisible={(value) => setIsFinishQuestionModalVisible(value)}
-        pointsToTake={room.pointsToTake}
-      />
-    </SafeAreaView>
+        <FinishAskingModal
+          isModalVisible={isFinishQuestionModalVisible}
+          setModalVisible={(value) => setIsFinishQuestionModalVisible(value)}
+          pointsToTake={room.pointsToTake}
+        />
+      </SafeAreaView>
+    </Layout>
   )
 }
 
