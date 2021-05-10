@@ -113,7 +113,7 @@ const AskMyQuestionModal = ({ isModalVisible, setModalVisible, request }) => {
               <AppButton text="Submit" onPress={onSubmit} />
               <AppButton
                 text="Close"
-                textStyle={{ color: Colors.primary }}
+                textStyle={{ color: Colors.purple }}
                 style={{
                   backgroundColor: Colors.white,
                   marginTop: 12,

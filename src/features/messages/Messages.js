@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   },
   flatListView: {
     flex: 1,
+    paddingBottom: 20,
   },
   conversationItemOuter: {
     paddingHorizontal: 30,

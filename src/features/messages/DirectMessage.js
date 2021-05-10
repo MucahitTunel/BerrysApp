@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.grayLight,
+    backgroundColor: Colors.background,
     flex: 1,
     alignItems: 'center',
   },

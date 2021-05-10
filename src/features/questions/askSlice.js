@@ -99,6 +99,25 @@ export const renewAskRequest = createAsyncThunk(
   },
 )
 
+export const requestAskRequestPoints = createAsyncThunk(
+  'ask/request-points',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    const room = state.messages.room
+    const { data } = await request({
+      method: 'POST',
+      url: 'question/request-ask-request-points',
+      data: {
+        requesterNumber: room.members.filter((m) => m !== user.phoneNumber)[0],
+        roomId: room._id,
+      },
+    })
+    dispatch(setRoom(data.room))
+    return
+  },
+)
+
 export const approveAskRequest = createAsyncThunk(
   'ask/approve-new',
   async (_, { getState, dispatch }) => {

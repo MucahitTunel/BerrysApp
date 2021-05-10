@@ -1,6 +1,7 @@
 import React from 'react'
 import { Colors } from 'constants'
 import AppText from '../AppText'
+import PropTypes from 'prop-types'
 
 const AppBadge = ({
   text,
@@ -25,9 +26,9 @@ const AppBadge = ({
 )
 
 AppBadge.propTypes = {
-  text: String,
-  background: String,
-  color: String,
+  text: PropTypes.string,
+  background: PropTypes.string,
+  color: PropTypes.string,
 }
 
 export default AppBadge

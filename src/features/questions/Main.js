@@ -154,16 +154,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.grayLight,
     flex: 1,
   },
-  askBtn: {
-    height: 48,
-    paddingHorizontal: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 24,
-    width: 182,
-    left: (Dimensions.Width - 182) / 2,
-  },
   sendBtn: {
     height: 25,
     width: 56,
@@ -331,6 +321,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
         style={style}
         imageStyle={style}
         selectedStyle={style}
+        left
       />
       <CompareItem
         image={compare?.images[1]}
@@ -767,10 +758,6 @@ const Main = ({ route }) => {
     </View>
   )
 
-  const onPressAskMeAnything = () => {
-    NavigationService.navigate(Screens.AskMe)
-  }
-
   const renderItem = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'popular-question')
@@ -800,16 +787,6 @@ const Main = ({ route }) => {
             contentContainerStyle={{ paddingBottom: 60 }}
           />
         </View>
-        {!keyboard.keyboardShown && (
-          <AppButton
-            text="Ask Me"
-            textStyle={{ marginLeft: 16 }}
-            icon="message-dot"
-            iconSize={20}
-            onPress={onPressAskMeAnything}
-            style={styles.askBtn}
-          />
-        )}
 
         {isSuccessModalVisible && (
           <SuccessModal

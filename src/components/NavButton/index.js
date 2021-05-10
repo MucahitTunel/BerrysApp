@@ -68,6 +68,12 @@ export const MessagesButton = ({ navigation }) => {
   )
 }
 
+export const AskMeButton = ({ navigation }) => (
+  <ScaleTouchable onPress={() => navigation.navigate(Screens.AskMe)}>
+    <AppIcon name="message-dot" color={Colors.white} />
+  </ScaleTouchable>
+)
+
 export const MenuButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.toggleDrawer()}>
     <AppImage source={Images.menu} width={25} height={10} />

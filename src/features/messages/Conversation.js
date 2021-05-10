@@ -35,6 +35,8 @@ import {
   setAskQuestion,
   renewAskRequest,
   approveAskRequest,
+  requestAskRequestPoints,
+  finishAskingAskRequest,
 } from 'features/questions/askSlice'
 import request from 'services/api'
 import getConversationName from 'utils/get-conversation-name'
@@ -128,6 +130,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
   },
+  pointsInfoContainer: {
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    marginBottom: 20,
+    paddingVertical: 20,
+    borderRadius: 15,
+    paddingHorizontal: 20,
+  },
 })
 
 const Conversation = ({ navigation }) => {
@@ -147,6 +157,9 @@ const Conversation = ({ navigation }) => {
     setIsFinishQuestionModalVisible,
   ] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
+  const [isFromLinkAndNew, setIsFromLinkAndNew] = useState(
+    room.data.isFromLink && messages.length === 0 && room.pointsToTake !== 0,
+  )
 
   useEffect(() => {
     const getCommonGroup = async () => {
@@ -313,22 +326,23 @@ const Conversation = ({ navigation }) => {
   }
 
   const renderInputsCondition = () => {
-    if (room.data.isFromAskMeAnything) {
-      if (room.data.isFromLink) {
-        if (!room.data.requestFinished) return renderInputs()
-        else
-          return (
-            <AppButton
-              text={getAskRequestButtonText()}
-              onPress={() => {
-                if (!room.data.newRequest) dispatch(renewAskRequest())
-                else dispatch(approveAskRequest())
-              }}
-              disabled={getAskRequestButtonActive()}
-            />
-          )
-      } else return renderInputs()
-    } else return renderInputs()
+    return renderInputs()
+    // if (room.data.isFromAskMeAnything) {
+    //   if (room.data.isFromLink) {
+    //     if (!room.data.requestFinished) return renderInputs()
+    //     else return null
+    //       return (
+    //         <AppButton
+    //           text={getAskRequestButtonText()}
+    //           onPress={() => {
+    //             if (!room.data.newRequest) dispatch(renewAskRequest())
+    //             else dispatch(approveAskRequest())
+    //           }}
+    //           disabled={getAskRequestButtonActive()}
+    //         />
+    //       )
+    //   } else return renderInputs()
+    // } else return renderInputs()
   }
 
   const onSendImage = (imageURL) => {
@@ -427,21 +441,136 @@ const Conversation = ({ navigation }) => {
             onWillShow={(event) => showKeyboard(event, keyboardHeight.current)}
             onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
           />
-          {commonGroup && commonGroup.name && (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                flexDirection: 'row',
-                top: -10,
-              }}>
-              <AppBadge text={commonGroup.name} />
+          {room.createdBy === user.phoneNumber && isFromLinkAndNew && (
+            <View style={styles.pointsInfoContainer}>
+              <AppText style={styles.description}>
+                By talking to {getConversationName(room).title} you agree to
+                give {room.pointsToTake} points for his answer
+              </AppText>
+              <AppButton
+                style={{
+                  backgroundColor: Colors.purpleLight,
+                  marginHorizontal: 20,
+                  height: 50,
+                  marginTop: 20,
+                }}
+                onPress={() => setIsFromLinkAndNew(false)}
+                text="Yes"
+                textStyle={{ color: Colors.purple }}
+              />
             </View>
           )}
-          <View style={styles.descriptionBox}>
-            <AppText style={styles.description}>{description}</AppText>
-          </View>
+          {room.createdBy !== user.phoneNumber &&
+            room.data.isFromLink &&
+            !room.data.pointsRequested && (
+              <View style={styles.pointsInfoContainer}>
+                <AppText style={styles.description}>
+                  Request your points after you answer the question
+                </AppText>
+                <AppButton
+                  style={{
+                    backgroundColor: Colors.purpleLight,
+                    marginHorizontal: 20,
+                    height: 50,
+                    marginTop: 20,
+                  }}
+                  onPress={() => dispatch(requestAskRequestPoints())}
+                  text="Request"
+                  textStyle={{ color: Colors.purple }}
+                />
+              </View>
+            )}
+          {room.createdBy === user.phoneNumber &&
+            room.data.isFromLink &&
+            room.data.pointsRequested &&
+            !room.data.requestFinished && (
+              <View style={styles.pointsInfoContainer}>
+                <AppText style={styles.description}>
+                  {getConversationName(room).title} requested you to release
+                  points for his answer
+                </AppText>
+                <AppButton
+                  style={{
+                    backgroundColor: Colors.purpleLight,
+                    marginHorizontal: 20,
+                    height: 50,
+                    marginTop: 20,
+                  }}
+                  onPress={() => dispatch(finishAskingAskRequest())}
+                  text="Release"
+                  textStyle={{ color: Colors.purple }}
+                />
+              </View>
+            )}
+          {room.createdBy === user.phoneNumber &&
+            room.data.isFromLink &&
+            room.data.requestFinished && (
+              <View style={styles.pointsInfoContainer}>
+                <AppText style={styles.description}>
+                  Request to ask another question for {room.pointsToTake} points
+                </AppText>
+                <AppButton
+                  style={{
+                    backgroundColor: Colors.purpleLight,
+                    marginHorizontal: 20,
+                    height: 50,
+                    marginTop: 20,
+                  }}
+                  onPress={() => dispatch(renewAskRequest())}
+                  text="Request"
+                  textStyle={{ color: Colors.purple }}
+                />
+              </View>
+            )}
+          {room.createdBy !== user.phoneNumber &&
+            room.data.isFromLink &&
+            room.data.requestFinished &&
+            room.data.newRequest && (
+              <View style={styles.pointsInfoContainer}>
+                <AppText style={styles.description}>
+                  {getConversationName(room).title} requested to ask another
+                  question
+                </AppText>
+                <AppButton
+                  style={{
+                    backgroundColor: Colors.purpleLight,
+                    marginHorizontal: 20,
+                    height: 50,
+                    marginTop: 20,
+                  }}
+                  onPress={() => dispatch(approveAskRequest())}
+                  text="Approve"
+                  textStyle={{ color: Colors.purple }}
+                />
+              </View>
+            )}
+          {room.createdBy === user.phoneNumber && isFromLinkAndNew ? null : (
+            <>
+              {commonGroup && commonGroup.name && (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    flexDirection: 'row',
+                    top: -10,
+                  }}>
+                  <AppBadge text={commonGroup.name} />
+                </View>
+              )}
+              <View style={styles.descriptionBox}>
+                <AppText style={styles.description}>{description}</AppText>
+              </View>
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: Colors.grayLight,
+                  marginHorizontal: 20,
+                  marginBottom: 5,
+                }}
+              />
+            </>
+          )}
           <View style={styles.contentView}>
             <FlatList
               inverted
@@ -458,7 +587,7 @@ const Conversation = ({ navigation }) => {
               style={{ marginVertical: 20 }}
               color={Colors.purple}
             />
-          ) : (
+          ) : room.createdBy === user.phoneNumber && isFromLinkAndNew ? null : (
             renderInputsCondition()
           )}
         </Animated.View>

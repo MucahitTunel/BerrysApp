@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screens } from 'constants'
 import { Header } from 'components'
-import { BackButton, ComposeButton } from 'components/NavButton'
+import { BackButton, ComposeButton, AskMeButton } from 'components/NavButton'
 
 import TabStack from './TabNavigator'
 import QuestionTypeSelection from 'features/questions/QuestionTypeSelection'
@@ -11,6 +11,10 @@ import PostQuestion from 'features/questions/PostQuestion'
 import PollDetails from 'features/questions/Polls/Detail'
 import SelectContacts from 'features/contacts/SelectContacts'
 import Conversation from 'features/messages/Conversation'
+import AskMe from 'features/contacts/AskMe'
+import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
+import RequestToAsk from 'features/questions/RequestToAsk'
+import DirectMessage from 'features/messages/DirectMessage'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -25,7 +29,7 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="Berrys"
-                        // headerLeft={<BackButton navigation={navigation} />}
+                        headerRight={<AskMeButton navigation={navigation} />}
                     />
                 )
             case 'MessagesScreen':
@@ -94,6 +98,36 @@ export default MainStackScreen = ({ navigation }) => {
                         />
                     ),
                     })}
+            />
+            <MainStack.Screen
+                name={Screens.AskMe}
+                component={AskMe}
+                options={({ navigation }) => ({
+                header: () => (
+                    <Header
+                    title="Ask me"
+                    headerLeft={<BackButton navigation={navigation} />}
+                    />
+                ),
+                })}
+            />
+            <MainStack.Screen
+                name={Screens.ContactsToAskMe}
+                component={ContactsToAskMe}
+                options={({ navigation }) => ({
+                header: () => (
+                    <Header
+                    title="Select Contacts To Ask Me"
+                    headerLeft={<BackButton navigation={navigation} />}
+                    />
+                ),
+                })}
+            />
+            <MainStack.Screen name={Screens.RequestToAsk} component={RequestToAsk} />
+            <MainStack.Screen
+                name={Screens.DirectMessage}
+                component={DirectMessage}
+                options={{ headerShown: false }}
             />
         </MainStack.Navigator>
     )

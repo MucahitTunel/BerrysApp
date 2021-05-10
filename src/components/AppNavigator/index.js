@@ -37,7 +37,7 @@ const AppNavigator = () => {
     config: {
       // Deep link configuration
       screens: {
-        [Screens.MainStack]: {
+        ['main']: {
           screens: {
             [Screens.DirectMessage]: 'app/chat/:userId',
           },
