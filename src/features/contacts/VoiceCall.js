@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native'
 import RtcEngine from 'react-native-agora'
 import { Colors, FontSize } from 'constants'
-import { AppButton, Avatar, AppText } from 'components'
+import { AppButton, Avatar, AppText, Layout } from 'components'
 import PropTypes from 'prop-types'
 import Images from 'assets/images'
 import LeaveModal from './VoiceCallModal'
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: 'transparent',
     paddingTop: 30,
   },
   buttonContainer: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: 10,
     borderWidth: 1.5,
-    borderColor: Colors.primary,
+    borderColor: Colors.purple,
     height: 60,
     width: 60,
     borderRadius: 100,
@@ -178,94 +178,96 @@ const VoiceCall = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <AppText
-        weight="medium"
-        fontSize={FontSize.xxxLarge}
-        color={Colors.primary}
-        style={{ marginBottom: 20 }}>
-        {route.params.userName}
-      </AppText>
-      <Avatar source={Images.defaultAvatar} size={150} />
-      <View style={styles.buttonContainer}>
-        <AppButton
-          icon="mask"
-          iconColor={distorted ? 'white' : Colors.primary}
-          iconSize={20}
-          onPress={switchDistortion}
-          style={[
-            styles.button,
-            {
-              backgroundColor: distorted ? Colors.primary : 'transparent',
-              marginBottom: 10,
-            },
-          ]}
-          shadow={false}
-        />
+    <Layout>
+      <View style={styles.container}>
         <AppText
           weight="medium"
-          fontSize={FontSize.xLarge}
-          color={Colors.primary}
+          fontSize={FontSize.xxxLarge}
+          color={Colors.purpleText}
           style={{ marginBottom: 20 }}>
-          {!distorted ? 'Distortion is off' : 'Distortion is on'}
+          {route.params.userName}
         </AppText>
-        <View style={{ flexDirection: 'row' }}>
+        <Avatar source={Images.defaultAvatar} size={150} />
+        <View style={styles.buttonContainer}>
           <AppButton
-            icon="volume-high"
-            iconColor={speakerPhone ? 'white' : Colors.primary}
+            icon="mask"
+            iconColor={distorted ? 'white' : Colors.purple}
             iconSize={20}
-            onPress={switchSpeakerphone}
+            onPress={switchDistortion}
             style={[
               styles.button,
               {
-                backgroundColor: speakerPhone ? Colors.primary : 'transparent',
+                backgroundColor: distorted ? Colors.purple : 'transparent',
+                marginBottom: 10,
               },
             ]}
             shadow={false}
           />
-          <AppButton
-            icon="mute"
-            iconColor={!openMicrophone ? 'white' : Colors.primary}
-            iconSize={20}
-            onPress={switchMicrophone}
-            style={[
-              styles.button,
-              {
-                backgroundColor: !openMicrophone
-                  ? Colors.primary
-                  : 'transparent',
-              },
-            ]}
-            shadow={false}
-          />
-          <AppButton
-            icon="close"
-            iconSize={20}
-            onPress={() => setIsLeaveModalVisible(true)}
-            style={[styles.button]}
-            shadow={false}
-          />
+          <AppText
+            weight="medium"
+            fontSize={FontSize.xLarge}
+            color={Colors.purpleText}
+            style={{ marginBottom: 20 }}>
+            {!distorted ? 'Distortion is off' : 'Distortion is on'}
+          </AppText>
+          <View style={{ flexDirection: 'row' }}>
+            <AppButton
+              icon="volume-high"
+              iconColor={speakerPhone ? 'white' : Colors.purple}
+              iconSize={20}
+              onPress={switchSpeakerphone}
+              style={[
+                styles.button,
+                {
+                  backgroundColor: speakerPhone ? Colors.purple : 'transparent',
+                },
+              ]}
+              shadow={false}
+            />
+            <AppButton
+              icon="mute"
+              iconColor={!openMicrophone ? 'white' : Colors.purple}
+              iconSize={20}
+              onPress={switchMicrophone}
+              style={[
+                styles.button,
+                {
+                  backgroundColor: !openMicrophone
+                    ? Colors.purple
+                    : 'transparent',
+                },
+              ]}
+              shadow={false}
+            />
+            <AppButton
+              icon="close"
+              iconSize={20}
+              onPress={() => setIsLeaveModalVisible(true)}
+              style={[styles.button]}
+              shadow={false}
+            />
+          </View>
         </View>
+
+        <LeaveModal
+          question="Are you sure you want to leave?"
+          isModalVisible={isLeaveModalVisible}
+          setModalVisible={(value) => setIsLeaveModalVisible(value)}
+          onPress={leaveChannel}
+        />
+
+        <AnonymousModal
+          question="Do you want to distort your voice and be anonymous?"
+          isModalVisible={isAnonymousModalVisible}
+          setModalVisible={(value) => setIsAnonymousModalVisible(value)}
+          onPress={() => {
+            engine.setLocalVoicePitch(0.82)
+            setDistorted(true)
+            setIsAnonymousModalVisible(false)
+          }}
+        />
       </View>
-
-      <LeaveModal
-        question="Are you sure you want to leave?"
-        isModalVisible={isLeaveModalVisible}
-        setModalVisible={(value) => setIsLeaveModalVisible(value)}
-        onPress={leaveChannel}
-      />
-
-      <AnonymousModal
-        question="Do you want to distort your voice and be anonymous?"
-        isModalVisible={isAnonymousModalVisible}
-        setModalVisible={(value) => setIsAnonymousModalVisible(value)}
-        onPress={() => {
-          engine.setLocalVoicePitch(0.82)
-          setDistorted(true)
-          setIsAnonymousModalVisible(false)
-        }}
-      />
-    </View>
+    </Layout>
   )
 }
 

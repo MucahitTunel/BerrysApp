@@ -15,6 +15,7 @@ import AskMe from 'features/contacts/AskMe'
 import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
 import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
+import VoiceCall from 'features/contacts/VoiceCall'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -129,6 +130,13 @@ export default MainStackScreen = ({ navigation }) => {
                 component={DirectMessage}
                 options={{ headerShown: false }}
             />
+      <MainStack.Screen
+        name={Screens.VoiceCall}
+        component={VoiceCall}
+        options={() => ({
+          header: () => <Header title="Voice Call" />
+        })}
+      />
         </MainStack.Navigator>
     )
 }

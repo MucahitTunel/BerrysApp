@@ -40,10 +40,6 @@ const AppNavigator = () => {
         ['main']: {
           screens: {
             [Screens.DirectMessage]: 'app/chat/:userId',
-          },
-        },
-        [Screens.GroupStack]: {
-          screens: {
             [Screens.JoinGroupByLink]: 'app/group/:groupId',
           },
         },

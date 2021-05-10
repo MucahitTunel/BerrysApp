@@ -84,7 +84,7 @@ const VoiceCallModal = ({
               <AppButton text="Yes" onPress={onSubmit} />
               <AppButton
                 text="No"
-                textStyle={{ color: Colors.primary }}
+                textStyle={{ color: Colors.purpleText }}
                 style={{
                   backgroundColor: Colors.white,
                   marginTop: 12,
