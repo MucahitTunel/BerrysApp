@@ -17,6 +17,7 @@ import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
 import VoiceCall from 'features/contacts/VoiceCall'
 import PointsInput from 'features/contacts/PointsInput'
+import Answers from 'features/questions/Answers'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -150,6 +151,7 @@ export default MainStackScreen = ({ navigation }) => {
                     ),
                 })}
             />
+            <MainStack.Screen name={Screens.Answers} component={Answers} />
         </MainStack.Navigator>
     )
 }

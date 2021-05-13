@@ -7,6 +7,7 @@ import AppText from './AppText'
 import Loading from './Loading'
 import Avatar from './Avatar'
 import Header from './Header'
+import ImageHeader from './ImageHeader'
 import SideBarMenu from './SideBarMenu'
 import ContactsList from './ContactsList'
 import ScaleTouchable from './ScaleTouchable'
@@ -29,6 +30,7 @@ export {
   Loading,
   Avatar,
   Header,
+  ImageHeader,
   SideBarMenu,
   ContactsList,
   ScaleTouchable,

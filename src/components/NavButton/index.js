@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
   },
 })
 
-export const BackButton = ({ navigation, onPress }) => (
+export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
   <ScaleTouchable
     onPress={() => {
       if (onPress) onPress()
       navigation.goBack()
     }}>
-    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
+    <AppIcon name="arrow-backward" color={color} size={14} />
   </ScaleTouchable>
 )
 
@@ -81,10 +81,10 @@ export const MenuButton = ({ navigation }) => (
 )
 
 // the 3 dots button
-export const AnswerRightButton = ({ onPressDots }) => {
+export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
   return (
     <ScaleTouchable style={{ padding: 10 }} onPress={onPressDots}>
-      <AppIcon name="more-vertical" size={24} color={Colors.white} />
+      <AppIcon name="more-vertical" size={24} color={color} />
     </ScaleTouchable>
   )
 }

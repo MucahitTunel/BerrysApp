@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -32,7 +33,9 @@ import {
   AppText,
   Avatar,
   Header,
+  ImageHeader,
   Loading,
+  Layout
 } from 'components'
 import AskUserNameModal from './AskUserNameModal'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
@@ -65,13 +68,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   questionItemWrapper: {
-    borderBottomColor: Colors.grayLight,
-    borderBottomWidth: 1,
     paddingTop: 16,
     paddingBottom: 20,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    borderRadius: 15,
+    marginBottom: 15
   },
   questionItem: {
     flexDirection: 'row',
+    alignItems: 'center'
   },
   lastQuestionItemWrapper: {
     borderBottomWidth: 0,
@@ -83,13 +90,12 @@ const styles = StyleSheet.create({
   },
   inputView: {
     padding: 16,
-    backgroundColor: Colors.white,
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
-    height: 48,
-    borderRadius: 24,
+    height: 70,
+    borderRadius: 10,
     marginLeft: 10,
     flex: 1,
     borderWidth: 1,
@@ -99,6 +105,14 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginRight: 10,
+    paddingRight: 110,
+    backgroundColor: 'white'
+  },
+  inputButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
+    right: '10%'
   },
   modalBackdrop: {
     position: 'absolute',
@@ -117,6 +131,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderTopWidth: 1,
     borderColor: Colors.grayLight,
+  },
+  header: {
+    backgroundColor: Colors.purple,
+    width: Dimensions.Width,
   },
 })
 
@@ -177,38 +195,48 @@ const Comment = ({
           <TouchableOpacity onPress={() => onPressUser(comment)}>
             <AppText
               weight="medium"
-              color={Colors.primary}
+              color={Colors.purpleText}
               style={{ marginBottom: 5 }}>
               {isAnonymous ? name : nonAnonymousName}
             </AppText>
-          </TouchableOpacity>
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              style={{ height: Dimensions.Height / 3, resizeMode: 'contain' }}
-            />
-          ) : (
             <AppText
-              weight="italic"
               fontSize={FontSize.normal}
-              style={{ lineHeight: 26 }}
-              color={Colors.gray}>{`"${content}"`}</AppText>
-          )}
+              color={Colors.gray}
+              style={{ marginRight: 14 }}>
+              {moment(createdAt).fromNow()}
+            </AppText>
+          </TouchableOpacity>
         </View>
+        <AppButton
+            icon="more-vertical"
+            iconSize={22}
+            iconColor={Colors.purple}
+            style={{ backgroundColor: 'transparent', justifyContent: 'flex-end' }}
+            onPress={() => {}}
+            shadow={false}
+          />
       </View>
-      <View style={styles.headerAnswerView}>
-        <AppText
-          fontSize={FontSize.normal}
-          color={Colors.gray}
-          style={{ marginRight: 14 }}>
-          {moment(createdAt).fromNow()}
+      <View style={[styles.headerAnswerView, { flex: 1 }]}>
+        {image ? 
+          <Image
+            source={{ uri: image }}
+            style={{ height: Dimensions.Height / 3, resizeMode: 'cover', width: '100%', borderRadius: 15 }}
+          />
+          :
+          <AppText
+          fontSize={FontSize.large}
+          color={Colors.purpleText}
+        >
+          {content}
         </AppText>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      }
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, justifyContent: 'flex-end' }}>
           <AppText fontSize={FontSize.normal}>{`${totalVotes}`}</AppText>
           <TouchableOpacity
             style={{ padding: 5 }}
             onPress={() => upVoteComment(_id)}>
-            <AppIcon name="like" size={20} color={Colors.primary} />
+            <AppIcon name="like" size={20} color={Colors.purple} />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -219,7 +247,6 @@ const Comment = ({
             <AppIcon name="dislike" size={20} color={Colors.gray} />
           </TouchableOpacity>
         </View>
-      </View>
     </View>
   )
 }
@@ -310,29 +337,30 @@ const Answers = ({ route, navigation }) => {
   const [imageModalVisible, setImageModalVisible] = useState(false)
 
   useLayoutEffect(() => {
-    // Have to move this logic here because
-    // https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
-    // eslint-disable-next-line react/prop-types
     navigation.setOptions({
-      header: () => (
-        <Header
-          headerLeft={
-            <BackButton
-              navigation={navigation}
-              onPress={() => NavigationService.goBack()}
-            />
-          }
-          headerRight={
-            route.params.isPopular ? null : (
-              <AnswerRightButton
-                onPressDots={() => setIsFlagModalVisible(true)}
+      header: () => {
+        return question?.image ? null : 
+        (
+          <Header
+            title="Post"
+            headerLeft={
+              <BackButton
+                navigation={navigation}
+                onPress={() => NavigationService.goBack()}
               />
-            )
-          }
-        />
-      ),
+            }
+            headerRight={
+              route.params.isPopular ? null : (
+                <AnswerRightButton
+                  onPressDots={() => setIsFlagModalVisible(true)}
+                />
+              )
+            }
+          />
+        )
+      },
     })
-  }, [navigation, route])
+  }, [navigation, route, question])
 
   useEffect(() => {
     if (question) {
@@ -341,8 +369,8 @@ const Answers = ({ route, navigation }) => {
   }, [dispatch, question])
 
   const renderEmpty = () => (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <AppText style={{ textAlign: 'center' }}>There's no answer yet</AppText>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
+      <AppText style={{ textAlign: 'center', color: Colors.purpleText }}>There's no answer yet</AppText>
     </View>
   )
 
@@ -415,7 +443,38 @@ const Answers = ({ route, navigation }) => {
   const flagButtonText = `${isFlagged ? 'Unflag' : 'Flag'} this question`
   const isQuestionOwner = userPhoneNumber === user.phoneNumber
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+    <>
+    {!question.image ?
+      (<View style={styles.header}>
+        <AppText
+          weight="bold"
+          fontSize={FontSize.xxLarge}
+          style={{ color: 'white', marginLeft: 15, marginBottom: 30 }}>
+          {message}
+        </AppText>
+      </View>) :
+      (
+        <ImageHeader
+        title="Post"
+        headerLeft={
+          <BackButton
+            navigation={navigation}
+            onPress={() => NavigationService.goBack()}
+          />
+        }
+        headerRight={
+          route.params.isPopular ? null : (
+            <AnswerRightButton
+              onPressDots={() => setIsFlagModalVisible(true)}
+            />
+          )
+        }
+        image={question.image}
+      />
+      )
+    }
+    <Layout style={{ top: question.image ? -30 : 0, backgroundColor: question.image ? 'transparent' : Colors.purple }} innerStyle={{ paddingTop: question.image ? 10 : 30 }}>
+    <SafeAreaView style={{ flex: 1, top: question.image ? 20 : 0 }}>
       <Animated.View style={{ flex: 1, paddingBottom: keyboardHeight.current }}>
         <StatusBar barStyle="light-content" />
         <KeyboardListener
@@ -423,7 +482,16 @@ const Answers = ({ route, navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         <ScrollView>
-          <View style={styles.headerView}>
+        {question.image && 
+              <AppText
+                weight="bold"
+                color={Colors.purpleText}
+                fontSize={FontSize.xxLarge}
+                style={{ marginLeft: 30, marginBottom: 15 }}>
+                {message ? message : 'What do you think about this?'}
+              </AppText>
+          }
+          {/* <View style={styles.headerView}>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
                 {url ? (
@@ -521,7 +589,7 @@ const Answers = ({ route, navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
+          </View> */}
           <View style={styles.flatListView}>
             <FlatList
               scrollEnabled={false}
@@ -540,11 +608,6 @@ const Answers = ({ route, navigation }) => {
               ListEmptyComponent={renderEmpty()}
               refreshing={loading}
               onRefresh={() => refreshQuestion(question._id)}
-              contentContainerStyle={{
-                backgroundColor: Colors.white,
-                paddingHorizontal: 16,
-                minHeight: '100%',
-              }}
             />
           </View>
         </ScrollView>
@@ -568,39 +631,44 @@ const Answers = ({ route, navigation }) => {
                       onChange={handleChange('cmt')}
                       value={values.cmt}
                     />
-                    <AppButton
-                      icon="plus"
-                      iconSize={16}
-                      style={{ width: 40, height: 40, marginRight: 10 }}
-                      onPress={() => {
-                        launchImageLibrary(
-                          {
-                            mediaType: 'photo',
-                            quality: 0.1,
-                          },
-                          (response) => {
-                            if (response.didCancel) return
-                            if (response.errorCode) return
-                            onSendImage(response.uri, handleSubmit)
-                          },
-                        )
-                      }}
-                    />
-                    <AppButton
-                      icon="send"
-                      iconSize={16}
-                      disabled={!values.cmt}
-                      style={{ width: 40, height: 40 }}
-                      onPress={
-                        question.isAbleToAnswer ? handleSubmit : () => {}
-                      }
-                    />
+                    <View style={styles.inputButtons}>
+                      <AppButton
+                        icon="image"
+                        iconSize={16}
+                        style={{ width: 40, height: 40, marginRight: 10 }}
+                        onPress={() => {
+                          launchImageLibrary(
+                            {
+                              mediaType: 'photo',
+                              quality: 0.1,
+                            },
+                            (response) => {
+                              if (response.didCancel) return
+                              if (response.errorCode) return
+                              onSendImage(response.uri, handleSubmit)
+                            },
+                          )
+                        }}
+                        shadow={false}
+                      />
+                      <AppButton
+                        icon="send"
+                        iconSize={22}
+                        iconColor={Colors.purple}
+                        disabled={!values.cmt}
+                        style={{ width: 40, height: 40, backgroundColor: Colors.background }}
+                        onPress={
+                          question.isAbleToAnswer ? handleSubmit : () => {}
+                        }
+                        shadow={false}
+                      />
+                    </View>
                   </View>
                 )}
               </>
             )}
           </Formik>
-          <View
+          {/* <View
             style={{
               padding: 12,
               backgroundColor: 'white',
@@ -626,7 +694,7 @@ const Answers = ({ route, navigation }) => {
                 </AppText>
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {/* Flag question modal */}
@@ -637,7 +705,7 @@ const Answers = ({ route, navigation }) => {
           animationOutTiming={300}>
           <View style={Theme.Modal.modalInnerView}>
             <View style={styles.modalBackdrop}>
-              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+              <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
             </View>
             <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
               <View style={{ marginVertical: 16 }}>
@@ -648,7 +716,7 @@ const Answers = ({ route, navigation }) => {
               </View>
               <AppButton
                 text="Close"
-                textStyle={{ color: Colors.primary }}
+                textStyle={{ color: Colors.purple }}
                 style={{ backgroundColor: Colors.white }}
                 onPress={() => setIsFlagModalVisible(false)}
               />
@@ -670,7 +738,7 @@ const Answers = ({ route, navigation }) => {
           animationOutTiming={300}>
           <View style={Theme.Modal.modalInnerView}>
             <View style={styles.modalBackdrop}>
-              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+              <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
             </View>
             <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
               <View style={{ marginVertical: 16 }}>
@@ -678,7 +746,7 @@ const Answers = ({ route, navigation }) => {
               </View>
               <AppButton
                 text="Cancel"
-                textStyle={{ color: Colors.primary }}
+                textStyle={{ color: Colors.purple }}
                 style={{ backgroundColor: Colors.white }}
                 onPress={() => setIsMessageModalVisible(false)}
               />
@@ -696,7 +764,7 @@ const Answers = ({ route, navigation }) => {
             style={Theme.Modal.modalInnerView}
             onPress={() => setImageModalVisible(false)}>
             <View style={styles.modalBackdrop}>
-              <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+              <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
             </View>
             <Image
               source={{ uri: question.image }}
@@ -706,6 +774,8 @@ const Answers = ({ route, navigation }) => {
         </Modal>
       </Animated.View>
     </SafeAreaView>
+    </Layout>
+    </>
   )
 }
 
