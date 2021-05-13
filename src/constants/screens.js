@@ -40,4 +40,5 @@ export default {
   AccountStack: 'AccountStack',
   Account: 'AccountScreen',
   QuestionTypeSelection: 'QuestionTypeSelectionScreen',
+  PointsInput: 'PointsInputScreen',
 }

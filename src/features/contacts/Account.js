@@ -7,25 +7,14 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native'
-import {
-  AppButton,
-  AppInput,
-  AppText,
-  Layout,
-  Avatar,
-  AppIcon,
-} from 'components'
-import { Colors, FontSize } from 'constants'
+import { AppInput, AppText, Layout, Avatar, AppIcon } from 'components'
+import { Colors, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
 import { useDispatch, useSelector } from 'react-redux'
-import Picker from '../../components/Picker'
-import {
-  updateName,
-  updateSelectedPoints,
-  logout,
-} from 'features/auth/authSlice'
+import { updateName, logout } from 'features/auth/authSlice'
 import { getMyPosts } from 'features/questions/questionsSlice'
 import { RenderCompare, QuestionItem, PollItem } from '../questions/Main'
+import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -84,12 +73,6 @@ const styles = StyleSheet.create({
   },
 })
 
-const POINTS = [
-  { label: 'Free', value: 0 },
-  { label: '10', value: 10 },
-  { label: '20', value: 20 },
-]
-
 const Account = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
@@ -100,28 +83,15 @@ const Account = () => {
 
   const [editName, setEditName] = useState(false)
   const [name, setName] = useState('')
-  const [points, setPoints] = useState(0)
-  const [showPoints, setShowPoints] = useState(false)
 
   useEffect(() => {
     setName(user?.name ? user.name : '')
     // dispatch(getMyPosts())
   }, [user, dispatch])
 
-  useEffect(() => {
-    if (user?.selectedPoints) setPoints(user.selectedPoints)
-  }, [user?.selectedPoints])
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowPoints(true)
-    }, 50)
-  }, [])
-
-  const onSubmit = () => {
+  /* const onSubmit = () => {
     dispatch(updateName({ name }))
-    dispatch(updateSelectedPoints(points))
-  }
+  } */
 
   const renderMyPosts = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
@@ -234,7 +204,9 @@ const Account = () => {
                 {`${user.points} Points`}
               </AppText>
             </View>
-            {renderItem('points')}
+            {renderItem('points', () =>
+              NavigationService.navigate(Screens.PointsInput),
+            )}
             {renderItem('contacts')}
             {renderItem('posts')}
             <View
@@ -264,21 +236,6 @@ const Account = () => {
           onChange={(value) => setName(value)}
           value={name}
         /> */}
-            {/* <AppText
-          fontSize={FontSize.large}
-          weight="italic"
-          style={{ color: Colors.primary, marginLeft: 5, marginTop: 20 }}>
-          Points for Answering Each Question:
-        </AppText> */}
-            {/* {showPoints && (
-          <Picker
-            items={POINTS}
-            selectedValue={points}
-            onChange={(value) => {
-              setPoints(value)
-            }}
-          />
-        )} */}
             {/* <AppText
           weight="medium"
           style={{ marginLeft: 10 }}

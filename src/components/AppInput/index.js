@@ -16,13 +16,14 @@ const styles = StyleSheet.create({
   },
 })
 
-const AppInput = ({ value, onChange, error, style, ...rest }) => (
+const AppInput = ({ value, onChange, error, style, numeric, ...rest }) => (
   <React.Fragment>
     <TextInput
       style={[styles.input, style]}
       onChangeText={onChange}
       value={value}
       {...rest}
+      keyboardType={numeric ? 'numeric' : 'default'}
     />
     {error && (
       <AppText
@@ -43,6 +44,7 @@ AppInput.propTypes = {
     PropTypes.objectOf(PropTypes.any),
     PropTypes.arrayOf(PropTypes.any),
   ]),
+  numeric: PropTypes.bool,
 }
 
 AppInput.defaultProps = {

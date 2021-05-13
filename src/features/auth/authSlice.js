@@ -242,14 +242,15 @@ export const updateName = createAsyncThunk(
 
 export const updateSelectedPoints = createAsyncThunk(
   'auth/updatePoints',
-  async (selectedPoints, { getState, dispatch }) => {
+  async ({ questionPoints, callPoints }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     await request({
       method: 'POST',
       url: 'account/points',
       data: {
-        selectedPoints,
+        questionPoints,
+        callPoints,
         userId: user._id,
       },
     })

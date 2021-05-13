@@ -16,6 +16,7 @@ import ContactsToAskMe from 'features/contacts/ContactsToAskMe'
 import RequestToAsk from 'features/questions/RequestToAsk'
 import DirectMessage from 'features/messages/DirectMessage'
 import VoiceCall from 'features/contacts/VoiceCall'
+import PointsInput from 'features/contacts/PointsInput'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -130,13 +131,25 @@ export default MainStackScreen = ({ navigation }) => {
                 component={DirectMessage}
                 options={{ headerShown: false }}
             />
-      <MainStack.Screen
-        name={Screens.VoiceCall}
-        component={VoiceCall}
-        options={() => ({
-          header: () => <Header title="Voice Call" />
-        })}
-      />
+            <MainStack.Screen
+                name={Screens.VoiceCall}
+                component={VoiceCall}
+                options={() => ({
+                header: () => <Header title="Voice Call" />
+                })}
+            />
+            <MainStack.Screen
+                name={Screens.PointsInput}
+                component={PointsInput}
+                options={({ navigation }) => ({
+                    header: () => (
+                        <Header
+                            title="Points per Answer"
+                            headerLeft={<BackButton navigation={navigation} />}
+                        />
+                    ),
+                })}
+            />
         </MainStack.Navigator>
     )
 }
