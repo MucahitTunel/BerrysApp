@@ -26,6 +26,7 @@ import newProfile from './new-design/profileEmpty.png'
 import newAnonymous from './new-design/anonymous.png'
 import newNotAnonymous from './new-design/notAnonymous.png'
 import groupFilled from './new-design/groupFilled.png'
+import groupEmpty from './new-design/groupEmpty.png'
 import folderFilled from './new-design/folderFilled.png'
 import logout from './new-design/logout.png'
 import graphFilled from './new-design/graphFilled.png'
@@ -57,6 +58,7 @@ export default {
   newAnonymous,
   newNotAnonymous,
   groupFilled,
+  groupEmpty,
   folderFilled,
   logout,
   graphFilled,

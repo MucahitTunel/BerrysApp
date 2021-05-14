@@ -211,6 +211,9 @@ const questionsSlice = createSlice({
       })
       state.compares = newCompares
     },
+    setPolls: (state, action) => {
+      state.polls = action.payload
+    },
     setCompares: (state, action) => {
       state.compares = action.payload
     },
@@ -267,5 +270,6 @@ export const {
     setCompares,
     setPopularPolls,
     setPopularCompares,
+    setPolls,
   },
 } = questionsSlice

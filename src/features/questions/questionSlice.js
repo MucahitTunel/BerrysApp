@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
-import { getQuestions } from './questionsSlice'
+import { getQuestions, setPolls } from './questionsSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
 import firebase from '../../services/firebase'
@@ -166,16 +166,31 @@ export const getPoll = createAsyncThunk(
 
 export const votePoll = createAsyncThunk(
   'poll/vote',
-  async (option, { getState, dispatch }) => {
+  async ({ option, pollId }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { poll } = state.question
-    const { data } = await request({
+    const polls = state.questions.polls
+    await request({
       method: 'POST',
       url: 'poll/vote',
-      data: { pollId: poll._id, userPhoneNumber: user.phoneNumber, option },
+      data: { pollId, userPhoneNumber: user.phoneNumber, option },
     })
-    return data.poll
+    dispatch(
+      setPolls(
+        polls.map((p) => {
+          if (p._id === pollId)
+            return {
+              ...p,
+              votes: [
+                ...p.votes,
+                { userPhoneNumber: user.phoneNumber, value: option },
+              ],
+            }
+          return p
+        }),
+      ),
+    )
+    return
   },
 )
 
@@ -311,9 +326,6 @@ const questionSlice = createSlice({
       state.loading = false
     },
     [getPoll.fulfilled]: (state, action) => {
-      state.poll = action.payload
-    },
-    [votePoll.fulfilled]: (state, action) => {
       state.poll = action.payload
     },
     [createCompare.pending]: (state) => {

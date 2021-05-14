@@ -1,68 +1,75 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
-import { Colors, Dimensions } from 'constants'
+import { Colors, Dimensions, FontSize } from 'constants'
 
-import AppButton from '../AppButton'
+import AppText from '../AppText'
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-  },
-  selected: {
-    height: 70,
-    width: 5,
-    left: 10,
-    borderTopLeftRadius: 15,
-    borderBottomLeftRadius: 15,
+    minHeight: 70,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: Colors.grayLight,
   },
   percentage: {
-    height: 70,
-    left: 10,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
+    height: '100%',
+    borderRadius: 7,
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
     position: 'absolute',
-  },
-  option: {
-    width: Dimensions.Width - 20,
-    paddingLeft: 10,
-    marginLeft: 5,
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: Colors.grayLight,
-    height: 70,
+    zIndex: 0,
   },
 })
 
-const PollItem = ({ text, selected, style, onPress, isVoted, voteNumber }) => {
+const PollItem = ({
+  text,
+  style,
+  onPress,
+  showVotes,
+  voteNumber,
+  selectedOption,
+  widthOffset,
+}) => {
   return (
-    <View style={[styles.container, style]}>
+    <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
       <View
         style={[
-          styles.selected,
-          { backgroundColor: selected ? Colors.primary : 'transparent' },
+          styles.percentage,
+          {
+            backgroundColor: showVotes
+              ? selectedOption
+                ? '#A9ABF2'
+                : Colors.grayLight
+              : 'transparent',
+            width:
+              voteNumber === 0
+                ? 0
+                : ((Dimensions.Width - widthOffset) / 100) * voteNumber,
+          },
         ]}
       />
-      <AppButton
-        style={styles.option}
-        leftAlign
-        onPress={onPress}
-        text={text}
-        textStyle={{ color: 'black' }}
-        disabled={isVoted || selected}
-      />
-      {isVoted && (
+      <AppText
+        color={Colors.purpleText}
+        style={{ position: 'absolute', marginLeft: 10, maxWidth: '80%' }}>
+        {text}
+      </AppText>
+      {showVotes && (
         <View
-          style={[
-            styles.percentage,
-            {
-              backgroundColor: Colors.primaryDimmed,
-              width: (Dimensions.Width / 100) * voteNumber - 20,
-            },
-          ]}
-        />
+          style={{
+            position: 'absolute',
+            height: '100%',
+            justifyContent: 'center',
+            right: 10,
+          }}>
+          <AppText color={Colors.purpleText} fontSize={FontSize.normal}>
+            {voteNumber}%
+          </AppText>
+        </View>
       )}
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -70,9 +77,10 @@ export default PollItem
 
 PollItem.propTypes = {
   text: PropTypes.string,
-  selected: PropTypes.bool,
   onPress: PropTypes.func,
+  showVotes: PropTypes.bool,
   style: PropTypes.object,
-  isVoted: PropTypes.bool,
   voteNumber: PropTypes.number,
+  selectedOption: PropTypes.bool,
+  widthOffset: PropTypes.number,
 }

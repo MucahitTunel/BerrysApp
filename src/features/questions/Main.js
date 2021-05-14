@@ -3,16 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
-  FlatList,
+  KeyboardAvoidingView,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   View,
   Image,
+  TouchableOpacity,
+  Platform,
+  ScrollView,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import moment from 'moment'
-import Swipeout from 'react-native-swipeout'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
@@ -20,11 +22,14 @@ import {
   AppButton,
   AppIcon,
   AppText,
+  AppInput,
   ScaleTouchable,
   SuccessModal,
   CompareItem,
   Layout,
-  // CardSwiper
+  CardSwiper,
+  Avatar,
+  PollItem,
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Fonts from 'assets/fonts'
@@ -37,6 +42,7 @@ import {
   setCompares,
   getPopularQuestions,
   setPopularCompares,
+  setPopularPolls,
 } from 'features/questions/questionsSlice'
 import { getRoom, setRoom, getRooms } from 'features/messages/messagesSlice'
 import {
@@ -46,11 +52,14 @@ import {
   voteCompare,
   votePopularQuestion,
   setQuestion,
+  submitComment,
+  votePoll,
 } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import getConversationName from 'utils/get-conversation-name'
+import Images from 'assets/images'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -85,7 +94,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
   },
+  cardItemContainer: {
+    height: '60%',
+    borderRadius: 15,
+    backgroundColor: 'white',
+    borderBottomWidth: 4,
+    borderColor: Colors.background,
+    padding: 20,
+  },
+  cardItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cardItemRelatedContact: {
+    backgroundColor: Colors.purpleLight,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius: 5,
+  },
   questionItem: {
+    height: '50%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
@@ -218,6 +247,27 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: 'transparent',
   },
+  tabContainer: {
+    height: 55,
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    borderRadius: 15,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 5,
+  },
+  tabItem: {
+    height: '100%',
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+  },
+  pollSelectionContainer: {
+    paddingRight: 5,
+  },
 })
 
 export const RenderCompare = ({ compare, isPopular }) => {
@@ -301,97 +351,157 @@ export const RenderCompare = ({ compare, isPopular }) => {
     }
   }
 
+  const height = Dimensions.Height / 3
+  const width = Dimensions.Width / 2.7
+  const selectedWidth = Dimensions.Width / 3.8
+
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 4,
-        borderColor: Colors.background,
-        paddingBottom: 10,
-      }}>
-      <CompareItem
-        image={compare?.images[0]}
-        onPress={() => imageOnPress(0)}
-        selected={selectedOption === 0}
-        voteNumber={votes[0] ? parseInt(votes[0].toFixed(0)) : 0}
-        isVoted={isVoted}
-        isResult
-        isCreator={compare.userPhoneNumber === user.phoneNumber}
-        style={style}
-        imageStyle={style}
-        selectedStyle={style}
-        left
-      />
-      <CompareItem
-        image={compare?.images[1]}
-        onPress={() => imageOnPress(1)}
-        selected={selectedOption === 1}
-        voteNumber={votes[1] ? parseInt(votes[1].toFixed(0)) : 0}
-        isVoted={isVoted}
-        isResult
-        isCreator={compare.userPhoneNumber === user.phoneNumber}
-        style={style}
-        imageStyle={style}
-        selectedStyle={style}
-      />
+    <View style={styles.cardItemContainer}>
+      {renderCardHeader(compare._id, 'Contact 01', compare.createdAt)}
+      {compare.question && (
+        <AppText
+          style={{ marginTop: 20 }}
+          color={Colors.purpleText}
+          fontSize={FontSize.large}>
+          {compare.question}
+        </AppText>
+      )}
       <View
         style={{
-          position: 'absolute',
-          backgroundColor: 'white',
-          height: 60,
-          width: 60,
-          borderRadius: 30,
-          left: Dimensions.Width / 2.37,
-          top: Dimensions.Height / 5,
-          justifyContent: 'center',
+          flexDirection: 'row',
+          flex: 1,
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}>
-        <AppText
-          fontSize={FontSize.xxxLarge}
-          weight="bold"
-          color={Colors.primary}>
-          VS
+        <CompareItem
+          height={height}
+          width={width}
+          selectedWidth={selectedWidth}
+          image={compare?.images[0]}
+          onPress={() => imageOnPress(0)}
+          left
+          selected={selectedOption === 0}
+          voteNumber={votes[0] ? parseInt(votes[0].toFixed(0)) : 0}
+          isVoted={isVoted}
+          isResult
+          isCreator={compare.userPhoneNumber === user.phoneNumber}
+        />
+        <CompareItem
+          height={height}
+          width={width}
+          selectedWidth={selectedWidth}
+          image={compare?.images[1]}
+          onPress={() => imageOnPress(1)}
+          selected={selectedOption === 1}
+          voteNumber={votes[1] ? parseInt(votes[1].toFixed(0)) : 0}
+          isVoted={isVoted}
+          isResult
+          isCreator={compare.userPhoneNumber === user.phoneNumber}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            backgroundColor: '#ED4062',
+            height: 70,
+            width: 70,
+            borderRadius: 35,
+            left: '39%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}>
+          <AppText fontSize={FontSize.xxxLarge} weight="bold" color="white">
+            VS
+          </AppText>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 12,
+        }}>
+        <AppText fontSize={15} color={Colors.gray}>
+          {`Versus - ${compare.votes.length} Votes`}
         </AppText>
       </View>
     </View>
   )
 }
 
-const RenderQuestionImage = ({ questionId, image, isNew, dispatch }) => {
+const RenderQuestionImage = ({
+  questionId,
+  image,
+  dispatch,
+  createdAt,
+  content,
+  comments,
+}) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
     NavigationService.navigate(Screens.Answers, { isPopular: false })
   }
 
   return (
-    <View>
-      <Image
-        source={{ uri: image }}
-        style={{ height: Dimensions.Width, width: undefined }}
-      />
-      <ScaleTouchable
-        style={[
-          {
+    <TouchableOpacity
+      style={styles.cardItemContainer}
+      onPress={onPressQuestion}>
+      <View style={{ flex: 1 }}>
+        {renderCardHeader(questionId, 'Contact 01', createdAt)}
+        <Image
+          source={{ uri: image }}
+          style={{ flex: 1, width: '100%', marginTop: 20, borderRadius: 15 }}
+        />
+        {content && (
+          <AppText
+            style={{ marginTop: 20 }}
+            color={Colors.purpleText}
+            fontSize={FontSize.large}>
+            {content}
+          </AppText>
+        )}
+        <View
+          style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            borderBottomWidth: 4,
-            borderColor: Colors.background,
-          },
-          isNew && styles.newAnswer,
-        ]}
-        onPress={onPressQuestion}>
-        <AppText color="black" fontSize={FontSize.large} weight="medium">
-          Comment
-        </AppText>
-        <AppIcon
-          name="chevron-right"
-          size={20}
-          color={'rgba(128, 128, 128, 0.5)'}
-        />
-      </ScaleTouchable>
+            marginTop: 12,
+          }}>
+          <AppText fontSize={15} color={Colors.gray}>
+            {`Image - ${comments} Response`}
+          </AppText>
+        </View>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const renderCardHeader = (id, contactName, createdAt) => {
+  return (
+    <View>
+      <View style={styles.cardItemHeader}>
+        <Avatar size={42} />
+        <View style={{ marginLeft: 10 }}>
+          <AppText color={Colors.purpleText}>{contactName}</AppText>
+          <AppText color={Colors.gray} fontSize={FontSize.normal}>
+            {moment(createdAt).fromNow()}
+          </AppText>
+        </View>
+      </View>
+      <View
+        style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+        <View style={styles.cardItemRelatedContact}>
+          <Avatar source={Images.groupEmpty} size={18} />
+          <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+            My group member
+          </AppText>
+        </View>
+        <View style={[styles.cardItemRelatedContact, { marginLeft: 10 }]}>
+          <Avatar source={Images.groupEmpty} size={18} />
+          <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+            My contacts
+          </AppText>
+        </View>
+      </View>
     </View>
   )
 }
@@ -413,20 +523,26 @@ export const QuestionItem = ({
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
 
+  const [answer, setAnswer] = useState(null)
+  const [isAnonymous, setIsAnonymous] = useState(true)
+
   if (image)
     return (
       <RenderQuestionImage
         questionId={_id}
-        isNew={isNew}
+        createdAt={createdAt}
         image={image}
         dispatch={dispatch}
+        content={content}
+        comments={comments}
       />
     )
 
   if (!user) return null
   const { phoneNumber } = user
   const isFlagged = flaggedBy.includes(phoneNumber)
-  const onPressQuestion = (questionId) => {
+
+  const onPressQuestion = () => {
     if (isPopular)
       dispatch(
         setQuestion({
@@ -438,79 +554,102 @@ export const QuestionItem = ({
           totalVotes,
         }),
       )
-    else dispatch(getQuestion(questionId))
+    else dispatch(getQuestion(_id))
     NavigationService.navigate(Screens.Answers, { isPopular })
   }
-  const onRemoveQuestion = (direction, _id) => {
-    if (direction === 'right') {
-      dispatch(hideQuestion(_id))
-    }
+
+  const onChangeText = (value) => {
+    setAnswer(value === '' ? null : value)
   }
+
+  const sendAnswer = () => {
+    if (!answer) return
+    const payload = {
+      comment: answer,
+      questionId: _id,
+      isAnonymous,
+      isPopular,
+    }
+    setAnswer(null)
+    dispatch(submitComment(payload))
+    onPressQuestion()
+  }
+
   return (
-    <Swipeout
-      style={{ marginBottom: 4 }}
-      onOpen={(sectionID, rowId, direction) => onRemoveQuestion(direction, _id)}
-      right={swipeoutBtns}
-      backgroundColor="transparent"
-      buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable
-        style={[styles.questionItem, isNew && styles.newAnswer]}
-        onPress={() => onPressQuestion(_id)}>
-        {isFlagged && (
-          <View style={{ position: 'absolute', right: 20, top: 10 }}>
-            <AppIcon name="flag" color={Colors.primary} size={20} />
-          </View>
-        )}
-        <View style={{ flex: 1 }}>
-          <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
-            {content}
+    <TouchableOpacity
+      style={styles.cardItemContainer}
+      onPress={onPressQuestion}>
+      <View style={{ flex: 1 }}>
+        {renderCardHeader(_id, 'Contact 01', createdAt)}
+        <AppText
+          style={{ marginTop: 20 }}
+          color={Colors.purpleText}
+          fontSize={FontSize.large}>
+          {content}
+        </AppText>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 12,
+          }}>
+          <AppText fontSize={15} color={Colors.gray}>
+            {`Text - ${comments} Answers`}
           </AppText>
+        </View>
+        <View style={{ flex: 1 }} />
+        <AppText
+          color={Colors.purpleText}
+          fontSize={FontSize.normal}
+          style={{ width: '100%', textAlign: 'center', marginBottom: 5 }}>
+          {`Your answer is ${isAnonymous ? '' : 'not '}anonymous`}
+        </AppText>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+          <AppInput
+            placeholder="Write your message..."
+            onChange={onChangeText}
+            style={{
+              backgroundColor: Colors.background,
+              borderRadius: 15,
+              fontSize: FontSize.normal,
+              color: Colors.purpleText,
+              flex: 1,
+              paddingRight: 75,
+            }}
+            value={answer}
+          />
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              position: 'absolute',
+              right: 10,
             }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText fontSize={15} color={Colors.gray}>
-                {image ? 'Image  -  ' : ''}
-              </AppText>
-              <AppText
-                fontSize={15}
-                weight="medium"
-                style={{ marginRight: 38 }}>
-                {comments}
-                <AppText
-                  fontSize={15}
-                  color={Colors.gray}>{`  answers`}</AppText>
-              </AppText>
-              <AppText
-                fontSize={15}
-                weight="medium"
-                style={{ marginRight: 38 }}>
-                {totalVotes}
-                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
-              </AppText>
-            </View>
+            <AppButton
+              icon="eye-off"
+              iconColor={isAnonymous ? Colors.purple : 'white'}
+              iconSize={22}
+              style={{ backgroundColor: 'transparent', width: 22 }}
+              shadow={false}
+              onPress={() => setIsAnonymous(!isAnonymous)}
+            />
+            <AppButton
+              icon="send"
+              iconColor={Colors.purple}
+              iconSize={22}
+              style={{
+                backgroundColor: 'transparent',
+                width: 22,
+                marginLeft: 10,
+              }}
+              shadow={false}
+              onPress={sendAnswer}
+            />
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <AppText color={Colors.gray} fontSize={FontSize.normal}>
-            {moment(createdAt).fromNow()}
-          </AppText>
-          <AppIcon
-            name="chevron-right"
-            size={20}
-            color={'rgba(128, 128, 128, 0.5)'}
-          />
-        </View>
-      </ScaleTouchable>
-    </Swipeout>
+      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -526,79 +665,111 @@ QuestionItem.propTypes = {
   }),
 }
 
-export const PollItem = ({ data, isPopular }) => {
+export const RenderPoll = ({ poll, isPopular }) => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.user)
+  const popularPolls = useSelector((state) => state.questions.popularPolls)
 
-  const onPress = () => {
-    if (!isPopular) dispatch(getPoll(data._id))
-    NavigationService.navigate(Screens.PollDetails, {
-      isPopular,
-      poll: data,
-    })
-  }
+  const [votes, setVotes] = useState(false)
+  const [isVoted, setIsVoted] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
 
-  const onRemovePoll = (direction, _id) => {
-    if (direction === 'right') {
-      dispatch(hidePoll(_id))
+  useEffect(() => {
+    if (poll && user) {
+      let voted = false
+      let votes = {}
+
+      poll.votes.forEach((v) => {
+        if (votes[v.value]) votes[v.value]++
+        else {
+          votes[v.value] = 1
+        }
+        if (v.userPhoneNumber === user.phoneNumber) voted = v
+      })
+
+      if (voted) {
+        setIsVoted(true)
+        setSelectedOption(voted.value)
+      } else {
+        setIsVoted(false)
+        setSelectedOption(null)
+      }
+
+      Object.keys(votes).forEach((option) => {
+        votes[option] = (100 / poll.votes.length) * votes[option]
+      })
+      setVotes(votes)
     }
+  }, [poll, user])
+
+  const onPress = (selectedOption) => {
+    if (isVoted) return
+    if (isPopular) {
+      dispatch(
+        votePopularQuestion({ popularId: poll._id, vote: selectedOption }),
+      )
+      dispatch(
+        setPopularPolls(
+          popularPolls.map((p) => {
+            if (p._id === poll._id)
+              return {
+                ...p,
+                votes: [
+                  ...p.votes,
+                  { userPhoneNumber: user.phoneNumber, value: selectedOption },
+                ],
+              }
+            return p
+          }),
+        ),
+      )
+    } else dispatch(votePoll({ option: selectedOption, pollId: poll._id }))
   }
 
   return (
-    <Swipeout
-      style={{ marginBottom: 4 }}
-      onOpen={(sectionID, rowId, direction) =>
-        onRemovePoll(direction, data._id)
-      }
-      right={swipeoutBtns}
-      backgroundColor="transparent"
-      buttonWidth={Dimensions.Width - 10}>
-      <ScaleTouchable
-        style={[styles.questionItem, data.isNew && styles.newAnswer]}
-        onPress={onPress}>
-        <View style={{ flex: 1 }}>
-          <AppText style={{ marginRight: 5 }} fontSize={FontSize.large}>
-            {data.question}
-          </AppText>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <AppText fontSize={15} color={Colors.gray}>{`Poll  -  `}</AppText>
-              <AppText
-                fontSize={15}
-                weight="medium"
-                style={{ marginRight: 38 }}>
-                {data.votes.length}
-                <AppText fontSize={15} color={Colors.gray}>{`  votes`}</AppText>
-              </AppText>
-            </View>
-          </View>
-        </View>
+    <View style={styles.cardItemContainer}>
+      <View style={{ flex: 1 }}>
+        {renderCardHeader(poll._id, 'Contact 01', poll.createdAt)}
+        <AppText
+          style={{ marginTop: 20 }}
+          color={Colors.purpleText}
+          fontSize={FontSize.large}>
+          {poll.question}
+        </AppText>
+        <ScrollView
+          contentContainerStyle={styles.pollSelectionContainer}
+          style={{ marginTop: 5 }}>
+          {poll.options.map((o, idx) => {
+            return (
+              <PollItem
+                selectedOption={idx === selectedOption}
+                showVotes={isVoted}
+                text={o.value}
+                voteNumber={votes[idx] ? parseInt(votes[idx].toFixed(0)) : 0}
+                onPress={() => onPress(idx)}
+                style={{ marginBottom: 10 }}
+                widthOffset={109}
+              />
+            )
+          })}
+        </ScrollView>
         <View
           style={{
-            marginLeft: 16,
             flexDirection: 'row',
-            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: 12,
           }}>
-          <AppText color={Colors.gray} fontSize={FontSize.normal}>
-            {moment(data.createdAt).fromNow()}
+          <AppText fontSize={15} color={Colors.gray}>
+            {`Poll - ${poll.votes.length} Votes`}
           </AppText>
-          <AppIcon
-            name="chevron-right"
-            size={20}
-            color={'rgba(128, 128, 128, 0.5)'}
-          />
         </View>
-      </ScaleTouchable>
-    </Swipeout>
+      </View>
+    </View>
   )
 }
 
-PollItem.propTypes = {
-  data: PropTypes.object,
+RenderPoll.propTypes = {
+  poll: PropTypes.object,
 }
 
 CompareItem.propTypes = {
@@ -611,8 +782,10 @@ const Main = ({ route }) => {
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
   const keyboard = useKeyboard()
+
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [listData, setListData] = useState([])
+  const [selectedTab, setSelectedTab] = useState('my-posts')
 
   useEffect(() => {
     setListData(
@@ -747,46 +920,78 @@ const Main = ({ route }) => {
     }
   }, [showSuccessModal])
 
-  const renderEmpty = () => (
-    <View
-      style={{
-        paddingTop: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <AppText style={{ textAlign: 'center' }}>There's no question yet</AppText>
-    </View>
-  )
-
-  const renderItem = ({ item, index }) => {
+  const renderItem = (item) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'popular-question')
       return <QuestionItem question={item} isPopular />
-    if (item.type === 'poll') return <PollItem data={item} />
+    if (item.type === 'poll') return <RenderPoll poll={item} />
     if (item.type === 'compare') return <RenderCompare compare={item} />
     if (item.type === 'popular-compare')
       return <RenderCompare compare={item} isPopular />
-    if (item.type === 'popular-poll') return <PollItem data={item} isPopular />
+    if (item.type === 'popular-poll')
+      return <RenderPoll poll={item} isPopular />
+  }
+
+  const renderCard = (card) => {
+    if (!card) return null
+    return renderItem(card)
+  }
+
+  const onSwipedLeft = (index) => {
+    console.log('left', index)
+  }
+
+  const onSwipedRight = (index) => {
+    console.log('right', index)
   }
 
   return (
-    <Layout>
+    <Layout innerStyle={{ paddingTop: 15 }}>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <View style={styles.flatListView}>
-          <FlatList
-            data={listData}
-            renderItem={renderItem}
-            keyExtractor={(_, index) => index.toString()}
-            ListEmptyComponent={renderEmpty()}
-            refreshing={false}
-            onRefresh={() => {
-              dispatch(getQuestions())
-              dispatch(getPopularQuestions())
+        <View style={styles.tabContainer}>
+          <AppButton
+            style={[
+              styles.tabItem,
+              {
+                backgroundColor:
+                  selectedTab === 'my-posts' ? Colors.purple : 'transparent',
+              },
+            ]}
+            text="For Me"
+            textStyle={{
+              color: selectedTab === 'my-posts' ? 'white' : Colors.purple,
+              fontWeight: 'normal',
             }}
-            contentContainerStyle={{ paddingBottom: 60 }}
+            onPress={() => setSelectedTab('my-posts')}
+          />
+          <AppButton
+            style={[
+              styles.tabItem,
+              {
+                backgroundColor:
+                  selectedTab === 'popular' ? Colors.purple : 'transparent',
+              },
+            ]}
+            text="Popular"
+            textStyle={{
+              color: selectedTab === 'popular' ? 'white' : Colors.purple,
+              fontWeight: 'normal',
+            }}
+            onPress={() => setSelectedTab('popular')}
           />
         </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'position' : null}
+          keyboardVerticalOffset={100}
+          style={{ flex: 1 }}>
+          <CardSwiper
+            data={listData}
+            renderCard={renderCard}
+            onSwipedLeft={onSwipedLeft}
+            onSwipedRight={onSwipedRight}
+          />
+        </KeyboardAvoidingView>
 
         {isSuccessModalVisible && (
           <SuccessModal

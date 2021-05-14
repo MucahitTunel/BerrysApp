@@ -13,7 +13,9 @@ export default {
   textRed: '#ff4a5d',
   yellow: '#f8f841',
   purple: '#34153F',
+  purpleTransparent: '#34153F80',
   purpleLight: '#E9E9FA',
+  purpleTransparentLight: '#E9E9FA80',
   purpleDimmed: '#DFE4F4',
   purpleText: '#181B41',
 }

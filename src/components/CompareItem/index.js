@@ -9,8 +9,6 @@ import AppText from '../AppText'
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    height: Dimensions.Height / 3,
-    width: Dimensions.Width / 2.4,
   },
   image: {
     resizeMode: 'cover',
@@ -44,6 +42,9 @@ const styles = StyleSheet.create({
 })
 
 const CompareItem = ({
+  height = Dimensions.Height / 3,
+  width = Dimensions.Width / 2.4,
+  selectedWidth = Dimensions.Width / 3.5,
   image,
   onPress,
   selected,
@@ -65,6 +66,8 @@ const CompareItem = ({
           borderBottomLeftRadius: left ? 25 : 0,
           borderTopRightRadius: !left ? 25 : 0,
           borderBottomRightRadius: !left ? 25 : 0,
+          height,
+          width,
         },
       ]}
       onPress={onPress}
@@ -79,6 +82,8 @@ const CompareItem = ({
             borderBottomLeftRadius: left ? 25 : 0,
             borderTopRightRadius: !left ? 25 : 0,
             borderBottomRightRadius: !left ? 25 : 0,
+            height,
+            width,
           },
         ]}
       />
@@ -88,7 +93,7 @@ const CompareItem = ({
         </View>
       )}
       {!image && (
-        <View style={[styles.selected]}>
+        <View style={[styles.selected, { width: selectedWidth }]}>
           <AppText
             color={Colors.purple}
             fontSize={FontSize.medium}
@@ -97,19 +102,21 @@ const CompareItem = ({
           </AppText>
         </View>
       )}
-      {(isResult && isVoted) ||
-        (isCreator && (
-          <View style={[styles.selected]}>
-            <AppText color={Colors.purple}>
-              {isVoted || isCreator ? voteNumber + '%' : ''}
-            </AppText>
-          </View>
-        ))}
+      {((isResult && isVoted) || isCreator) && (
+        <View style={[styles.selected, { width: selectedWidth }]}>
+          <AppText color={Colors.purple}>
+            {isVoted || isCreator ? voteNumber + '%' : ''}
+          </AppText>
+        </View>
+      )}
     </TouchableOpacity>
   )
 }
 
 CompareItem.propTypes = {
+  height: PropTypes.number,
+  width: PropTypes.number,
+  selectedWidth: PropTypes.number,
   image: PropTypes.string,
   onPress: PropTypes.func,
   selected: PropTypes.bool,
