@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { Colors, Dimensions, Screens, FontSize } from 'constants'
 import * as NavigationService from 'services/navigation'
-import { AppIcon, AppText, ScaleTouchable } from 'components'
+import { AppIcon, AppText, ScaleTouchable, Layout } from 'components'
 import { setNewGroupTemplate } from './groupSlice'
 
 const GROUP_TEMPLATE_OWN = { name: 'My Own' }
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.background,
+    backgroundColor: 'transparent',
     flex: 1,
   },
   templateList: {
@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 2,
     borderColor: Colors.background,
+    borderRadius: 10,
+    marginBottom: 5,
   },
   templateItemLast: {
     borderBottomWidth: 0,
@@ -72,57 +74,61 @@ const GroupCreate = () => {
     NavigationService.navigate(Screens.GroupUpsert, { isCreate: true })
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={{ padding: 16 }}>
-        <AppText
-          weight="medium"
-          color={Colors.gray}
-          fontSize={FontSize.normal}
-          style={{ textAlign: 'center' }}>
-          Create your own groups. Have the most honest conversations ever
-        </AppText>
-        <ScaleTouchable
-          onPress={() => goToGroupUpsertScreen(GROUP_TEMPLATE_OWN)}
-          style={[styles.templateItem, { marginTop: 16 }]}>
-          <View style={styles.templateItemLeft}>
-            <AppIcon name="plus" color={Colors.primary} size={16} />
-            <AppText style={{ marginLeft: 12 }} color={Colors.primary}>
-              Create your own
-            </AppText>
-          </View>
-          <AppIcon name="chevron-right" size={20} color={Colors.gray} />
-        </ScaleTouchable>
-        <View style={styles.templateList}>
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={{ padding: 16 }}>
           <AppText
             weight="medium"
-            fontSize={FontSize.xLarge}
-            style={{ marginBottom: 12 }}>
-            Start From Templates
+            color={Colors.gray}
+            fontSize={FontSize.normal}
+            style={{ textAlign: 'center' }}>
+            Create your own groups. Have the most honest conversations ever
           </AppText>
-          <View>
-            {GROUP_TEMPLATES.map((template) => (
-              <ScaleTouchable
-                key={template._id}
-                onPress={() => goToGroupUpsertScreen(template)}
-                style={styles.templateItem}>
-                <View style={styles.templateItemLeft}>
-                  <View style={{ minWidth: 30, alignItems: 'center' }}>
-                    <AppIcon
-                      name={template.iconName}
-                      color={Colors.primary}
-                      size={20}
-                    />
+          <ScaleTouchable
+            onPress={() => goToGroupUpsertScreen(GROUP_TEMPLATE_OWN)}
+            style={[styles.templateItem, { marginTop: 16 }]}>
+            <View style={styles.templateItemLeft}>
+              <AppIcon name="plus" color={Colors.purple} size={16} />
+              <AppText style={{ marginLeft: 12 }} color={Colors.purple}>
+                Create your own
+              </AppText>
+            </View>
+            <AppIcon name="chevron-right" size={20} color={Colors.gray} />
+          </ScaleTouchable>
+          <View style={styles.templateList}>
+            <AppText
+              weight="medium"
+              fontSize={FontSize.xLarge}
+              style={{ marginBottom: 12 }}>
+              Start From Templates
+            </AppText>
+            <View>
+              {GROUP_TEMPLATES.map((template) => (
+                <ScaleTouchable
+                  key={template._id}
+                  onPress={() => goToGroupUpsertScreen(template)}
+                  style={styles.templateItem}>
+                  <View style={styles.templateItemLeft}>
+                    <View style={{ minWidth: 30, alignItems: 'center' }}>
+                      <AppIcon
+                        name={template.iconName}
+                        color={Colors.purple}
+                        size={20}
+                      />
+                    </View>
+                    <AppText style={{ marginLeft: 12 }}>
+                      {template.name}
+                    </AppText>
                   </View>
-                  <AppText style={{ marginLeft: 12 }}>{template.name}</AppText>
-                </View>
-                <AppIcon name="chevron-right" size={20} color={Colors.gray} />
-              </ScaleTouchable>
-            ))}
+                  <AppIcon name="chevron-right" size={20} color={Colors.gray} />
+                </ScaleTouchable>
+              ))}
+            </View>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </Layout>
   )
 }
 

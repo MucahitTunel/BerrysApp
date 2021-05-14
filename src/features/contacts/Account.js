@@ -213,47 +213,7 @@ const Account = () => {
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}
             />
             {renderItem('logout', () => dispatch(logout()))}
-            {/* <AppText
-          fontSize={FontSize.large}
-          weight="italic"
-          style={{
-            color: Colors.primary,
-            marginLeft: 5,
-            marginTop: 20,
-            marginBottom: 10,
-          }}>
-          Enter your name:
-        </AppText>
-        <AppInput
-          style={{
-            paddingHorizontal: 20,
-            marginBottom: 10,
-            borderWidth: 1,
-            borderColor: Colors.grayLight,
-            color: Colors.text,
-          }}
-          placeholder={user?.name ? user.name : 'Type your name'}
-          onChange={(value) => setName(value)}
-          value={name}
-        /> */}
-            {/* <AppText
-          weight="medium"
-          style={{ marginLeft: 10 }}
-          fontSize={FontSize.xLarge}>
-          My Posts
-        </AppText>
-        <View style={{ marginVertical: 15 }}>
-          <FlatList
-            data={[...myQuestions, ...myPolls, ...myCompares]}
-            renderItem={renderMyPosts}
-          />
-        </View> */}
           </ScrollView>
-          {/*       <AppButton
-        text="Update account"
-        onPress={onSubmit}
-        style={{ marginHorizontal: 15 }}
-      /> */}
         </View>
       </Layout>
     </>

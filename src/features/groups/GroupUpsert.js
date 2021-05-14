@@ -22,6 +22,7 @@ import {
   AppIcon,
   Loading,
   Header,
+  Layout,
 } from 'components'
 import { BackButton } from 'components/NavButton'
 import {
@@ -337,235 +338,237 @@ const GroupUpsert = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={{ height: '100%' }}>
-        <ScrollView style={{ flex: 1 }}>
-          <AppInput
-            placeholder="Enter group name"
-            placeholderTextColor={Colors.gray}
-            value={groupName}
-            icon="search"
-            style={styles.groupNameInput}
-            onChange={onChangeGroupName}
-          />
-          {group.joinableByLink && (
-            <ScaleTouchable
-              style={styles.copyLink}
-              onPress={() => {
-                Clipboard.setString(joinURL)
-                Alert.alert('Success', 'The URL has been copied to clipboard')
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  maxWidth: '70%',
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={{ height: '100%' }}>
+          <ScrollView style={{ flex: 1 }}>
+            <AppInput
+              placeholder="Enter group name"
+              placeholderTextColor={Colors.gray}
+              value={groupName}
+              icon="search"
+              style={styles.groupNameInput}
+              onChange={onChangeGroupName}
+            />
+            {group.joinableByLink && (
+              <ScaleTouchable
+                style={styles.copyLink}
+                onPress={() => {
+                  Clipboard.setString(joinURL)
+                  Alert.alert('Success', 'The URL has been copied to clipboard')
                 }}>
-                <View style={styles.copyLinkItemIcon}>
-                  <AppIcon name="share" color={Colors.primary} size={20} />
-                </View>
-                <View>
-                  <AppText fontSize={FontSize.normal} weight="medium">
-                    COPY & SHARE JOIN LINK
-                  </AppText>
-                  <AppText fontSize={FontSize.normal} color={Colors.gray}>
-                    {joinURL}
-                  </AppText>
-                </View>
-              </View>
-              <AppIcon name="copy" size={20} color={Colors.primary} />
-            </ScaleTouchable>
-          )}
-          {!isCreate && (
-            <Formik
-              enableReinitialize
-              initialValues={{ question }}
-              onSubmit={onQuestionPost}>
-              {({ values, handleSubmit, setFieldValue, setValues }) => (
-                <View style={{ alignItems: 'center' }}>
-                  <View style={styles.inputView}>
-                    <AppInput
-                      style={styles.input}
-                      placeholder="Write a question..."
-                      multiline
-                      onChange={(value) => {
-                        setFieldValue('question', value)
-                        const url = checkURL(value)
-                        setQuestionUrl(url)
-                      }}
-                      value={values.question}
-                    />
-                    <AppButton
-                      text="Post"
-                      textStyle={styles.sendBtnText}
-                      icon="send"
-                      iconSize={12}
-                      disabled={!values.question}
-                      style={[
-                        styles.sendBtn,
-                        !values.question && styles.sendBtnDisabled,
-                      ]}
-                      onPress={handleSubmit}
-                    />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    maxWidth: '70%',
+                  }}>
+                  <View style={styles.copyLinkItemIcon}>
+                    <AppIcon name="share" color={Colors.primary} size={20} />
+                  </View>
+                  <View>
+                    <AppText fontSize={FontSize.normal} weight="medium">
+                      COPY & SHARE JOIN LINK
+                    </AppText>
+                    <AppText fontSize={FontSize.normal} color={Colors.gray}>
+                      {joinURL}
+                    </AppText>
                   </View>
                 </View>
-              )}
-            </Formik>
-          )}
-          {questionUrl && (
-            <View>
-              <RNUrlPreview text={questionUrl} />
-            </View>
-          )}
-          <View style={styles.addMembersView}>
-            <View style={styles.addMembersHeader}>
-              <AppText weight="medium" fontSize={FontSize.xLarge}>
-                Add Admins
-              </AppText>
-              <ScaleTouchable
-                onPress={() => goToAddMemberScreen(true, admins)}
-                style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!admins.length && (
-                  <AppText
-                    weight="medium"
-                    fontSize={FontSize.xLarge}
-                    color={Colors.gray}>
-                    {String(admins.length)}
-                  </AppText>
-                )}
-                <AppIcon name="chevron-right" size={24} color={Colors.gray} />
+                <AppIcon name="copy" size={20} color={Colors.primary} />
               </ScaleTouchable>
-            </View>
-            <View style={styles.addMembersBody}>
-              {admins.length ? (
-                admins.map((admin) => (
-                  <ScaleTouchable
-                    key={admin.phoneNumber}
-                    onPress={() => onRemoveMember(admin)}
-                    style={styles.memberItem}>
-                    <AppText
-                      color={Colors.gray}
-                      fontSize={FontSize.normal}
-                      weight="medium"
-                      style={{ marginRight: 10 }}>
-                      {getContactName(admin)}
-                    </AppText>
-                    <AppIcon name="close" size={10} color={Colors.gray} />
-                  </ScaleTouchable>
-                ))
-              ) : (
-                <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
-                  There's no admin yet
-                </AppText>
-              )}
-            </View>
-          </View>
-          <View style={styles.addMembersView}>
-            <View style={styles.addMembersHeader}>
-              <AppText weight="medium" fontSize={FontSize.xLarge}>
-                Add Members
-              </AppText>
-              <ScaleTouchable
-                onPress={() => goToAddMemberScreen(false, members)}
-                style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {!!members.length && (
-                  <AppText
-                    weight="medium"
-                    fontSize={FontSize.xLarge}
-                    color={Colors.gray}>
-                    {members.length}
-                  </AppText>
-                )}
-                <AppIcon name="chevron-right" size={24} color={Colors.gray} />
-              </ScaleTouchable>
-            </View>
-            <View style={styles.addMembersBody}>
-              {members.length ? (
-                members.map((member) => (
-                  <ScaleTouchable
-                    key={member.phoneNumber}
-                    onPress={() => onRemoveMember(member)}
-                    style={styles.memberItem}>
-                    <AppText
-                      color={Colors.gray}
-                      fontSize={FontSize.normal}
-                      weight="medium"
-                      style={{ marginRight: 10 }}>
-                      {getContactName(member)}
-                    </AppText>
-                    <AppIcon name="close" size={10} color={Colors.gray} />
-                  </ScaleTouchable>
-                ))
-              ) : (
-                <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
-                  There's no member yet
-                </AppText>
-              )}
-            </View>
-          </View>
-          <AppText
-            weight="medium"
-            fontSize={FontSize.xLarge}
-            style={{ marginLeft: 15, marginTop: 15 }}>
-            Shared Posts
-          </AppText>
-          <View style={styles.sharedPostsContainer}>
-            <FlatList
-              data={[...sharedQuestions, ...sharedPolls, ...sharedCompares]}
-              renderItem={renderSharedPosts}
-            />
-          </View>
-        </ScrollView>
-        <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
-          <AppButton
-            text={isCreate ? CREATE_GROUP : UPDATE_GROUP}
-            disabled={!isBtnActive}
-            onPress={onPressConfirm}
-          />
-        </View>
-      </View>
-
-      {/* Flag question modal */}
-      <Modal
-        isVisible={isModalVisible}
-        style={[Theme.Modal.modalView]}
-        animationInTiming={300}
-        animationOutTiming={300}>
-        <View style={Theme.Modal.modalInnerView}>
-          <View style={styles.modalBackdrop}>
-            <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
-          </View>
-          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-            {isUserAdmin && (
-              <AppButton
-                text={
-                  group.joinableByLink
-                    ? 'Deactivate join link'
-                    : 'Activate join link'
-                }
-                onPress={() => {
-                  if (group.joinableByLink) dispatch(deactivateJoinLink())
-                  else dispatch(activateJoinLink())
-                }}
-              />
             )}
-            <View style={{ marginVertical: 16 }}>
-              <AppButton
-                text={isUserAdmin ? 'Delete group' : 'Leave group'}
-                onPress={groupExitOnPress}
+            {!isCreate && (
+              <Formik
+                enableReinitialize
+                initialValues={{ question }}
+                onSubmit={onQuestionPost}>
+                {({ values, handleSubmit, setFieldValue, setValues }) => (
+                  <View style={{ alignItems: 'center' }}>
+                    <View style={styles.inputView}>
+                      <AppInput
+                        style={styles.input}
+                        placeholder="Write a question..."
+                        multiline
+                        onChange={(value) => {
+                          setFieldValue('question', value)
+                          const url = checkURL(value)
+                          setQuestionUrl(url)
+                        }}
+                        value={values.question}
+                      />
+                      <AppButton
+                        text="Post"
+                        textStyle={styles.sendBtnText}
+                        icon="send"
+                        iconSize={12}
+                        disabled={!values.question}
+                        style={[
+                          styles.sendBtn,
+                          !values.question && styles.sendBtnDisabled,
+                        ]}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                  </View>
+                )}
+              </Formik>
+            )}
+            {questionUrl && (
+              <View>
+                <RNUrlPreview text={questionUrl} />
+              </View>
+            )}
+            <View style={styles.addMembersView}>
+              <View style={styles.addMembersHeader}>
+                <AppText weight="medium" fontSize={FontSize.xLarge}>
+                  Add Admins
+                </AppText>
+                <ScaleTouchable
+                  onPress={() => goToAddMemberScreen(true, admins)}
+                  style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  {!!admins.length && (
+                    <AppText
+                      weight="medium"
+                      fontSize={FontSize.xLarge}
+                      color={Colors.gray}>
+                      {String(admins.length)}
+                    </AppText>
+                  )}
+                  <AppIcon name="chevron-right" size={24} color={Colors.gray} />
+                </ScaleTouchable>
+              </View>
+              <View style={styles.addMembersBody}>
+                {admins.length ? (
+                  admins.map((admin) => (
+                    <ScaleTouchable
+                      key={admin.phoneNumber}
+                      onPress={() => onRemoveMember(admin)}
+                      style={styles.memberItem}>
+                      <AppText
+                        color={Colors.gray}
+                        fontSize={FontSize.normal}
+                        weight="medium"
+                        style={{ marginRight: 10 }}>
+                        {getContactName(admin)}
+                      </AppText>
+                      <AppIcon name="close" size={10} color={Colors.gray} />
+                    </ScaleTouchable>
+                  ))
+                ) : (
+                  <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
+                    There's no admin yet
+                  </AppText>
+                )}
+              </View>
+            </View>
+            <View style={styles.addMembersView}>
+              <View style={styles.addMembersHeader}>
+                <AppText weight="medium" fontSize={FontSize.xLarge}>
+                  Add Members
+                </AppText>
+                <ScaleTouchable
+                  onPress={() => goToAddMemberScreen(false, members)}
+                  style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  {!!members.length && (
+                    <AppText
+                      weight="medium"
+                      fontSize={FontSize.xLarge}
+                      color={Colors.gray}>
+                      {members.length}
+                    </AppText>
+                  )}
+                  <AppIcon name="chevron-right" size={24} color={Colors.gray} />
+                </ScaleTouchable>
+              </View>
+              <View style={styles.addMembersBody}>
+                {members.length ? (
+                  members.map((member) => (
+                    <ScaleTouchable
+                      key={member.phoneNumber}
+                      onPress={() => onRemoveMember(member)}
+                      style={styles.memberItem}>
+                      <AppText
+                        color={Colors.gray}
+                        fontSize={FontSize.normal}
+                        weight="medium"
+                        style={{ marginRight: 10 }}>
+                        {getContactName(member)}
+                      </AppText>
+                      <AppIcon name="close" size={10} color={Colors.gray} />
+                    </ScaleTouchable>
+                  ))
+                ) : (
+                  <AppText style={{ textAlign: 'center' }} color={Colors.gray}>
+                    There's no member yet
+                  </AppText>
+                )}
+              </View>
+            </View>
+            <AppText
+              weight="medium"
+              fontSize={FontSize.xLarge}
+              style={{ marginLeft: 15, marginTop: 15 }}>
+              Shared Posts
+            </AppText>
+            <View style={styles.sharedPostsContainer}>
+              <FlatList
+                data={[...sharedQuestions, ...sharedPolls, ...sharedCompares]}
+                renderItem={renderSharedPosts}
               />
             </View>
+          </ScrollView>
+          <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
             <AppButton
-              text="Close"
-              textStyle={{ color: Colors.primary }}
-              style={{ backgroundColor: Colors.white }}
-              onPress={() => setIsModalVisible(false)}
+              text={isCreate ? CREATE_GROUP : UPDATE_GROUP}
+              disabled={!isBtnActive}
+              onPress={onPressConfirm}
             />
           </View>
         </View>
-      </Modal>
-    </SafeAreaView>
+
+        {/* Flag question modal */}
+        <Modal
+          isVisible={isModalVisible}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <View style={Theme.Modal.modalInnerView}>
+            <View style={styles.modalBackdrop}>
+              <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
+            </View>
+            <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+              {isUserAdmin && (
+                <AppButton
+                  text={
+                    group.joinableByLink
+                      ? 'Deactivate join link'
+                      : 'Activate join link'
+                  }
+                  onPress={() => {
+                    if (group.joinableByLink) dispatch(deactivateJoinLink())
+                    else dispatch(activateJoinLink())
+                  }}
+                />
+              )}
+              <View style={{ marginVertical: 16 }}>
+                <AppButton
+                  text={isUserAdmin ? 'Delete group' : 'Leave group'}
+                  onPress={groupExitOnPress}
+                />
+              </View>
+              <AppButton
+                text="Close"
+                textStyle={{ color: Colors.purple }}
+                style={{ backgroundColor: Colors.white }}
+                onPress={() => setIsModalVisible(false)}
+              />
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </Layout>
   )
 }
 

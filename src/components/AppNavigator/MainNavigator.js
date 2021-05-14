@@ -18,6 +18,8 @@ import DirectMessage from 'features/messages/DirectMessage'
 import VoiceCall from 'features/contacts/VoiceCall'
 import PointsInput from 'features/contacts/PointsInput'
 import Answers from 'features/questions/Answers'
+import GroupCreate from 'features/groups/GroupCreate'
+import GroupUpsert from 'features/groups/GroupUpsert'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -46,7 +48,7 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="My Groups"
-                        // headerLeft={<BackButton navigation={navigation} />}
+                        headerRight={<ComposeButton navigation={navigation} onPress={() => navigation.navigate(Screens.GroupCreate)}/>}
                     />
                 )
             }
@@ -152,6 +154,19 @@ export default MainStackScreen = ({ navigation }) => {
                 })}
             />
             <MainStack.Screen name={Screens.Answers} component={Answers} />
+            <MainStack.Screen
+                name={Screens.GroupCreate}
+                component={GroupCreate}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="Create a Group"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+            />
+            <MainStack.Screen name={Screens.GroupUpsert} component={GroupUpsert} />
         </MainStack.Navigator>
     )
 }

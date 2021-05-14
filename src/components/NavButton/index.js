@@ -90,11 +90,14 @@ export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
 }
 
 // the Messages's Compose button
-export const ComposeButton = ({ navigation }) => {
+export const ComposeButton = ({ navigation, onPress }) => {
   return (
     <ScaleTouchable
       style={{ padding: 10, backgroundColor: 'white', borderRadius: 100 }}
-      onPress={() => navigation.navigate(Screens.MessageContacts)}>
+      onPress={() => {
+        if (onPress) onPress()
+        else navigation.navigate(Screens.MessageContacts)
+      }}>
       <AppIcon name="plus" size={24} color={Colors.purple} />
     </ScaleTouchable>
   )
