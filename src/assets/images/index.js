@@ -23,6 +23,7 @@ import running from './running.png'
 import work from './work.png'
 
 import newProfile from './new-design/profileEmpty.png'
+import newProfileFilled from './new-design/profileFilled.png'
 import newAnonymous from './new-design/anonymous.png'
 import newNotAnonymous from './new-design/notAnonymous.png'
 import groupFilled from './new-design/groupFilled.png'
@@ -31,6 +32,10 @@ import folderFilled from './new-design/folderFilled.png'
 import logout from './new-design/logout.png'
 import graphFilled from './new-design/graphFilled.png'
 import edit from './new-design/edit.png'
+import messageEmpty from './new-design/messageEmpty.png'
+import messageFilled from './new-design/messageFilled.png'
+import homeEmpty from './new-design/homeEmpty.png'
+import homeFilled from './new-design/homeFilled.png'
 
 export default {
   logo,
@@ -55,6 +60,7 @@ export default {
   onboarding4,
   // New images
   newProfile,
+  newProfileFilled,
   newAnonymous,
   newNotAnonymous,
   groupFilled,
@@ -63,4 +69,8 @@ export default {
   logout,
   graphFilled,
   edit,
+  messageEmpty,
+  messageFilled,
+  homeEmpty,
+  homeFilled,
 }

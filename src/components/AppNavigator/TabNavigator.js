@@ -4,16 +4,12 @@ import { Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Screens, Colors } from 'constants'
 import { AppIcon } from 'components'
+import Images from 'assets/images'
 
 import Account from 'features/contacts/Account'
 import Messages from 'features/messages/Messages'
 import GroupList from 'features/groups/GroupList'
 import Main from 'features/questions/Main'
-
-import HOME_FILLED from 'assets/images/new-design/homeFilled.png'
-import GROUP_EMPTY from 'assets/images/new-design/groupEmpty.png'
-import MESSAGE_EMPTY from 'assets/images/new-design/messageEmpty.png'
-import PROFILE_EMPTY from 'assets/images/new-design/profileEmpty.png'
 
 const TabStack = createBottomTabNavigator()
 export default TabStackScreen = ({ navigation }) => {
@@ -26,10 +22,10 @@ export default TabStackScreen = ({ navigation }) => {
                 tabBarIcon: ({ focused, color, size }) => {
                 const getImage = (icon) => <Image source={icon} style={{ height: 24, width: 24, resizeMode: 'contain' }}/>
                 switch(route.name) {
-                    case Screens.Main: return getImage(HOME_FILLED)
-                    case Screens.GroupList: return getImage(GROUP_EMPTY)
-                    case Screens.Messages: return getImage(MESSAGE_EMPTY)
-                    case Screens.Account: return getImage(PROFILE_EMPTY)
+                    case Screens.Main: return getImage(focused ? Images.homeFilled : Images.homeEmpty)
+                    case Screens.GroupList: return getImage(focused ? Images.groupFilled : Images.groupEmpty)
+                    case Screens.Messages: return getImage(focused ? Images.messageFilled : Images.messageEmpty)
+                    case Screens.Account: return getImage(focused ? Images.newProfileFilled : Images.newProfile)
                     default: return (
                       <View style={{ backgroundColor: Colors.purple, height: 50, width: 50, borderRadius: 25, top: -20, justifyContent: 'center', alignItems: 'center'}}>
                           <AppIcon
