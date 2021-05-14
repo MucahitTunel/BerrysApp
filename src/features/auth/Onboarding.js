@@ -10,7 +10,7 @@ import Theme from 'theme'
 const slider = [
   {
     id: 0,
-    image: Images.carousel1,
+    image: Images.newSignin,
     title: 'Ask Anonymously',
     description: 'Ask Anonymously your Friends, Family and Peers',
   },
@@ -19,7 +19,6 @@ const slider = [
 const styles = StyleSheet.create({
   bottomViewWrapper: {
     paddingHorizontal: 16,
-    backgroundColor: Colors.white,
   },
   bottomView: {
     height: 90,
@@ -56,7 +55,7 @@ const Onboarding = () => {
       style={{
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: Colors.white,
+        backgroundColor: 'white',
       }}>
       <View style={{ flex: 5 }}>
         <Swiper
@@ -74,9 +73,9 @@ const Onboarding = () => {
                     source={Images.logo}
                     width={102}
                     height={30}
-                    style={{ marginBottom: '40%' }}
+                    style={{ marginBottom: '15%' }}
                   />
-                  <AppImage source={slide.image} width={190} height={194} />
+                  <AppImage source={slide.image} width={300} height={300} />
                 </View>
                 <View style={Theme.Slider.textView}>
                   <AppText text={slide.title} style={Theme.Slider.itemTitle}>

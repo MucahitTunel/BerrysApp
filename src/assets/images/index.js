@@ -36,6 +36,7 @@ import messageEmpty from './new-design/messageEmpty.png'
 import messageFilled from './new-design/messageFilled.png'
 import homeEmpty from './new-design/homeEmpty.png'
 import homeFilled from './new-design/homeFilled.png'
+import newSignin from './new-design/signin.png'
 
 export default {
   logo,
@@ -73,4 +74,5 @@ export default {
   messageFilled,
   homeEmpty,
   homeFilled,
+  newSignin,
 }

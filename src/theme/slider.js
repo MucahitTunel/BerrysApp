@@ -23,7 +23,6 @@ export default StyleSheet.create({
     flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(248, 248, 250)',
     width: '100%',
   },
   textView: {
