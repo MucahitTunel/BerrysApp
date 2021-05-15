@@ -203,7 +203,9 @@ const Account = () => {
             {renderItem('points', () =>
               NavigationService.navigate(Screens.PointsInput),
             )}
-            {renderItem('contacts')}
+            {renderItem('contacts', () =>
+              NavigationService.navigate(Screens.FollowContacts),
+            )}
             {renderItem('posts')}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}

@@ -20,6 +20,7 @@ import PointsInput from 'features/contacts/PointsInput'
 import Answers from 'features/questions/Answers'
 import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
+import FollowContacts from 'features/contacts/FollowContacts'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -167,6 +168,18 @@ export default MainStackScreen = ({ navigation }) => {
                 })}
             />
             <MainStack.Screen name={Screens.GroupUpsert} component={GroupUpsert} />
+            <MainStack.Screen
+                name={Screens.FollowContacts}
+                component={FollowContacts}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="Unfollow Contacts"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+                />
         </MainStack.Navigator>
     )
 }
