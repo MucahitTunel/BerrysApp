@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     top: -5,
     right: 0,
     borderWidth: 1,
-    borderColor: Colors.primary,
+    borderColor: Colors.purple,
   },
 })
 
@@ -27,19 +27,19 @@ export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
       if (onPress) onPress()
       navigation.goBack()
     }}>
-    <AppIcon name="arrow-backward" color={color} size={14} />
+    <AppIcon name="chevron-left" color={color} size={30} />
   </ScaleTouchable>
 )
 
 export const MainBackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.navigate(Screens.Main)}>
-    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
+    <AppIcon name="chevron-left" color={Colors.white} size={30} />
   </ScaleTouchable>
 )
 
 export const MessagesBackButton = ({ navigation }) => (
   <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
-    <AppIcon name="arrow-backward" color={Colors.white} size={14} />
+    <AppIcon name="chevron-left" color={Colors.white} size={30} />
   </ScaleTouchable>
 )
 

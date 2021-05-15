@@ -29,7 +29,7 @@ const AppInput = ({ value, onChange, error, style, numeric, ...rest }) => (
       <AppText
         fontSize={FontSize.normal}
         weight="italic"
-        style={{ color: Colors.primary, marginTop: 5 }}>
+        style={{ color: Colors.purple, marginTop: 5 }}>
         {error}
       </AppText>
     )}

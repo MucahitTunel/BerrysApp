@@ -71,7 +71,7 @@ const VoiceCallModal = ({
       animationOutTiming={300}>
       <View style={Theme.Modal.modalInnerView}>
         <View style={styles.modalBackdrop}>
-          <BlurView style={{ flex: 1 }} blurType="xlight" blurAmount={1} />
+          <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
         </View>
         <Animated.View style={{ flex: 1, justifyContent: 'center' }}>
           <View style={styles.content}>

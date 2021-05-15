@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Alert, TouchableOpacity, View } from 'react-native'
-import { ContactsList, AppImage, AppText } from 'components'
+import { ContactsList, AppText, AppIcon } from 'components'
 import { joinRoom } from 'features/messages/messagesSlice'
-import Images from 'assets/images'
 import { FontSize, Colors } from 'constants'
 
 const MessageContacts = (props) => {
@@ -33,20 +32,26 @@ const MessageContacts = (props) => {
     return (
       <View
         style={{
-          padding: 12,
-          backgroundColor: 'white',
+          padding: 15,
         }}>
         <TouchableOpacity onPress={() => setIsAnonymous(!isAnonymous)}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <AppImage
-              source={isAnonymous ? Images.checkmarkSelected : Images.checkmark}
-              width={20}
-              height={20}
-            />
+            <View
+              style={{
+                height: 30,
+                width: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: isAnonymous ? Colors.purple : Colors.grayLight,
+                borderRadius: 15,
+              }}>
+              <AppIcon name="checkmark" color="white" size={20} />
+            </View>
             <AppText
-              color={Colors.text}
+              color={Colors.purpleText}
               fontSize={FontSize.large}
-              style={{ marginLeft: 10 }}>
+              style={{ marginLeft: 10 }}
+              weight="bold">
               Send DM Anonymously
             </AppText>
           </View>

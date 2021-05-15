@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
@@ -14,6 +14,7 @@ import { Dimensions, Colors, Screens, FontSize } from 'constants'
 import {
   Avatar,
   AppText,
+  AppInput,
   AppIcon,
   Loading,
   ScaleTouchable,
@@ -24,6 +25,7 @@ import * as NavigationService from 'services/navigation'
 import getConversationName from 'utils/get-conversation-name'
 import { getRooms, setRoom } from 'features/messages/messagesSlice'
 import Images from 'assets/images'
+import Fonts from 'assets/fonts'
 
 moment.locale('en', {
   relativeTime: {
@@ -108,12 +110,14 @@ export const Messages = ({ route, navigation }) => {
   const messagesState = useSelector((state) => state.messages)
   const { loading, rooms } = messagesState
 
+  const [searchText, setSearchText] = useState('')
+
   // If a user posts a question, they are not new anymore
-  const isNewUser = true /* !(
+  const isNewUser = !(
     questions.data.find((q) => user.phoneNumber === q.userPhoneNumber) ||
     questions.compares.find((q) => user.phoneNumber === q.userPhoneNumber) ||
     questions.polls.find((q) => user.phoneNumber === q.userPhoneNumber)
-  ) */
+  )
   const askRequests = isNewUser
     ? [
         {
@@ -298,11 +302,33 @@ export const Messages = ({ route, navigation }) => {
         <StatusBar barStyle="light-content" />
         <View style={styles.flatListView}>
           <RequestToAsk requests={askRequests} />
+          <View style={{ marginHorizontal: 30 }}>
+            <View
+              style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
+              <AppIcon name="search" color={Colors.gray} size={20} />
+            </View>
+            <AppInput
+              placeholder="Search"
+              placeholderTextColor={Colors.gray}
+              value={searchText}
+              icon="search"
+              style={{
+                backgroundColor: 'white',
+                paddingLeft: 50,
+                fontSize: 15,
+                fontFamily: Fonts.euclidCircularAMedium,
+                color: Colors.text,
+              }}
+              onChange={(value) => setSearchText(value.toLowerCase())}
+            />
+          </View>
           {loading ? (
             <Loading />
           ) : (
             <FlatList
-              data={rooms}
+              data={rooms.filter((r) =>
+                getConversationName(r).title.toLowerCase().includes(searchText),
+              )}
               renderItem={renderConversationItem}
               keyExtractor={(item) => item._id}
               refreshing={loading}

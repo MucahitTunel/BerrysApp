@@ -145,7 +145,7 @@ const GroupList = () => {
           <AppInput
             placeholder="Search"
             placeholderTextColor={Colors.gray}
-            // value={searchText}
+            value={searchText}
             icon="search"
             style={{
               backgroundColor: 'white',
