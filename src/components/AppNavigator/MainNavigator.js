@@ -23,6 +23,7 @@ import GroupUpsert from 'features/groups/GroupUpsert'
 import FollowContacts from 'features/contacts/FollowContacts'
 import MyPosts from 'features/contacts/MyPosts'
 import MessageContacts from 'features/messages/MessageContacts'
+import GroupAddMembers from 'features/groups/GroupAddMembers'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -207,6 +208,7 @@ export default MainStackScreen = ({ navigation }) => {
                 ),
                 })}
             />
+            <MainStack.Screen name={Screens.GroupAddMembers} component={GroupAddMembers} />
         </MainStack.Navigator>
     )
 }

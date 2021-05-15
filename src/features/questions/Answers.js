@@ -491,105 +491,6 @@ const Answers = ({ route, navigation }) => {
                 {message ? message : 'What do you think about this?'}
               </AppText>
           }
-          {/* <View style={styles.headerView}>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 1 }}>
-                {url ? (
-                  <>
-                    {question.group && question.group.name && (
-                      <View style={{ marginBottom: 6 }}>
-                        <AppBadge text={question.group.name} />
-                      </View>
-                    )}
-                    <RNUrlPreview
-                      containerStyle={{
-                        backgroundColor: Colors.white,
-                        borderTopColor: Colors.background,
-                        borderTopWidth: 1,
-                      }}
-                      imageStyle={{
-                        width: 100,
-                      }}
-                      faviconStyle={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 30,
-                      }}
-                      titleNumberOfLines={1}
-                      text={url}
-                    />
-                    <AppText
-                      weight="medium"
-                      color={Colors.gray}
-                      style={{ marginTop: 16 }}>
-                      {message ? message : 'What do you think about this?'}
-                    </AppText>
-                  </>
-                ) : (
-                  <AppText
-                    fontSize={FontSize.xxLarge}
-                    style={{ marginRight: 10 }}>
-                    {`${message} `}
-                    {question.group && question.group.name && (
-                      <View>
-                        <AppBadge text={question.group.name} />
-                      </View>
-                    )}
-                  </AppText>
-                )}
-              </View>
-              {isFlagged && (
-                <AppIcon name="flag" color={Colors.primary} size={20} />
-              )}
-            </View>
-            {question.image && (
-              <TouchableOpacity onPress={() => setImageModalVisible(true)}>
-                <ImageBackground
-                  source={{ uri: question.image }}
-                  style={{
-                    height: Dimensions.Height / 7,
-                    resizeMode: 'contain',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginTop: 10,
-                  }}>
-                  <AppText
-                    color="white"
-                    weight="medium"
-                    fontSize={FontSize.xxLarge}>
-                    Click to zoom
-                  </AppText>
-                </ImageBackground>
-              </TouchableOpacity>
-            )}
-            <View style={[styles.headerAnswerView, { marginTop: 20 }]}>
-              {isQuestionOwner ? (
-                renderPeopleInvited()
-              ) : (
-                <AppText color={Colors.gray} fontSize={FontSize.normal}>
-                  {moment(question.createdAt).fromNow()}
-                </AppText>
-              )}
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <AppText fontSize={FontSize.normal}>
-                  {question.totalVotes}
-                </AppText>
-                <TouchableOpacity
-                  style={{ padding: 5 }}
-                  onPress={() => upVoteQuestion()}>
-                  <AppIcon name="like" size={20} color={Colors.gray} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    padding: 5,
-                    marginLeft: 5,
-                  }}
-                  onPress={() => downVoteQuestion()}>
-                  <AppIcon name="dislike" size={20} color={Colors.gray} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View> */}
           <View style={styles.flatListView}>
             <FlatList
               scrollEnabled={false}
@@ -668,33 +569,6 @@ const Answers = ({ route, navigation }) => {
               </>
             )}
           </Formik>
-          {/* <View
-            style={{
-              padding: 12,
-              backgroundColor: 'white',
-              borderTopWidth: 2,
-              borderTopColor: Colors.background,
-            }}>
-            <TouchableOpacity
-              style={styles.contactItem}
-              onPress={() => setIsAnonymous(!isAnonymous)}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <AppImage
-                  source={
-                    isAnonymous ? Images.checkmarkSelected : Images.checkmark
-                  }
-                  width={20}
-                  height={20}
-                />
-                <AppText
-                  color={Colors.text}
-                  fontSize={FontSize.large}
-                  style={{ marginLeft: 10 }}>
-                  Answer Anonymously
-                </AppText>
-              </View>
-            </TouchableOpacity>
-          </View> */}
         </View>
 
         {/* Flag question modal */}

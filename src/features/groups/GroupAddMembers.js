@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { ContactsList, Header } from 'components'
+import { ContactsList, Header, Layout } from 'components'
 import { Colors, Dimensions, Screens } from 'constants'
 import { BackButton } from 'components/NavButton'
 import * as NavigationService from 'services/navigation'
@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
     flex: 1,
   },
 })

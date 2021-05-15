@@ -80,7 +80,7 @@ const GroupCreate = () => {
         <View style={{ padding: 16 }}>
           <AppText
             weight="medium"
-            color={Colors.gray}
+            color={Colors.purpleText}
             fontSize={FontSize.normal}
             style={{ textAlign: 'center' }}>
             Create your own groups. Have the most honest conversations ever
@@ -100,7 +100,8 @@ const GroupCreate = () => {
             <AppText
               weight="medium"
               fontSize={FontSize.xLarge}
-              style={{ marginBottom: 12 }}>
+              style={{ marginBottom: 12 }}
+              color={Colors.purpleText}>
               Start From Templates
             </AppText>
             <View>
@@ -117,7 +118,9 @@ const GroupCreate = () => {
                         size={20}
                       />
                     </View>
-                    <AppText style={{ marginLeft: 12 }}>
+                    <AppText
+                      style={{ marginLeft: 12 }}
+                      color={Colors.purpleText}>
                       {template.name}
                     </AppText>
                   </View>
