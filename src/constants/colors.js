@@ -7,7 +7,7 @@ export default {
   background: '#f2f2f2',
   backgroundDarker: '#dcdcdc',
   white: '#ffffff',
-  blackDimmed: '#00000040',
+  blackDimmed: '#00000050',
   text: '#14171a',
   blue: '#205eff',
   textRed: '#ff4a5d',

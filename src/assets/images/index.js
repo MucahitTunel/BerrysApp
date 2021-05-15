@@ -37,6 +37,9 @@ import messageFilled from './new-design/messageFilled.png'
 import homeEmpty from './new-design/homeEmpty.png'
 import homeFilled from './new-design/homeFilled.png'
 import newSignin from './new-design/signin.png'
+import onboardingSkip from './new-design/onboardingSkip.png'
+import onboardingShare from './new-design/onboardingShare.png'
+import bell from './new-design/bell.png'
 
 export default {
   logo,
@@ -75,4 +78,7 @@ export default {
   homeEmpty,
   homeFilled,
   newSignin,
+  onboardingSkip,
+  onboardingShare,
+  bell,
 }

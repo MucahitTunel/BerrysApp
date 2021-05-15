@@ -1,49 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  StatusBar,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native'
-import { AppButton, AppIcon, AppText, ScaleTouchable } from 'components'
-import { Dimensions, Colors, FontSize } from 'constants'
+import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
+import { AppButton, AppText, ScaleTouchable, Layout } from 'components'
+import { Dimensions, Colors } from 'constants'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import { submitSurvey } from 'features/auth/authSlice'
-import surveysList from './surveysList'
 
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.white,
     flex: 1,
-  },
-  titleView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
   },
   surveyItem: {
     borderWidth: 1,
     borderColor: Colors.grayLight,
-    borderRadius: 8,
-    marginBottom: 6,
-    width: (Dimensions.Width - 44) / 3,
-    height: (Dimensions.Width - 44) / 3,
+    borderRadius: 15,
     alignItems: 'center',
-    padding: 12,
+    paddingVertical: 30,
+    paddingHorizontal: 35,
+    backgroundColor: 'white',
   },
   surveyItemActive: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary,
-  },
-  surveyList: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    paddingHorizontal: 16,
+    borderColor: Colors.purple,
+    backgroundColor: Colors.purple,
   },
   surveyItemText: {
     fontWeight: 'bold',
@@ -54,59 +34,81 @@ const styles = StyleSheet.create({
 
 const Survey = () => {
   const dispatch = useDispatch()
-  const [option, setOption] = useState(null)
+
+  const [option, setOption] = useState('introvert')
+
   useEffect(() => {
     dispatch(loadContacts())
   }, [dispatch])
+
   const onSelectItem = (value) => setOption(value)
+
   const onPressContinue = () => dispatch(submitSurvey({ value: option }))
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.titleView}>
-        <AppText fontSize={FontSize.xxLarge} weight="medium">
-          What would you like to ask?
-        </AppText>
-      </View>
-      <ScrollView contentContainerStyle={styles.surveyList}>
-        {surveysList.map((item) => {
-          return (
-            <ScaleTouchable
-              onPress={() => onSelectItem(item.value)}
-              key={item.id}
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+          }}>
+          <ScaleTouchable
+            onPress={() => onSelectItem('introvert')}
+            style={[
+              styles.surveyItem,
+              option === 'introvert' && styles.surveyItemActive,
+            ]}>
+            <AppText fontSize={80} style={[styles.surveyItemText]}>
+              🤓
+            </AppText>
+            <AppText
+              fontSize={18}
               style={[
-                styles.surveyItem,
-                option === item.value && styles.surveyItemActive,
+                styles.surveyItemText,
+                {
+                  color: option === 'introvert' ? 'white' : Colors.purpleText,
+                },
               ]}>
-              <View style={{ marginBottom: item.marginBottom }}>
-                <AppIcon
-                  name={item.icon}
-                  size={item.size}
-                  color={option === item.value ? Colors.white : Colors.text}
-                />
-              </View>
-              <AppText
-                fontSize={12}
-                style={[
-                  styles.surveyItemText,
-                  {
-                    color: option === item.value ? Colors.white : Colors.text,
-                  },
-                ]}>
-                {item.name.toUpperCase()}
-              </AppText>
-            </ScaleTouchable>
-          )
-        })}
-      </ScrollView>
-      <View style={{ marginTop: 10, marginBottom: 16, paddingHorizontal: 16 }}>
-        <AppButton
-          text="Pick 1 to continue"
-          onPress={onPressContinue}
-          disabled={!option}
-        />
-      </View>
-    </SafeAreaView>
+              Introvert
+            </AppText>
+          </ScaleTouchable>
+          <ScaleTouchable
+            onPress={() => onSelectItem('extravert')}
+            style={[
+              styles.surveyItem,
+              option === 'extravert' && styles.surveyItemActive,
+            ]}>
+            <AppText fontSize={80} style={[styles.surveyItemText]}>
+              🥳
+            </AppText>
+            <AppText
+              fontSize={18}
+              style={[
+                styles.surveyItemText,
+                {
+                  color: option === 'extravert' ? 'white' : Colors.purpleText,
+                },
+              ]}>
+              Extravert
+            </AppText>
+          </ScaleTouchable>
+        </View>
+        <View
+          style={{
+            marginTop: 10,
+            marginBottom: 16,
+            paddingHorizontal: 16,
+            flex: 1,
+            justifyContent: 'flex-end',
+          }}>
+          <AppButton text="Continue" onPress={onPressContinue} />
+        </View>
+      </SafeAreaView>
+    </Layout>
   )
 }
 

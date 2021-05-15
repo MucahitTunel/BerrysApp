@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Platform,
   ScrollView,
+  Modal,
 } from 'react-native'
 import moment from 'moment'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
@@ -19,10 +20,8 @@ import OneSignal from 'react-native-onesignal'
 import Config from 'react-native-config'
 import {
   AppButton,
-  AppIcon,
   AppText,
   AppInput,
-  ScaleTouchable,
   SuccessModal,
   CompareItem,
   Layout,
@@ -267,11 +266,22 @@ const styles = StyleSheet.create({
   pollSelectionContainer: {
     paddingRight: 5,
   },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomWidth: 20,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'white',
+    transform: [{ rotate: '180deg' }],
+  },
 })
 
 export const RenderCompare = ({ compare, isPopular }) => {
-  const style = { width: Dimensions.Width / 2.03 }
-
   const user = useSelector((state) => state.auth.user)
   const popularCompares = useSelector(
     (state) => state.questions.popularCompares,
@@ -780,13 +790,21 @@ const Main = ({ route }) => {
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
+  const auth = useSelector((state) => state.auth)
 
+  const [onboardingModal, setOnboardingModal] = useState('main')
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [myPosts, setMyPosts] = useState([])
   const [myPostsIndex, setMyPostsIndex] = useState(0)
   const [popularPosts, setPopularPosts] = useState([])
   const [popularPostsIndex, setPopularPostsIndex] = useState(0)
-  const [selectedTab, setSelectedTab] = useState('my-posts')
+  const [selectedTab, setSelectedTab] = useState(
+    auth.onboarding ? 'popular' : 'my-posts',
+  )
+
+  useEffect(() => {
+    if (auth.onboarding) setOnboardingModal('main')
+  }, [auth])
 
   useEffect(() => {
     setMyPosts(
@@ -1032,6 +1050,120 @@ const Main = ({ route }) => {
             isModalVisible={true}
             closeModal={() => setSuccessModalVisible(false)}
           />
+        )}
+
+        {!!onboardingModal && (
+          <Modal visible={!!onboardingModal} transparent>
+            <View style={{ flex: 1, backgroundColor: Colors.blackDimmed }}>
+              {onboardingModal === 'main' && (
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => setOnboardingModal(auth.user.survey)}>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      position: 'absolute',
+                      top: '40%',
+                      left: 20,
+                    }}>
+                    <Image
+                      source={Images.onboardingSkip}
+                      style={{ height: 200, width: 100, resizeMode: 'contain' }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      position: 'absolute',
+                      top: '40%',
+                      right: 20,
+                    }}>
+                    <Image
+                      source={Images.onboardingShare}
+                      style={{ height: 200, width: 100, resizeMode: 'contain' }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+              {onboardingModal === 'introvert' && (
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    setOnboardingModal(false)
+                    setSelectedTab('my-posts')
+                  }}>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      position: 'absolute',
+                      bottom: '14%',
+                      backgroundColor: 'white',
+                      padding: 15,
+                      borderRadius: 7,
+                      alignSelf: 'center',
+                    }}>
+                    <AppText color="black">
+                      Ask experts any questions you have
+                    </AppText>
+                  </View>
+                  <View
+                    style={[
+                      styles.triangle,
+                      {
+                        position: 'absolute',
+                        alignSelf: 'center',
+                        bottom: '12%',
+                      },
+                    ]}
+                  />
+                </TouchableOpacity>
+              )}
+              {onboardingModal === 'extravert' && (
+                <TouchableOpacity
+                  style={{ flex: 1 }}
+                  onPress={() => {
+                    setOnboardingModal(false)
+                    setSelectedTab('my-posts')
+                  }}>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      position: 'absolute',
+                      top: '15%',
+                      backgroundColor: 'white',
+                      padding: 15,
+                      borderRadius: 7,
+                      alignSelf: 'center',
+                    }}>
+                    <AppText color="black" weight="bold">
+                      Earn points by answering
+                    </AppText>
+                    <AppText
+                      color="black"
+                      weight="normal"
+                      style={{ marginTop: 5 }}>
+                      Ask experts any questions you have
+                    </AppText>
+                  </View>
+                  <View
+                    style={[
+                      styles.triangle,
+                      {
+                        position: 'absolute',
+                        alignSelf: 'center',
+                        top: '12%',
+                        right: '18%',
+                        transform: [{ rotate: '20deg' }],
+                        borderLeftWidth: 20,
+                        borderRightWidth: 20,
+                        borderBottomWidth: 40,
+                      },
+                    ]}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+          </Modal>
         )}
       </SafeAreaView>
     </Layout>

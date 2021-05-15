@@ -38,7 +38,15 @@ const Header = ({ title, headerRight, headerLeft }) => {
       end={{ x: 0.75, y: 0.5 }}>
       <View style={{ flex: 1 }}>{headerLeft}</View>
       <AppText style={styles.headerText}>{titleText}</AppText>
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>{headerRight}</View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        {headerRight.map((h) => h)}
+      </View>
     </LinearGradient>
   )
 }

@@ -223,11 +223,13 @@ const GroupUpsert = ({ navigation, route }) => {
           title={title}
           headerLeft={<BackButton navigation={navigation} />}
           headerRight={
-            isCreate ? (
-              <View />
-            ) : (
-              <AnswerRightButton onPressDots={() => setIsModalVisible(true)} />
-            )
+            isCreate
+              ? [<View />]
+              : [
+                  <AnswerRightButton
+                    onPressDots={() => setIsModalVisible(true)}
+                  />,
+                ]
           }
         />
       ),

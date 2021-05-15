@@ -64,10 +64,8 @@ const SurveyStack = () => (
     <Stack.Screen
       name={Screens.Survey}
       component={Survey}
-      options={({ navigation }) => ({
-        header: () => (
-          <Header headerRight={<MessagesButton navigation={navigation} />} />
-        ),
+      options={({}) => ({
+        header: () => <Header title="A little bit about Me" />,
       })}
     />
   </Stack.Navigator>
@@ -93,7 +91,7 @@ const MainnStack = () => {
             <Header
               title="Berrys"
               headerLeft={<MenuButton navigation={navigation} />}
-              headerRight={<MessagesButton navigation={navigation} />}
+              headerRight={[<MessagesButton navigation={navigation} />]}
             />
           ),
         })}
@@ -156,7 +154,7 @@ const MainnStack = () => {
             <Header
               title="Messages"
               headerLeft={<MainBackButton navigation={navigation} />}
-              headerRight={<ComposeButton navigation={navigation} />}
+              headerRight={[<ComposeButton navigation={navigation} />]}
             />
           ),
         })}

@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screens } from 'constants'
 import { Header } from 'components'
-import { BackButton, ComposeButton, AskMeButton } from 'components/NavButton'
+import { BackButton, ComposeButton, AskMeButton, NotificationButton } from 'components/NavButton'
 
 import TabStack from './TabNavigator'
 import QuestionTypeSelection from 'features/questions/QuestionTypeSelection'
@@ -36,21 +36,21 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="Berrys"
-                        headerRight={<AskMeButton navigation={navigation} />}
+                        headerRight={[<AskMeButton navigation={navigation} />, <NotificationButton navigation={navigation} />]}
                     />
                 )
             case 'MessagesScreen':
                 return (
                     <Header
                         title="Messages"
-                        headerRight={<ComposeButton navigation={navigation} />}
+                        headerRight={[<ComposeButton navigation={navigation} />]}
                     />
                 )
             case 'GroupListScreen':
                 return (
                     <Header
                         title="My Groups"
-                        headerRight={<ComposeButton navigation={navigation} onPress={() => navigation.navigate(Screens.GroupCreate)}/>}
+                        headerRight={[<ComposeButton navigation={navigation} onPress={() => navigation.navigate(Screens.GroupCreate)}/>]}
                     />
                 )
             }

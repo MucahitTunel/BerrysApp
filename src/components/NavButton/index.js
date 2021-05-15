@@ -89,6 +89,15 @@ export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
   )
 }
 
+export const NotificationButton = ({}) => {
+  const size = 30
+  return (
+    <ScaleTouchable style={{ marginLeft: 10 }} onPress={() => {}}>
+      <AppImage source={Images.bell} width={size} height={size} />
+    </ScaleTouchable>
+  )
+}
+
 // the Messages's Compose button
 export const ComposeButton = ({ navigation, onPress }) => {
   return (
