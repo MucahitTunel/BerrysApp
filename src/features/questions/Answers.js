@@ -350,10 +350,10 @@ const Answers = ({ route, navigation }) => {
               />
             }
             headerRight={
-              route.params.isPopular ? [null] : (
-                [<AnswerRightButton
+              route.params.isPopular ? null : (
+                <AnswerRightButton
                   onPressDots={() => setIsFlagModalVisible(true)}
-                />]
+                />
               )
             }
           />
@@ -463,10 +463,10 @@ const Answers = ({ route, navigation }) => {
           />
         }
         headerRight={
-          route.params.isPopular ? [null] : (
-            [<AnswerRightButton
+          route.params.isPopular ? null : (
+            <AnswerRightButton
               onPressDots={() => setIsFlagModalVisible(true)}
-            />]
+            />
           )
         }
         image={question.image}

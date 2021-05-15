@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const Header = ({ title, headerRight, headerLeft }) => {
+const Header = ({ title, headerLeft, headerRight, headerRightSecond }) => {
   const user = useSelector((state) => state.auth.user)
   const points = user && !!user.points ? user.points : 0
   const titleText = title === 'points' ? `${points} Points` : title
@@ -38,15 +38,20 @@ const Header = ({ title, headerRight, headerLeft }) => {
       end={{ x: 0.75, y: 0.5 }}>
       <View style={{ flex: 1 }}>{headerLeft}</View>
       <AppText style={styles.headerText}>{titleText}</AppText>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'flex-end',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        {headerRight.map((h) => h)}
-      </View>
+      {headerRightSecond ? (
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
+          {headerRight}
+          {headerRightSecond}
+        </View>
+      ) : (
+        <View style={{ flex: 1 }}>{headerRight}</View>
+      )}
     </LinearGradient>
   )
 }
@@ -55,11 +60,13 @@ export default Header
 
 Header.propTypes = {
   headerRight: PropTypes.node,
+  headerRightSecond: PropTypes.node,
   headerLeft: PropTypes.node.isRequired,
   title: PropTypes.string,
 }
 
 Header.defaultProps = {
+  headerRightSecond: <View />,
   headerRight: <View />,
   headerLeft: <View />,
   title: '',

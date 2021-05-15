@@ -101,11 +101,11 @@ const PostQuestion = ({ navigation }) => {
               onPress={() => dispatch(setAskQuestion(null))}
             />
           }
-          headerRight={[
+          headerRight={
             <AnswerRightButton
               onPressDots={() => swiperRef.current.snapTo(0)}
-            />,
-          ]}
+            />
+          }
         />
       ),
     })

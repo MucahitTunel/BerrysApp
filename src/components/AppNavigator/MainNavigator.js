@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Screens } from 'constants'
 import { Header } from 'components'
-import { BackButton, ComposeButton, AskMeButton, NotificationButton } from 'components/NavButton'
+import { BackButton, ComposeButton, AskMeButton, NotificationButton, MessagesBackButton } from 'components/NavButton'
 
 import TabStack from './TabNavigator'
 import QuestionTypeSelection from 'features/questions/QuestionTypeSelection'
@@ -22,6 +22,7 @@ import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import FollowContacts from 'features/contacts/FollowContacts'
 import MyPosts from 'features/contacts/MyPosts'
+import MessageContacts from 'features/messages/MessageContacts'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -36,21 +37,22 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="Berrys"
-                        headerRight={[<AskMeButton navigation={navigation} />, <NotificationButton navigation={navigation} />]}
+                        headerRight={<AskMeButton navigation={navigation} />}
+                        headerRightSecond={<NotificationButton navigation={navigation} />}
                     />
                 )
             case 'MessagesScreen':
                 return (
                     <Header
                         title="Messages"
-                        headerRight={[<ComposeButton navigation={navigation} />]}
+                        headerRight={<ComposeButton navigation={navigation} />}
                     />
                 )
             case 'GroupListScreen':
                 return (
                     <Header
                         title="My Groups"
-                        headerRight={[<ComposeButton navigation={navigation} onPress={() => navigation.navigate(Screens.GroupCreate)}/>]}
+                        headerRight={<ComposeButton navigation={navigation} onPress={() => navigation.navigate(Screens.GroupCreate)}/>}
                     />
                 )
             }
@@ -191,6 +193,18 @@ export default MainStackScreen = ({ navigation }) => {
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),
+                })}
+            />
+            <MainStack.Screen
+                name={Screens.MessageContacts}
+                component={MessageContacts}
+                options={({ navigation }) => ({
+                header: () => (
+                    <Header
+                    title="Select a contact to send messages"
+                    headerLeft={<MessagesBackButton navigation={navigation} />}
+                    />
+                ),
                 })}
             />
         </MainStack.Navigator>

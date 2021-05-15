@@ -91,7 +91,7 @@ const MainnStack = () => {
             <Header
               title="Berrys"
               headerLeft={<MenuButton navigation={navigation} />}
-              headerRight={[<MessagesButton navigation={navigation} />]}
+              headerRight={<MessagesButton navigation={navigation} />}
             />
           ),
         })}
@@ -154,7 +154,7 @@ const MainnStack = () => {
             <Header
               title="Messages"
               headerLeft={<MainBackButton navigation={navigation} />}
-              headerRight={[<ComposeButton navigation={navigation} />]}
+              headerRight={<ComposeButton navigation={navigation} />}
             />
           ),
         })}

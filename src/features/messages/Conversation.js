@@ -180,7 +180,7 @@ const Conversation = ({ navigation }) => {
           <Header
             title={title}
             headerLeft={<MessagesBackButton navigation={navigation} />}
-            headerRight={[
+            headerRight={
               <AppButton
                 shadow={false}
                 icon="phone"
@@ -191,8 +191,8 @@ const Conversation = ({ navigation }) => {
                   marginLeft: -30,
                   right: -10,
                 }}
-              />,
-            ]}
+              />
+            }
           />
         ),
       })

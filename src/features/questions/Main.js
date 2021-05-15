@@ -792,7 +792,7 @@ const Main = ({ route }) => {
   const questions = useSelector((state) => state.questions)
   const auth = useSelector((state) => state.auth)
 
-  const [onboardingModal, setOnboardingModal] = useState('main')
+  const [onboardingModal, setOnboardingModal] = useState(false)
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [myPosts, setMyPosts] = useState([])
   const [myPostsIndex, setMyPostsIndex] = useState(0)
