@@ -27,12 +27,14 @@ export default TabStackScreen = ({ navigation }) => {
                     case Screens.Messages: return getImage(focused ? Images.messageFilled : Images.messageEmpty)
                     case Screens.Account: return getImage(focused ? Images.newProfileFilled : Images.newProfile)
                     default: return (
-                      <View style={{ backgroundColor: Colors.purple, height: 50, width: 50, borderRadius: 25, top: -20, justifyContent: 'center', alignItems: 'center'}}>
+                      <View style={{ backgroundColor: Colors.background, height: 70, width: 70, borderRadius: 35, top: -20, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ backgroundColor: Colors.purple, height: 50, width: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center'}}>
                           <AppIcon
                             name="plus"
                             size={30}
                             color="white"
                           />
+                      </View>
                       </View>
                     )
                 }

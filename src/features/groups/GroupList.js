@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
-    backgroundColor: Colors.background,
     flex: 1,
+    marginBottom: 30,
   },
   groupBox: {
     paddingTop: 15,
