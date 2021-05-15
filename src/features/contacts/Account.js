@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   itemIconContainer: {
     padding: 15,
     borderRadius: 15,
-    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -110,7 +109,11 @@ const Account = () => {
   const renderItem = (type, onPress) => {
     return (
       <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
-        <View style={styles.itemIconContainer}>
+        <View
+          style={[
+            styles.itemIconContainer,
+            { backgroundColor: type === 'logout' ? '#FFEAEA' : 'white' },
+          ]}>
           <Avatar source={getItemIcon(type)} size={24} />
         </View>
         <View style={styles.itemTextContainer}>
@@ -137,7 +140,7 @@ const Account = () => {
     <>
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-          <Avatar source={Images.newProfile} size={48} />
+          <Avatar source={Images.profileGray} size={48} />
           <TouchableOpacity
             style={{ position: 'absolute', top: 75, right: 5 }}
             onPress={editOnPress}>

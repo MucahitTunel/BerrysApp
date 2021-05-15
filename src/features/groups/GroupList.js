@@ -190,7 +190,7 @@ const GroupList = () => {
                           onPress={() => onPressGroupItem(group._id)}>
                           <View style={styles.groupPictureContainer}>
                             <Image
-                              source={Images.groupEmpty}
+                              source={Images.groupWhite}
                               style={styles.groupPicture}
                             />
                           </View>

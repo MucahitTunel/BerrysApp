@@ -297,26 +297,6 @@ const Answers = ({ route, navigation }) => {
     }
   }
 
-  const voteQuestion = (value, questionId) => {
-    if (route.params.isPopular) {
-      dispatch(
-        votePopularQuestion({
-          popularId: questionId,
-          vote: value,
-          isQuestion: true,
-        }),
-      )
-    } else
-      dispatch(
-        voteQuestionAction({
-          value,
-          questionId,
-        }),
-      )
-  }
-
-  const upVoteQuestion = () => voteQuestion(1, question._id)
-  const downVoteQuestion = () => voteQuestion(-1, question._id)
   const refreshQuestion = (questionId) => dispatch(getQuestion(questionId))
   const onPressFlagQuestion = (value) =>
     dispatch(flagQuestion({ value, question }))
@@ -343,12 +323,7 @@ const Answers = ({ route, navigation }) => {
         (
           <Header
             title="Post"
-            headerLeft={
-              <BackButton
-                navigation={navigation}
-                onPress={() => NavigationService.goBack()}
-              />
-            }
+            headerLeft={<BackButton navigation={navigation} />}
             headerRight={
               route.params.isPopular ? null : (
                 <AnswerRightButton

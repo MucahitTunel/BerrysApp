@@ -24,10 +24,13 @@ import work from './work.png'
 
 import newProfile from './new-design/profileEmpty.png'
 import newProfileFilled from './new-design/profileFilled.png'
+import profileWhite from './new-design/profileWhite.png'
+import profileGray from './new-design/profileGray.png'
 import newAnonymous from './new-design/anonymous.png'
 import newNotAnonymous from './new-design/notAnonymous.png'
 import groupFilled from './new-design/groupFilled.png'
 import groupEmpty from './new-design/groupEmpty.png'
+import groupWhite from './new-design/groupWhite.png'
 import folderFilled from './new-design/folderFilled.png'
 import logout from './new-design/logout.png'
 import graphFilled from './new-design/graphFilled.png'
@@ -40,6 +43,7 @@ import newSignin from './new-design/signin.png'
 import onboardingSkip from './new-design/onboardingSkip.png'
 import onboardingShare from './new-design/onboardingShare.png'
 import bell from './new-design/bell.png'
+import share from './new-design/share.png'
 
 export default {
   logo,
@@ -69,6 +73,7 @@ export default {
   newNotAnonymous,
   groupFilled,
   groupEmpty,
+  groupWhite,
   folderFilled,
   logout,
   graphFilled,
@@ -81,4 +86,7 @@ export default {
   onboardingSkip,
   onboardingShare,
   bell,
+  profileWhite,
+  profileGray,
+  share,
 }

@@ -407,7 +407,7 @@ const GroupUpsert = ({ navigation, route }) => {
               alignItems: 'center',
             }}>
             <View style={styles.groupPictureContainer}>
-              <Image source={Images.groupEmpty} style={styles.groupPicture} />
+              <Image source={Images.groupWhite} style={styles.groupPicture} />
               <TouchableOpacity
                 style={{ position: 'absolute', top: 65, right: 0 }}
                 onPress={() => setChangeGroupName(!changeGroupName)}>

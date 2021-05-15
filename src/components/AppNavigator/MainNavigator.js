@@ -202,7 +202,7 @@ export default MainStackScreen = ({ navigation }) => {
                 options={({ navigation }) => ({
                 header: () => (
                     <Header
-                    title="Select a contact to send messages"
+                    title="Select a contact"
                     headerLeft={<MessagesBackButton navigation={navigation} />}
                     />
                 ),

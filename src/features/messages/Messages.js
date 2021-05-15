@@ -266,7 +266,7 @@ export const Messages = ({ route, navigation }) => {
         <View style={styles.conversationItemInner}>
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <View style={styles.avatarBackGround}>
-              <Avatar size={28} source={Images.newProfile} />
+              <Avatar size={28} source={Images.profileGray} />
             </View>
             {/* {true && <View style={styles.onlineIndicator} />} */}
             <View style={{ marginLeft: 15, width: '80%' }}>
@@ -302,7 +302,7 @@ export const Messages = ({ route, navigation }) => {
         <StatusBar barStyle="light-content" />
         <View style={styles.flatListView}>
           <RequestToAsk requests={askRequests} />
-          <View style={{ marginHorizontal: 30 }}>
+          <View style={{ marginHorizontal: 30, marginTop: 10 }}>
             <View
               style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
               <AppIcon name="search" color={Colors.gray} size={20} />

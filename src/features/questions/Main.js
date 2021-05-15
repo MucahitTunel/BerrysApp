@@ -28,6 +28,7 @@ import {
   CardSwiper,
   Avatar,
   PollItem,
+  AppIcon,
 } from 'components'
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Fonts from 'assets/fonts'
@@ -52,6 +53,7 @@ import {
   setQuestion,
   submitComment,
   votePoll,
+  voteQuestion as voteQuestionAction,
 } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -366,7 +368,12 @@ export const RenderCompare = ({ compare, isPopular }) => {
 
   return (
     <View style={styles.cardItemContainer}>
-      {renderCardHeader(compare._id, 'Contact 01', compare.createdAt)}
+      {renderCardHeader(
+        'compare',
+        compare._id,
+        'Contact 01',
+        compare.createdAt,
+      )}
       {compare.question && (
         <AppText
           style={{ marginTop: 20 }}
@@ -445,6 +452,8 @@ const RenderQuestionImage = ({
   createdAt,
   content,
   comments,
+  voteQuestion,
+  isVoted,
 }) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
@@ -456,7 +465,14 @@ const RenderQuestionImage = ({
       style={styles.cardItemContainer}
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader(questionId, 'Contact 01', createdAt)}
+        {renderCardHeader(
+          'question',
+          questionId,
+          'Contact 01',
+          createdAt,
+          () => voteQuestion(),
+          isVoted,
+        )}
         <Image
           source={{ uri: image }}
           style={{ flex: 1, width: '100%', marginTop: 20, borderRadius: 15 }}
@@ -484,19 +500,54 @@ const RenderQuestionImage = ({
   )
 }
 
-const renderCardHeader = (id, contactName, createdAt) => {
+const renderCardHeader = (
+  type,
+  id,
+  contactName,
+  createdAt,
+  voteOnPress,
+  isVoted,
+) => {
   return (
     <View>
-      <View style={styles.cardItemHeader}>
-        <Avatar size={42} />
-        <View style={{ marginLeft: 10 }}>
-          <AppText color={Colors.purpleText}>{contactName}</AppText>
-          <AppText color={Colors.gray} fontSize={FontSize.normal}>
-            {moment(createdAt).fromNow()}
-          </AppText>
+      <View
+        style={[styles.cardItemHeader, { justifyContent: 'space-between' }]}>
+        <View style={styles.cardItemHeader}>
+          <View
+            style={{
+              height: 45,
+              width: 45,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#DFE4F4',
+              borderRadius: 100,
+            }}>
+            <Avatar size={22} source={Images.profileWhite} />
+          </View>
+          <View style={{ marginLeft: 10 }}>
+            <AppText color={Colors.purpleText}>{contactName}</AppText>
+            <AppText color={Colors.gray} fontSize={FontSize.normal}>
+              {moment(createdAt).fromNow()}
+            </AppText>
+          </View>
+        </View>
+        <View style={styles.cardItemHeader}>
+          {type === 'question' && (
+            <AppButton
+              icon="heart"
+              iconColor={isVoted ? Colors.primary : Colors.grayLight}
+              shadow={false}
+              style={{ backgroundColor: 'transparent' }}
+              onPress={voteOnPress}
+            />
+          )}
+          <Image
+            source={Images.share}
+            style={{ height: 20, width: 20, resizeMode: 'contain' }}
+          />
         </View>
       </View>
-      <View
+      {/* <View
         style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
         <View style={styles.cardItemRelatedContact}>
           <Avatar source={Images.groupEmpty} size={18} />
@@ -510,7 +561,7 @@ const renderCardHeader = (id, contactName, createdAt) => {
             My contacts
           </AppText>
         </View>
-      </View>
+      </View> */}
     </View>
   )
 }
@@ -526,6 +577,7 @@ export const QuestionItem = ({
     flaggedBy = [],
     isNew,
     image,
+    votes,
   },
   isPopular,
 }) => {
@@ -534,6 +586,25 @@ export const QuestionItem = ({
 
   const [answer, setAnswer] = useState(null)
   const [isAnonymous, setIsAnonymous] = useState(true)
+
+  const isVoted = votes.find((v) => v.userPhoneNumber === user.phoneNumber)
+  const voteQuestion = () => {
+    if (isPopular) {
+      dispatch(
+        votePopularQuestion({
+          popularId: _id,
+          vote: 1,
+          isQuestion: true,
+        }),
+      )
+    } else
+      dispatch(
+        voteQuestionAction({
+          value: 1,
+          questionId: _id,
+        }),
+      )
+  }
 
   if (image)
     return (
@@ -544,6 +615,8 @@ export const QuestionItem = ({
         dispatch={dispatch}
         content={content}
         comments={comments}
+        voteQuestion={voteQuestion}
+        isVoted={isVoted}
       />
     )
 
@@ -589,7 +662,14 @@ export const QuestionItem = ({
       style={styles.cardItemContainer}
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader(_id, 'Contact 01', createdAt)}
+        {renderCardHeader(
+          'question',
+          _id,
+          'Contact 01',
+          createdAt,
+          () => voteQuestion(),
+          isVoted,
+        )}
         <AppText
           style={{ marginTop: 20 }}
           color={Colors.purpleText}
@@ -738,7 +818,7 @@ export const RenderPoll = ({ poll, isPopular }) => {
   return (
     <View style={styles.cardItemContainer}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader(poll._id, 'Contact 01', poll.createdAt)}
+        {renderCardHeader('poll', poll._id, 'Contact 01', poll.createdAt)}
         <AppText
           style={{ marginTop: 20 }}
           color={Colors.purpleText}
@@ -930,7 +1010,7 @@ const Main = ({ route }) => {
   }, [dispatch])
 
   useEffect(() => {
-    // dispatch(getPopularQuestions())
+    dispatch(getPopularQuestions())
     dispatch(getRooms())
   }, [dispatch])
 

@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
-import { getQuestions, setPolls } from './questionsSlice'
+import { getQuestions, setPolls, setQuestions } from './questionsSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
 import firebase from '../../services/firebase'
@@ -59,6 +59,7 @@ export const voteQuestion = createAsyncThunk(
   async ({ value, questionId, isPopular = false }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
+    const questions = state.questions.data
     await request({
       method: 'POST',
       url: 'question/vote',
@@ -68,7 +69,19 @@ export const voteQuestion = createAsyncThunk(
         questionId,
       },
     })
-    dispatch(getQuestion(questionId))
+    dispatch(
+      setQuestions(
+        questions.map((q) => {
+          if (q._id === questionId)
+            return {
+              ...q,
+              votes: [...q.votes, { userPhoneNumber: user.phoneNumber, value }],
+            }
+          else return q
+        }),
+      ),
+    )
+    // dispatch(getQuestion(questionId))
   },
 )
 
