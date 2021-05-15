@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
   View,
   StyleSheet,
-  FlatList,
   ScrollView,
   Dimensions,
   TouchableOpacity,
@@ -12,8 +11,6 @@ import { Colors, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateName, logout } from 'features/auth/authSlice'
-import { getMyPosts } from 'features/questions/questionsSlice'
-import { RenderCompare, QuestionItem, PollItem } from '../questions/Main'
 import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
@@ -77,23 +74,12 @@ const Account = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
 
-  const myQuestions = useSelector((state) => state.questions.myQuestions)
-  const myPolls = useSelector((state) => state.questions.myPolls)
-  const myCompares = useSelector((state) => state.questions.myCompares)
-
   const [editName, setEditName] = useState(false)
   const [name, setName] = useState('')
 
   useEffect(() => {
     setName(user?.name ? user.name : '')
-    // dispatch(getMyPosts())
   }, [user, dispatch])
-
-  const renderMyPosts = ({ item, index }) => {
-    if (item.type === 'question') return <QuestionItem question={item} />
-    if (item.type === 'poll') return <PollItem data={item} />
-    if (item.type === 'compare') return <RenderCompare compare={item} />
-  }
 
   const getItemText = (type) => {
     switch (type) {
@@ -206,7 +192,9 @@ const Account = () => {
             {renderItem('contacts', () =>
               NavigationService.navigate(Screens.FollowContacts),
             )}
-            {renderItem('posts')}
+            {renderItem('posts', () =>
+              NavigationService.navigate(Screens.MyPosts),
+            )}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}
             />

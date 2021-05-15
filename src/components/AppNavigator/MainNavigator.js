@@ -21,6 +21,7 @@ import Answers from 'features/questions/Answers'
 import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import FollowContacts from 'features/contacts/FollowContacts'
+import MyPosts from 'features/contacts/MyPosts'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -179,7 +180,19 @@ export default MainStackScreen = ({ navigation }) => {
                     />
                     ),
                 })}
-                />
+            />
+            <MainStack.Screen
+                name={Screens.MyPosts}
+                component={MyPosts}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="My Posts"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+            />
         </MainStack.Navigator>
     )
 }

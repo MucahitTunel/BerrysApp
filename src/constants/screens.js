@@ -41,4 +41,5 @@ export default {
   Account: 'AccountScreen',
   QuestionTypeSelection: 'QuestionTypeSelectionScreen',
   PointsInput: 'PointsInputScreen',
+  MyPosts: 'MyPostsScreen',
 }

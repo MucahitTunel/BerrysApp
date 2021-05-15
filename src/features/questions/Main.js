@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardItemContainer: {
-    height: '60%',
+    height: Dimensions.Height / 1.7,
     borderRadius: 15,
     backgroundColor: 'white',
     borderBottomWidth: 4,
