@@ -35,6 +35,7 @@ export default StyleSheet.create({
     fontSize: FontSize.xxLarge,
     fontFamily: Fonts.euclidCircularASemiBold,
     marginBottom: 10,
+    textAlign: 'center',
   },
   itemDescription: {
     color: Colors.gray,

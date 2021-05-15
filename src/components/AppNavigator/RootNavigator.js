@@ -364,8 +364,6 @@ const AccountStack = () => (
 )
 
 const RootNavigator = () => {
-  const renderNull = () => null
-
   const auth = useSelector((state) => state.auth) || {}
   const { user, booting = true } = auth
   if (booting) {

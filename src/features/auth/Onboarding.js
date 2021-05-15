@@ -11,8 +11,8 @@ const slider = [
   {
     id: 0,
     image: Images.newSignin,
-    title: 'Ask Anonymously',
-    description: 'Ask Anonymously your Friends, Family and Peers',
+    title: 'Ask and Answer to Personal and Awkward Questions',
+    description: 'Ask people who have been there',
   },
 ]
 
