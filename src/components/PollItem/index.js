@@ -53,7 +53,8 @@ const PollItem = ({
       />
       <AppText
         color={Colors.purpleText}
-        style={{ position: 'absolute', marginLeft: 10, maxWidth: '80%' }}>
+        style={{ position: 'absolute', marginLeft: 10, width: '80%' }}
+        numberOfLines={5}>
         {text}
       </AppText>
       {showVotes && (

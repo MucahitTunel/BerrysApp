@@ -89,10 +89,6 @@ const Account = () => {
     // dispatch(getMyPosts())
   }, [user, dispatch])
 
-  /* const onSubmit = () => {
-    dispatch(updateName({ name }))
-  } */
-
   const renderMyPosts = ({ item, index }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <PollItem data={item} />

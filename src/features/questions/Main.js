@@ -13,7 +13,6 @@ import {
   Platform,
   ScrollView,
 } from 'react-native'
-import { useKeyboard } from '@react-native-community/hooks'
 import moment from 'moment'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
@@ -781,27 +780,31 @@ const Main = ({ route }) => {
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
-  const keyboard = useKeyboard()
 
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
-  const [listData, setListData] = useState([])
+  const [myPosts, setMyPosts] = useState([])
+  const [myPostsIndex, setMyPostsIndex] = useState(0)
+  const [popularPosts, setPopularPosts] = useState([])
+  const [popularPostsIndex, setPopularPostsIndex] = useState(0)
   const [selectedTab, setSelectedTab] = useState('my-posts')
 
   useEffect(() => {
-    setListData(
+    setMyPosts(
+      [...questions.data, ...questions.polls, ...questions.compares].sort(
+        (a, b) => b.createdAt - a.createdAt,
+      ),
+    )
+  }, [questions.data, questions.polls, questions.compares])
+
+  useEffect(() => {
+    setPopularPosts(
       [
-        /* ...questions.popularQuestions,
+        ...questions.popularQuestions,
         ...questions.popularPolls,
-        ...questions.popularCompares, */
-        ...questions.data,
-        ...questions.polls,
-        ...questions.compares,
+        ...questions.popularCompares,
       ].sort((a, b) => b.createdAt - a.createdAt),
     )
   }, [
-    questions.data,
-    questions.polls,
-    questions.compares,
     questions.popularPolls,
     questions.popularCompares,
     questions.popularQuestions,
@@ -937,13 +940,31 @@ const Main = ({ route }) => {
     return renderItem(card)
   }
 
-  const onSwipedLeft = (index) => {
+  const myPostsOnSwipedLeft = (index) => {
+    if (selectedTab === 'my-posts') setMyPostsIndex(index + 1)
+    else setPopularPostsIndex(index + 1)
     console.log('left', index)
   }
 
-  const onSwipedRight = (index) => {
+  const myPostsOnSwipedRight = (index) => {
     console.log('right', index)
   }
+
+  const popularOnSwipedLeft = (index) => {
+    console.log('left', index)
+  }
+
+  const popularOnSwipedRight = (index) => {
+    console.log('right', index)
+  }
+
+  useEffect(() => {
+    if (myPostsIndex === myPosts.length) {
+      dispatch(getQuestions())
+      setMyPostsIndex(0)
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myPostsIndex])
 
   return (
     <Layout innerStyle={{ paddingTop: 15 }}>
@@ -985,12 +1006,25 @@ const Main = ({ route }) => {
           behavior={Platform.OS === 'ios' ? 'position' : null}
           keyboardVerticalOffset={100}
           style={{ flex: 1 }}>
-          <CardSwiper
-            data={listData}
-            renderCard={renderCard}
-            onSwipedLeft={onSwipedLeft}
-            onSwipedRight={onSwipedRight}
-          />
+          {selectedTab === 'my-posts' && myPostsIndex < myPosts.length && (
+            <CardSwiper
+              data={myPosts}
+              renderCard={renderCard}
+              onSwipedLeft={myPostsOnSwipedLeft}
+              onSwipedRight={myPostsOnSwipedRight}
+              cardIndex={myPostsIndex}
+              infinite
+            />
+          )}
+          {selectedTab === 'popular' && (
+            <CardSwiper
+              data={popularPosts}
+              renderCard={renderCard}
+              onSwipedLeft={popularOnSwipedLeft}
+              onSwipedRight={popularOnSwipedRight}
+              cardIndex={popularPostsIndex}
+            />
+          )}
         </KeyboardAvoidingView>
 
         {isSuccessModalVisible && (
