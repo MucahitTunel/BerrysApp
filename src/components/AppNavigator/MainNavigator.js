@@ -39,7 +39,7 @@ export default MainStackScreen = ({ navigation }) => {
                     <Header
                         title="Berrys"
                         headerRight={<AskMeButton navigation={navigation} />}
-                        headerRightSecond={<NotificationButton navigation={navigation} />}
+                        // headerRightSecond={<NotificationButton navigation={navigation} />}
                     />
                 )
             case 'MessagesScreen':

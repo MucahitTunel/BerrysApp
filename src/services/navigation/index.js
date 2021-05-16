@@ -1,9 +1,11 @@
 import * as React from 'react'
+import { Keyboard } from 'react-native'
 import { StackActions } from '@react-navigation/native'
 
 export const navigationRef = React.createRef()
 
 export function navigate(name, params) {
+  Keyboard.dismiss()
   navigationRef.current?.navigate(name, params)
 }
 

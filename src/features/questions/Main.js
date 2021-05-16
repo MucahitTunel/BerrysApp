@@ -1282,7 +1282,7 @@ const Main = ({ route }) => {
                     style={{
                       alignItems: 'center',
                       position: 'absolute',
-                      top: '15%',
+                      top: '13%',
                       backgroundColor: 'white',
                       padding: 15,
                       borderRadius: 7,
@@ -1304,9 +1304,9 @@ const Main = ({ route }) => {
                       {
                         position: 'absolute',
                         alignSelf: 'center',
-                        top: '12%',
-                        right: '18%',
-                        transform: [{ rotate: '20deg' }],
+                        top: '11%',
+                        right: '15%',
+                        transform: [{ rotate: '35deg' }],
                         borderLeftWidth: 20,
                         borderRightWidth: 20,
                         borderBottomWidth: 40,

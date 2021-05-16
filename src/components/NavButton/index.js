@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Keyboard } from 'react-native'
 import { AppIcon } from 'components'
 import { Colors, Screens } from 'constants'
 import { ScaleTouchable, AppImage } from 'components'
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
   <ScaleTouchable
     onPress={() => {
+      Keyboard.dismiss()
       if (onPress) onPress()
       navigation.goBack()
     }}>
@@ -32,13 +33,21 @@ export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
 )
 
 export const MainBackButton = ({ navigation }) => (
-  <ScaleTouchable onPress={() => navigation.navigate(Screens.Main)}>
+  <ScaleTouchable
+    onPress={() => {
+      Keyboard.dismiss()
+      navigation.navigate(Screens.Main)
+    }}>
     <AppIcon name="chevron-left" color={Colors.white} size={30} />
   </ScaleTouchable>
 )
 
 export const MessagesBackButton = ({ navigation }) => (
-  <ScaleTouchable onPress={() => navigation.navigate(Screens.Messages)}>
+  <ScaleTouchable
+    onPress={() => {
+      Keyboard.dismiss()
+      navigation.navigate(Screens.Messages)
+    }}>
     <AppIcon name="chevron-left" color={Colors.white} size={30} />
   </ScaleTouchable>
 )
@@ -55,11 +64,12 @@ export const MessagesButton = ({ navigation }) => {
   )
   return (
     <ScaleTouchable
-      onPress={() =>
+      onPress={() => {
+        Keyboard.dismiss()
         navigation.navigate(Screens.Messages, {
           fromMain: true,
         })
-      }>
+      }}>
       <AppIcon name="chat" color={Colors.white} />
       {(roomsWithNewMessages.length > 0 ||
         questions.requestsToAsk.length > 0 ||
@@ -69,13 +79,21 @@ export const MessagesButton = ({ navigation }) => {
 }
 
 export const AskMeButton = ({ navigation }) => (
-  <ScaleTouchable onPress={() => navigation.navigate(Screens.AskMe)}>
+  <ScaleTouchable
+    onPress={() => {
+      Keyboard.dismiss()
+      navigation.navigate(Screens.AskMe)
+    }}>
     <AppIcon name="message-dot" color={Colors.white} />
   </ScaleTouchable>
 )
 
 export const MenuButton = ({ navigation }) => (
-  <ScaleTouchable onPress={() => navigation.toggleDrawer()}>
+  <ScaleTouchable
+    onPress={() => {
+      Keyboard.dismiss()
+      navigation.toggleDrawer()
+    }}>
     <AppImage source={Images.menu} width={25} height={10} />
   </ScaleTouchable>
 )
@@ -104,6 +122,7 @@ export const ComposeButton = ({ navigation, onPress }) => {
     <ScaleTouchable
       style={{ padding: 10, backgroundColor: 'white', borderRadius: 100 }}
       onPress={() => {
+        Keyboard.dismiss()
         if (onPress) onPress()
         else navigation.navigate(Screens.MessageContacts)
       }}>
