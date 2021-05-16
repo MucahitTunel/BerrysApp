@@ -40,6 +40,8 @@ import {
   shareQuestion,
   shareCompare,
   sharePoll,
+  setPollOptions,
+  setCompareImages,
 } from '../questions/questionSlice'
 // import { contactSettingsAlert } from 'features/contacts/helpers'
 
@@ -92,10 +94,16 @@ const PostQuestion = ({ navigation, route }) => {
   const appState = React.useRef(AppState.currentState)
 
   useEffect(() => {
+    if (route.params?.isSharing && route.params?.isPopular) {
+      const { post } = route.params
+      if (post.type === 'popular-question')
+        dispatch(setAskQuestion(post.content))
+      else dispatch(setAskQuestion(post.question))
+    }
     dispatch(setAskContacts([]))
     dispatch(setAskGroups([]))
     dispatch(setIsAskExperts(false))
-  }, [dispatch])
+  }, [dispatch, route])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -169,6 +177,22 @@ const PostQuestion = ({ navigation, route }) => {
       )
 
     if (route.params?.isSharing) {
+      if (route.params?.isPopular) {
+        const { post } = route.params
+        if (allContactsSelected) dispatch(setAskContacts(allContacts))
+        if (post.type === 'popular-poll') {
+          dispatch(setPollOptions(post.options))
+          return dispatch(createPoll())
+        }
+        if (post.type === 'popular-compare') {
+          console.log(post)
+          dispatch(setCompareImages([post.images[0], post.images[0]]))
+          return dispatch(createCompare(true))
+        }
+        dispatch(askQuestion())
+        return
+      }
+
       switch (route.params?.type) {
         case 'question':
           dispatch(shareQuestion({ id: route.params?.id }))
@@ -500,7 +524,7 @@ const PostQuestion = ({ navigation, route }) => {
               />
             )}
             <ScrollView>
-              {!route.params?.isSharing && (
+              {(!route.params?.isSharing || route.params?.isPopular) && (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <AppText
                     color="black"

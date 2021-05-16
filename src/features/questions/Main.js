@@ -1100,6 +1100,14 @@ const Main = ({ route }) => {
     })
   }
 
+  const popularOnSwipedRight = (index) => {
+    NavigationService.navigate(Screens.PostQuestion, {
+      isSharing: true,
+      post: popularPosts[index],
+      isPopular: true,
+    })
+  }
+
   const popularOnSwipedLeft = (index) => {
     dispatch(skipPopularQuestions(popularPosts[index]._id))
   }
@@ -1127,6 +1135,7 @@ const Main = ({ route }) => {
           renderCard={renderCard}
           onSwipedLeft={popularOnSwipedLeft}
           cardIndex={popularPostsIndex}
+          onSwipedRight={popularOnSwipedRight}
         />
       )
     return (

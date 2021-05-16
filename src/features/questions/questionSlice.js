@@ -242,7 +242,7 @@ export const votePoll = createAsyncThunk(
 
 export const createCompare = createAsyncThunk(
   'compare/create',
-  async (_, { getState, dispatch }) => {
+  async (disableUpload = false, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const { contacts, groups, question } = state.ask
@@ -254,15 +254,18 @@ export const createCompare = createAsyncThunk(
 
     let uploadedImages = []
 
-    await Promise.all(
-      compareImages.map(async (image) => {
-        const url = await firebase.upload.uploadCompareImage(
-          image,
-          user.phoneNumber,
-        )
-        uploadedImages.push(url)
-      }),
-    )
+    if (!disableUpload) {
+      await Promise.all(
+        compareImages.map(async (image) => {
+          const url = await firebase.upload.uploadCompareImage(
+            image,
+            user.phoneNumber,
+          )
+          uploadedImages.push(url)
+        }),
+      )
+    } else uploadedImages = compareImages
+
     await request({
       method: 'POST',
       url: 'compare',
