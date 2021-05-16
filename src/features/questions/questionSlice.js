@@ -116,6 +116,7 @@ export const submitComment = createAsyncThunk(
     const state = getState()
     const user = state.auth.user
     const question = state.question.data
+    const questions = state.questions.data
     const { data } = await request({
       method: 'POST',
       url: isPopular ? 'popular-questions/comment' : 'comment',
@@ -127,8 +128,21 @@ export const submitComment = createAsyncThunk(
         image,
       },
     })
-    if (!isPopular) dispatch(getQuestion(questionId))
-    else {
+    if (!isPopular) {
+      dispatch(getQuestion(questionId))
+      dispatch(
+        setQuestions(
+          questions.map((q) => {
+            if (q._id === questionId)
+              return {
+                ...q,
+                comments: q.comments + 1,
+              }
+            else return q
+          }),
+        ),
+      )
+    } else {
       dispatch(
         setQuestion({
           ...question,
@@ -360,6 +374,7 @@ const questionSlice = createSlice({
     poll: null,
     compareImages: [],
     compare: null,
+    questionCommented: false,
   },
   reducers: {
     setPollOptions: (state, action) => {
@@ -374,6 +389,9 @@ const questionSlice = createSlice({
     setQuestion: (state, action) => {
       state.data = action.payload
     },
+    setQuestionCommented: (state, action) => {
+      state.questionCommented = action.payload
+    },
   },
   extraReducers: {
     [getQuestion.pending]: (state) => {
@@ -382,6 +400,9 @@ const questionSlice = createSlice({
     [getQuestion.fulfilled]: (state, action) => {
       state.data = action.payload
       state.loading = false
+    },
+    [submitComment.fulfilled]: (state) => {
+      state.questionCommented = true
     },
     [createPoll.pending]: (state) => {
       state.loading = true
@@ -409,5 +430,11 @@ const questionSlice = createSlice({
 
 export const {
   reducer: questionReducer,
-  actions: { setPollOptions, setCompareImages, setPoll, setQuestion },
+  actions: {
+    setPollOptions,
+    setCompareImages,
+    setPoll,
+    setQuestion,
+    setQuestionCommented,
+  },
 } = questionSlice

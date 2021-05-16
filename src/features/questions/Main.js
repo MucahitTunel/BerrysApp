@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
@@ -54,6 +54,7 @@ import {
   submitComment,
   votePoll,
   voteQuestion as voteQuestionAction,
+  setQuestionCommented,
 } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
@@ -899,6 +900,9 @@ const Main = ({ route }) => {
   const showSuccessModal =
     route && route.params && route.params.showSuccessModal
   const dispatch = useDispatch()
+  const questionCommented = useSelector(
+    (state) => state.question.questionCommented,
+  )
   const questions = useSelector((state) => state.questions)
   const auth = useSelector((state) => state.auth)
 
@@ -911,6 +915,8 @@ const Main = ({ route }) => {
   const [selectedTab, setSelectedTab] = useState(
     auth.onboarding ? 'popular' : 'my-posts',
   )
+
+  const swiperRef = useRef(null)
 
   useEffect(() => {
     if (auth.onboarding) setOnboardingModal('main')
@@ -1094,6 +1100,13 @@ const Main = ({ route }) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myPostsIndex])
 
+  useEffect(() => {
+    if (questionCommented) {
+      swiperRef.current.swipeLeft()
+      dispatch(setQuestionCommented(false))
+    }
+  }, [questionCommented, dispatch])
+
   return (
     <Layout innerStyle={{ paddingTop: 15 }}>
       <SafeAreaView style={styles.container}>
@@ -1142,6 +1155,7 @@ const Main = ({ route }) => {
               onSwipedRight={myPostsOnSwipedRight}
               cardIndex={myPostsIndex}
               infinite
+              ref={swiperRef}
             />
           )}
           {selectedTab === 'popular' && (
