@@ -124,6 +124,23 @@ export const loadContacts = createAsyncThunk(
   },
 )
 
+export const reportUser = createAsyncThunk(
+  'user/report',
+  async ({ message, reportedUserPhoneNumber }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    await request({
+      method: 'POST',
+      url: 'user/report',
+      data: {
+        reportingUserPhoneNumber: user.phoneNumber,
+        reportedUserPhoneNumber,
+        message,
+      },
+    })
+  },
+)
+
 export const saveContacts = createAsyncThunk(
   'contacts/save',
   async (contacts, { getState }) => {
@@ -173,11 +190,14 @@ export const blacklistContacts = createAsyncThunk(
     })
     // refresh the Main screen
     dispatch(getQuestions())
-    Alert.alert(
-      'Success',
-      "You won't see questions from the selected contacts anymore",
+    setTimeout(
+      () =>
+        Alert.alert(
+          'Success',
+          "You won't see questions from these contacts anymore",
+        ),
+      500,
     )
-    NavigationService.navigate(Screens.Main)
     return data
   },
 )

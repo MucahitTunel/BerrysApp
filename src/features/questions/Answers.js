@@ -47,6 +47,7 @@ import { joinRoom } from 'features/messages/messagesSlice'
 import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
 import * as NavigationService from '../../services/navigation'
+import { blacklistContacts, reportUser } from 'features/contacts/contactsSlice'
 
 const styles = StyleSheet.create({
   headerView: {
@@ -137,6 +138,7 @@ const Comment = ({
   user,
   setComment,
   setIsMessageModalVisible,
+  setCommentUserPhoneNumber,
   isPopular,
 }) => {
   const {
@@ -156,6 +158,7 @@ const Comment = ({
     const { phoneNumber } = user
     const { userPhoneNumber } = comment
     if (phoneNumber !== userPhoneNumber) {
+      setCommentUserPhoneNumber(userPhoneNumber)
       setIsMessageModalVisible(true)
       setComment(comment)
     }
@@ -164,7 +167,7 @@ const Comment = ({
   return (
     <View style={styles.questionItemWrapper}>
       <View style={styles.questionItem}>
-        <TouchableOpacity onPress={() => onPressUser(comment)}>
+        <TouchableOpacity onPress={onPressUser}>
           <Avatar size={54} />
         </TouchableOpacity>
         <View
@@ -172,7 +175,7 @@ const Comment = ({
             flex: 1,
             marginLeft: 10,
           }}>
-          <TouchableOpacity onPress={() => onPressUser(comment)}>
+          <TouchableOpacity onPress={onPressUser}>
             <AppText
               weight="medium"
               color={Colors.purpleText}
@@ -192,7 +195,7 @@ const Comment = ({
             iconSize={22}
             iconColor={Colors.purple}
             style={{ backgroundColor: 'transparent', justifyContent: 'flex-end' }}
-            onPress={() => {}}
+            onPress={onPressUser}
             shadow={false}
           />
       </View>
@@ -236,6 +239,7 @@ const Answers = ({ route, navigation }) => {
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.question.data)
   const loading = useSelector((state) => state.question.loading)
+  const contacts = useSelector((state) => state.contacts.data)
   const dispatch = useDispatch()
   const [uploadedImage, setUploadedImage] = useState(null)
   const [imageLoading, setImageLoading] = useState(false)
@@ -376,6 +380,16 @@ const Answers = ({ route, navigation }) => {
       .catch((e) => console.log(e))
   }
 
+  const [commentUserPhoneNumber, setCommentUserPhoneNumber] = useState(null)
+  const [reportContainer, setReportContainer] = useState(false)
+  const [reportMessage, setReportMessage] = useState(null)
+  const reportOnPress = () => {
+    dispatch(reportUser({ reportedUserPhoneNumber: commentUserPhoneNumber, message: reportMessage }))
+    setIsMessageModalVisible(false)
+    setReportContainer(false)
+    setTimeout(() => alert('You have successfully reported this user!'), 500)
+  }
+
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
@@ -442,6 +456,7 @@ const Answers = ({ route, navigation }) => {
                   setIsMessageModalVisible={setIsMessageModalVisible}
                   setComment={setComment}
                   isPopular={route.params.isPopular}
+                  setCommentUserPhoneNumber={setCommentUserPhoneNumber}
                 />
               )}
               keyExtractor={(item) => item._id}
@@ -580,14 +595,38 @@ const Answers = ({ route, navigation }) => {
               <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
             </View>
             <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
-              <View style={{ marginVertical: 16 }}>
+              {reportContainer ?
+                <>
+                  <AppInput
+                    placeholder="Enter your message..."
+                    placeholderTextColor={Colors.gray}
+                    style={{ minHeight: 100, maxHeight: 150, backgroundColor: 'white', marginBottom: 30, color: 'black' }}
+                    multiline
+                    onChange={(value) => setReportMessage(value === '' ? null : value)}
+                  />
+                  <AppButton text="Send Report" onPress={reportOnPress} style={{ marginBottom: 20 }} />
+                </>
+              :
+                <>
+                              <View style={{ marginBottom: 16 }}>
                 <AppButton text="Message" onPress={onPressMessageBtn} />
               </View>
+              <View style={{ marginBottom: 16 }}>
+                <AppButton text="Block" onPress={() => dispatch(blacklistContacts(contacts.filter(c => c.phoneNumber === commentUserPhoneNumber)))} />
+              </View>
+              <View style={{ marginBottom: 16 }}>
+                <AppButton text="Report" onPress={() => setReportContainer(true)} />
+              </View>
+                </>
+              }
               <AppButton
                 text="Cancel"
                 textStyle={{ color: Colors.purple }}
                 style={{ backgroundColor: Colors.white }}
-                onPress={() => setIsMessageModalVisible(false)}
+                onPress={() => {
+                  setReportContainer(false)
+                  setIsMessageModalVisible(false)
+                }}
               />
             </View>
           </View>
