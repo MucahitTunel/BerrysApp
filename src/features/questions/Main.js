@@ -1075,15 +1075,15 @@ const Main = ({ route }) => {
   }
 
   const myPostsOnSwipedRight = (index) => {
-    console.log('right', index)
+    NavigationService.navigate(Screens.PostQuestion, {
+      isSharing: true,
+      id: myPosts[index]._id,
+      type: myPosts[index].type,
+    })
   }
 
   const popularOnSwipedLeft = (index) => {
     console.log('left', index)
-  }
-
-  const popularOnSwipedRight = (index) => {
-    console.log('right', index)
   }
 
   useEffect(() => {
@@ -1149,7 +1149,6 @@ const Main = ({ route }) => {
               data={popularPosts}
               renderCard={renderCard}
               onSwipedLeft={popularOnSwipedLeft}
-              onSwipedRight={popularOnSwipedRight}
               cardIndex={popularPostsIndex}
             />
           )}

@@ -300,6 +300,57 @@ export const votePopularQuestion = createAsyncThunk(
   },
 )
 
+export const shareQuestion = createAsyncThunk(
+  'questions/share',
+  async ({ id }, { getState }) => {
+    const state = getState()
+    const { contacts, groups } = state.ask
+    await request({
+      method: 'POST',
+      url: 'question/share',
+      data: {
+        questionId: id,
+        contacts,
+        groups: groups.map((g) => g._id),
+      },
+    })
+  },
+)
+
+export const shareCompare = createAsyncThunk(
+  'compares/share',
+  async ({ id }, { getState }) => {
+    const state = getState()
+    const { contacts, groups } = state.ask
+    await request({
+      method: 'POST',
+      url: 'compares/share',
+      data: {
+        compareId: id,
+        contacts,
+        groups: groups.map((g) => g._id),
+      },
+    })
+  },
+)
+
+export const sharePoll = createAsyncThunk(
+  'polls/share',
+  async ({ id }, { getState }) => {
+    const state = getState()
+    const { contacts, groups } = state.ask
+    await request({
+      method: 'POST',
+      url: 'polls/share',
+      data: {
+        pollId: id,
+        contacts,
+        groups: groups.map((g) => g._id),
+      },
+    })
+  },
+)
+
 const questionSlice = createSlice({
   name: 'question',
   initialState: {

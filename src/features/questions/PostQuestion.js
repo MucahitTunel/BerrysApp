@@ -34,7 +34,13 @@ import Images from 'assets/images'
 import PropTypes from 'prop-types'
 import BottomSheet from 'reanimated-bottom-sheet'
 import { loadContacts } from 'features/contacts/contactsSlice'
-import { createPoll, createCompare } from '../questions/questionSlice'
+import {
+  createPoll,
+  createCompare,
+  shareQuestion,
+  shareCompare,
+  sharePoll,
+} from '../questions/questionSlice'
 // import { contactSettingsAlert } from 'features/contacts/helpers'
 
 const styles = StyleSheet.create({
@@ -95,7 +101,7 @@ const PostQuestion = ({ navigation, route }) => {
     navigation.setOptions({
       header: () => (
         <Header
-          title={'Post Question'}
+          title={route.params?.isSharing ? 'Share Question' : 'Post Question'}
           headerLeft={
             <BackButton
               navigation={navigation}
@@ -110,7 +116,7 @@ const PostQuestion = ({ navigation, route }) => {
         />
       ),
     })
-  }, [navigation, dispatch, swiperRef])
+  }, [navigation, dispatch, swiperRef, route])
 
   useEffect(() => {
     if (allContacts.length === 0) dispatch(loadContacts())
@@ -146,7 +152,7 @@ const PostQuestion = ({ navigation, route }) => {
   }
 
   const onPress = () => {
-    if (!question) {
+    if (!route.params?.isSharing && !question) {
       if (route.params?.question)
         return alert('You have to write a question to continue!')
     }
@@ -156,7 +162,25 @@ const PostQuestion = ({ navigation, route }) => {
       groups.length === 0 &&
       contacts.length === 0
     )
-      return alert('You have to select people to send your question!')
+      return alert(
+        `You have to select people to ${
+          route.params?.isSharing ? 'share this post!' : 'send your question!'
+        }`,
+      )
+
+    if (route.params?.isSharing) {
+      switch (route.params?.type) {
+        case 'question':
+          dispatch(shareQuestion({ id: route.params?.id }))
+        case 'poll':
+          dispatch(sharePoll({ id: route.params?.id }))
+        case 'compare':
+          dispatch(shareCompare({ id: route.params?.id }))
+      }
+      alert('Post shared successfully!')
+      return NavigationService.goBack()
+    }
+
     if (allContactsSelected) dispatch(setAskContacts(allContacts))
     if (route.params?.poll) return dispatch(createPoll())
     if (route.params?.compare) return dispatch(createCompare())
@@ -429,38 +453,40 @@ const PostQuestion = ({ navigation, route }) => {
             style={{
               flex: 1,
             }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingBottom: 20,
-                paddingHorizontal: 16,
-                paddingLeft: 30,
-                borderBottomColor: Colors.backgroundDarker,
-                borderBottomWidth: 1,
-                marginBottom: 10,
-              }}>
-              <Avatar source={Images.newProfile} size={24} />
-              <AppInput
-                placeholder={
-                  question !== '' && question
-                    ? question
-                    : 'What do you think about today?'
-                }
-                value={question}
-                onChange={questionOnChange}
-                placeholderTextColor={Colors.gray}
+            {!route.params?.isSharing && (
+              <View
                 style={{
-                  color: 'black',
-                  marginLeft: 15,
-                  paddingRight: 90,
-                  paddingTop: 0,
-                  height: undefined,
-                  maxHeight: 180,
-                }}
-                multiline
-              />
-            </View>
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingBottom: 20,
+                  paddingHorizontal: 16,
+                  paddingLeft: 30,
+                  borderBottomColor: Colors.backgroundDarker,
+                  borderBottomWidth: 1,
+                  marginBottom: 10,
+                }}>
+                <Avatar source={Images.newProfile} size={24} />
+                <AppInput
+                  placeholder={
+                    question !== '' && question
+                      ? question
+                      : 'What do you think about today?'
+                  }
+                  value={question}
+                  onChange={questionOnChange}
+                  placeholderTextColor={Colors.gray}
+                  style={{
+                    color: 'black',
+                    marginLeft: 15,
+                    paddingRight: 90,
+                    paddingTop: 0,
+                    height: undefined,
+                    maxHeight: 180,
+                  }}
+                  multiline
+                />
+              </View>
+            )}
             {!contactPermission && (
               <AppButton
                 text="Sync Your Contacts"
@@ -475,69 +501,71 @@ const PostQuestion = ({ navigation, route }) => {
               />
             )}
             <ScrollView>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <AppText
-                  color="black"
-                  fontSize={FontSize.normal}
-                  weight="medium"
-                  style={{ marginLeft: 20 }}>
-                  Me:
-                </AppText>
-                <View
-                  style={{
-                    flexWrap: 'wrap',
-                    width: '100%',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
-                  <ScaleTouchable
-                    onPress={() => toggleAnonymously(true)}
-                    style={[
-                      styles.itemContainer,
-                      {
-                        backgroundColor: isAnonymous
-                          ? Colors.purpleLight
-                          : 'transparent',
-                      },
-                    ]}>
-                    <Avatar
-                      source={Images.newAnonymous}
-                      size={24}
-                      overflow="visible"
-                      style={{ marginRight: 10 }}
-                    />
-                    <AppText
-                      color={isAnonymous ? Colors.purple : 'black'}
-                      fontSize={FontSize.normal}
-                      weight="medium">
-                      Anonymous
-                    </AppText>
-                  </ScaleTouchable>
-                  <ScaleTouchable
-                    onPress={() => toggleAnonymously(false)}
-                    style={[
-                      styles.itemContainer,
-                      {
-                        backgroundColor: !isAnonymous
-                          ? Colors.purpleLight
-                          : 'transparent',
-                      },
-                    ]}>
-                    <Avatar
-                      source={Images.newNotAnonymous}
-                      size={24}
-                      overflow="visible"
-                      style={{ marginRight: 10 }}
-                    />
-                    <AppText
-                      color={!isAnonymous ? Colors.purple : 'black'}
-                      fontSize={FontSize.normal}
-                      weight="medium">
-                      Not Anonymous
-                    </AppText>
-                  </ScaleTouchable>
+              {!route.params?.isSharing && (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <AppText
+                    color="black"
+                    fontSize={FontSize.normal}
+                    weight="medium"
+                    style={{ marginLeft: 20 }}>
+                    Me:
+                  </AppText>
+                  <View
+                    style={{
+                      flexWrap: 'wrap',
+                      width: '100%',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <ScaleTouchable
+                      onPress={() => toggleAnonymously(true)}
+                      style={[
+                        styles.itemContainer,
+                        {
+                          backgroundColor: isAnonymous
+                            ? Colors.purpleLight
+                            : 'transparent',
+                        },
+                      ]}>
+                      <Avatar
+                        source={Images.newAnonymous}
+                        size={24}
+                        overflow="visible"
+                        style={{ marginRight: 10 }}
+                      />
+                      <AppText
+                        color={isAnonymous ? Colors.purple : 'black'}
+                        fontSize={FontSize.normal}
+                        weight="medium">
+                        Anonymous
+                      </AppText>
+                    </ScaleTouchable>
+                    <ScaleTouchable
+                      onPress={() => toggleAnonymously(false)}
+                      style={[
+                        styles.itemContainer,
+                        {
+                          backgroundColor: !isAnonymous
+                            ? Colors.purpleLight
+                            : 'transparent',
+                        },
+                      ]}>
+                      <Avatar
+                        source={Images.newNotAnonymous}
+                        size={24}
+                        overflow="visible"
+                        style={{ marginRight: 10 }}
+                      />
+                      <AppText
+                        color={!isAnonymous ? Colors.purple : 'black'}
+                        fontSize={FontSize.normal}
+                        weight="medium">
+                        Not Anonymous
+                      </AppText>
+                    </ScaleTouchable>
+                  </View>
                 </View>
-              </View>
+              )}
               <View
                 style={{
                   flexDirection: 'row',
@@ -556,7 +584,7 @@ const PostQuestion = ({ navigation, route }) => {
             </ScrollView>
           </View>
           <AppButton
-            text="Confirm Post"
+            text={route.params?.isSharing ? 'Share Post' : 'Confirm Post'}
             onPress={onPress}
             style={{
               marginBottom: 20,
