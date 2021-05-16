@@ -251,7 +251,34 @@ export const Messages = ({ route, navigation }) => {
     )
   }
 
+  const renderSearch = () => {
+    return (
+      <View style={{ marginHorizontal: 30, marginTop: 10 }}>
+        <View style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
+          <AppIcon name="search" color={Colors.gray} size={20} />
+        </View>
+        <AppInput
+          placeholder="Search"
+          placeholderTextColor={Colors.gray}
+          value={searchText}
+          icon="search"
+          style={{
+            backgroundColor: 'white',
+            paddingLeft: 50,
+            fontSize: 15,
+            fontFamily: Fonts.euclidCircularAMedium,
+            color: Colors.text,
+          }}
+          onChange={(value) => setSearchText(value.toLowerCase())}
+        />
+      </View>
+    )
+  }
+
   const renderConversationItem = ({ item, index }) => {
+    if (item === 'requests') return <RequestToAsk requests={askRequests} />
+    if (item === 'room') return renderSearch()
+    if (item === null) return item
     const { lastMessage, isNew } = item
     const content = (lastMessage && lastMessage.content) || ''
     const isMyMessage =
@@ -301,36 +328,21 @@ export const Messages = ({ route, navigation }) => {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <View style={styles.flatListView}>
-          <RequestToAsk requests={askRequests} />
-          <View style={{ marginHorizontal: 30, marginTop: 10 }}>
-            <View
-              style={{ position: 'absolute', top: 18, left: 20, zIndex: 1 }}>
-              <AppIcon name="search" color={Colors.gray} size={20} />
-            </View>
-            <AppInput
-              placeholder="Search"
-              placeholderTextColor={Colors.gray}
-              value={searchText}
-              icon="search"
-              style={{
-                backgroundColor: 'white',
-                paddingLeft: 50,
-                fontSize: 15,
-                fontFamily: Fonts.euclidCircularAMedium,
-                color: Colors.text,
-              }}
-              onChange={(value) => setSearchText(value.toLowerCase())}
-            />
-          </View>
           {loading ? (
             <Loading />
           ) : (
             <FlatList
-              data={rooms.filter((r) =>
-                getConversationName(r).title.toLowerCase().includes(searchText),
-              )}
+              data={[
+                'requests',
+                rooms.length > 0 ? 'room' : null,
+                ...rooms.filter((r) =>
+                  getConversationName(r)
+                    .title.toLowerCase()
+                    .includes(searchText),
+                ),
+              ]}
               renderItem={renderConversationItem}
-              keyExtractor={(item) => item._id}
+              keyExtractor={(item, index) => index.toString()}
               refreshing={loading}
               onRefresh={() => dispatch(getRooms())}
             />

@@ -368,12 +368,14 @@ export const RenderCompare = ({ compare, isPopular }) => {
 
   return (
     <View style={styles.cardItemContainer}>
-      {renderCardHeader(
-        'compare',
-        compare._id,
-        'Contact 01',
-        compare.createdAt,
-      )}
+      {renderCardHeader({
+        type: 'compare',
+        _id: compare._id,
+        name: compare.contactName,
+        createdAt: compare.createdAt,
+        commonGroup: compare.group,
+        myContact: compare.myContact,
+      })}
       {compare.question && (
         <AppText
           style={{ marginTop: 20 }}
@@ -454,6 +456,9 @@ const RenderQuestionImage = ({
   comments,
   voteQuestion,
   isVoted,
+  group,
+  contactName,
+  myContact,
 }) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
@@ -465,17 +470,19 @@ const RenderQuestionImage = ({
       style={styles.cardItemContainer}
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader(
-          'question',
-          questionId,
-          'Contact 01',
+        {renderCardHeader({
+          type: 'question',
+          _id: questionId,
+          name: contactName,
           createdAt,
-          () => voteQuestion(),
+          voteOnPress: () => voteQuestion(),
           isVoted,
-        )}
+          commonGroup: group,
+          myContact,
+        })}
         <Image
           source={{ uri: image }}
-          style={{ flex: 1, width: '100%', marginTop: 20, borderRadius: 15 }}
+          style={{ flex: 1, width: '100%', marginTop: 10, borderRadius: 15 }}
         />
         {content && (
           <AppText
@@ -500,14 +507,16 @@ const RenderQuestionImage = ({
   )
 }
 
-const renderCardHeader = (
+const renderCardHeader = ({
   type,
   id,
-  contactName,
+  name,
   createdAt,
   voteOnPress,
   isVoted,
-) => {
+  commonGroup,
+  myContact,
+}) => {
   return (
     <View>
       <View
@@ -525,7 +534,7 @@ const renderCardHeader = (
             <Avatar size={22} source={Images.profileWhite} />
           </View>
           <View style={{ marginLeft: 10 }}>
-            <AppText color={Colors.purpleText}>{contactName}</AppText>
+            <AppText color={Colors.purpleText}>{name}</AppText>
             <AppText color={Colors.gray} fontSize={FontSize.normal}>
               {moment(createdAt).fromNow()}
             </AppText>
@@ -537,31 +546,35 @@ const renderCardHeader = (
               icon="heart"
               iconColor={isVoted ? Colors.primary : Colors.grayLight}
               shadow={false}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: 'transparent', right: -15 }}
               onPress={voteOnPress}
             />
           )}
-          <Image
-            source={Images.share}
-            style={{ height: 20, width: 20, resizeMode: 'contain' }}
-          />
         </View>
       </View>
-      {/* <View
-        style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-        <View style={styles.cardItemRelatedContact}>
-          <Avatar source={Images.groupEmpty} size={18} />
-          <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
-            My group member
-          </AppText>
-        </View>
-        <View style={[styles.cardItemRelatedContact, { marginLeft: 10 }]}>
-          <Avatar source={Images.groupEmpty} size={18} />
-          <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
-            My contacts
-          </AppText>
-        </View>
-      </View> */}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: commonGroup || myContact ? 10 : 0,
+        }}>
+        {commonGroup && (
+          <View style={[styles.cardItemRelatedContact, { marginRight: 10 }]}>
+            <Avatar source={Images.groupEmpty} size={18} />
+            <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+              {commonGroup.name}
+            </AppText>
+          </View>
+        )}
+        {myContact && (
+          <View style={styles.cardItemRelatedContact}>
+            <Avatar source={Images.groupEmpty} size={18} />
+            <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+              My contacts
+            </AppText>
+          </View>
+        )}
+      </View>
     </View>
   )
 }
@@ -578,6 +591,9 @@ export const QuestionItem = ({
     isNew,
     image,
     votes,
+    group,
+    contactName,
+    myContact,
   },
   isPopular,
 }) => {
@@ -585,7 +601,7 @@ export const QuestionItem = ({
   const dispatch = useDispatch()
 
   const [answer, setAnswer] = useState(null)
-  const [isAnonymous, setIsAnonymous] = useState(true)
+  const [isAnswerAnonymous, setIsAnswerAnonymous] = useState(true)
 
   const isVoted = votes.find((v) => v.userPhoneNumber === user.phoneNumber)
   const voteQuestion = () => {
@@ -617,6 +633,9 @@ export const QuestionItem = ({
         comments={comments}
         voteQuestion={voteQuestion}
         isVoted={isVoted}
+        group={group}
+        contactName={contactName}
+        myContact={myContact}
       />
     )
 
@@ -649,7 +668,7 @@ export const QuestionItem = ({
     const payload = {
       comment: answer,
       questionId: _id,
-      isAnonymous,
+      isAnonymous: isAnswerAnonymous,
       isPopular,
     }
     setAnswer(null)
@@ -662,14 +681,16 @@ export const QuestionItem = ({
       style={styles.cardItemContainer}
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader(
-          'question',
+        {renderCardHeader({
+          type: 'question',
           _id,
-          'Contact 01',
+          name: contactName,
           createdAt,
-          () => voteQuestion(),
+          voteOnPress: () => voteQuestion(),
           isVoted,
-        )}
+          commonGroup: group,
+          myContact,
+        })}
         <AppText
           style={{ marginTop: 20 }}
           color={Colors.purpleText}
@@ -691,7 +712,7 @@ export const QuestionItem = ({
           color={Colors.purpleText}
           fontSize={FontSize.normal}
           style={{ width: '100%', textAlign: 'center', marginBottom: 5 }}>
-          {`Your answer is ${isAnonymous ? '' : 'not '}anonymous`}
+          {`Your answer is ${isAnswerAnonymous ? '' : 'not '}anonymous`}
         </AppText>
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           <AppInput
@@ -717,11 +738,11 @@ export const QuestionItem = ({
             }}>
             <AppButton
               icon="eye-off"
-              iconColor={isAnonymous ? Colors.purple : 'white'}
+              iconColor={isAnswerAnonymous ? Colors.purple : 'white'}
               iconSize={22}
               style={{ backgroundColor: 'transparent', width: 22 }}
               shadow={false}
-              onPress={() => setIsAnonymous(!isAnonymous)}
+              onPress={() => setIsAnswerAnonymous(!isAnswerAnonymous)}
             />
             <AppButton
               icon="send"
@@ -818,7 +839,14 @@ export const RenderPoll = ({ poll, isPopular }) => {
   return (
     <View style={styles.cardItemContainer}>
       <View style={{ flex: 1 }}>
-        {renderCardHeader('poll', poll._id, 'Contact 01', poll.createdAt)}
+        {renderCardHeader({
+          type: 'poll',
+          _id: poll._id,
+          name: poll.contactName,
+          createdAt: poll.createdAt,
+          commonGroup: poll.group,
+          myContact: poll.myContact,
+        })}
         <AppText
           style={{ marginTop: 20 }}
           color={Colors.purpleText}

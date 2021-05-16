@@ -1,13 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
 import { setAskQuestion } from './askSlice'
+import { loadContacts } from '../contacts/contactsSlice'
 
 export const getQuestions = createAsyncThunk(
   'questions/get',
   async (phoneNumber, { getState, dispatch }) => {
     return new Promise(async (resolve) => {
+      dispatch(loadContacts())
       const state = getState()
       const { user } = state.auth
+      const contacts = state.contacts.data
       const { data } = await request({
         method: 'GET',
         url: 'questions',
@@ -16,8 +19,44 @@ export const getQuestions = createAsyncThunk(
         },
       })
       dispatch(setAskQuestion(null))
-      const { questions, requestsToAsk, polls, compares } = data
-      resolve({ questions, requestsToAsk, polls, compares })
+      let { questions, requestsToAsk, polls, compares } = data
+      ;(questions = questions.map((q) => {
+        const anonName = `Anonymous ${Math.floor(Math.random() * 900) + 100}`
+        const contact = contacts.find(
+          (c) => c.phoneNumber === q.userPhoneNumber,
+        )
+        const contactName = q.isAnonymous
+          ? anonName
+          : contact
+          ? contact.name
+          : anonName
+        return { ...q, contactName, myContact: !!contact }
+      })),
+        (polls = polls.map((p) => {
+          const anonName = `Anonymous ${Math.floor(Math.random() * 900) + 100}`
+          const contact = contacts.find(
+            (c) => c.phoneNumber === p.userPhoneNumber,
+          )
+          const contactName = p.isAnonymous
+            ? anonName
+            : contact
+            ? contact.name
+            : anonName
+          return { ...p, contactName, myContact: !!contact }
+        })),
+        (compares = compares.map((c) => {
+          const anonName = `Anonymous ${Math.floor(Math.random() * 900) + 100}`
+          const contact = contacts.find(
+            (c) => c.phoneNumber === c.userPhoneNumber,
+          )
+          const contactName = c.isAnonymous
+            ? anonName
+            : contact
+            ? contact.name
+            : anonName
+          return { ...c, contactName, myContact: !!contact }
+        })),
+        resolve({ questions, requestsToAsk, polls, compares })
     })
   },
 )

@@ -14,7 +14,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  ImageBackground,
 } from 'react-native'
 import { Formik } from 'formik'
 import moment from 'moment'
@@ -23,12 +22,8 @@ import { BlurView } from '@react-native-community/blur'
 import KeyboardListener from 'react-native-keyboard-listener'
 import { checkURL, hideKeyBoard, showKeyboard } from 'utils'
 import { Colors, FontSize, Dimensions } from 'constants'
-import Images from 'assets/images'
 import {
-  AppBadge,
   AppButton,
-  AppIcon,
-  AppImage,
   AppInput,
   AppText,
   Avatar,
@@ -44,13 +39,10 @@ import {
   flagQuestion,
   getQuestion,
   submitComment,
-  voteComment as voteCommentAction,
-  voteQuestion as voteQuestionAction,
   votePopularQuestion,
 } from 'features/questions/questionSlice'
 import { readQuestion } from 'features/questions/questionsSlice'
 import { joinRoom } from 'features/messages/messagesSlice'
-import RNUrlPreview from 'react-native-url-preview'
 import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
 import * as NavigationService from '../../services/navigation'
@@ -158,19 +150,6 @@ const Comment = ({
     image,
     isExpert,
   } = comment
-  const dispatch = useDispatch()
-  const voteComment = (value, questionId, commentId) =>
-    dispatch(
-      voteCommentAction({
-        value,
-        commentId,
-        questionId,
-        isPopular,
-      }),
-    )
-  const upVoteComment = (commentId) => voteComment(1, question._id, commentId)
-  const downVoteComment = (commentId) =>
-    voteComment(-1, question._id, commentId)
   const onPressUser = () => {
     if (isExpert) return
     const { phoneNumber } = user
@@ -231,22 +210,6 @@ const Comment = ({
         </AppText>
       }
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, justifyContent: 'flex-end' }}>
-          <AppText fontSize={FontSize.normal}>{`${totalVotes}`}</AppText>
-          <TouchableOpacity
-            style={{ padding: 5 }}
-            onPress={() => upVoteComment(_id)}>
-            <AppIcon name="like" size={20} color={Colors.purple} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              padding: 5,
-              marginLeft: 5,
-            }}
-            onPress={() => downVoteComment(_id)}>
-            <AppIcon name="dislike" size={20} color={Colors.gray} />
-          </TouchableOpacity>
-        </View>
     </View>
   )
 }

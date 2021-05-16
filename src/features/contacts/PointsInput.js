@@ -145,7 +145,7 @@ const PointsInput = () => {
                 onPress={() => setQuestionPoints(50)}
               />
             </View>
-            <AppText style={{ color: Colors.purpleText, marginTop: 30 }}>
+            {/* <AppText style={{ color: Colors.purpleText, marginTop: 30 }}>
               Points for answering calls:{' '}
               <AppText weight="bold" style={{ color: Colors.purpleText }}>
                 {callPoints}
@@ -183,7 +183,7 @@ const PointsInput = () => {
                 ]}
                 onPress={() => setCallPoints(100)}
               />
-            </View>
+            </View> */}
           </ScrollView>
         </KeyboardAvoidingView>
         <AppButton

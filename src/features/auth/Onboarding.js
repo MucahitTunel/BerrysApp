@@ -71,9 +71,9 @@ const Onboarding = () => {
                 <View style={Theme.Slider.imagesView}>
                   <AppImage
                     source={Images.logo}
-                    width={102}
-                    height={30}
-                    style={{ marginBottom: '15%' }}
+                    width={160}
+                    height={40}
+                    style={{ marginBottom: '10%', marginTop: 20 }}
                   />
                   <AppImage source={slide.image} width={300} height={300} />
                 </View>
