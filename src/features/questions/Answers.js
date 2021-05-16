@@ -30,7 +30,8 @@ import {
   Header,
   ImageHeader,
   Loading,
-  Layout
+  Layout,
+  AppIcon
 } from 'components'
 import AskUserNameModal from './AskUserNameModal'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
@@ -457,6 +458,31 @@ const Answers = ({ route, navigation }) => {
                 {imageLoading ? (
                   <ActivityIndicator />
                 ) : (
+                  <>
+                  {values.cmt !== '' &&
+                    <TouchableOpacity onPress={() => setIsAnonymous(!isAnonymous)} style={{ width: '100%', alignItems: 'center', marginTop: 10}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <View
+                        style={{
+                          height: 20,
+                          width: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: isAnonymous ? Colors.purple : Colors.grayLight,
+                          borderRadius: 10,
+                        }}>
+                        <AppIcon name="checkmark" color="white" size={15} />
+                      </View>
+                      <AppText
+                        color={Colors.purpleText}
+                        fontSize={FontSize.large}
+                        style={{ marginLeft: 10 }}
+                        weight="medium">
+                        Send DM Anonymously
+                      </AppText>
+                    </View>
+                  </TouchableOpacity>
+                  }
                   <View style={styles.inputView}>
                     <AppInput
                       style={styles.input}
@@ -503,6 +529,7 @@ const Answers = ({ route, navigation }) => {
                       />
                     </View>
                   </View>
+                  </>
                 )}
               </>
             )}
