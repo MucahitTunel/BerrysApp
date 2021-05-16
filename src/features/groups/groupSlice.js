@@ -141,7 +141,6 @@ export const activateJoinLink = createAsyncThunk(
         groupId: group._id,
       },
     })
-    Alert.alert('Success', `You have activated the join link!`)
     return {
       ...group,
       joinableByLink: true,
@@ -161,7 +160,6 @@ export const deactivateJoinLink = createAsyncThunk(
         groupId: group._id,
       },
     })
-    Alert.alert('Success', `You have deactivated the join link!`)
     return {
       ...group,
       joinableByLink: false,

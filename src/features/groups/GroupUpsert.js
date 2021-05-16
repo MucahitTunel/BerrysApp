@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 15,
-    marginTop: 15,
+    marginBottom: 15,
   },
   copyLinkItemIcon: {
     width: 50,
@@ -431,37 +431,6 @@ const GroupUpsert = ({ navigation, route }) => {
               </AppText>
             </View>
           </View>
-          {!changeGroupName && group.joinableByLink && (
-            <ScaleTouchable
-              style={styles.copyLink}
-              onPress={() => {
-                Clipboard.setString(joinURL)
-                Alert.alert('Success', 'The URL has been copied to clipboard')
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  maxWidth: '70%',
-                }}>
-                <View style={styles.copyLinkItemIcon}>
-                  <AppIcon name="share" color={Colors.purple} size={20} />
-                </View>
-                <View>
-                  <AppText
-                    fontSize={FontSize.normal}
-                    weight="bold"
-                    color={Colors.purpleText}>
-                    COPY & SHARE JOIN LINK
-                  </AppText>
-                  <AppText fontSize={FontSize.normal} color={Colors.purpleText}>
-                    {joinURL}
-                  </AppText>
-                </View>
-              </View>
-              <AppIcon name="copy" size={20} color={Colors.purple} />
-            </ScaleTouchable>
-          )}
         </View>
       )}
       <Layout>
@@ -614,6 +583,42 @@ const GroupUpsert = ({ navigation, route }) => {
                 <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
               </View>
               <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+                {group.joinableByLink && (
+                  <ScaleTouchable
+                    style={styles.copyLink}
+                    onPress={() => {
+                      Clipboard.setString(joinURL)
+                      Alert.alert(
+                        'Success',
+                        'The URL has been copied to clipboard',
+                      )
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        maxWidth: '70%',
+                      }}>
+                      <View style={styles.copyLinkItemIcon}>
+                        <AppIcon name="share" color={Colors.purple} size={20} />
+                      </View>
+                      <View>
+                        <AppText
+                          fontSize={FontSize.normal}
+                          weight="bold"
+                          color={Colors.purpleText}>
+                          COPY & SHARE JOIN LINK
+                        </AppText>
+                        <AppText
+                          fontSize={FontSize.normal}
+                          color={Colors.purpleText}>
+                          {joinURL}
+                        </AppText>
+                      </View>
+                    </View>
+                    <AppIcon name="copy" size={20} color={Colors.purple} />
+                  </ScaleTouchable>
+                )}
                 {isUserAdmin && (
                   <AppButton
                     text={
