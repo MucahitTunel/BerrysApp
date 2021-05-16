@@ -453,40 +453,39 @@ const PostQuestion = ({ navigation, route }) => {
             style={{
               flex: 1,
             }}>
-            {!route.params?.isSharing && (
-              <View
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingBottom: 20,
+                paddingHorizontal: 16,
+                paddingLeft: 30,
+                borderBottomColor: Colors.backgroundDarker,
+                borderBottomWidth: 1,
+                marginBottom: 10,
+              }}>
+              <Avatar source={Images.newProfile} size={24} />
+              <AppInput
+                placeholder={
+                  question !== '' && question
+                    ? question
+                    : 'What do you think about today?'
+                }
+                value={question}
+                onChange={questionOnChange}
+                placeholderTextColor={Colors.gray}
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingBottom: 20,
-                  paddingHorizontal: 16,
-                  paddingLeft: 30,
-                  borderBottomColor: Colors.backgroundDarker,
-                  borderBottomWidth: 1,
-                  marginBottom: 10,
-                }}>
-                <Avatar source={Images.newProfile} size={24} />
-                <AppInput
-                  placeholder={
-                    question !== '' && question
-                      ? question
-                      : 'What do you think about today?'
-                  }
-                  value={question}
-                  onChange={questionOnChange}
-                  placeholderTextColor={Colors.gray}
-                  style={{
-                    color: 'black',
-                    marginLeft: 15,
-                    paddingRight: 90,
-                    paddingTop: 0,
-                    height: undefined,
-                    maxHeight: 180,
-                  }}
-                  multiline
-                />
-              </View>
-            )}
+                  color: 'black',
+                  marginLeft: 15,
+                  paddingRight: 90,
+                  paddingTop: 0,
+                  height: undefined,
+                  maxHeight: 180,
+                }}
+                multiline
+                editable={!route.params?.isSharing}
+              />
+            </View>
             {!contactPermission && (
               <AppButton
                 text="Sync Your Contacts"

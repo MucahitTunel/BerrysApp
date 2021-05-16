@@ -668,6 +668,17 @@ export const QuestionItem = ({
   }
 
   const sendAnswer = () => {
+    if (isPopular)
+      dispatch(
+        setQuestion({
+          _id,
+          content,
+          comments: commentData,
+          createdAt,
+          isAbleToAnswer: true,
+          totalVotes,
+        }),
+      )
     if (!answer) return
     const payload = {
       comment: answer,
@@ -1103,13 +1114,13 @@ const Main = ({ route }) => {
 
   useEffect(() => {
     if (questionCommented) {
-      swiperRef.current.swipeLeft()
+      if (swiperRef && swiperRef.current) swiperRef.current.swipeLeft()
       dispatch(setQuestionCommented(false))
     }
   }, [questionCommented, dispatch])
 
   const renderPopularCards = () => {
-    if (popularPosts.length > 10)
+    if (popularPosts.length > 0)
       return (
         <CardSwiper
           data={popularPosts}

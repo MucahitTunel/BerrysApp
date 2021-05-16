@@ -40,7 +40,6 @@ import {
   flagQuestion,
   getQuestion,
   submitComment,
-  votePopularQuestion,
 } from 'features/questions/questionSlice'
 import { readQuestion } from 'features/questions/questionsSlice'
 import { joinRoom } from 'features/messages/messagesSlice'

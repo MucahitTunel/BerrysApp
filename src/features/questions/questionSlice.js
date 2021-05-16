@@ -1,7 +1,12 @@
 import { Alert } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
-import { getQuestions, setPolls, setQuestions } from './questionsSlice'
+import {
+  getQuestions,
+  setPolls,
+  setQuestions,
+  setPopularQuestions,
+} from './questionsSlice'
 import * as NavigationService from 'services/navigation'
 import { Screens } from 'constants'
 import firebase from '../../services/firebase'
@@ -117,6 +122,7 @@ export const submitComment = createAsyncThunk(
     const user = state.auth.user
     const question = state.question.data
     const questions = state.questions.data
+    const { popularQuestions } = state.questions
     const { data } = await request({
       method: 'POST',
       url: isPopular ? 'popular-questions/comment' : 'comment',
@@ -148,6 +154,19 @@ export const submitComment = createAsyncThunk(
           ...question,
           comments: [...question.comments, data.cmt],
         }),
+      )
+      dispatch(
+        setPopularQuestions(
+          popularQuestions.map((q) => {
+            if (q._id === questionId)
+              return {
+                ...q,
+                comments: q.comments + 1,
+                commentData: [...q.commentData, data.cmt],
+              }
+            else return q
+          }),
+        ),
       )
     }
   },
