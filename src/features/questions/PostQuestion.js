@@ -34,6 +34,7 @@ import Images from 'assets/images'
 import PropTypes from 'prop-types'
 import BottomSheet from 'reanimated-bottom-sheet'
 import { loadContacts } from 'features/contacts/contactsSlice'
+import { createPoll, createCompare } from '../questions/questionSlice'
 // import { contactSettingsAlert } from 'features/contacts/helpers'
 
 const styles = StyleSheet.create({
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const PostQuestion = ({ navigation }) => {
+const PostQuestion = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const question = useSelector((state) => state.ask.question)
   const contacts = useSelector((state) => state.ask.contacts)
@@ -146,7 +147,8 @@ const PostQuestion = ({ navigation }) => {
 
   const onPress = () => {
     if (!question) {
-      return alert('You have to write a question to continue!')
+      if (route.params?.question)
+        return alert('You have to write a question to continue!')
     }
     if (
       !isAskExperts &&
@@ -156,6 +158,8 @@ const PostQuestion = ({ navigation }) => {
     )
       return alert('You have to select people to send your question!')
     if (allContactsSelected) dispatch(setAskContacts(allContacts))
+    if (route.params?.poll) return dispatch(createPoll())
+    if (route.params?.compare) return dispatch(createCompare())
     dispatch(askQuestion())
   }
 
@@ -580,6 +584,7 @@ const PostQuestion = ({ navigation }) => {
 
 PostQuestion.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 }
 
 export default PostQuestion

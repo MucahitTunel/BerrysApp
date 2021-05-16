@@ -362,7 +362,9 @@ export const RenderCompare = ({ compare, isPopular }) => {
     }
   }
 
-  const height = Dimensions.Height / 3
+  const height = compare.question
+    ? Dimensions.Height / 3.5
+    : Dimensions.Height / 3
   const width = Dimensions.Width / 2.7
   const selectedWidth = Dimensions.Width / 3.8
 
@@ -378,7 +380,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
       })}
       {compare.question && (
         <AppText
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 10 }}
           color={Colors.purpleText}
           fontSize={FontSize.large}>
           {compare.question}
@@ -420,10 +422,10 @@ export const RenderCompare = ({ compare, isPopular }) => {
           style={{
             position: 'absolute',
             backgroundColor: '#ED4062',
-            height: 70,
-            width: 70,
-            borderRadius: 35,
-            left: '39%',
+            height: 60,
+            width: 60,
+            borderRadius: 30,
+            left: '40%',
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',

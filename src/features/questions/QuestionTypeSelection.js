@@ -251,18 +251,22 @@ const QuestionTypeSelection = ({ navigation }) => {
     switch (selected) {
       case 'pencil':
         if (!message) return alert('Please write a question to continue!')
-        NavigationService.navigate(Screens.PostQuestion)
+        NavigationService.navigate(Screens.PostQuestion, {
+          question: true,
+        })
         break
       case 'image':
         if (!questionImage) return alert('Please add an image to continue!')
-        NavigationService.navigate(Screens.SelectContacts)
+        NavigationService.navigate(Screens.PostQuestion, {
+          question: true,
+        })
         break
       case 'poll':
         if (!message) return alert('Please write a question to continue!')
         if (pollOptions.filter((p) => p.value === null).length > 0)
           return alert('Please fill every option to continue!')
         dispatch(setPollOptionsRedux(pollOptions))
-        NavigationService.navigate(Screens.SelectContacts, {
+        NavigationService.navigate(Screens.PostQuestion, {
           poll: true,
         })
         break
@@ -270,7 +274,7 @@ const QuestionTypeSelection = ({ navigation }) => {
         if (!firstCompareImage || !secondCompareImage)
           return alert('Please add images to continue!')
         dispatch(setCompareImages([firstCompareImage, secondCompareImage]))
-        NavigationService.navigate(Screens.SelectContacts, {
+        NavigationService.navigate(Screens.PostQuestion, {
           compare: true,
         })
         break
