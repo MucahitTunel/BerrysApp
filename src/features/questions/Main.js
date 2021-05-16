@@ -40,6 +40,7 @@ import {
   hidePoll,
   setCompares,
   getPopularQuestions,
+  skipPopularQuestions,
   setPopularCompares,
   setPopularPolls,
 } from 'features/questions/questionsSlice'
@@ -1089,7 +1090,7 @@ const Main = ({ route }) => {
   }
 
   const popularOnSwipedLeft = (index) => {
-    console.log('left', index)
+    dispatch(skipPopularQuestions(popularPosts[index]._id))
   }
 
   useEffect(() => {
@@ -1106,6 +1107,42 @@ const Main = ({ route }) => {
       dispatch(setQuestionCommented(false))
     }
   }, [questionCommented, dispatch])
+
+  const renderPopularCards = () => {
+    if (popularPosts.length > 10)
+      return (
+        <CardSwiper
+          data={popularPosts}
+          renderCard={renderCard}
+          onSwipedLeft={popularOnSwipedLeft}
+          cardIndex={popularPostsIndex}
+        />
+      )
+    return (
+      <View
+        style={[
+          styles.cardItemContainer,
+          { padding: 0, marginHorizontal: 20, marginTop: 20 },
+        ]}>
+        <Image
+          source={Images.emptyCard}
+          style={{ height: '100%', width: '100%', borderRadius: 15 }}
+        />
+        <AppText
+          color="white"
+          fontSize={FontSize.large}
+          style={{
+            position: 'absolute',
+            textAlign: 'center',
+            alignSelf: 'center',
+            top: 40,
+            marginHorizontal: 60,
+          }}>
+          You have responded all of the posts. See you tomorrow for new posts!
+        </AppText>
+      </View>
+    )
+  }
 
   return (
     <Layout innerStyle={{ paddingTop: 15 }}>
@@ -1158,14 +1195,7 @@ const Main = ({ route }) => {
               ref={swiperRef}
             />
           )}
-          {selectedTab === 'popular' && (
-            <CardSwiper
-              data={popularPosts}
-              renderCard={renderCard}
-              onSwipedLeft={popularOnSwipedLeft}
-              cardIndex={popularPostsIndex}
-            />
-          )}
+          {selectedTab === 'popular' && renderPopularCards()}
         </KeyboardAvoidingView>
 
         {isSuccessModalVisible && (

@@ -44,6 +44,7 @@ import onboardingSkip from './new-design/onboardingSkip.png'
 import onboardingShare from './new-design/onboardingShare.png'
 import bell from './new-design/bell.png'
 import share from './new-design/share.png'
+import emptyCard from './new-design/emptyCard.jpeg'
 
 export default {
   logo,
@@ -89,4 +90,5 @@ export default {
   profileWhite,
   profileGray,
   share,
+  emptyCard,
 }

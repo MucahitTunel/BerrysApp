@@ -132,12 +132,28 @@ export const getPopularQuestions = createAsyncThunk(
     const { user } = state.auth
     const { data } = await request({
       method: 'GET',
-      url: 'popular-questions',
+      url: 'popular-questions/v2',
       params: {
         userPhoneNumber: user.phoneNumber,
       },
     })
     return data
+  },
+)
+
+export const skipPopularQuestions = createAsyncThunk(
+  'popular-questions/skip',
+  async (popularId, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    await request({
+      method: 'POST',
+      url: 'popular-questions/skip',
+      data: {
+        userPhoneNumber: user.phoneNumber,
+        popularId,
+      },
+    })
   },
 )
 
