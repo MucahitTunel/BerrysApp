@@ -84,7 +84,7 @@ export const getMyQuestions = createAsyncThunk(
       },
     })
     return data.questions.map((q) => {
-      return { ...q, type: 'question' }
+      return { ...q, type: 'question', contactName: user.name }
     })
   },
 )
@@ -102,7 +102,7 @@ export const getMyPolls = createAsyncThunk(
       },
     })
     return data.polls.map((p) => {
-      return { ...p, type: 'poll' }
+      return { ...p, type: 'poll', contactName: user.name }
     })
   },
 )
@@ -120,7 +120,7 @@ export const getMyCompares = createAsyncThunk(
       },
     })
     return data.compares.map((c) => {
-      return { ...c, type: 'compare' }
+      return { ...c, type: 'compare', contactName: user.name }
     })
   },
 )

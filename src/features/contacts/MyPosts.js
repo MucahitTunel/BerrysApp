@@ -27,6 +27,13 @@ const MyPosts = () => {
   const myPolls = useSelector((state) => state.questions.myPolls)
   const myCompares = useSelector((state) => state.questions.myCompares)
 
+  const getPosts = () => {
+    const sorted = [...myQuestions, ...myPolls, ...myCompares].sort(
+      (a, b) => b.createdAt - a.createdAt,
+    )
+    return sorted
+  }
+
   const getQuestionType = (item) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (item.type === 'poll') return <RenderPoll poll={item} />
@@ -46,7 +53,7 @@ const MyPosts = () => {
       <SafeAreaView style={styles.container}>
         <View style={{ height: '100%' }}>
           <FlatList
-            data={[...myQuestions, ...myPolls, ...myCompares]}
+            data={getPosts()}
             renderItem={renderMyPosts}
             style={styles.flatlist}
           />
