@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
   },
   pointsContainer: {
     backgroundColor: Colors.purpleLight,
@@ -140,9 +140,9 @@ const Account = () => {
     <>
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-          <Avatar source={Images.profileGray} size={48} />
+          <Avatar source={Images.profileGray} size={43} />
           <TouchableOpacity
-            style={{ position: 'absolute', top: 75, right: 5 }}
+            style={{ position: 'absolute', top: 70, right: 5 }}
             onPress={editOnPress}>
             <Avatar source={Images.edit} size={32} />
           </TouchableOpacity>

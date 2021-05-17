@@ -88,6 +88,7 @@ const PointsInput = () => {
             </AppText>
             <AppInput
               placeholder="Input number of points"
+              placeholderTextColor={Colors.gray}
               style={styles.input}
               numeric
               onChange={questionPointsOnChange}

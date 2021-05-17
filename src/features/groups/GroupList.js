@@ -130,7 +130,7 @@ const GroupList = () => {
 
   return (
     <>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <AppText fontSize={FontSize.xLarge} color="white">
           {
             myGroups.filter((g) => g.name.toLowerCase().includes(searchText))
@@ -157,8 +157,8 @@ const GroupList = () => {
             onChange={(value) => setSearchText(value.toLowerCase())}
           />
         </View>
-      </View>
-      <Layout>
+      </View> */}
+      <Layout innerStyle={{ paddingTop: 20 }}>
         <SafeAreaView style={styles.container}>
           <StatusBar barStyle="light-content" />
           {/* <AppButton

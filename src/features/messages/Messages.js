@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 16,
+    paddingVertical: 10,
   },
   conversationItemChild: {
     flexDirection: 'row',
@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   avatarBackGround: {
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+    height: 50,
+    width: 50,
+    borderRadius: 25,
     backgroundColor: Colors.grayLight,
     justifyContent: 'center',
     alignItems: 'center',
@@ -215,9 +215,9 @@ export const Messages = ({ route, navigation }) => {
             }}>
             <View
               style={{
-                width: 70,
-                height: 70,
-                borderRadius: 35,
+                width: 50,
+                height: 50,
+                borderRadius: 25,
                 backgroundColor: 'rgba(235, 84, 80, 0.19)',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -277,7 +277,6 @@ export const Messages = ({ route, navigation }) => {
 
   const renderConversationItem = ({ item, index }) => {
     if (item === 'requests') return <RequestToAsk requests={askRequests} />
-    if (item === 'room') return renderSearch()
     if (item === null) return item
     const { lastMessage, isNew } = item
     const content = (lastMessage && lastMessage.content) || ''
@@ -293,7 +292,7 @@ export const Messages = ({ route, navigation }) => {
         <View style={styles.conversationItemInner}>
           <View style={[styles.conversationItemChild, { flex: 1 }]}>
             <View style={styles.avatarBackGround}>
-              <Avatar size={28} source={Images.profileGray} />
+              <Avatar size={22} source={Images.profileGray} />
             </View>
             {/* {true && <View style={styles.onlineIndicator} />} */}
             <View style={{ marginLeft: 15, width: '80%' }}>
@@ -324,7 +323,7 @@ export const Messages = ({ route, navigation }) => {
   }
 
   return (
-    <Layout>
+    <Layout innerStyle={{ paddingTop: 20 }}>
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <View style={styles.flatListView}>
@@ -334,7 +333,7 @@ export const Messages = ({ route, navigation }) => {
             <FlatList
               data={[
                 'requests',
-                rooms.length > 0 ? 'room' : null,
+                // rooms.length > 0 ? 'room' : null,
                 ...rooms.filter((r) =>
                   getConversationName(r)
                     .title.toLowerCase()

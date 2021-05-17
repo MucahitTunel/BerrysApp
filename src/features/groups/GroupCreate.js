@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   templateList: {
-    marginTop: 32,
+    marginTop: 30,
   },
   templateItem: {
     backgroundColor: Colors.white,
-    padding: 16,
+    padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -74,10 +74,10 @@ const GroupCreate = () => {
     NavigationService.navigate(Screens.GroupUpsert, { isCreate: true })
   }
   return (
-    <Layout>
+    <Layout innerStyle={{ paddingTop: 20 }}>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: 15 }}>
           <AppText
             weight="medium"
             color={Colors.purpleText}

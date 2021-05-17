@@ -250,9 +250,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   tabContainer: {
-    height: 55,
+    height: 50,
     backgroundColor: 'white',
-    marginHorizontal: 30,
+    marginHorizontal: 35,
     borderRadius: 15,
     marginBottom: 10,
     flexDirection: 'row',
@@ -732,6 +732,7 @@ export const QuestionItem = ({
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           <AppInput
             placeholder="Write your message..."
+            placeholderTextColor={Colors.gray}
             onChange={onChangeText}
             style={{
               backgroundColor: Colors.background,
@@ -1087,16 +1088,14 @@ const Main = ({ route }) => {
   }
 
   const myPostsOnSwipedLeft = (index) => {
-    if (selectedTab === 'my-posts') setMyPostsIndex(index + 1)
-    else setPopularPostsIndex(index + 1)
+    setMyPostsIndex(index + 1)
     console.log('left', index)
   }
 
   const myPostsOnSwipedRight = (index) => {
     NavigationService.navigate(Screens.PostQuestion, {
       isSharing: true,
-      id: myPosts[index]._id,
-      type: myPosts[index].type,
+      post: myPosts[index],
     })
   }
 
@@ -1109,6 +1108,8 @@ const Main = ({ route }) => {
   }
 
   const popularOnSwipedLeft = (index) => {
+    if (!popularPosts[index]) return
+    setPopularPostsIndex(index + 1)
     dispatch(skipPopularQuestions(popularPosts[index]._id))
   }
 
@@ -1128,7 +1129,7 @@ const Main = ({ route }) => {
   }, [questionCommented, dispatch])
 
   const renderPopularCards = () => {
-    if (popularPosts.length > 0)
+    if (popularPostsIndex < popularPosts.length)
       return (
         <CardSwiper
           data={popularPosts}

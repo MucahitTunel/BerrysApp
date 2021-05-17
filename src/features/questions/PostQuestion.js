@@ -94,10 +94,9 @@ const PostQuestion = ({ navigation, route }) => {
   const appState = React.useRef(AppState.currentState)
 
   useEffect(() => {
-    if (route.params?.isSharing && route.params?.isPopular) {
+    if (route.params?.isSharing) {
       const { post } = route.params
-      if (post.type === 'popular-question')
-        dispatch(setAskQuestion(post.content))
+      if (post.type.includes('question')) dispatch(setAskQuestion(post.content))
       else dispatch(setAskQuestion(post.question))
     }
     dispatch(setAskContacts([]))
@@ -177,8 +176,9 @@ const PostQuestion = ({ navigation, route }) => {
       )
 
     if (route.params?.isSharing) {
-      if (route.params?.isPopular) {
-        const { post } = route.params
+      const { post } = route.params
+
+      if (route.params.isPopular) {
         if (allContactsSelected) dispatch(setAskContacts(allContacts))
         if (post.type === 'popular-poll') {
           dispatch(setPollOptions(post.options))
@@ -193,13 +193,13 @@ const PostQuestion = ({ navigation, route }) => {
         return
       }
 
-      switch (route.params?.type) {
+      switch (post.type) {
         case 'question':
-          dispatch(shareQuestion({ id: route.params?.id }))
+          dispatch(shareQuestion({ id: post.id }))
         case 'poll':
-          dispatch(sharePoll({ id: route.params?.id }))
+          dispatch(sharePoll({ id: post.id }))
         case 'compare':
-          dispatch(shareCompare({ id: route.params?.id }))
+          dispatch(shareCompare({ id: post.id }))
       }
       alert('Post shared successfully!')
       return NavigationService.goBack()
