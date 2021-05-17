@@ -1137,6 +1137,7 @@ const Main = ({ route }) => {
           onSwipedLeft={popularOnSwipedLeft}
           cardIndex={popularPostsIndex}
           onSwipedRight={popularOnSwipedRight}
+          ref={swiperRef}
         />
       )
     return (
