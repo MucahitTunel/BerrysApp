@@ -162,7 +162,7 @@ const Comment = ({
       setComment(comment)
     }
   }
-  const nonAnonymousName = username ? username : userPhoneNumber
+  const nonAnonymousName = `Anonymous ${Math.floor(Math.random() * 900) + 100}`
   return (
     <View style={styles.questionItemWrapper}>
       <View style={styles.questionItem}>
@@ -179,7 +179,7 @@ const Comment = ({
               weight="medium"
               color={Colors.purpleText}
               style={{ marginBottom: 5 }}>
-              {isAnonymous ? name : nonAnonymousName}
+              {!isAnonymous ? name : nonAnonymousName}
             </AppText>
             <AppText
               fontSize={FontSize.normal}
