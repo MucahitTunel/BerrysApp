@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Berrys (dev)</string>
+	<string>Berrys</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,11 +13,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Berrys (dev)</string>
+	<string>Berrys</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4.1</string>
+	<string>3.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.615848313420-6v1e8iqqmkc4v0pfmf9b2g4iulk4l8hr</string>
+				<string>com.googleusercontent.apps.655600799545-8cp4405fd11vvmrm4j63midpg6upk0mm</string>
 			</array>
 		</dict>
 		<dict>
@@ -43,7 +43,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1621261125</string>
+	<string>1621294040</string>
 	<key>FacebookAppID</key>
 	<string>1234517686754691</string>
 	<key>FacebookDisplayName</key>

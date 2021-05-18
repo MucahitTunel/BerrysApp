@@ -54,7 +54,7 @@ import { Formik } from 'formik'
 import { checkURL } from 'utils'
 import RNUrlPreview from 'react-native-url-preview'
 import Clipboard from '@react-native-community/clipboard'
-import { QuestionItem, PollItem, RenderCompare } from '../questions/Main'
+import { QuestionItem, RenderPoll, RenderCompare } from '../questions/Main'
 import Images from 'assets/images'
 import { Color } from 'react-native-agora'
 
@@ -371,7 +371,7 @@ const GroupUpsert = ({ navigation, route }) => {
   const renderSharedPosts = ({ item, index }) => {
     const renderItem = () => {
       if (item.type === 'question') return <QuestionItem question={item} />
-      if (item.type === 'poll') return <PollItem data={item} />
+      if (item.type === 'poll') return <RenderPoll poll={item} />
       if (item.type === 'compare') return <RenderCompare compare={item} />
     }
 
