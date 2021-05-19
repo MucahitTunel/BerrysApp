@@ -373,6 +373,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
   return (
     <View style={styles.cardItemContainer}>
       {renderCardHeader({
+        isPopular,
         type: 'compare',
         _id: compare._id,
         name: compare.contactName,
@@ -452,6 +453,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
 }
 
 const RenderQuestionImage = ({
+  isPopular,
   questionId,
   image,
   dispatch,
@@ -475,6 +477,7 @@ const RenderQuestionImage = ({
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
+          isPopular,
           type: 'question',
           _id: questionId,
           name: contactName,
@@ -512,6 +515,7 @@ const RenderQuestionImage = ({
 }
 
 const renderCardHeader = ({
+  isPopular,
   type,
   id,
   name,
@@ -544,17 +548,19 @@ const renderCardHeader = ({
             </AppText>
           </View>
         </View>
-        <View style={styles.cardItemHeader}>
-          {type === 'question' && (
-            <AppButton
-              icon="heart"
-              iconColor={isVoted ? Colors.primary : Colors.grayLight}
-              shadow={false}
-              style={{ backgroundColor: 'transparent', right: -15 }}
-              onPress={voteOnPress}
-            />
-          )}
-        </View>
+        {!isPopular && (
+          <View style={styles.cardItemHeader}>
+            {type === 'question' && (
+              <AppButton
+                icon="heart"
+                iconColor={isVoted ? Colors.primary : Colors.grayLight}
+                shadow={false}
+                style={{ backgroundColor: 'transparent', right: -15 }}
+                onPress={voteOnPress}
+              />
+            )}
+          </View>
+        )}
       </View>
       <View
         style={{
@@ -640,6 +646,7 @@ export const QuestionItem = ({
         group={group}
         contactName={contactName}
         myContact={myContact}
+        isPopular={isPopular}
       />
     )
 
@@ -697,6 +704,7 @@ export const QuestionItem = ({
       onPress={onPressQuestion}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
+          isPopular,
           type: 'question',
           _id,
           name: contactName,
@@ -856,6 +864,7 @@ export const RenderPoll = ({ poll, isPopular }) => {
     <View style={styles.cardItemContainer}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
+          isPopular,
           type: 'poll',
           _id: poll._id,
           name: poll.contactName,

@@ -42,4 +42,5 @@ export default {
   QuestionTypeSelection: 'QuestionTypeSelectionScreen',
   PointsInput: 'PointsInputScreen',
   MyPosts: 'MyPostsScreen',
+  MyEngaged: 'MyEngagedScreen',
 }

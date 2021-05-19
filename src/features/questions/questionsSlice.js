@@ -61,6 +61,70 @@ export const getQuestions = createAsyncThunk(
   },
 )
 
+export const getMyEngaged = createAsyncThunk(
+  'my-engaged',
+  async (_, { dispatch }) => {
+    dispatch(getMyEngagedQuestions())
+    dispatch(getMyEngagedPolls())
+    dispatch(getMyEngagedCompares())
+    return
+  },
+)
+
+export const getMyEngagedQuestions = createAsyncThunk(
+  'questions/my-engaged',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'questions/my-engaged',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.questions.map((q) => {
+      return { ...q, contactName: user.name }
+    })
+  },
+)
+
+export const getMyEngagedPolls = createAsyncThunk(
+  'polls/my-engaged',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'polls/my-engaged',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.polls.map((p) => {
+      return { ...p, contactName: user.name }
+    })
+  },
+)
+
+export const getMyEngagedCompares = createAsyncThunk(
+  'compares/my-engaged',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'compares/my-engaged',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.compares.map((c) => {
+      return { ...c, contactName: user.name }
+    })
+  },
+)
+
 export const getMyPosts = createAsyncThunk(
   'my-posts',
   async (_, { dispatch }) => {
@@ -222,6 +286,9 @@ const questionsSlice = createSlice({
     myQuestions: [],
     myPolls: [],
     myCompares: [],
+    myEngagedQuestions: [],
+    myEngagedPolls: [],
+    myEngagedCompares: [],
   },
   reducers: {
     readQuestion: (state, action) => {
@@ -318,6 +385,15 @@ const questionsSlice = createSlice({
     },
     [getMyCompares.fulfilled]: (state, action) => {
       state.myCompares = action.payload
+    },
+    [getMyEngagedQuestions.fulfilled]: (state, action) => {
+      state.myEngagedQuestions = action.payload
+    },
+    [getMyEngagedPolls.fulfilled]: (state, action) => {
+      state.myEngagedPolls = action.payload
+    },
+    [getMyEngagedCompares.fulfilled]: (state, action) => {
+      state.myEngagedCompares = action.payload
     },
   },
 })

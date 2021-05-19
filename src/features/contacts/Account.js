@@ -88,6 +88,8 @@ const Account = () => {
         return 'My Contacts'
       case 'posts':
         return 'My Posts'
+      case 'engaged':
+        return 'My Engaged Posts'
       case 'logout':
         return 'Logout'
     }
@@ -100,6 +102,7 @@ const Account = () => {
       case 'contacts':
         return Images.groupFilled
       case 'posts':
+      case 'engaged':
         return Images.graphFilled
       case 'logout':
         return Images.logout
@@ -197,6 +200,9 @@ const Account = () => {
             )}
             {renderItem('posts', () =>
               NavigationService.navigate(Screens.MyPosts),
+            )}
+            {renderItem('engaged', () =>
+              NavigationService.navigate(Screens.MyEngaged),
             )}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}

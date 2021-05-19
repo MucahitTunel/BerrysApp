@@ -22,6 +22,7 @@ import GroupCreate from 'features/groups/GroupCreate'
 import GroupUpsert from 'features/groups/GroupUpsert'
 import FollowContacts from 'features/contacts/FollowContacts'
 import MyPosts from 'features/contacts/MyPosts'
+import MyEngaged from 'features/contacts/MyEngaged'
 import MessageContacts from 'features/messages/MessageContacts'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
 
@@ -191,6 +192,18 @@ export default MainStackScreen = ({ navigation }) => {
                     header: () => (
                     <Header
                         title="My Posts"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+            />
+            <MainStack.Screen
+                name={Screens.MyEngaged}
+                component={MyEngaged}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="My Engaged Posts"
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),
