@@ -383,6 +383,7 @@ const Answers = ({ route, navigation }) => {
   const [reportContainer, setReportContainer] = useState(false)
   const [reportMessage, setReportMessage] = useState(null)
   const reportOnPress = () => {
+    if(!reportMessage) return
     dispatch(reportUser({ reportedUserPhoneNumber: commentUserPhoneNumber, message: reportMessage }))
     setIsMessageModalVisible(false)
     setReportContainer(false)
@@ -597,9 +598,9 @@ const Answers = ({ route, navigation }) => {
               {reportContainer ?
                 <>
                   <AppInput
-                    placeholder="Enter your message..."
+                    placeholder="Report bullying, harassment, threat & Inappropriate messages and we'll reveal the identity of those users and take an action immediately"
                     placeholderTextColor={Colors.gray}
-                    style={{ minHeight: 100, maxHeight: 150, backgroundColor: 'white', marginBottom: 30, color: 'black' }}
+                    style={{ minHeight: 120, maxHeight: 150, backgroundColor: 'white', marginBottom: 30, color: 'black' }}
                     multiline
                     onChange={(value) => setReportMessage(value === '' ? null : value)}
                   />
