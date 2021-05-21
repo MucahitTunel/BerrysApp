@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, ActivityIndicator } from 'react-native'
+import { StyleSheet, ActivityIndicator, Image } from 'react-native'
 import { Colors, FontSize } from 'constants'
 import Fonts from 'assets/fonts'
 import AppIcon from '../AppIcon'
@@ -51,6 +51,8 @@ const AppButton = ({
   isLoading,
   shadow = true,
   leftAlign,
+  image,
+  imageStyle,
 }) => {
   let btnIcon = styles.btnIcon
   let btnSecondary = styles.btnSecondary
@@ -84,6 +86,7 @@ const AppButton = ({
           size={iconSize}
         />
       ) : null}
+      {!isLoading && image ? <Image source={image} style={imageStyle} /> : null}
       {!isLoading && text ? (
         <AppText style={[styles.btnText, textStyle]}>{text}</AppText>
       ) : null}
@@ -98,6 +101,8 @@ AppButton.propTypes = {
   icon: PropTypes.string,
   iconSize: PropTypes.number,
   iconColor: PropTypes.string,
+  image: PropTypes.object,
+  imageStyle: PropTypes.object,
   text: PropTypes.string,
   color: PropTypes.string,
   error: PropTypes.string,

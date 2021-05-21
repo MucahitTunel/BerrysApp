@@ -25,6 +25,7 @@ import {
   setAskAnonymously,
   setAskContacts,
   setAskGroups,
+  setAskFacebookGroups,
   askQuestion,
   setIsAskExperts,
 } from 'features/questions/askSlice'
@@ -79,6 +80,7 @@ const PostQuestion = ({ navigation, route }) => {
     (state) => state.contacts.contactPermission,
   )
   const groups = useSelector((state) => state.ask.groups)
+  const facebookGroups = useSelector((state) => state.ask.facebookGroups)
   const loading = useSelector((state) => state.ask.loading)
   const isAnonymous = useSelector((state) => state.ask.isAnonymous)
   const isAskExperts = useSelector((state) => state.ask.isAskExperts)
@@ -88,7 +90,7 @@ const PostQuestion = ({ navigation, route }) => {
   const [sheetOpened, setSheetOpened] = useState(false)
 
   const selectedItems = contacts.map((c) => c.phoneNumber)
-  const selectedGroups = groups.map((g) => g._id)
+  const selectedGroups = [...groups, ...facebookGroups].map((g) => g._id)
 
   const swiperRef = React.useRef(null)
   const appState = React.useRef(AppState.currentState)
@@ -101,6 +103,7 @@ const PostQuestion = ({ navigation, route }) => {
     }
     dispatch(setAskContacts([]))
     dispatch(setAskGroups([]))
+    dispatch(setAskFacebookGroups([]))
     dispatch(setIsAskExperts(false))
   }, [dispatch, route])
 
@@ -167,6 +170,7 @@ const PostQuestion = ({ navigation, route }) => {
       !isAskExperts &&
       !allContactsSelected &&
       groups.length === 0 &&
+      facebookGroups.length === 0 &&
       contacts.length === 0
     )
       return alert(
@@ -270,7 +274,7 @@ const PostQuestion = ({ navigation, route }) => {
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
         )}
-        {[...contacts, ...groups, 'icon'].map((item) => {
+        {[...contacts, ...groups, ...facebookGroups, 'icon'].map((item) => {
           if (item === 'icon') {
             return (
               <AppButton
@@ -299,6 +303,11 @@ const PostQuestion = ({ navigation, route }) => {
                   dispatch(
                     setAskGroups(groups.filter((c) => c._id !== item._id)),
                   )
+                dispatch(
+                  setAskFacebookGroups(
+                    facebookGroups.filter((c) => c._id !== item._id),
+                  ),
+                )
               }}
               style={[
                 styles.itemContainer,

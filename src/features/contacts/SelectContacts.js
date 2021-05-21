@@ -7,6 +7,7 @@ import {
   askQuestion,
   setAskContacts,
   setAskGroups,
+  setAskFacebookGroups,
 } from 'features/questions/askSlice'
 import { sendInvite } from 'features/auth/authSlice'
 import { Colors } from 'constants'
@@ -16,10 +17,18 @@ const SelectContacts = (props) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
   const question = useSelector((state) => state.question)
-  const onPressSubmit = (contacts, groups = [], request) => {
+  const onPressSubmit = (
+    contacts,
+    groups = [],
+    facebookGroups = [],
+    request,
+  ) => {
     Keyboard.dismiss()
     const MIN_NUM_RECEIVERS = 1
-    if (contacts.length + groups.length < MIN_NUM_RECEIVERS) {
+    if (
+      contacts.length + groups.length + facebookGroups.length <
+      MIN_NUM_RECEIVERS
+    ) {
       return Alert.alert(
         'Warning',
         `You have to select at least ${MIN_NUM_RECEIVERS} contacts/groups in order to proceed`,
@@ -35,6 +44,7 @@ const SelectContacts = (props) => {
 
     dispatch(setAskContacts(contacts))
     dispatch(setAskGroups(groups))
+    dispatch(setAskFacebookGroups(facebookGroups))
 
     if (props.route.params?.poll) return dispatch(createPoll())
     if (props.route.params?.compare) return dispatch(createCompare())

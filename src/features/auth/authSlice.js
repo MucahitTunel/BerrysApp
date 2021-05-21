@@ -136,7 +136,7 @@ export const verifyPhoneNumber = createAsyncThunk(
       Alert.alert('Error', error.message)
       throw error
     } else {
-      dispatch(createAccount(user))
+      NavigationService.navigate(Screens.FacebookIntegration)
     }
   },
 )
@@ -301,6 +301,15 @@ export const sendInvite = createAsyncThunk(
   },
 )
 
+export const skipFacebook = createAsyncThunk(
+  'facebook-skip',
+  async (_, { getState, dispatch }) => {
+    const state = getState()
+    const user = state.auth.user
+    dispatch(createAccount(user))
+  },
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -321,6 +330,9 @@ const authSlice = createSlice({
         ...state.user,
         points: action.payload,
       }
+    },
+    setUser: (state, action) => {
+      state.user = action.payload
     },
     setUserIsNew: (state, action) => {
       state.user = {

@@ -177,7 +177,7 @@ export const createPoll = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { contacts, groups, question } = state.ask
+    const { contacts, groups, facebookGroups, question } = state.ask
     const { pollOptions } = state.question
     await request({
       method: 'POST',
@@ -188,6 +188,7 @@ export const createPoll = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
       },
     })
     dispatch(getQuestions())
@@ -245,7 +246,7 @@ export const createCompare = createAsyncThunk(
   async (disableUpload = false, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { contacts, groups, question } = state.ask
+    const { contacts, groups, facebookGroups, question } = state.ask
     const { compareImages } = state.question
 
     setTimeout(() => {
@@ -275,6 +276,7 @@ export const createCompare = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
       },
     })
     dispatch(getQuestions())
@@ -340,7 +342,7 @@ export const shareQuestion = createAsyncThunk(
   'questions/share',
   async ({ id }, { getState }) => {
     const state = getState()
-    const { contacts, groups } = state.ask
+    const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
       url: 'question/share',
@@ -348,6 +350,7 @@ export const shareQuestion = createAsyncThunk(
         questionId: id,
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
       },
     })
   },
@@ -357,7 +360,7 @@ export const shareCompare = createAsyncThunk(
   'compares/share',
   async ({ id }, { getState }) => {
     const state = getState()
-    const { contacts, groups } = state.ask
+    const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
       url: 'compares/share',
@@ -365,6 +368,7 @@ export const shareCompare = createAsyncThunk(
         compareId: id,
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
       },
     })
   },
@@ -374,7 +378,7 @@ export const sharePoll = createAsyncThunk(
   'polls/share',
   async ({ id }, { getState }) => {
     const state = getState()
-    const { contacts, groups } = state.ask
+    const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
       url: 'polls/share',
@@ -382,6 +386,7 @@ export const sharePoll = createAsyncThunk(
         pollId: id,
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
       },
     })
   },

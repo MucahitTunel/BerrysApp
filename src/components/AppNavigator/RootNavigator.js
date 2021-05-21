@@ -47,13 +47,9 @@ import QuestionWithImage from 'features/questions/QuestionWithImage'
 import PostQuestion from 'features/questions/PostQuestion'
 import VoiceCall from 'features/contacts/VoiceCall'
 import Account from 'features/contacts/Account'
+import FacebookIntegration from 'features/auth/FacebookIntegration'
 
 import MainStack from './MainNavigator'
-
-import HOME_FILLED from 'assets/images/new-design/homeFilled.png'
-import GROUP_EMPTY from 'assets/images/new-design/groupEmpty.png'
-import MESSAGE_EMPTY from 'assets/images/new-design/messageEmpty.png'
-import PROFILE_EMPTY from 'assets/images/new-design/profileEmpty.png'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -342,6 +338,10 @@ const AuthStack = () => (
     <Stack.Screen
       name={Screens.PhoneVerification}
       component={PhoneVerification}
+    />
+    <Stack.Screen
+      name={Screens.FacebookIntegration}
+      component={FacebookIntegration}
     />
   </Stack.Navigator>
 )

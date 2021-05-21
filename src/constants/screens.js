@@ -43,4 +43,5 @@ export default {
   PointsInput: 'PointsInputScreen',
   MyPosts: 'MyPostsScreen',
   MyEngaged: 'MyEngagedScreen',
+  FacebookIntegration: 'FacebookIntegrationScreen',
 }

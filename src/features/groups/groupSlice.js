@@ -4,6 +4,7 @@ import * as NavigationService from 'services/navigation'
 import request from 'services/api'
 import { Screens } from 'constants'
 import differenceBy from 'lodash/differenceBy'
+import { createAccount } from '../auth/authSlice'
 
 export const getGroups = createAsyncThunk(
   'groups/get',
@@ -17,8 +18,10 @@ export const getGroups = createAsyncThunk(
         userPhoneNumber: user.phoneNumber,
       },
     })
-    const { groups } = data
-    return groups
+    let { groups } = data
+    return groups.map((g) => {
+      return { ...g, type: g.fbGroupId ? 'facebook' : 'normal' }
+    })
   },
 )
 
@@ -53,10 +56,17 @@ export const createGroup = createAsyncThunk(
 
 export const getGroup = createAsyncThunk(
   'group/get',
-  async (groupId, { getState }) => {
+  async ({ groupId, type }, { getState }) => {
     return new Promise(async (resolve) => {
       const state = getState()
       const user = state.auth.user
+      const groups = state.group.groups
+
+      if (type === 'facebook') {
+        const item = groups.filter((g) => g._id === groupId)[0]
+        return resolve(item)
+      }
+
       const { data } = await request({
         method: 'GET',
         url: 'group',
@@ -189,13 +199,14 @@ export const joinGroupByLink = createAsyncThunk(
 
 export const getSharedPosts = createAsyncThunk(
   'group/get-shared-posts',
-  async (_, { getState, dispatch }) => {
+  async (type, { getState, dispatch }) => {
     const state = getState()
     const { data } = await request({
       method: 'GET',
       url: 'group/posts',
       params: {
         groupId: state.group.current._id,
+        type,
       },
     })
     dispatch(
@@ -222,15 +233,39 @@ export const getSharedPosts = createAsyncThunk(
   },
 )
 
-// TODO Change here
 export const getFacebookGroups = createAsyncThunk(
   'group/get-facebook-groups',
-  async ({ userId, token }) => {
-    const { data } = await request({
-      method: 'GET',
-      url: `https://graph.facebook.com/v10.0/${userId}/groups?access_token=${token}`,
-    })
-    console.log(data)
+  async ({ userId, token }, { getState, dispatch }) => {
+    try {
+      const state = getState()
+      const user = state.auth.user
+
+      let url = `https://graph.facebook.com/v10.0/${userId}/groups?access_token=${token}`
+      let fetch = true
+      let groups = []
+      while (fetch) {
+        // eslint-disable-next-line no-await-in-loop
+        const { data } = await request({
+          method: 'GET',
+          url,
+        })
+        groups = [...groups, ...data.data]
+        if (data.paging && data.paging.next) url = data.paging.next
+        else fetch = false
+      }
+      if (groups.length > 0)
+        await request({
+          method: 'POST',
+          url: 'groups/facebook',
+          data: {
+            groups,
+            userPhoneNumber: user.phoneNumber,
+          },
+        })
+      dispatch(createAccount(user))
+    } catch (error) {
+      console.log(error)
+    }
   },
 )
 

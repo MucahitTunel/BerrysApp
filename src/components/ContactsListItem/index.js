@@ -30,7 +30,10 @@ const ContactsListItem = ({
     <TouchableWrapper style={style} onPressItem={item} onPress={onPress}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Avatar source={Images.newProfile} size={28} />
-        <AppText style={{ marginLeft: 10 }} weight="medium">
+        <AppText
+          style={{ marginLeft: 10, maxWidth: 250 }}
+          weight="medium"
+          numberOfLines={1}>
           {text || ''}
           {isContact && <AppText color={Colors.gray}>{rightText}</AppText>}
         </AppText>

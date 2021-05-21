@@ -320,7 +320,8 @@ const ContactsList = ({
     } else {
       onPressSubmit(
         contacts.filter((item) => item.type === 'contact'),
-        contacts.filter((item) => item.type === 'group'),
+        contacts.filter((item) => item.type === 'group' && !item.fbGroupId),
+        contacts.filter((item) => item.type === 'group' && item.fbGroupId),
         request,
       )
     }

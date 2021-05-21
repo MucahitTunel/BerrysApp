@@ -45,6 +45,8 @@ import onboardingShare from './new-design/onboardingShare.png'
 import bell from './new-design/bell.png'
 import share from './new-design/share.png'
 import emptyCard from './new-design/emptyCard.jpeg'
+import facebookIntegration from './new-design/facebookIntegration.png'
+import facebookIcon from './new-design/facebookIcon.png'
 
 export default {
   logo,
@@ -91,4 +93,6 @@ export default {
   profileGray,
   share,
   emptyCard,
+  facebookIntegration,
+  facebookIcon,
 }

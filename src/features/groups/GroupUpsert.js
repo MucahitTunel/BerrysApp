@@ -244,7 +244,8 @@ const GroupUpsert = ({ navigation, route }) => {
 
   useEffect(() => {
     setGroupName(group.name)
-    dispatch(getSharedPosts())
+    console.log(group)
+    dispatch(getSharedPosts(group.fbGroupId ? 'facebook' : 'normal'))
   }, [group, dispatch])
   const [questionUrl, setQuestionUrl] = useState(null)
 
@@ -261,6 +262,8 @@ const GroupUpsert = ({ navigation, route }) => {
           headerLeft={<BackButton navigation={navigation} />}
           headerRight={
             isCreate ? (
+              <View />
+            ) : group.type === 'facebook' ? (
               <View />
             ) : (
               <AnswerRightButton onPressDots={() => setIsModalVisible(true)} />
@@ -286,7 +289,11 @@ const GroupUpsert = ({ navigation, route }) => {
         isDefaultItem: true,
       }
   const members =
-    group && group.members ? group.members.concat(groupCreator) : [groupCreator]
+    group && group.members
+      ? group.type === 'facebook'
+        ? group.members
+        : group.members.concat(groupCreator)
+      : [groupCreator]
   const admins =
     group && group.members
       ? group.members.filter((m) => m.role === 'admin').concat(groupCreator)
@@ -406,22 +413,26 @@ const GroupUpsert = ({ navigation, route }) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <View style={styles.groupPictureContainer}>
-              <Image source={Images.groupWhite} style={styles.groupPicture} />
-              <TouchableOpacity
-                style={{ position: 'absolute', top: 65, right: 0 }}
-                onPress={() => setChangeGroupName(!changeGroupName)}>
-                <Avatar source={Images.edit} size={32} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.groupMemberContainer}>
-              <AppText color="white" fontSize={FontSize.xLarge} weight="bold">
-                {admins.length}
-              </AppText>
-              <AppText color="white" fontSize={FontSize.large}>
-                Group Admins
-              </AppText>
-            </View>
+            {group.type !== 'facebook' && (
+              <View style={styles.groupPictureContainer}>
+                <Image source={Images.groupWhite} style={styles.groupPicture} />
+                <TouchableOpacity
+                  style={{ position: 'absolute', top: 65, right: 0 }}
+                  onPress={() => setChangeGroupName(!changeGroupName)}>
+                  <Avatar source={Images.edit} size={32} />
+                </TouchableOpacity>
+              </View>
+            )}
+            {group.type !== 'facebook' && (
+              <View style={styles.groupMemberContainer}>
+                <AppText color="white" fontSize={FontSize.xLarge} weight="bold">
+                  {admins.length}
+                </AppText>
+                <AppText color="white" fontSize={FontSize.large}>
+                  Group Admins
+                </AppText>
+              </View>
+            )}
             <View style={styles.groupMemberContainer}>
               <AppText color="white" fontSize={FontSize.xLarge} weight="bold">
                 {members.length}

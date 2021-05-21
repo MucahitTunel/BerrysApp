@@ -15,6 +15,7 @@ export const askQuestion = createAsyncThunk(
       question,
       contacts,
       groups,
+      facebookGroups,
       isAnonymous,
       questionImage,
       isAskExperts,
@@ -44,6 +45,7 @@ export const askQuestion = createAsyncThunk(
             : 'What do you think about this?',
         contacts,
         groups: groups.map((g) => g._id),
+        facebookGroups: facebookGroups.map((g) => g._id),
         userPhoneNumber: user.phoneNumber,
         isAnonymous,
         requestToAsk,
@@ -146,6 +148,7 @@ const askSlice = createSlice({
     questionImage: null,
     contacts: [],
     groups: [],
+    facebookGroups: [],
     loading: false,
     isAnonymous: true,
     isAskExperts: false,
@@ -159,6 +162,9 @@ const askSlice = createSlice({
     },
     setAskGroups: (state, action) => {
       state.groups = action.payload
+    },
+    setAskFacebookGroups: (state, action) => {
+      state.facebookGroups = action.payload
     },
     setAskAnonymously: (state, action) => {
       state.isAnonymous = action.payload
@@ -188,6 +194,7 @@ export const {
     setAskQuestion,
     setAskContacts,
     setAskGroups,
+    setAskFacebookGroups,
     setAskAnonymously,
     setQuestionImage,
     setIsAskExperts,

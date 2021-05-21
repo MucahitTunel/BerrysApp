@@ -20,8 +20,7 @@ import {
   AppIcon,
   AppInput,
 } from 'components'
-import { getGroups, getGroup, getFacebookGroups } from './groupSlice'
-import facebookService from '../../services/facebook'
+import { getGroups, getGroup } from './groupSlice'
 import Images from 'assets/images'
 
 const styles = StyleSheet.create({
@@ -87,8 +86,8 @@ const GroupList = () => {
     dispatch(getGroups())
   }, [dispatch])
 
-  const onPressGroupItem = (groupId) => {
-    dispatch(getGroup(groupId)).then(() =>
+  const onPressGroupItem = (groupId, type) => {
+    dispatch(getGroup({ groupId, type })).then(() =>
       NavigationService.navigate(Screens.GroupUpsert, { isCreate: false }),
     )
   }
@@ -117,16 +116,6 @@ const GroupList = () => {
       </View>
     </View>
   )
-
-  // TODO Change here
-  const facebookLogin = async () => {
-    const data = await facebookService.getFacebookUserData()
-    // EAARiyYwwHYMBAPqbhbwKFsFSjP99ZAO8ZCGPXh1VnEiaKiQif98COZBAjAS72o0xVWGOdUzlgJQhMZA9v9XlcuFWWSSnWyo3rCOkpTfIEsmKqRSiMF7Oc2i7RSX0gAtRERrZAbfalfx3ZCBKcUTAK8KPdWCOdhjKzNAwaA4NmolZAglZBWFNElOZBZASCMpbH7B6fDJjrYJi5WK7B8k4RCeB0Fk2aqOsPxyuUVAazWcfHs4SmIWoSZBsnh6
-    console.log(data)
-    dispatch(
-      getFacebookGroups({ userId: data.userID, token: data.accessToken }),
-    )
-  }
 
   return (
     <>
@@ -161,11 +150,6 @@ const GroupList = () => {
       <Layout innerStyle={{ paddingTop: 20 }}>
         <SafeAreaView style={styles.container}>
           <StatusBar barStyle="light-content" />
-          {/* <AppButton
-        text="Integrate Facebook Groups"
-        style={{ marginTop: 10, marginHorizontal: 15, backgroundColor: 'rgb(108,131,193)' }}
-        onPress={facebookLogin}
-      /> */}
           <ScrollView>
             <View style={styles.groupBox}>
               <View
@@ -187,7 +171,9 @@ const GroupList = () => {
                             index === myGroups.length - 1 &&
                               styles.groupItemLast,
                           ]}
-                          onPress={() => onPressGroupItem(group._id)}>
+                          onPress={() =>
+                            onPressGroupItem(group._id, group.type)
+                          }>
                           <View style={styles.groupPictureContainer}>
                             <Image
                               source={Images.groupWhite}
