@@ -390,6 +390,10 @@ const Answers = ({ route, navigation }) => {
     setTimeout(() => alert('You have successfully reported this user!'), 500)
   }
 
+  const imageOnPress = () => {
+    setImageModalVisible(true)
+  }
+
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
@@ -423,6 +427,7 @@ const Answers = ({ route, navigation }) => {
           )
         }
         image={question.image}
+        imageOnPress={imageOnPress}
       />
       )
     }

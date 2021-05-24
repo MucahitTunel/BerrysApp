@@ -40,6 +40,7 @@ import {
   activateJoinLink,
   deactivateJoinLink,
   getSharedPosts,
+  setCurrentGroupPicture,
 } from './groupSlice'
 import {
   setAskGroups,
@@ -50,13 +51,10 @@ import { AnswerRightButton } from 'components/NavButton'
 import { BlurView } from '@react-native-community/blur'
 import Modal from 'react-native-modal'
 import Theme from 'theme'
-import { Formik } from 'formik'
-import { checkURL } from 'utils'
-import RNUrlPreview from 'react-native-url-preview'
 import Clipboard from '@react-native-community/clipboard'
 import { QuestionItem, RenderPoll, RenderCompare } from '../questions/Main'
 import Images from 'assets/images'
-import { Color } from 'react-native-agora'
+import { launchImageLibrary } from 'react-native-image-picker'
 
 const styles = StyleSheet.create({
   container: {
@@ -237,14 +235,18 @@ const GroupUpsert = ({ navigation, route }) => {
 
   const [groupName, setGroupName] = useState(group.name)
   const [changeGroupName, setChangeGroupName] = useState(false)
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState(null)
 
   const sharedQuestions = useSelector((state) => state.group.sharedQuestions)
   const sharedPolls = useSelector((state) => state.group.sharedPolls)
   const sharedCompares = useSelector((state) => state.group.sharedCompares)
 
   useEffect(() => {
+    dispatch(setCurrentGroupPicture(null))
+  }, [dispatch])
+
+  useEffect(() => {
     setGroupName(group.name)
-    console.log(group)
     dispatch(getSharedPosts(group.fbGroupId ? 'facebook' : 'normal'))
   }, [group, dispatch])
   const [questionUrl, setQuestionUrl] = useState(null)
@@ -316,6 +318,7 @@ const GroupUpsert = ({ navigation, route }) => {
       dispatch(setNewGroupName(groupName))
       dispatch(createGroup())
     } else {
+      dispatch(setCurrentGroupPicture(selectedProfilePicture))
       dispatch(setCurrentGroupName(groupName))
       dispatch(updateGroup())
     }
@@ -404,6 +407,20 @@ const GroupUpsert = ({ navigation, route }) => {
     )
   }
 
+  const pickProfileImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.1,
+      },
+      (response) => {
+        if (response.didCancel) return
+        if (response.errorCode) return
+        setSelectedProfilePicture(response.uri)
+      },
+    )
+  }
+
   return (
     <>
       {!isCreate && (
@@ -415,7 +432,25 @@ const GroupUpsert = ({ navigation, route }) => {
             }}>
             {group.type !== 'facebook' && (
               <View style={styles.groupPictureContainer}>
-                <Image source={Images.groupWhite} style={styles.groupPicture} />
+                <TouchableOpacity
+                  onPress={pickProfileImage}
+                  disabled={!changeGroupName}>
+                  <Image
+                    style={{
+                      width: group.profilePicture || changeGroupName ? 90 : 40,
+                      height: group.profilePicture || changeGroupName ? 90 : 40,
+                      resizeMode: 'cover',
+                      borderRadius: 45,
+                    }}
+                    source={
+                      group.profilePicture
+                        ? { uri: group.profilePicture }
+                        : changeGroupName
+                        ? { uri: selectedProfilePicture }
+                        : Images.groupWhite
+                    }
+                  />
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={{ position: 'absolute', top: 65, right: 0 }}
                   onPress={() => setChangeGroupName(!changeGroupName)}>
@@ -484,9 +519,9 @@ const GroupUpsert = ({ navigation, route }) => {
                   </View>
                   <View style={styles.addMembersBody}>
                     {admins.length ? (
-                      admins.map((admin) => (
+                      admins.map((admin, index) => (
                         <ScaleTouchable
-                          key={admin.phoneNumber}
+                          key={index}
                           onPress={() => onRemoveMember(admin)}
                           style={styles.memberItem}>
                           <AppText
@@ -534,9 +569,9 @@ const GroupUpsert = ({ navigation, route }) => {
                   </View>
                   <View style={styles.addMembersBody}>
                     {members.length ? (
-                      members.map((member) => (
+                      members.map((member, index) => (
                         <ScaleTouchable
-                          key={member.phoneNumber}
+                          key={index}
                           onPress={() => onRemoveMember(member)}
                           style={styles.memberItem}>
                           <AppText
@@ -564,7 +599,7 @@ const GroupUpsert = ({ navigation, route }) => {
                       ...sharedQuestions,
                       ...sharedPolls,
                       ...sharedCompares,
-                    ]}
+                    ].sort((a, b) => b.createdAt - a.createdAt)}
                     renderItem={renderSharedPosts}
                     ListEmptyComponent={renderEmptyPosts}
                     style={{ flex: 1 }}

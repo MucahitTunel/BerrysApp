@@ -342,6 +342,7 @@ export const shareQuestion = createAsyncThunk(
   'questions/share',
   async ({ id }, { getState }) => {
     const state = getState()
+    const user = state.auth.user
     const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
@@ -351,6 +352,7 @@ export const shareQuestion = createAsyncThunk(
         contacts,
         groups: groups.map((g) => g._id),
         facebookGroups: facebookGroups.map((g) => g._id),
+        userPhoneNumber: user.phoneNumber,
       },
     })
   },
@@ -360,6 +362,7 @@ export const shareCompare = createAsyncThunk(
   'compares/share',
   async ({ id }, { getState }) => {
     const state = getState()
+    const user = state.auth.user
     const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
@@ -369,6 +372,7 @@ export const shareCompare = createAsyncThunk(
         contacts,
         groups: groups.map((g) => g._id),
         facebookGroups: facebookGroups.map((g) => g._id),
+        userPhoneNumber: user.phoneNumber,
       },
     })
   },
@@ -378,6 +382,7 @@ export const sharePoll = createAsyncThunk(
   'polls/share',
   async ({ id }, { getState }) => {
     const state = getState()
+    const user = state.auth.user
     const { contacts, groups, facebookGroups } = state.ask
     await request({
       method: 'POST',
@@ -387,6 +392,7 @@ export const sharePoll = createAsyncThunk(
         contacts,
         groups: groups.map((g) => g._id),
         facebookGroups: facebookGroups.map((g) => g._id),
+        userPhoneNumber: user.phoneNumber,
       },
     })
   },

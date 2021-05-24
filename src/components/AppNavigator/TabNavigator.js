@@ -1,20 +1,45 @@
 /* eslint-disable */
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Screens, Colors } from 'constants'
 import { AppIcon } from 'components'
 import Images from 'assets/images'
+import { useSelector } from 'react-redux'
 
 import Account from 'features/contacts/Account'
 import Messages from 'features/messages/Messages'
 import GroupList from 'features/groups/GroupList'
 import Main from 'features/questions/Main'
 
+const styles = StyleSheet.create({
+  dotMessage: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: Colors.yellow,
+    position: 'absolute',
+    top: 10,
+    right: 20,
+    borderWidth: 1,
+    borderColor: Colors.purple,
+  },
+})
+
 const TabStack = createBottomTabNavigator()
 export default TabStackScreen = ({ navigation }) => {
 
     const renderNull = () => null
+
+    const roomsWithNewMessages =
+      useSelector((state) => state.messages.roomsWithNewMessages) || []
+    const questions = useSelector((state) => state.questions)
+    const user = useSelector((state) => state.auth.user)
+    const isNewUser = !(
+      questions.data.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+      questions.compares.find((q) => user.phoneNumber === q.userPhoneNumber) ||
+      questions.polls.find((q) => user.phoneNumber === q.userPhoneNumber)
+    )
 
     return (
         <TabStack.Navigator
@@ -24,7 +49,15 @@ export default TabStackScreen = ({ navigation }) => {
                 switch(route.name) {
                     case Screens.Main: return getImage(focused ? Images.homeFilled : Images.homeEmpty)
                     case Screens.GroupList: return getImage(focused ? Images.groupFilled : Images.groupEmpty)
-                    case Screens.Messages: return getImage(focused ? Images.messageFilled : Images.messageEmpty)
+                    case Screens.Messages:
+                      return (
+                        <>
+                          <Image source={focused ? Images.messageFilled : Images.messageEmpty} style={{ height: 24, width: 24, resizeMode: 'contain' }}/>
+                          {(roomsWithNewMessages.length > 0 ||
+                            questions.requestsToAsk.length > 0 ||
+                            isNewUser) && <View style={styles.dotMessage} />}
+                        </>
+                      )
                     case Screens.Account: return getImage(focused ? Images.newProfileFilled : Images.newProfile)
                     default: return (
                       <View style={{ backgroundColor: Colors.background, height: 70, width: 70, borderRadius: 35, top: -20, justifyContent: 'center', alignItems: 'center' }}>

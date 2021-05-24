@@ -5,6 +5,7 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native'
 import { AppInput, AppText, Layout, Avatar, AppIcon } from 'components'
 import { Colors, FontSize, Screens } from 'constants'
@@ -12,6 +13,7 @@ import Images from 'assets/images'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateName, logout } from 'features/auth/authSlice'
 import * as NavigationService from 'services/navigation'
+import { launchImageLibrary } from 'react-native-image-picker'
 
 const styles = StyleSheet.create({
   container: {
@@ -26,14 +28,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.Width,
     paddingTop: 50,
+    flexDirection: 'row',
+    paddingHorizontal: 40,
+    paddingBottom: 30,
   },
   avatarContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.background,
-    width: 90,
-    height: 90,
-    borderRadius: 45,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   pointsContainer: {
     backgroundColor: Colors.purpleLight,
@@ -66,6 +71,10 @@ const styles = StyleSheet.create({
     padding: 0,
     marginTop: 5,
     textDecorationLine: 'underline',
+    height: 30,
+    fontSize: 16,
+    flex: 1,
+    textAlign: 'center',
   },
 })
 
@@ -75,6 +84,7 @@ const Account = () => {
 
   const [editName, setEditName] = useState(false)
   const [name, setName] = useState('')
+  const [selectedProfilePicture, setSelectedProfilePicture] = useState(null)
 
   useEffect(() => {
     setName(user?.name ? user.name : '')
@@ -92,6 +102,8 @@ const Account = () => {
         return 'My Engaged Posts'
       case 'logout':
         return 'Logout'
+      case 'report':
+        return 'Report'
     }
   }
 
@@ -106,6 +118,8 @@ const Account = () => {
         return Images.graphFilled
       case 'logout':
         return Images.logout
+      case 'logout':
+        return Images.logout
     }
   }
 
@@ -117,7 +131,11 @@ const Account = () => {
             styles.itemIconContainer,
             { backgroundColor: type === 'logout' ? '#FFEAEA' : 'white' },
           ]}>
-          <Avatar source={getItemIcon(type)} size={24} />
+          {type === 'report' ? (
+            <AppIcon name="flag" size={24} color={Colors.purple} />
+          ) : (
+            <Avatar source={getItemIcon(type)} size={24} />
+          )}
         </View>
         <View style={styles.itemTextContainer}>
           <AppText
@@ -134,52 +152,85 @@ const Account = () => {
 
   const editOnPress = () => {
     if (editName) {
-      dispatch(updateName({ name }))
+      dispatch(updateName({ name, image: selectedProfilePicture }))
       setEditName(false)
     } else setEditName(true)
+  }
+
+  const pickProfileImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.1,
+      },
+      (response) => {
+        if (response.didCancel) return
+        if (response.errorCode) return
+        setSelectedProfilePicture(response.uri)
+      },
+    )
   }
 
   return (
     <>
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-          <Avatar source={Images.profileGray} size={43} />
+          <TouchableOpacity onPress={pickProfileImage} disabled={!editName}>
+            <Image
+              style={{
+                width: user.profilePicture || editName ? 80 : 40,
+                height: user.profilePicture || editName ? 80 : 40,
+                resizeMode: 'cover',
+                borderRadius: 40,
+              }}
+              source={
+                user.profilePicture
+                  ? { uri: user.profilePicture }
+                  : editName
+                  ? { uri: selectedProfilePicture }
+                  : Images.profileGray
+              }
+            />
+          </TouchableOpacity>
           <TouchableOpacity
-            style={{ position: 'absolute', top: 70, right: 5 }}
+            style={{ position: 'absolute', top: 60, right: 0 }}
             onPress={editOnPress}>
             <Avatar source={Images.edit} size={32} />
           </TouchableOpacity>
         </View>
-        {!editName ? (
+        <View style={{ flex: 1, paddingHorizontal: 30 }}>
+          {!editName ? (
+            <AppText
+              fontSize={FontSize.xLarge}
+              weight="medium"
+              style={{
+                color: 'white',
+                marginTop: 15,
+                textAlign: 'center',
+                height: 30,
+              }}>
+              {user.name}
+            </AppText>
+          ) : (
+            <AppInput
+              style={styles.nameInput}
+              placeholder={name}
+              placeholderTextColor="white"
+              value={name}
+              onChange={(value) => setName(value)}
+            />
+          )}
           <AppText
-            fontSize={FontSize.xxLarge}
-            weight="medium"
+            fontSize={FontSize.medium}
             style={{
-              color: 'white',
-              marginTop: 15,
-              marginBottom: 5,
+              color: '#dcdcdc',
+              marginBottom: 15,
+              textAlign: 'center',
+              marginHorizontal: 10,
             }}>
-            {user.name}
+            You can always switch anonymous mode
           </AppText>
-        ) : (
-          <AppInput
-            style={styles.nameInput}
-            placeholder={name}
-            placeholderTextColor="white"
-            value={name}
-            onChange={(value) => setName(value)}
-          />
-        )}
-        <AppText
-          fontSize={FontSize.large}
-          style={{
-            color: '#dcdcdc',
-            marginBottom: 15,
-            marginHorizontal: 100,
-            textAlign: 'center',
-          }}>
-          You can always switch anonymous mode
-        </AppText>
+        </View>
       </View>
       <Layout>
         <View style={styles.container}>
@@ -207,6 +258,9 @@ const Account = () => {
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}
             />
+            {renderItem('report', () =>
+              NavigationService.navigate(Screens.Report),
+            )}
             {renderItem('logout', () => dispatch(logout()))}
           </ScrollView>
         </View>

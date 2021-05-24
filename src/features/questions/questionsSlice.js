@@ -280,6 +280,7 @@ const questionsSlice = createSlice({
     polls: [],
     compares: [],
     loading: false,
+    popularSeenAt: '',
     popularPolls: [],
     popularCompares: [],
     popularQuestions: [],
@@ -376,6 +377,7 @@ const questionsSlice = createSlice({
       state.popularCompares = action.payload.compares
       state.popularPolls = action.payload.polls
       state.popularQuestions = action.payload.questions
+      state.popularSeenAt = action.payload.seenAt
     },
     [getMyQuestions.fulfilled]: (state, action) => {
       state.myQuestions = action.payload

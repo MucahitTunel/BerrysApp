@@ -34,9 +34,27 @@ const uploadCommentImage = async (file, questionId, userPhoneNumber) => {
   return reference.getDownloadURL()
 }
 
+const uploadProfilePicture = async (file, userPhoneNumber) => {
+  const time = new Date().getTime()
+  const reference = storage().ref(
+    `profilePicture/${userPhoneNumber}/${time}.jpg`,
+  )
+  await reference.putFile(file)
+  return reference.getDownloadURL()
+}
+
+const uploadGroupProfilePicture = async (file, groupId) => {
+  const time = new Date().getTime()
+  const reference = storage().ref(`groupProfilePicture/${groupId}/${time}.jpg`)
+  await reference.putFile(file)
+  return reference.getDownloadURL()
+}
+
 export default {
   uploadCompareImage,
   uploadQuestionImage,
   uploadDMImage,
   uploadCommentImage,
+  uploadProfilePicture,
+  uploadGroupProfilePicture,
 }

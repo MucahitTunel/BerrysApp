@@ -11,6 +11,8 @@ import { formatPhoneNumber } from '../contacts/helpers'
 import { getQuestions } from '../questions/questionsSlice'
 import { addRoomWithNewMessages } from '../messages/messagesSlice'
 import KochavaTracker from 'react-native-kochava-tracker'
+import firebase from '../../services/firebase'
+import facebookService from '../../services/facebook'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -75,6 +77,7 @@ export const authBoot = createAsyncThunk(
 )
 
 export const logout = createAsyncThunk('auth/logout', async () => {
+  facebookService.logoutFacebook()
   await AsyncStorage.removeItem('userData')
 })
 
@@ -225,16 +228,27 @@ export const updatePushToken = createAsyncThunk(
 
 export const updateName = createAsyncThunk(
   'auth/updateName',
-  async ({ name }, { getState, dispatch }) => {
+  async ({ name, image }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
+
+    const data = {
+      name,
+      userId: user._id,
+    }
+
+    if (image) {
+      const uploaded = await firebase.upload.uploadProfilePicture(
+        image,
+        user.phoneNumber,
+      )
+      data.profilePicture = uploaded
+    }
+
     await request({
       method: 'POST',
       url: 'account/name',
-      data: {
-        name,
-        userId: user._id,
-      },
+      data,
     })
     dispatch(getUser(user.phoneNumber))
   },

@@ -181,17 +181,20 @@ const Conversation = ({ navigation }) => {
             title={title}
             headerLeft={<MessagesBackButton navigation={navigation} />}
             headerRight={
-              <AppButton
-                shadow={false}
-                icon="phone"
-                iconSize={18}
-                onPress={voiceCallOnPress}
-                style={{
-                  backgroundColor: 'transparent',
-                  marginLeft: -30,
-                  right: -10,
-                }}
-              />
+              room.data.isFromAskMeAnything &&
+              room.createdBy === user.phoneNumber ? (
+                <AppButton
+                  shadow={false}
+                  icon="phone"
+                  iconSize={18}
+                  onPress={voiceCallOnPress}
+                  style={{
+                    backgroundColor: 'transparent',
+                    marginLeft: -30,
+                    right: -10,
+                  }}
+                />
+              ) : null
             }
           />
         ),
@@ -212,7 +215,7 @@ const Conversation = ({ navigation }) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation, room, dispatch])
+  }, [navigation, room, dispatch, user])
 
   useEffect(() => {
     if (room.data.isFromAskMeAnything) {

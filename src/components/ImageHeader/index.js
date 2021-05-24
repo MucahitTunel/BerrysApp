@@ -1,5 +1,10 @@
 import React from 'react'
-import { StyleSheet, View, ImageBackground } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native'
 import PropTypes from 'prop-types'
 import { FontSize, Colors } from 'constants'
 import Fonts from 'assets/fonts'
@@ -25,16 +30,16 @@ const styles = StyleSheet.create({
   },
 })
 
-const Header = ({ title, headerRight, headerLeft, image }) => {
+const Header = ({ title, headerRight, headerLeft, image, imageOnPress }) => {
   return (
     <ImageBackground style={styles.header} source={{ uri: image }}>
-      <View style={styles.inner}>
+      <TouchableOpacity style={styles.inner} onPress={imageOnPress}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>{headerLeft}</View>
           <AppText style={styles.headerText}>{title}</AppText>
           <View style={{ flex: 1, alignItems: 'flex-end' }}>{headerRight}</View>
         </View>
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   )
 }
@@ -46,6 +51,7 @@ Header.propTypes = {
   headerLeft: PropTypes.node.isRequired,
   title: PropTypes.string,
   image: PropTypes.string,
+  imageOnPress: PropTypes.func,
 }
 
 Header.defaultProps = {

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   groupPicture: {
     height: 30,
     width: 30,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   header: {
     backgroundColor: Colors.purple,
@@ -165,7 +165,7 @@ const GroupList = () => {
                       .filter((g) => g.name.toLowerCase().includes(searchText))
                       .map((group, index) => (
                         <ScaleTouchable
-                          key={group._id}
+                          key={index}
                           style={[
                             styles.groupItem,
                             index === myGroups.length - 1 &&
@@ -176,8 +176,17 @@ const GroupList = () => {
                           }>
                           <View style={styles.groupPictureContainer}>
                             <Image
-                              source={Images.groupWhite}
-                              style={styles.groupPicture}
+                              source={
+                                group.profilePicture
+                                  ? { uri: group.profilePicture }
+                                  : Images.groupWhite
+                              }
+                              style={{
+                                width: group.profilePicture ? 80 : 30,
+                                height: group.profilePicture ? 80 : 30,
+                                resizeMode: 'cover',
+                                borderRadius: 40,
+                              }}
                             />
                           </View>
                           <AppText

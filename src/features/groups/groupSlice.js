@@ -5,6 +5,7 @@ import request from 'services/api'
 import { Screens } from 'constants'
 import differenceBy from 'lodash/differenceBy'
 import { createAccount } from '../auth/authSlice'
+import firebase from '../../services/firebase'
 
 export const getGroups = createAsyncThunk(
   'groups/get',
@@ -87,17 +88,25 @@ export const updateGroup = createAsyncThunk(
     const state = getState()
     const user = state.auth.user
     const newGroupData = state.group.current
+
+    let profilePicture = null
+    if (newGroupData.profilePicture) {
+      profilePicture = await firebase.upload.uploadGroupProfilePicture(
+        newGroupData.profilePicture,
+        newGroupData._id.toString(),
+      )
+    }
+
     await request({
       method: 'POST',
       url: 'group/update',
       data: {
-        group: newGroupData,
+        group: { ...newGroupData, profilePicture },
         userPhoneNumber: user.phoneNumber,
       },
     })
     Alert.alert('Success', 'Your group has been updated!')
     dispatch(getGroups())
-    return
   },
 )
 
@@ -356,6 +365,9 @@ const groupSlice = createSlice({
     setCurrentGroupName: (state, action) => {
       state.current.name = action.payload
     },
+    setCurrentGroupPicture: (state, action) => {
+      state.current.profilePicture = action.payload
+    },
     resetNewGroup: (state) => {
       state.new = {
         name: null,
@@ -434,6 +446,7 @@ export const {
     setCurrentGroupMembers,
     setCurrentGroupAdmins,
     setCurrentGroupName,
+    setCurrentGroupPicture,
     setSharedQuestions,
     setSharedPolls,
     setSharedCompares,

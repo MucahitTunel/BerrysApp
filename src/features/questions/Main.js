@@ -953,13 +953,11 @@ const Main = ({ route }) => {
   }, [questions.data, questions.polls, questions.compares])
 
   useEffect(() => {
-    setPopularPosts(
-      [
-        ...questions.popularQuestions,
-        ...questions.popularPolls,
-        ...questions.popularCompares,
-      ].sort((a, b) => b.createdAt - a.createdAt),
-    )
+    setPopularPosts([
+      ...questions.popularCompares,
+      ...questions.popularPolls,
+      ...questions.popularQuestions,
+    ])
   }, [
     questions.popularPolls,
     questions.popularCompares,
@@ -1137,6 +1135,18 @@ const Main = ({ route }) => {
     }
   }, [questionCommented, dispatch])
 
+  const getPopularSeenAt = () => {
+    if (questions.popularSeenAt !== '') {
+      const seenDate = new Date(questions.popularSeenAt)
+      const today = new Date()
+
+      var diff = (today.getTime() - seenDate.getTime()) / 1000
+      diff /= 60 * 60
+      return 24 - Math.abs(Math.round(diff))
+    }
+    return 24
+  }
+
   const renderPopularCards = () => {
     if (popularPostsIndex < popularPosts.length)
       return (
@@ -1169,7 +1179,8 @@ const Main = ({ route }) => {
             top: 40,
             marginHorizontal: 60,
           }}>
-          You have responded all of the posts. See you tomorrow for new posts!
+          You earned points today. New popular posts would be in{' '}
+          {getPopularSeenAt()} hours!
         </AppText>
       </View>
     )

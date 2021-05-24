@@ -25,6 +25,7 @@ import MyPosts from 'features/contacts/MyPosts'
 import MyEngaged from 'features/contacts/MyEngaged'
 import MessageContacts from 'features/messages/MessageContacts'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
+import Report from 'features/report/Report'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -222,6 +223,18 @@ export default MainStackScreen = ({ navigation }) => {
                 })}
             />
             <MainStack.Screen name={Screens.GroupAddMembers} component={GroupAddMembers} />
+            <MainStack.Screen
+                name={Screens.Report}
+                component={Report}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="Report & Feedback"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+                />
         </MainStack.Navigator>
     )
 }
