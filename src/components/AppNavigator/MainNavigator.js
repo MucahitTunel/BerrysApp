@@ -26,6 +26,7 @@ import MyEngaged from 'features/contacts/MyEngaged'
 import MessageContacts from 'features/messages/MessageContacts'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
 import Report from 'features/report/Report'
+import Notifications from 'features/contacts/Notifications'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -40,8 +41,8 @@ export default MainStackScreen = ({ navigation }) => {
                 return (
                     <Header
                         title="Berrys"
+                        headerLeft={<NotificationButton navigation={navigation} />}
                         headerRight={<AskMeButton navigation={navigation} />}
-                        // headerRightSecond={<NotificationButton navigation={navigation} />}
                     />
                 )
             case 'MessagesScreen':
@@ -230,6 +231,18 @@ export default MainStackScreen = ({ navigation }) => {
                     header: () => (
                     <Header
                         title="Report & Feedback"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+                />
+            <MainStack.Screen
+                name={Screens.Notifications}
+                component={Notifications}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="Notifications"
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),

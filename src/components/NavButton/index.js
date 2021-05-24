@@ -107,10 +107,12 @@ export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
   )
 }
 
-export const NotificationButton = ({}) => {
+export const NotificationButton = ({ navigation }) => {
   const size = 30
   return (
-    <ScaleTouchable style={{ marginLeft: 10 }} onPress={() => {}}>
+    <ScaleTouchable
+      style={{ marginLeft: 10 }}
+      onPress={() => navigation.navigate(Screens.Notifications)}>
       <AppImage source={Images.bell} width={size} height={size} />
     </ScaleTouchable>
   )

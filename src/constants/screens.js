@@ -44,4 +44,5 @@ export default {
   MyPosts: 'MyPostsScreen',
   MyEngaged: 'MyEngagedScreen',
   FacebookIntegration: 'FacebookIntegrationScreen',
+  Notifications: 'NotificationsScreen',
 }
