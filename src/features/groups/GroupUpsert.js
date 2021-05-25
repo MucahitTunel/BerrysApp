@@ -421,6 +421,16 @@ const GroupUpsert = ({ navigation, route }) => {
     )
   }
 
+  const getAvatarSize = () => {
+    return changeGroupName
+      ? selectedProfilePicture
+        ? 90
+        : 40
+      : group.profilePicture
+      ? 90
+      : 40
+  }
+
   return (
     <>
       {!isCreate && (
@@ -434,26 +444,53 @@ const GroupUpsert = ({ navigation, route }) => {
               <View style={styles.groupPictureContainer}>
                 <TouchableOpacity
                   onPress={pickProfileImage}
-                  disabled={!changeGroupName}>
+                  disabled={!changeGroupName}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <Image
                     style={{
-                      width: group.profilePicture || changeGroupName ? 90 : 40,
-                      height: group.profilePicture || changeGroupName ? 90 : 40,
+                      width: getAvatarSize(),
+                      height: getAvatarSize(),
                       resizeMode: 'cover',
                       borderRadius: 45,
                     }}
                     source={
-                      group.profilePicture
+                      changeGroupName
+                        ? selectedProfilePicture
+                          ? { uri: selectedProfilePicture }
+                          : Images.groupWhite
+                        : group.profilePicture
                         ? { uri: group.profilePicture }
-                        : changeGroupName
-                        ? { uri: selectedProfilePicture }
                         : Images.groupWhite
                     }
                   />
+                  {changeGroupName && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        width: 90,
+                        height: 90,
+                        borderRadius: 45,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: Colors.blackDimmed,
+                      }}>
+                      <AppText weight="bold" color="white">
+                        edit
+                      </AppText>
+                    </View>
+                  )}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{ position: 'absolute', top: 65, right: 0 }}
-                  onPress={() => setChangeGroupName(!changeGroupName)}>
+                  onPress={() => {
+                    setSelectedProfilePicture(null)
+                    setChangeGroupName(!changeGroupName)
+                  }}>
                   <Avatar source={Images.edit} size={32} />
                 </TouchableOpacity>
               </View>

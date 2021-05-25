@@ -87,9 +87,7 @@ const GroupList = () => {
   }, [dispatch])
 
   const onPressGroupItem = (groupId, type) => {
-    dispatch(getGroup({ groupId, type })).then(() =>
-      NavigationService.navigate(Screens.GroupUpsert, { isCreate: false }),
-    )
+    dispatch(getGroup({ groupId, type, navigate: true }))
   }
 
   const goToGroupCreateScreen = () => {

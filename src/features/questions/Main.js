@@ -1179,8 +1179,8 @@ const Main = ({ route }) => {
             top: 40,
             marginHorizontal: 60,
           }}>
-          You earned points today. New popular posts would be in{' '}
-          {getPopularSeenAt()} hours!
+          You earned points {questions.popularEarnedPoints} today. New popular
+          posts would be in {getPopularSeenAt()} hours!
         </AppText>
       </View>
     )

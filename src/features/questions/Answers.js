@@ -599,7 +599,7 @@ const Answers = ({ route, navigation }) => {
             <View style={styles.modalBackdrop}>
               <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
             </View>
-            <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            <ScrollView contentContainerStyle={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
               {reportContainer ?
                 <>
                   <AppInput
@@ -633,7 +633,7 @@ const Answers = ({ route, navigation }) => {
                   setIsMessageModalVisible(false)
                 }}
               />
-            </View>
+            </ScrollView>
           </View>
         </Modal>
 

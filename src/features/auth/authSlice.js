@@ -108,6 +108,7 @@ export const signIn = createAsyncThunk(
       )
     }
     const verifyCode = generateVerificationCode()
+    console.log(verifyCode)
     await request({
       method: 'POST',
       url: 'account/send-verify-sms',

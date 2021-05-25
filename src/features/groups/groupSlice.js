@@ -57,28 +57,30 @@ export const createGroup = createAsyncThunk(
 
 export const getGroup = createAsyncThunk(
   'group/get',
-  async ({ groupId, type }, { getState }) => {
-    return new Promise(async (resolve) => {
-      const state = getState()
-      const user = state.auth.user
-      const groups = state.group.groups
+  async ({ groupId, type, navigate }, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const groups = state.group.groups
 
-      if (type === 'facebook') {
-        const item = groups.filter((g) => g._id === groupId)[0]
-        return resolve(item)
-      }
+    if (type === 'facebook') {
+      const item = groups.filter((g) => g._id === groupId)[0]
+      if (navigate)
+        NavigationService.navigate(Screens.GroupUpsert, { isCreate: false })
+      return item
+    }
 
-      const { data } = await request({
-        method: 'GET',
-        url: 'group',
-        params: {
-          groupId,
-          userPhoneNumber: user.phoneNumber,
-        },
-      })
-      const { group } = data
-      resolve(group)
+    const { data } = await request({
+      method: 'GET',
+      url: 'group',
+      params: {
+        groupId,
+        userPhoneNumber: user.phoneNumber,
+      },
     })
+    const { group } = data
+    if (navigate)
+      NavigationService.navigate(Screens.GroupUpsert, { isCreate: false })
+    return group
   },
 )
 

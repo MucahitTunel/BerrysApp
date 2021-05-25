@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: Colors.yellow,
+    backgroundColor: Colors.primary,
     position: 'absolute',
     top: 10,
     right: 20,
     borderWidth: 1,
-    borderColor: Colors.purple,
+    borderColor: Colors.primary,
   },
 })
 

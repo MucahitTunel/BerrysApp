@@ -7,13 +7,23 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native'
-import { AppInput, AppText, Layout, Avatar, AppIcon } from 'components'
+import {
+  AppInput,
+  AppText,
+  Layout,
+  Avatar,
+  AppIcon,
+  AppButton,
+} from 'components'
 import { Colors, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateName, logout } from 'features/auth/authSlice'
 import * as NavigationService from 'services/navigation'
 import { launchImageLibrary } from 'react-native-image-picker'
+import Theme from 'theme'
+import { BlurView } from '@react-native-community/blur'
+import Modal from 'react-native-modal'
 
 const styles = StyleSheet.create({
   container: {
@@ -70,11 +80,21 @@ const styles = StyleSheet.create({
   nameInput: {
     padding: 0,
     marginTop: 5,
-    textDecorationLine: 'underline',
-    height: 30,
     fontSize: 16,
+    backgroundColor: 'white',
+    color: 'black',
+  },
+  modalBackdrop: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+  },
+  modalInnerView: {
     flex: 1,
-    textAlign: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
   },
 })
 
@@ -154,14 +174,17 @@ const Account = () => {
     if (editName) {
       dispatch(updateName({ name, image: selectedProfilePicture }))
       setEditName(false)
-    } else setEditName(true)
+    } else {
+      setSelectedProfilePicture(null)
+      setEditName(true)
+    }
   }
 
   const pickProfileImage = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
-        quality: 0.1,
+        quality: 0.5,
       },
       (response) => {
         if (response.didCancel) return
@@ -178,16 +201,14 @@ const Account = () => {
           <TouchableOpacity onPress={pickProfileImage} disabled={!editName}>
             <Image
               style={{
-                width: user.profilePicture || editName ? 80 : 40,
-                height: user.profilePicture || editName ? 80 : 40,
+                width: user.profilePicture ? 80 : 40,
+                height: user.profilePicture ? 80 : 40,
                 resizeMode: 'cover',
                 borderRadius: 40,
               }}
               source={
                 user.profilePicture
                   ? { uri: user.profilePicture }
-                  : editName
-                  ? { uri: selectedProfilePicture }
                   : Images.profileGray
               }
             />
@@ -199,27 +220,17 @@ const Account = () => {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1, paddingHorizontal: 30 }}>
-          {!editName ? (
-            <AppText
-              fontSize={FontSize.xLarge}
-              weight="medium"
-              style={{
-                color: 'white',
-                marginTop: 15,
-                textAlign: 'center',
-                height: 30,
-              }}>
-              {user.name}
-            </AppText>
-          ) : (
-            <AppInput
-              style={styles.nameInput}
-              placeholder={name}
-              placeholderTextColor="white"
-              value={name}
-              onChange={(value) => setName(value)}
-            />
-          )}
+          <AppText
+            fontSize={FontSize.xLarge}
+            weight="medium"
+            style={{
+              color: 'white',
+              marginTop: 15,
+              textAlign: 'center',
+              height: 30,
+            }}>
+            {user.name}
+          </AppText>
           <AppText
             fontSize={FontSize.medium}
             style={{
@@ -265,6 +276,91 @@ const Account = () => {
           </ScrollView>
         </View>
       </Layout>
+
+      <Modal
+        isVisible={editName}
+        style={[Theme.Modal.modalView]}
+        animationInTiming={300}
+        animationOutTiming={300}>
+        <ScrollView contentContainerStyle={Theme.Modal.modalInnerView}>
+          <View style={styles.modalBackdrop}>
+            <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
+          </View>
+          <View style={[Theme.Modal.modalInnerView, styles.modalInnerView]}>
+            <View style={{ marginVertical: 16 }}>
+              <View style={{ width: '100%', alignItems: 'center' }}>
+                <View
+                  style={[
+                    styles.avatarContainer,
+                    {
+                      height: 100,
+                      width: 100,
+                      borderRadius: 50,
+                      marginBottom: 20,
+                    },
+                  ]}>
+                  <TouchableOpacity
+                    onPress={pickProfileImage}
+                    disabled={!editName}
+                    style={{
+                      width: '100%',
+                      alignItems: 'center',
+                      height: '100%',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      style={{
+                        width: selectedProfilePicture ? 100 : 50,
+                        height: selectedProfilePicture ? 100 : 50,
+                        resizeMode: 'cover',
+                        borderRadius: 50,
+                      }}
+                      source={
+                        selectedProfilePicture
+                          ? { uri: selectedProfilePicture }
+                          : Images.profileGray
+                      }
+                    />
+                    <View
+                      style={{
+                        position: 'absolute',
+                        width: 100,
+                        height: 100,
+                        borderRadius: 50,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: Colors.blackDimmed,
+                      }}>
+                      <AppText weight="bold" color="white">
+                        edit
+                      </AppText>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <AppInput
+                style={styles.nameInput}
+                placeholder={name ? name : 'Enter your name...'}
+                placeholderTextColor={Colors.gray}
+                value={name}
+                onChange={(value) => setName(value)}
+              />
+              <AppButton
+                text="Update"
+                textStyle={{ color: 'white' }}
+                style={{ backgroundColor: Colors.purple, marginTop: 30 }}
+                onPress={editOnPress}
+              />
+            </View>
+            <AppButton
+              text="Close"
+              textStyle={{ color: Colors.purple }}
+              style={{ backgroundColor: Colors.white }}
+              onPress={() => setEditName(false)}
+            />
+          </View>
+        </ScrollView>
+      </Modal>
     </>
   )
 }
