@@ -7,10 +7,7 @@ const logoutFacebook = () => {
 const getFacebookUserData = async () => {
   LoginManager.logOut()
   // Attempt login with permissions
-  const result = await LoginManager.logInWithPermissions([
-    'email',
-    'groups_access_member_info',
-  ])
+  const result = await LoginManager.logInWithPermissions(['email'])
 
   if (result.isCancelled) return null
 
