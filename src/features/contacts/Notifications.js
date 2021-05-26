@@ -45,6 +45,7 @@ const Notifications = () => {
   useEffect(() => {
     dispatch(setHasNotifications(false))
     fetchNotifications()
+    readNotifications()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -70,6 +71,16 @@ const Notifications = () => {
         <AppIcon name="chevron-right" color={Colors.gray} size={30} />
       </View>
     )
+  }
+
+  const readNotifications = () => {
+    request({
+      method: 'POST',
+      url: 'notifications/read',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    }).catch((error) => console.log(error))
   }
 
   const fetchNotifications = () => {

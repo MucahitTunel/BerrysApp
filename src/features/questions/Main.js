@@ -33,7 +33,7 @@ import {
 import { Colors, Dimensions, FontSize, Screens } from 'constants'
 import Fonts from 'assets/fonts'
 import * as NavigationService from 'services/navigation'
-import { updatePushToken } from 'features/auth/authSlice'
+import { updatePushToken, setHasNotifications } from 'features/auth/authSlice'
 import {
   getQuestions,
   hideQuestion,
@@ -62,6 +62,7 @@ import { loadContacts } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import getConversationName from 'utils/get-conversation-name'
 import Images from 'assets/images'
+import request from '../../services/api'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -1185,6 +1186,20 @@ const Main = ({ route }) => {
       </View>
     )
   }
+
+  useEffect(() => {
+    request({
+      method: 'GET',
+      url: 'notifications/check',
+      params: {
+        userPhoneNumber: auth.user.phoneNumber,
+      },
+    }).then((res) => {
+      const { data } = res
+      if (data.notifications.length > 0) dispatch(setHasNotifications(true))
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Layout innerStyle={{ paddingTop: 15 }}>
