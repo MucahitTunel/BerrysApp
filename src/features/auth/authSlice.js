@@ -146,8 +146,8 @@ export const verifyPhoneNumber = createAsyncThunk(
       Alert.alert('Error', error.message)
       throw error
     } else {
-      dispatch(createAccount(user))
-      // NavigationService.navigate(Screens.FacebookIntegration)
+      // dispatch(createAccount(user))
+      NavigationService.navigate(Screens.FacebookIntegration)
     }
   },
 )
