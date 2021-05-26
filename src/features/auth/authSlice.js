@@ -53,13 +53,19 @@ export const authBoot = createAsyncThunk(
       channel.bind('QUESTION_ASKED', (data) => {
         dispatch(getQuestions())
       })
+      channel.bind('EXPERT_ANSWERED', (data) => {
+        dispatch(setHasNotifications(true))
+      })
       channel.bind('QUESTION_ANSWERED', (data) => {
+        dispatch(setHasNotifications(true))
         dispatch(getQuestions())
       })
       channel.bind('POLL_ASKED', (data) => {
+        dispatch(setHasNotifications(true))
         dispatch(getQuestions())
       })
       channel.bind('COMPARE_ASKED', (data) => {
+        dispatch(setHasNotifications(true))
         dispatch(getQuestions())
       })
       channel.bind('MESSAGE_RECEIVED', (data) => {
@@ -140,7 +146,8 @@ export const verifyPhoneNumber = createAsyncThunk(
       Alert.alert('Error', error.message)
       throw error
     } else {
-      NavigationService.navigate(Screens.FacebookIntegration)
+      dispatch(createAccount(user))
+      // NavigationService.navigate(Screens.FacebookIntegration)
     }
   },
 )
@@ -332,6 +339,7 @@ const authSlice = createSlice({
     loading: false,
     booting: true,
     onboarding: false,
+    hasNotifications: false,
   },
   reducers: {
     setBooting: (state, action) => {
@@ -361,6 +369,9 @@ const authSlice = createSlice({
         survey: null,
         surveyResetted: true,
       }
+    },
+    setHasNotifications: (state, action) => {
+      state.hasNotifications = action.payload
     },
   },
   extraReducers: {
@@ -422,5 +433,6 @@ export const {
     setUser,
     setOnBoarding,
     setBooting,
+    setHasNotifications,
   },
 } = authSlice

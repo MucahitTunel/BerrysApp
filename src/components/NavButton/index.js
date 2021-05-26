@@ -19,6 +19,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.purple,
   },
+  notificationDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.primary,
+    position: 'absolute',
+    top: 0,
+    left: 16,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+  },
 })
 
 export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
@@ -108,12 +119,14 @@ export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
 }
 
 export const NotificationButton = ({ navigation }) => {
+  const hasNotifications = useSelector((state) => state.auth.hasNotifications)
   const size = 30
   return (
     <ScaleTouchable
       style={{ marginLeft: 10 }}
       onPress={() => navigation.navigate(Screens.Notifications)}>
       <AppImage source={Images.bell} width={size} height={size} />
+      {hasNotifications && <View style={styles.notificationDot} />}
     </ScaleTouchable>
   )
 }

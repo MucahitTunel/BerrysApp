@@ -11,6 +11,7 @@ import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import * as NavigationService from 'services/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import request from '../../services/api'
+import { setHasNotifications } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -42,6 +43,7 @@ const Notifications = () => {
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   useEffect(() => {
+    dispatch(setHasNotifications(false))
     fetchNotifications()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -81,7 +83,7 @@ const Notifications = () => {
     })
       .then((res) => {
         const { data } = res
-        setNotifications(data.notifications)
+        setNotifications(data.notifications.reverse())
         setIsRefreshing(false)
       })
       .catch((error) => setIsRefreshing(false))
