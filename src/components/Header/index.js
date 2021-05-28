@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     fontSize: FontSize.xLarge,
     fontFamily: Fonts.euclidCircularAMedium,
     color: Colors.white,
+    textAlign: 'center',
+    width: 250,
   },
 })
 
@@ -37,7 +39,9 @@ const Header = ({ title, headerLeft, headerRight, headerRightSecond }) => {
       start={{ x: 0.25, y: 0.5 }}
       end={{ x: 0.75, y: 0.5 }}>
       <View style={{ flex: 1 }}>{headerLeft}</View>
-      <AppText style={styles.headerText}>{titleText}</AppText>
+      <AppText style={styles.headerText} numberOfLines={2}>
+        {titleText}
+      </AppText>
       {headerRightSecond ? (
         <View
           style={{
