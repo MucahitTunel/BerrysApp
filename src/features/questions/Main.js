@@ -1201,6 +1201,12 @@ const Main = ({ route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (route.params?.openTab) {
+      setSelectedTab(route.params.openTab)
+    }
+  }, [route.params?.openTab])
+
   return (
     <Layout innerStyle={{ paddingTop: 15 }}>
       <SafeAreaView style={styles.container}>

@@ -12,6 +12,7 @@ import * as NavigationService from 'services/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import request from '../../services/api'
 import { setHasNotifications } from 'features/auth/authSlice'
+import { getQuestion } from 'features/questions/questionSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -50,26 +51,31 @@ const Notifications = () => {
   }, [])
 
   const itemOnPress = (payload) => {
-    /* switch(payload.type) {
-            case 'QUESTION_ANSWERED':
-            if (payload.questionId) {
-                dispatch(getQuestion(payload.questionId))
-                NavigationService.navigate(Screens.Answers, { isPopular: false })
-            }
-            break
-        } */
+    switch (payload.type) {
+      case 'QUESTION_ANSWERED':
+        if (payload.questionId) {
+          dispatch(getQuestion(payload.questionId))
+          NavigationService.navigate(Screens.Answers, { isPopular: false })
+        }
+        break
+      case 'POLL_ASKED':
+      case 'COMPARE_ASKED':
+        return NavigationService.navigate(Screens.Main, {
+          openTab: 'my-posts',
+        })
+    }
   }
 
   const renderList = ({ item, index }) => {
     return (
-      <View
+      <TouchableOpacity
         style={styles.itemContainer}
         onPress={() => itemOnPress(item.data.payload)}>
         <AppText color="black" weight="medium" style={styles.itemText}>
           {item.data.message}
         </AppText>
         <AppIcon name="chevron-right" color={Colors.gray} size={30} />
-      </View>
+      </TouchableOpacity>
     )
   }
 
