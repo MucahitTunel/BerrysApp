@@ -125,6 +125,70 @@ export const getMyEngagedCompares = createAsyncThunk(
   },
 )
 
+export const getMySkipped = createAsyncThunk(
+  'my-skipped',
+  async (_, { dispatch }) => {
+    dispatch(getMySkippedQuestions())
+    dispatch(getMySkippedPolls())
+    dispatch(getMySkippedCompares())
+    return
+  },
+)
+
+export const getMySkippedQuestions = createAsyncThunk(
+  'questions/my-skipped',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'questions/my-skipped',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.questions.map((q) => {
+      return { ...q, contactName: user.name }
+    })
+  },
+)
+
+export const getMySkippedPolls = createAsyncThunk(
+  'polls/my-skipped',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'polls/my-skipped',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.polls.map((p) => {
+      return { ...p, contactName: user.name }
+    })
+  },
+)
+
+export const getMySkippedCompares = createAsyncThunk(
+  'compares/my-skipped',
+  async (_, { getState }) => {
+    const state = getState()
+    const { user } = state.auth
+    const { data } = await request({
+      method: 'GET',
+      url: 'compares/my-skipped',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data.compares.map((c) => {
+      return { ...c, contactName: user.name }
+    })
+  },
+)
+
 export const getMyPosts = createAsyncThunk(
   'my-posts',
   async (_, { dispatch }) => {
@@ -291,6 +355,9 @@ const questionsSlice = createSlice({
     myEngagedQuestions: [],
     myEngagedPolls: [],
     myEngagedCompares: [],
+    mySkippedQuestions: [],
+    mySkippedPolls: [],
+    mySkippedCompares: [],
   },
   reducers: {
     readQuestion: (state, action) => {
@@ -365,15 +432,6 @@ const questionsSlice = createSlice({
       state.compares = action.payload.compares
       state.loading = false
     },
-    [hideQuestion.fulfilled]: (state, action) => {
-      state.data = state.data.filter((q) => q._id !== action.payload)
-    },
-    [hidePoll.fulfilled]: (state, action) => {
-      state.polls = state.polls.filter((p) => p._id !== action.payload)
-    },
-    [hideCompare.fulfilled]: (state, action) => {
-      state.compares = state.compares.filter((p) => p._id !== action.payload)
-    },
     [getPopularQuestions.fulfilled]: (state, action) => {
       state.popularCompares = action.payload.compares
       state.popularPolls = action.payload.polls
@@ -398,6 +456,15 @@ const questionsSlice = createSlice({
     },
     [getMyEngagedCompares.fulfilled]: (state, action) => {
       state.myEngagedCompares = action.payload
+    },
+    [getMySkippedQuestions.fulfilled]: (state, action) => {
+      state.mySkippedQuestions = action.payload
+    },
+    [getMySkippedPolls.fulfilled]: (state, action) => {
+      state.mySkippedPolls = action.payload
+    },
+    [getMySkippedCompares.fulfilled]: (state, action) => {
+      state.mySkippedCompares = action.payload
     },
   },
 })

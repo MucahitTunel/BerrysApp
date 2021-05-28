@@ -23,6 +23,7 @@ import GroupUpsert from 'features/groups/GroupUpsert'
 import FollowContacts from 'features/contacts/FollowContacts'
 import MyPosts from 'features/contacts/MyPosts'
 import MyEngaged from 'features/contacts/MyEngaged'
+import MySkipped from 'features/contacts/MySkipped'
 import MessageContacts from 'features/messages/MessageContacts'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
 import Report from 'features/report/Report'
@@ -206,6 +207,18 @@ export default MainStackScreen = ({ navigation }) => {
                     header: () => (
                     <Header
                         title="My Engaged Posts"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+            />
+            <MainStack.Screen
+                name={Screens.MySkipped}
+                component={MySkipped}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="My Skipped Posts"
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),

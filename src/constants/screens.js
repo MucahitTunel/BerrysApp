@@ -45,4 +45,5 @@ export default {
   MyEngaged: 'MyEngagedScreen',
   FacebookIntegration: 'FacebookIntegrationScreen',
   Notifications: 'NotificationsScreen',
+  MySkipped: 'MySkippedScreen',
 }

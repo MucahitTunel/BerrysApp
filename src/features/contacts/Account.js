@@ -124,6 +124,8 @@ const Account = () => {
         return 'Logout'
       case 'report':
         return 'Report'
+      case 'skipped':
+        return 'My Skipped Posts'
     }
   }
 
@@ -135,9 +137,8 @@ const Account = () => {
         return Images.groupFilled
       case 'posts':
       case 'engaged':
+      case 'skipped':
         return Images.graphFilled
-      case 'logout':
-        return Images.logout
       case 'logout':
         return Images.logout
     }
@@ -265,6 +266,9 @@ const Account = () => {
             )}
             {renderItem('engaged', () =>
               NavigationService.navigate(Screens.MyEngaged),
+            )}
+            {renderItem('skipped', () =>
+              NavigationService.navigate(Screens.MySkipped),
             )}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}

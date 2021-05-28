@@ -38,6 +38,7 @@ import {
   getQuestions,
   hideQuestion,
   hidePoll,
+  hideCompare,
   setCompares,
   getPopularQuestions,
   skipPopularQuestions,
@@ -1097,7 +1098,15 @@ const Main = ({ route }) => {
 
   const myPostsOnSwipedLeft = (index) => {
     setMyPostsIndex(index + 1)
-    console.log('left', index)
+    const post = myPosts[index]
+    switch (post.type) {
+      case 'question':
+        return dispatch(hideQuestion(post._id))
+      case 'poll':
+        return dispatch(hidePoll(post._id))
+      case 'compare':
+        return dispatch(hideCompare(post._id))
+    }
   }
 
   const myPostsOnSwipedRight = (index) => {
@@ -1146,6 +1155,45 @@ const Main = ({ route }) => {
       return 24 - Math.abs(Math.round(diff))
     }
     return 24
+  }
+
+  const renderMyPosts = () => {
+    if (myPostsIndex < myPosts.length)
+      return (
+        <CardSwiper
+          data={myPosts}
+          renderCard={renderCard}
+          onSwipedLeft={myPostsOnSwipedLeft}
+          onSwipedRight={myPostsOnSwipedRight}
+          cardIndex={myPostsIndex}
+          ref={swiperRef}
+        />
+      )
+    return (
+      <View
+        style={[
+          styles.cardItemContainer,
+          { padding: 0, marginHorizontal: 20, marginTop: 20 },
+        ]}>
+        <Image
+          source={Images.emptyCard}
+          style={{ height: '100%', width: '100%', borderRadius: 15 }}
+        />
+        <AppText
+          color="white"
+          fontSize={FontSize.large}
+          style={{
+            position: 'absolute',
+            textAlign: 'center',
+            alignSelf: 'center',
+            top: 40,
+            marginHorizontal: 60,
+          }}>
+          You skipped all of your posts. Ask or receive questions to see more
+          posts!
+        </AppText>
+      </View>
+    )
   }
 
   const renderPopularCards = () => {
@@ -1247,17 +1295,7 @@ const Main = ({ route }) => {
           behavior={Platform.OS === 'ios' ? 'position' : null}
           keyboardVerticalOffset={100}
           style={{ flex: 1 }}>
-          {selectedTab === 'my-posts' && myPostsIndex < myPosts.length && (
-            <CardSwiper
-              data={myPosts}
-              renderCard={renderCard}
-              onSwipedLeft={myPostsOnSwipedLeft}
-              onSwipedRight={myPostsOnSwipedRight}
-              cardIndex={myPostsIndex}
-              infinite
-              ref={swiperRef}
-            />
-          )}
+          {selectedTab === 'my-posts' && renderMyPosts()}
           {selectedTab === 'popular' && renderPopularCards()}
         </KeyboardAvoidingView>
 
