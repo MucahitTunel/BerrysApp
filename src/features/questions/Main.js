@@ -59,7 +59,7 @@ import {
   setQuestionCommented,
 } from 'features/questions/questionSlice'
 import { setAskQuestion } from 'features/questions/askSlice'
-import { loadContacts } from 'features/contacts/contactsSlice'
+import { loadContacts, getLeaderboard } from 'features/contacts/contactsSlice'
 import store from 'state/store'
 import getConversationName from 'utils/get-conversation-name'
 import Images from 'assets/images'
@@ -929,6 +929,7 @@ const Main = ({ route }) => {
   )
   const questions = useSelector((state) => state.questions)
   const auth = useSelector((state) => state.auth)
+  const leaderboard = useSelector((state) => state.contacts.leaderboard)
 
   const [onboardingModal, setOnboardingModal] = useState(false)
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
@@ -1068,6 +1069,7 @@ const Main = ({ route }) => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(getLeaderboard())
     dispatch(getPopularQuestions())
     dispatch(getRooms())
   }, [dispatch])
@@ -1154,6 +1156,7 @@ const Main = ({ route }) => {
       diff /= 60 * 60
       return 24 - Math.abs(Math.round(diff))
     } else {
+      dispatch(getLeaderboard())
       dispatch(getPopularQuestions())
       return 24
     }
@@ -1211,29 +1214,123 @@ const Main = ({ route }) => {
         />
       )
     return (
-      <View
-        style={[
-          styles.cardItemContainer,
-          { padding: 0, marginHorizontal: 20, marginTop: 20 },
-        ]}>
-        <Image
-          source={Images.emptyCard}
-          style={{ height: '100%', width: '100%', borderRadius: 15 }}
-        />
-        <AppText
-          color="white"
-          fontSize={FontSize.large}
-          style={{
-            position: 'absolute',
-            textAlign: 'center',
-            alignSelf: 'center',
-            top: 40,
-            marginHorizontal: 60,
-          }}>
-          You earned {questions.popularEarnedPoints} points today. New popular
-          posts would be in {getPopularSeenAt()} hours!
-        </AppText>
-      </View>
+      <ScrollView>
+        <View
+          style={[
+            styles.cardItemContainer,
+            { padding: 0, marginHorizontal: 20, marginTop: 20 },
+          ]}>
+          <Image
+            source={Images.emptyCard}
+            style={{ height: '100%', width: '100%', borderRadius: 15 }}
+          />
+          <AppText
+            color="white"
+            fontSize={FontSize.large}
+            style={{
+              position: 'absolute',
+              textAlign: 'center',
+              alignSelf: 'center',
+              top: 40,
+              marginHorizontal: 60,
+            }}>
+            You earned {questions.popularEarnedPoints} points today. New popular
+            posts would be in {getPopularSeenAt()} hours!
+          </AppText>
+          <View
+            style={{
+              position: 'absolute',
+              textAlign: 'center',
+              alignSelf: 'center',
+              bottom: 10,
+              marginHorizontal: 60,
+            }}>
+            <AppText color="white" fontSize={FontSize.large}>
+              See Leaderboard
+            </AppText>
+            <View style={{ transform: [{ rotate: '90deg' }], top: 60 }}>
+              <AppIcon name="chevron-right" color="white" size={28} />
+            </View>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.cardItemContainer,
+            {
+              marginHorizontal: 20,
+              backgroundColor: 'transparent',
+              height: null,
+            },
+          ]}>
+          <AppText
+            weight="bold"
+            fontSize={FontSize.xxLarge}
+            color={Colors.purpleText}
+            style={{ alignSelf: 'center', marginBottom: 10 }}>
+            Top 5
+          </AppText>
+          {leaderboard &&
+            leaderboard.map((u) => {
+              return (
+                <View
+                  style={{
+                    width: '100%',
+                    padding: 20,
+                    backgroundColor: Colors.purpleLight,
+                    marginBottom: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderRadius: 15,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      flex: 1,
+                    }}>
+                    <AppText
+                      weight="bold"
+                      color={Colors.purpleText}
+                      style={{ marginRight: 20 }}>
+                      {u.position}.
+                    </AppText>
+                    {u.profilePicture ? (
+                      <Image
+                        source={{ uri: u.profilePicture }}
+                        style={{
+                          height: 50,
+                          width: 50,
+                          borderRadius: 25,
+                        }}
+                      />
+                    ) : (
+                      <View
+                        style={{
+                          height: 50,
+                          width: 50,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#DFE4F4',
+                          borderRadius: 25,
+                        }}>
+                        <Avatar size={22} source={Images.profileWhite} />
+                      </View>
+                    )}
+                    <AppText
+                      weight="medium"
+                      color={Colors.purpleText}
+                      style={{ marginLeft: 10 }}>
+                      {u.name}
+                    </AppText>
+                  </View>
+                  <AppText weight="bold" color={Colors.purpleText}>
+                    {u.totalPoints}p
+                  </AppText>
+                </View>
+              )
+            })}
+        </View>
+      </ScrollView>
     )
   }
 

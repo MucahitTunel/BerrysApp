@@ -220,12 +220,39 @@ export const createVoiceCall = createAsyncThunk(
   },
 )
 
+export const getLeaderboard = createAsyncThunk(
+  'contacts/leaderboard',
+  async (_, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { data } = await request({
+      method: 'GET',
+      url: 'leaderboard/points',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    const { users } = data
+    return users
+      .map((u) => {
+        if (!u.name)
+          return {
+            ...u,
+            name: `Anonymous ${Math.floor(Math.random() * 900) + 100}`,
+          }
+        return u
+      })
+      .sort((a, b) => a.position - b.position)
+  },
+)
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     data: [],
     loading: false,
     contactPermission: false,
+    leaderboard: [],
   },
   reducers: {},
   extraReducers: {
@@ -234,6 +261,9 @@ const contactsSlice = createSlice({
     },
     [fetchContactsFromGoogle.fulfilled]: (state, action) => {
       state.loading = false
+    },
+    [getLeaderboard.fulfilled]: (state, action) => {
+      state.leaderboard = action.payload
     },
     [loadContacts.pending]: (state) => {
       state.loading = true
