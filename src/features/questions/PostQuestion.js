@@ -189,7 +189,6 @@ const PostQuestion = ({ navigation, route }) => {
           return dispatch(createPoll())
         }
         if (post.type === 'popular-compare') {
-          console.log(post)
           dispatch(setCompareImages([post.images[0], post.images[0]]))
           return dispatch(createCompare(true))
         }
@@ -199,11 +198,11 @@ const PostQuestion = ({ navigation, route }) => {
 
       switch (post.type) {
         case 'question':
-          dispatch(shareQuestion({ id: post.id }))
+          dispatch(shareQuestion({ id: post._id }))
         case 'poll':
-          dispatch(sharePoll({ id: post.id }))
+          dispatch(sharePoll({ id: post._id }))
         case 'compare':
-          dispatch(shareCompare({ id: post.id }))
+          dispatch(shareCompare({ id: post._id }))
       }
       alert('Post shared successfully!')
       return NavigationService.goBack()

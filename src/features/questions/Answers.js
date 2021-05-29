@@ -431,8 +431,8 @@ const Answers = ({ route, navigation }) => {
       />
       )
     }
-    <Layout style={{ top: question.image ? -30 : 0, backgroundColor: question.image ? 'transparent' : Colors.purple }} innerStyle={{ paddingTop: question.image ? 10 : 30 }}>
-    <SafeAreaView style={{ flex: 1, top: question.image ? 20 : 0 }}>
+    <Layout style={{ top: question.image ? -30 : 0, backgroundColor: question.image ? 'transparent' : Colors.purple }} innerStyle={{ paddingTop: question.image ? 0: 20 }}>
+    <SafeAreaView style={{ flex: 1, top: question.image ? 20 : 5 }}>
       <Animated.View style={{ flex: 1, paddingBottom: keyboardHeight.current }}>
         <StatusBar barStyle="light-content" />
         <KeyboardListener
@@ -440,6 +440,20 @@ const Answers = ({ route, navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         <ScrollView>
+          {(question.seenBy.length > 0 || question.sharedTo.length > 0) &&
+          <View style={{ marginBottom: 10, paddingHorizontal: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                                  {question.seenBy.length > 0 &&
+                                    <AppText weight="medium">
+                                    Seen by {question.seenBy.length} people
+                                  </AppText>
+                                  }
+                                  {question.sharedTo.length > 0 &&
+                                    <AppText weight="medium">
+                                    Sent to {question.sharedTo.length} people
+                                  </AppText>
+                                  }
+          </View>
+          }
         {question.image && 
               <AppText
                 weight="bold"
