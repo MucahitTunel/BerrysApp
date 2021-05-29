@@ -344,7 +344,7 @@ const questionsSlice = createSlice({
     polls: [],
     compares: [],
     loading: false,
-    popularSeenAt: '',
+    popularSeenAt: null,
     popularEarnedPoints: 0,
     popularPolls: [],
     popularCompares: [],

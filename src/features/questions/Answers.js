@@ -440,7 +440,7 @@ const Answers = ({ route, navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         <ScrollView>
-          {(question.seenBy.length > 0 || question.sharedTo.length > 0) &&
+          {((question.seenBy && question.seenBy.length > 0) || (question.sharedTo && question.sharedTo.length > 0)) &&
           <View style={{ marginBottom: 10, paddingHorizontal: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
                                   {question.seenBy.length > 0 &&
                                     <AppText weight="medium">

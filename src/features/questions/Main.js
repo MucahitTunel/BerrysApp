@@ -1146,15 +1146,17 @@ const Main = ({ route }) => {
   }, [questionCommented, dispatch])
 
   const getPopularSeenAt = () => {
-    if (questions.popularSeenAt !== '') {
+    if (questions.popularSeenAt !== null) {
       const seenDate = new Date(questions.popularSeenAt)
       const today = new Date()
 
       var diff = (today.getTime() - seenDate.getTime()) / 1000
       diff /= 60 * 60
       return 24 - Math.abs(Math.round(diff))
+    } else {
+      dispatch(getPopularQuestions())
+      return 24
     }
-    return 24
   }
 
   const renderMyPosts = () => {
