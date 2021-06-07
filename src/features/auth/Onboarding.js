@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { StyleSheet, View, SafeAreaView } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, View, SafeAreaView, Linking } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
@@ -11,8 +11,8 @@ const slider = [
   {
     id: 0,
     image: Images.newSignin,
-    title: 'Ask and Answer to Personal and Awkward Questions',
-    description: 'Ask people who have been there',
+    title: 'Ask Like-minded People, Anonymously or Openly',
+    description: 'Get Their Honest Opinion',
   },
 ]
 
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     height: 90,
+    // height: 150,
     borderTopWidth: 1,
     borderTopColor: Colors.grayLight,
     justifyContent: 'center',
@@ -47,6 +48,12 @@ const Onboarding = () => {
     swiperRef.current.scrollBy(1)
     setSwiperIndex(swiperIndex + 1)
   }
+
+  const telegramOnPress = () => {
+    // Linking.canOpenURL('https://t.me/berrysapp_bot').then(data => console.log(data))
+    Linking.openURL('https://t.me/berrysapp_bot')
+  }
+
   const getCurrentIndex = (currentIndex) => {
     setSwiperIndex(currentIndex)
   }
@@ -93,10 +100,15 @@ const Onboarding = () => {
       <View style={styles.bottomViewWrapper}>
         <View style={styles.bottomView}>
           <AppButton
-            text="Sign In"
+            text="Continue"
             onPress={handleNextSwiper}
-            style={{ backgroundColor: Colors.purple }}
+            style={{ backgroundColor: Colors.purple /* marginBottom: 10 */ }}
           />
+          {/* <AppButton
+            text="Sign In With Telegram"
+            onPress={telegramOnPress}
+            style={{ backgroundColor: '#0088cc' }}
+          /> */}
         </View>
       </View>
       <SignInModal
