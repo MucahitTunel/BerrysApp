@@ -242,6 +242,7 @@ const Answers = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const [uploadedImage, setUploadedImage] = useState(null)
   const [imageLoading, setImageLoading] = useState(false)
+  const [sharedPeopleModal, setSharedPeopleModal] = useState(false)
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
     if (!isAnonymous && !user.name) {
@@ -394,6 +395,14 @@ const Answers = ({ route, navigation }) => {
     setImageModalVisible(true)
   }
 
+  const sharedData = () => {
+    return [
+      ...question.receivers.map(r => r.name ? r.name : `Anonymous ${Math.floor(Math.random() * 900) + 100}`),
+      ...question.groupNames,
+      ...question.facebookGroupNames
+    ]
+  }
+
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
@@ -440,18 +449,20 @@ const Answers = ({ route, navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         <ScrollView>
-          {((question.seenBy && question.seenBy.length > 0) || (question.sharedTo && question.sharedTo.length > 0)) &&
+          {((question.seenBy && question.seenBy.length > 0) || (question.receivers.length > 0 || question.groups.length > 0 || question.facebookGroups.length > 0)) &&
           <View style={{ marginBottom: 10, paddingHorizontal: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
-                                  {question.seenBy.length > 0 &&
-                                    <AppText weight="medium">
-                                    Seen by {question.seenBy.length} people
-                                  </AppText>
-                                  }
-                                  {question.sharedTo.length > 0 &&
-                                    <AppText weight="medium">
-                                    Sent to {question.sharedTo.length} people
-                                  </AppText>
-                                  }
+            {question.seenBy.length > 0 &&
+              <AppText weight="medium" color="black">
+                Seen by {question.seenBy.length} people
+              </AppText>
+            }
+            {(question.receivers.length > 0 || question.groups.length > 0 || question.facebookGroups.length > 0) &&
+              <TouchableOpacity onPress={() => setSharedPeopleModal(true)}>
+                <AppText weight="medium" color="black">
+                  Sent to {question.receivers.length + question.groups.length + question.facebookGroups.length} people
+                </AppText>
+              </TouchableOpacity>
+            }
           </View>
           }
         {question.image && 
@@ -668,6 +679,44 @@ const Answers = ({ route, navigation }) => {
               style={{ height: Dimensions.Height, resizeMode: 'contain' }}
             />
           </TouchableOpacity>
+        </Modal>
+
+        {/* Shared people modal */}
+        <Modal
+          isVisible={sharedPeopleModal}
+          style={[Theme.Modal.modalView]}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <View style={Theme.Modal.modalInnerView}>
+            <View style={styles.modalBackdrop}>
+              <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <ScrollView style={{ flex: 1}} contentContainerStyle={{
+                marginVertical: 16,
+                paddingTop: 50,
+                alignItems: 'center',
+                paddingBottom: 30
+              }}>
+                  <AppText fontSize={FontSize.xxLarge} color="white" weight="bold" style={{ marginBottom: 30 }}>
+                      Shared With
+                  </AppText>
+                {sharedData().map((r, idx) => {
+                  return (
+                    <AppText key={idx} color="white" fontSize={FontSize.xLarge} style={{ marginBottom: 10}}>
+                      {r}
+                    </AppText>
+                  )
+                })} 
+              </ScrollView>
+              <AppButton
+                text="Close"
+                textStyle={{ color: Colors.purple }}
+                style={{ backgroundColor: Colors.white, marginHorizontal: 30, marginBottom: 50 }}
+                onPress={() => setSharedPeopleModal(false)}
+              />
+            </View>
+          </View>
         </Modal>
       </Animated.View>
     </SafeAreaView>
