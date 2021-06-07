@@ -32,12 +32,13 @@ const MyEngaged = () => {
   )
 
   const getPosts = () => {
-    const sorted = [
-      ...myEngagedQuestions,
-      ...myEngagedPolls,
-      ...myEngagedCompares,
-    ].sort((a, b) => b.createdAt - a.createdAt)
-    return sorted
+    if (myEngagedQuestions && myEngagedPolls && myEngagedCompares) {
+      return [
+        ...myEngagedQuestions,
+        ...myEngagedPolls,
+        ...myEngagedCompares,
+      ].sort((a, b) => b.createdAt - a.createdAt)
+    } else return []
   }
 
   const getQuestionType = (item) => {
