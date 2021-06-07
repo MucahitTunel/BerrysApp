@@ -53,6 +53,7 @@ const Notifications = () => {
   const itemOnPress = (payload) => {
     switch (payload.type) {
       case 'QUESTION_ANSWERED':
+      case 'QUESTION_ASKED':
         if (payload.questionId) {
           dispatch(getQuestion(payload.questionId))
           NavigationService.navigate(Screens.Answers, { isPopular: false })
