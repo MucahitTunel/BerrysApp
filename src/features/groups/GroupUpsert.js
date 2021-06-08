@@ -252,6 +252,7 @@ const GroupUpsert = ({ navigation, route }) => {
   const [questionUrl, setQuestionUrl] = useState(null)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [groupMembersModal, setGroupMembersModal] = useState(false)
 
   const joinURL = `https://api.berrysapp.com/app/group/${group._id}`
 
@@ -505,14 +506,16 @@ const GroupUpsert = ({ navigation, route }) => {
                 </AppText>
               </View>
             )}
-            <View style={styles.groupMemberContainer}>
+            <TouchableOpacity
+              style={styles.groupMemberContainer}
+              onPress={() => setGroupMembersModal(true)}>
               <AppText color="white" fontSize={FontSize.xLarge} weight="bold">
                 {members.length}
               </AppText>
               <AppText color="white" fontSize={FontSize.large}>
                 Group Members
               </AppText>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       )}
@@ -654,6 +657,57 @@ const GroupUpsert = ({ navigation, route }) => {
               </View>
             )}
           </View>
+
+          <Modal
+            isVisible={groupMembersModal}
+            style={[Theme.Modal.modalView]}
+            animationInTiming={300}
+            animationOutTiming={300}>
+            <View style={Theme.Modal.modalInnerView}>
+              <View style={styles.modalBackdrop}>
+                <BlurView style={{ flex: 1 }} blurType="dark" blurAmount={1} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <ScrollView
+                  style={{ flex: 1 }}
+                  contentContainerStyle={{
+                    marginVertical: 16,
+                    paddingTop: 50,
+                    alignItems: 'center',
+                    paddingBottom: 30,
+                  }}>
+                  <AppText
+                    fontSize={FontSize.xxLarge}
+                    color="white"
+                    weight="bold"
+                    style={{ marginBottom: 30 }}>
+                    Group Members
+                  </AppText>
+                  {members.map((r, idx) => {
+                    return (
+                      <AppText
+                        key={idx}
+                        color="white"
+                        fontSize={FontSize.xLarge}
+                        style={{ marginBottom: 10 }}>
+                        {r.inAppName ? r.inAppName : r.name}
+                      </AppText>
+                    )
+                  })}
+                </ScrollView>
+                <AppButton
+                  text="Close"
+                  textStyle={{ color: Colors.purple }}
+                  style={{
+                    backgroundColor: Colors.white,
+                    marginHorizontal: 30,
+                    marginBottom: 50,
+                  }}
+                  onPress={() => setGroupMembersModal(false)}
+                />
+              </View>
+            </View>
+          </Modal>
 
           {/* Flag question modal */}
           <Modal
