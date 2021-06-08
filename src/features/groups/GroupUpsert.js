@@ -497,14 +497,16 @@ const GroupUpsert = ({ navigation, route }) => {
               </View>
             )}
             {group.type !== 'facebook' && (
-              <View style={styles.groupMemberContainer}>
+              <TouchableOpacity
+                style={styles.groupMemberContainer}
+                onPress={() => setGroupMembersModal(true)}>
                 <AppText color="white" fontSize={FontSize.xLarge} weight="bold">
                   {admins.length}
                 </AppText>
                 <AppText color="white" fontSize={FontSize.large}>
                   Group Admins
                 </AppText>
-              </View>
+              </TouchableOpacity>
             )}
             <TouchableOpacity
               style={styles.groupMemberContainer}
