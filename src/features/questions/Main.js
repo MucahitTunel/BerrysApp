@@ -1443,7 +1443,6 @@ const Main = ({ route }) => {
                   style={{ flex: 1 }}
                   onPress={() => {
                     setOnboardingModal(false)
-                    setSelectedTab('my-posts')
                   }}>
                   <View
                     style={{
@@ -1476,7 +1475,6 @@ const Main = ({ route }) => {
                   style={{ flex: 1 }}
                   onPress={() => {
                     setOnboardingModal(false)
-                    setSelectedTab('my-posts')
                   }}>
                   <View
                     style={{

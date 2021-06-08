@@ -43,7 +43,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1622486473</string>
+	<string>1623094409</string>
 	<key>FacebookAppID</key>
 	<string>1234517686754691</string>
 	<key>FacebookDisplayName</key>
@@ -88,7 +88,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The purpose for accessing the microphone, such as for a call or interactive live streaming.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -101,7 +101,7 @@
 		<string>EuclidCircularA-Regular.ttf</string>
 		<string>EuclidCircularA-SemiBold.ttf</string>
 		<string>EuclidCircularA-Italic.ttf</string>
-		<string/>
+		<string></string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>

@@ -47,6 +47,7 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
 import * as NavigationService from '../../services/navigation'
 import { blacklistContacts, reportUser } from 'features/contacts/contactsSlice'
+import RNUrlPreview from 'react-native-url-preview'
 
 const styles = StyleSheet.create({
   headerView: {
@@ -355,7 +356,7 @@ const Answers = ({ route, navigation }) => {
   const [message, setMessage] = useState(null)
   useEffect(() => {
     if (question?.content) {
-      let extraStr = ''
+      let extraStr = null
       let url = null
       const contentSplitted = question.content.split(' ')
       contentSplitted.forEach((item) => {
@@ -403,6 +404,42 @@ const Answers = ({ route, navigation }) => {
     ]
   }
 
+  const renderMessage = () => {
+    return (
+      <View style={styles.header}>
+        {message &&
+            <AppText
+            weight="bold"
+            fontSize={FontSize.xxLarge}
+            style={{ color: 'white', marginLeft: 15, marginBottom: url ? 10 : 30 }}>
+            {message}
+          </AppText>
+        }
+        {url && 
+          <RNUrlPreview
+            containerStyle={{
+              backgroundColor: Colors.white,
+              borderRadius: 10,
+              marginHorizontal: 20,
+              paddingHorizontal: 10,
+              marginBottom: 10
+            }}
+            imageStyle={{
+              width: 100,
+            }}
+            faviconStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 30,
+            }}
+            titleNumberOfLines={1}
+            text={url}
+          />
+        }
+      </View>
+    )
+  }
+
   if (loading) return <Loading />
   const { flaggedBy = [], userPhoneNumber } = question
   const isFlagged = flaggedBy.includes(user.phoneNumber)
@@ -411,14 +448,7 @@ const Answers = ({ route, navigation }) => {
   return (
     <>
     {!question.image ?
-      (<View style={styles.header}>
-        <AppText
-          weight="bold"
-          fontSize={FontSize.xxLarge}
-          style={{ color: 'white', marginLeft: 15, marginBottom: 30 }}>
-          {message}
-        </AppText>
-      </View>) :
+      renderMessage() :
       (
         <ImageHeader
         title="Post"
