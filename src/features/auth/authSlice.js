@@ -73,10 +73,8 @@ export const authBoot = createAsyncThunk(
         // if I'm in the same room as roomId, don't call addRoomWithNewMessages
         dispatch(addRoomWithNewMessages(data.message.roomId))
       })
-      dispatch(getQuestions(userData.phoneNumber)).then(async () => {
-        await postSignIn(userData)
-        dispatch(getUser(userData.phoneNumber))
-      })
+      await postSignIn(userData)
+      dispatch(getUser(userData.phoneNumber))
     } else dispatch(setBooting(false))
     return userData
   },

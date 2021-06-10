@@ -1069,6 +1069,7 @@ const Main = ({ route }) => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(getQuestions())
     dispatch(getLeaderboard())
     dispatch(getPopularQuestions())
     dispatch(getRooms())
