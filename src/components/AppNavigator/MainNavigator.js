@@ -28,6 +28,7 @@ import MessageContacts from 'features/messages/MessageContacts'
 import GroupAddMembers from 'features/groups/GroupAddMembers'
 import Report from 'features/report/Report'
 import Notifications from 'features/contacts/Notifications'
+import SeeWhoVoted from 'features/questions/SeeWhoVoted'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -256,6 +257,18 @@ export default MainStackScreen = ({ navigation }) => {
                     header: () => (
                     <Header
                         title="Notifications"
+                        headerLeft={<BackButton navigation={navigation} />}
+                    />
+                    ),
+                })}
+                />
+            <MainStack.Screen
+                name={Screens.SeeWhoVoted}
+                component={SeeWhoVoted}
+                options={({ navigation }) => ({
+                    header: () => (
+                    <Header
+                        title="See Who Voted"
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),

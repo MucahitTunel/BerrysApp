@@ -46,4 +46,5 @@ export default {
   FacebookIntegration: 'FacebookIntegrationScreen',
   Notifications: 'NotificationsScreen',
   MySkipped: 'MySkippedScreen',
+  SeeWhoVoted: 'SeeWhoVotedScreen',
 }

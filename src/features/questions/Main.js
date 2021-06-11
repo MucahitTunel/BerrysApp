@@ -366,6 +366,15 @@ export const RenderCompare = ({ compare, isPopular }) => {
     }
   }
 
+  const seeWhoVotedOnPress = () => {
+    NavigationService.navigate(Screens.SeeWhoVoted, {
+      receivers: compare.receivers,
+      groupNames: compare.groupNames,
+      // facebookGroupNames: poll.facebookGroupNames,
+      votes: compare.votes,
+    })
+  }
+
   const height = compare.question
     ? Dimensions.Height / 3.5
     : Dimensions.Height / 3
@@ -449,6 +458,13 @@ export const RenderCompare = ({ compare, isPopular }) => {
         <AppText fontSize={15} color={Colors.gray}>
           {`Versus - ${compare.votes.length} Votes`}
         </AppText>
+        {compare.votes.length > 0 && (
+          <TouchableOpacity onPress={seeWhoVotedOnPress}>
+            <AppText fontSize={15} color={Colors.purpleText}>
+              See who voted
+            </AppText>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   )
@@ -862,6 +878,15 @@ export const RenderPoll = ({ poll, isPopular }) => {
     } else dispatch(votePoll({ option: selectedOption, pollId: poll._id }))
   }
 
+  const seeWhoVotedOnPress = () => {
+    NavigationService.navigate(Screens.SeeWhoVoted, {
+      receivers: poll.receivers,
+      groupNames: poll.groupNames,
+      // facebookGroupNames: poll.facebookGroupNames,
+      votes: poll.votes,
+    })
+  }
+
   return (
     <View style={styles.cardItemContainer}>
       <View style={{ flex: 1 }}>
@@ -906,6 +931,13 @@ export const RenderPoll = ({ poll, isPopular }) => {
           <AppText fontSize={15} color={Colors.gray}>
             {`Poll - ${poll.votes.length} Votes`}
           </AppText>
+          {poll.votes.length > 0 && (
+            <TouchableOpacity onPress={seeWhoVotedOnPress}>
+              <AppText fontSize={15} color={Colors.purpleText}>
+                See who voted
+              </AppText>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
