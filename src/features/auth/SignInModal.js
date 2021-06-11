@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { View, Platform, Linking, StyleSheet, SafeAreaView } from 'react-native'
+import {
+  View,
+  Platform,
+  Linking,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native'
 import Modal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient'
 import CountryPicker from 'react-native-country-picker-modal'
@@ -46,6 +53,7 @@ const styles = StyleSheet.create({
 
 const SignInModal = ({ isVisible, onClose }) => {
   const [country, setCountry] = useState(Misc.DefaultCountry)
+  const [isTelegram, setIsTelegram] = useState(false)
   const [isOpenModal, setOpenModal] = useState(false)
   const dispatch = useDispatch()
   const onSubmit = (values, { setSubmitting }) => {
@@ -55,6 +63,7 @@ const SignInModal = ({ isVisible, onClose }) => {
     const payload = {
       phoneNumber: formattedPhoneNumber,
       countryCode: country.cca2,
+      isTelegram,
     }
     dispatch(signIn(payload))
     setSubmitting(false)
@@ -99,7 +108,8 @@ const SignInModal = ({ isVisible, onClose }) => {
             <Formik initialValues={{ phoneNumber: '' }} onSubmit={onSubmit}>
               {({ values, handleChange, handleSubmit, isSubmitting }) => (
                 <React.Fragment>
-                  <View style={styles.countryPickerWrapper}>
+                  <ScrollView
+                    contentContainerStyle={styles.countryPickerWrapper}>
                     <View style={styles.flagWrapper}>
                       <CountryPicker
                         onSelect={(value) => setCountry(value)}
@@ -137,11 +147,21 @@ const SignInModal = ({ isVisible, onClose }) => {
                         value={values.phoneNumber}
                       />
                     </View>
-                  </View>
+                  </ScrollView>
                   <AppButton
                     text="Sign In"
                     disabled={isSubmitting || !values.phoneNumber}
                     onPress={handleSubmit}
+                    style={{ backgroundColor: Colors.white, marginBottom: 10 }}
+                    textStyle={{ color: Colors.purple }}
+                  />
+                  <AppButton
+                    text="Sign In Using Telegram"
+                    disabled={isSubmitting || !values.phoneNumber}
+                    onPress={() => {
+                      setIsTelegram(true)
+                      handleSubmit()
+                    }}
                     style={{ backgroundColor: Colors.white }}
                     textStyle={{ color: Colors.purple }}
                   />

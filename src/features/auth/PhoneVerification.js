@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppInput, AppButton, AppText, AppLink } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
+import PropTypes from 'prop-types'
 
 const linearGradientColors = [Colors.purple, Colors.purple]
 
@@ -42,7 +43,7 @@ const styles = {
   },
 }
 
-const PhoneVerification = () => {
+const PhoneVerification = ({ route }) => {
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.auth.loading)
   const onSubmit = (values) => {
@@ -86,17 +87,23 @@ const PhoneVerification = () => {
           )}
         </Formik>
 
-        <View style={styles.bottomView}>
-          <AppLink
-            text="Resend verification code"
-            color={Colors.white}
-            textStyle={{ fontSize: FontSize.large }}
-            onPress={onPressResendCode}
-          />
-        </View>
+        {!route.params.isTelegram && (
+          <View style={styles.bottomView}>
+            <AppLink
+              text="Resend verification code"
+              color={Colors.white}
+              textStyle={{ fontSize: FontSize.large }}
+              onPress={onPressResendCode}
+            />
+          </View>
+        )}
       </View>
     </LinearGradient>
   )
+}
+
+PhoneVerification.propTypes = {
+  route: PropTypes.object,
 }
 
 export default PhoneVerification

@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import { Alert, Linking } from 'react-native'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-community/async-storage'
 import Pusher from 'pusher-js/react-native'
@@ -103,7 +103,7 @@ export const getUser = createAsyncThunk(
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async ({ phoneNumber, countryCode }) => {
+  async ({ phoneNumber, countryCode, isTelegram = false }) => {
     const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
     if (!isValid) {
       return Alert.alert(
@@ -115,7 +115,7 @@ export const signIn = createAsyncThunk(
     console.log(verifyCode)
     await request({
       method: 'POST',
-      url: 'account/send-verify-sms',
+      url: isTelegram ? 'account/set-verify-code' : 'account/send-verify-sms',
       data: {
         phoneNumber: number,
         verifyCode,
@@ -127,7 +127,10 @@ export const signIn = createAsyncThunk(
       service: Services.PhoneNumber,
       isVerifying: true,
     }
-    NavigationService.navigate(Screens.PhoneVerification)
+    NavigationService.navigate(Screens.PhoneVerification, {
+      isTelegram,
+    })
+    if (isTelegram) Linking.openURL('https://t.me/berrysapp_bot')
     return userData
   },
 )

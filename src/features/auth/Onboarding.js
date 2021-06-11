@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     height: 90,
-    // height: 150,
     borderTopWidth: 1,
     borderTopColor: Colors.grayLight,
     justifyContent: 'center',
@@ -47,11 +46,6 @@ const Onboarding = () => {
     }
     swiperRef.current.scrollBy(1)
     setSwiperIndex(swiperIndex + 1)
-  }
-
-  const telegramOnPress = () => {
-    // Linking.canOpenURL('https://t.me/berrysapp_bot').then(data => console.log(data))
-    Linking.openURL('https://t.me/berrysapp_bot')
   }
 
   const getCurrentIndex = (currentIndex) => {
@@ -102,13 +96,8 @@ const Onboarding = () => {
           <AppButton
             text="Continue"
             onPress={handleNextSwiper}
-            style={{ backgroundColor: Colors.purple /* marginBottom: 10 */ }}
+            style={{ backgroundColor: Colors.purple }}
           />
-          {/* <AppButton
-            text="Sign In With Telegram"
-            onPress={telegramOnPress}
-            style={{ backgroundColor: '#0088cc' }}
-          /> */}
         </View>
       </View>
       <SignInModal
