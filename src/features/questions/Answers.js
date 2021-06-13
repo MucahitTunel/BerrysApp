@@ -356,7 +356,7 @@ const Answers = ({ route, navigation }) => {
   const [message, setMessage] = useState(null)
   useEffect(() => {
     if (question?.content) {
-      let extraStr = null
+      let extraStr = ''
       let url = null
       const contentSplitted = question.content.split(' ')
       contentSplitted.forEach((item) => {
@@ -364,7 +364,7 @@ const Answers = ({ route, navigation }) => {
         if (link) url = link
         else extraStr += `${item} `
       })
-      setMessage(extraStr)
+      setMessage(extraStr ? extraStr : '')
       setUrl(url)
     }
   }, [question])
@@ -397,11 +397,13 @@ const Answers = ({ route, navigation }) => {
   }
 
   const sharedData = () => {
+    if(question.receivers && question.groupNames && question.facebookGroupNames)
     return [
       ...question.receivers.map(r => r.name ? r.name : `Anonymous ${Math.floor(Math.random() * 900) + 100}`),
       ...question.groupNames,
       ...question.facebookGroupNames
     ]
+    else return []
   }
 
   const renderMessage = () => {
@@ -479,7 +481,7 @@ const Answers = ({ route, navigation }) => {
           onWillHide={(event) => hideKeyBoard(event, keyboardHeight.current)}
         />
         <ScrollView>
-          {((question.seenBy && question.seenBy.length > 0) || (question.receivers.length > 0 || question.groups.length > 0 || question.facebookGroups.length > 0)) &&
+          {((question.seenBy && question.seenBy.length > 0) || (question.receivers?.length > 0 || question.groups?.length > 0 || question.facebookGroups?.length > 0)) &&
           <View style={{ marginBottom: 10, paddingHorizontal: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
             {question.seenBy.length > 0 &&
               <AppText weight="medium" color="black">
