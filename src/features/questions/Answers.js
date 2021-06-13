@@ -364,7 +364,7 @@ const Answers = ({ route, navigation }) => {
         if (link) url = link
         else extraStr += `${item} `
       })
-      setMessage(extraStr ? extraStr : '')
+      setMessage(extraStr ? extraStr : null)
       setUrl(url)
     }
   }, [question])
