@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable */
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { StatusBar, StyleSheet, View, SafeAreaView } from 'react-native'
-import { AppButton, AppText, ScaleTouchable, Layout } from 'components'
-import { Dimensions, Colors } from 'constants'
+import { StatusBar, StyleSheet, View, SafeAreaView, Image, ScrollView } from 'react-native'
+import { AppButton, AppText, ScaleTouchable, AppInput, SimpleHeader } from 'components'
+import { Dimensions, Colors, Screens } from 'constants'
+import Images from 'assets/images'
 import { loadContacts } from 'features/contacts/contactsSlice'
-import { submitSurvey } from 'features/auth/authSlice'
+import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,
     width: Dimensions.Width,
     flex: 1,
+    backgroundColor: 'white'
   },
   surveyItem: {
     borderWidth: 1,
@@ -32,10 +35,11 @@ const styles = StyleSheet.create({
   },
 })
 
-const Survey = () => {
+const Survey = ({ navigation }) => {
   const dispatch = useDispatch()
 
   const [option, setOption] = useState('introvert')
+  const [hometown, setHometown] = useState(null)
 
   useEffect(() => {
     dispatch(loadContacts())
@@ -43,12 +47,55 @@ const Survey = () => {
 
   const onSelectItem = (value) => setOption(value)
 
-  const onPressContinue = () => dispatch(submitSurvey({ value: option }))
+  const onPressContinue = () => {
+    NavigationService.navigate(Screens.Interests, {
+      value: option, data: { hometown }
+    })
+  }
+
+  const onChangeHometown = (value) => {
+    setHometown(value === '' ? null : value)
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <SimpleHeader title="About Me" />
+      ),
+    })
+  }, [navigation])
 
   return (
-    <Layout>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <ScrollView contentContainerStyle={{ flex: 1}}>
+        <View style={{
+          width: Dimensions.Width, height: 250,
+          padding: 10,
+          paddingHorizontal: 20,
+          borderRadius: 10,
+        }}>
+          <Image source={Images.onboarding3} style={{
+            width: '100%', flex: 1,
+            borderRadius: 10
+          }} />
+          <AppInput
+          placeholder="Hometown"
+          placeholderTextColor={Colors.gray}
+          // value={searchText}
+          style={{
+            backgroundColor: 'white',
+            fontSize: 15,
+            // fontFamily: Fonts.euclidCircularAMedium,
+            color: Colors.text,
+            position: 'absolute',
+            alignSelf: 'center',
+            width: '90%',
+            top: 100
+          }}
+          onChange={onChangeHometown}
+        />
+        </View>
         <View
           style={{
             flexDirection: 'row',
@@ -62,9 +109,10 @@ const Survey = () => {
               styles.surveyItem,
               option === 'introvert' && styles.surveyItemActive,
             ]}>
-            <AppText fontSize={80} style={[styles.surveyItemText]}>
-              🤓
-            </AppText>
+            <Image
+              source={Images.introvert}
+              style={{ resizeMode: 'contain', height: 50, width: 50}}
+            />
             <AppText
               fontSize={18}
               style={[
@@ -82,9 +130,10 @@ const Survey = () => {
               styles.surveyItem,
               option === 'extravert' && styles.surveyItemActive,
             ]}>
-            <AppText fontSize={80} style={[styles.surveyItemText]}>
-              🥳
-            </AppText>
+            <Image
+              source={Images.extrovert}
+              style={{ resizeMode: 'contain', height: 50, width: 50}}
+            />
             <AppText
               fontSize={18}
               style={[
@@ -105,10 +154,10 @@ const Survey = () => {
             flex: 1,
             justifyContent: 'flex-end',
           }}>
-          <AppButton text="Continue" onPress={onPressContinue} />
+          <AppButton text="Next" onPress={onPressContinue} />
         </View>
+        </ScrollView>
       </SafeAreaView>
-    </Layout>
   )
 }
 

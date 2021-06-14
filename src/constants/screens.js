@@ -47,4 +47,5 @@ export default {
   Notifications: 'NotificationsScreen',
   MySkipped: 'MySkippedScreen',
   SeeWhoVoted: 'SeeWhoVotedScreen',
+  Interests: 'InterestsScreen',
 }

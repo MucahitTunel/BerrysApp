@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Colors } from 'constants'
-import { Header, SideBarMenu } from 'components'
+import { Header, SideBarMenu, SimpleHeader } from 'components'
 import {
   BackButton,
   ComposeButton,
@@ -48,6 +48,7 @@ import PostQuestion from 'features/questions/PostQuestion'
 import VoiceCall from 'features/contacts/VoiceCall'
 import Account from 'features/contacts/Account'
 import FacebookIntegration from 'features/auth/FacebookIntegration'
+import Interests from 'features/auth/Interests'
 
 import MainStack from './MainNavigator'
 
@@ -57,13 +58,8 @@ const Tab = createBottomTabNavigator()
 
 const SurveyStack = () => (
   <Stack.Navigator>
-    <Stack.Screen
-      name={Screens.Survey}
-      component={Survey}
-      options={({}) => ({
-        header: () => <Header title="A little bit about Me" />,
-      })}
-    />
+    <Stack.Screen name={Screens.Survey} component={Survey} />
+    <Stack.Screen name={Screens.Interests} component={Interests} />
   </Stack.Navigator>
 )
 

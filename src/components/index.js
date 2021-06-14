@@ -7,6 +7,7 @@ import AppText from './AppText'
 import Loading from './Loading'
 import Avatar from './Avatar'
 import Header from './Header'
+import SimpleHeader from './SimpleHeader'
 import ImageHeader from './ImageHeader'
 import SideBarMenu from './SideBarMenu'
 import ContactsList from './ContactsList'
@@ -42,4 +43,5 @@ export {
   TouchableWrapper,
   CardSwiper,
   Layout,
+  SimpleHeader,
 }

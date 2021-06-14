@@ -10,10 +10,10 @@ import checkmark from './checkmark-circle.png'
 import checkmarkSelected from './checkmark-circle-selected.png'
 import googleIcon from './google-icon.png'
 
-import onboarding1 from './AppOnboarding/onboarding-1.png'
-import onboarding2 from './AppOnboarding/onboarding-2.png'
-import onboarding3 from './AppOnboarding/onboarding-3.png'
-import onboarding4 from './AppOnboarding/onboarding-4.png'
+// import onboarding1 from './AppOnboarding/onboarding-1.png'
+// import onboarding2 from './AppOnboarding/onboarding-2.png'
+// import onboarding3 from './AppOnboarding/onboarding-3.png'
+// import onboarding4 from './AppOnboarding/onboarding-4.png'
 
 // Create a group
 import education from './education.png'
@@ -47,6 +47,37 @@ import share from './new-design/share.png'
 import emptyCard from './new-design/emptyCard.jpeg'
 import facebookIntegration from './new-design/facebookIntegration.png'
 import facebookIcon from './new-design/facebookIcon.png'
+import onboarding1 from './new-design/onboarding1.png'
+import onboarding2 from './new-design/onboarding2.png'
+import onboarding3 from './new-design/onboarding3.png'
+import extrovert from './new-design/extrovert.png'
+import introvert from './new-design/introvert.png'
+import interestArt from './new-design/interest/art.png'
+import interestChess from './new-design/interest/chess.png'
+import interestCooking from './new-design/interest/cooking.png'
+import interestCycling from './new-design/interest/cycling.png'
+import interestDancing from './new-design/interest/dancing.png'
+import interestDrawing from './new-design/interest/drawing.png'
+import interestEntrepreneurship from './new-design/interest/entrepreneurship.png'
+import interestFishing from './new-design/interest/fishing.png'
+import interestGolfing from './new-design/interest/golfing.png'
+import interestHiking from './new-design/interest/hiking.png'
+import interestHunting from './new-design/interest/hunting.png'
+import interestKayaking from './new-design/interest/kayaking.png'
+import interestKnitting from './new-design/interest/knitting.png'
+import interestMartialArts from './new-design/interest/martialarts.png'
+import interestMilitary from './new-design/interest/military.png'
+import interestPainting from './new-design/interest/painting.png'
+import interestParenting from './new-design/interest/parenting.png'
+import interestPhotography from './new-design/interest/photography.png'
+import interestPoker from './new-design/interest/poker.png'
+import interestPolitics from './new-design/interest/politics.png'
+import interestProgramming from './new-design/interest/programming.png'
+import interestRobotics from './new-design/interest/robotics.png'
+import interestRunning from './new-design/interest/running.png'
+import interestWeightlifting from './new-design/interest/weightlifting.png'
+import interestTechnology from './new-design/interest/technology.png'
+import interestBusinessNews from './new-design/interest/business.png'
 
 export default {
   logo,
@@ -68,7 +99,7 @@ export default {
   onboarding1,
   onboarding2,
   onboarding3,
-  onboarding4,
+  // onboarding4,
   // New images
   newProfile,
   newProfileFilled,
@@ -95,4 +126,32 @@ export default {
   emptyCard,
   facebookIntegration,
   facebookIcon,
+  introvert,
+  extrovert,
+  interestArt,
+  interestChess,
+  interestCooking,
+  interestCycling,
+  interestDancing,
+  interestDrawing,
+  interestEntrepreneurship,
+  interestFishing,
+  interestGolfing,
+  interestHiking,
+  interestHunting,
+  interestKayaking,
+  interestKnitting,
+  interestMartialArts,
+  interestMilitary,
+  interestPainting,
+  interestParenting,
+  interestPhotography,
+  interestPoker,
+  interestPolitics,
+  interestProgramming,
+  interestRobotics,
+  interestRunning,
+  interestWeightlifting,
+  interestTechnology,
+  interestBusinessNews,
 }

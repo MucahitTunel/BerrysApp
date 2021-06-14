@@ -10,7 +10,7 @@ import Theme from 'theme'
 const slider = [
   {
     id: 0,
-    image: Images.newSignin,
+    image: Images.onboarding1,
     title: 'Ask Like-minded People, Anonymously or Openly',
     description: 'Get Their Honest Opinion',
   },

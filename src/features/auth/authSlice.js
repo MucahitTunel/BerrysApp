@@ -198,7 +198,7 @@ export const resendVerifyCode = createAsyncThunk(
 
 export const submitSurvey = createAsyncThunk(
   'auth/submitSurvey',
-  async ({ value }, { getState, dispatch }) => {
+  async ({ value, data }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     request({
@@ -207,6 +207,7 @@ export const submitSurvey = createAsyncThunk(
       data: {
         userPhoneNumber: user.phoneNumber,
         value,
+        data,
       },
     })
     const newUserData = {
