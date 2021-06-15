@@ -1116,7 +1116,10 @@ const Main = ({ route }) => {
 
   const renderItem = (item) => {
     if (item.type === 'question') return <QuestionItem question={item} />
-    if (item.type === 'popular-question')
+    if (
+      item.type === 'popular-question' ||
+      item.type === 'popular-question-shared'
+    )
       return <QuestionItem question={item} isPopular />
     if (item.type === 'poll') return <RenderPoll poll={item} />
     if (item.type === 'compare') return <RenderCompare compare={item} />
@@ -1162,7 +1165,7 @@ const Main = ({ route }) => {
   const popularOnSwipedLeft = (index) => {
     if (!popularPosts[index]) return
     setPopularPostsIndex(index + 1)
-    dispatch(skipPopularQuestions(popularPosts[index]._id))
+    dispatch(skipPopularQuestions(popularPosts[index]))
   }
 
   useEffect(() => {
