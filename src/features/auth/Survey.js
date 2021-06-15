@@ -48,6 +48,10 @@ const Survey = ({ navigation }) => {
   const onSelectItem = (value) => setOption(value)
 
   const onPressContinue = () => {
+    if(!hometown) {
+      return alert('Please enter your hometown to continue!')
+    }
+
     NavigationService.navigate(Screens.Interests, {
       value: option, data: { hometown }
     })
