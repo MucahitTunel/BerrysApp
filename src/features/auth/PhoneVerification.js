@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Linking, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import LinearGradient from 'react-native-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,7 +37,7 @@ const styles = {
     borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   bottomView: {
-    marginTop: 24,
+    marginTop: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -58,7 +58,7 @@ const PhoneVerification = ({ route }) => {
       start={{ x: 0.25, y: 0.5 }}
       end={{ x: 0.75, y: 0.5 }}
       style={{ flex: 1, padding: 20, paddingTop: 70 }}>
-      <View style={styles.modalInnerView}>
+      <ScrollView contentContainerStyle={styles.modalInnerView}>
         <AppText fontSize={28} weight="bold" color={Colors.white}>
           Verification
         </AppText>
@@ -87,17 +87,22 @@ const PhoneVerification = ({ route }) => {
           )}
         </Formik>
 
-        {!route.params.isTelegram && (
-          <View style={styles.bottomView}>
-            <AppLink
-              text="Resend verification code"
-              color={Colors.white}
-              textStyle={{ fontSize: FontSize.large }}
-              onPress={onPressResendCode}
-            />
-          </View>
-        )}
-      </View>
+        <View style={styles.bottomView}>
+          <AppLink
+            text="Sign in using Telegram"
+            color={Colors.white}
+            textStyle={{ fontSize: FontSize.large }}
+            onPress={() => Linking.openURL('https://t.me/berrysapp_bot')}
+            style={{ marginBottom: 10 }}
+          />
+          <AppLink
+            text="Resend verification code"
+            color={Colors.white}
+            textStyle={{ fontSize: FontSize.large }}
+            onPress={onPressResendCode}
+          />
+        </View>
+      </ScrollView>
     </LinearGradient>
   )
 }

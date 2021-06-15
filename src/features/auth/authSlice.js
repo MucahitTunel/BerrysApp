@@ -103,7 +103,7 @@ export const getUser = createAsyncThunk(
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async ({ phoneNumber, countryCode, isTelegram = false }) => {
+  async ({ phoneNumber, countryCode }) => {
     const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
     if (!isValid) {
       return Alert.alert(
@@ -115,7 +115,7 @@ export const signIn = createAsyncThunk(
     console.log(verifyCode)
     await request({
       method: 'POST',
-      url: isTelegram ? 'account/set-verify-code' : 'account/send-verify-sms',
+      url: 'account/send-verify-sms',
       data: {
         phoneNumber: number,
         verifyCode,
@@ -127,10 +127,7 @@ export const signIn = createAsyncThunk(
       service: Services.PhoneNumber,
       isVerifying: true,
     }
-    NavigationService.navigate(Screens.PhoneVerification, {
-      isTelegram,
-    })
-    if (isTelegram) Linking.openURL('https://t.me/berrysapp_bot')
+    NavigationService.navigate(Screens.PhoneVerification)
     return userData
   },
 )
