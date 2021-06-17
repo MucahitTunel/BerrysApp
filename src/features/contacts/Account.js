@@ -125,7 +125,7 @@ const Account = () => {
       case 'report':
         return 'Report'
       case 'skipped':
-        return 'My Skipped Posts'
+        return 'My Interests'
     }
   }
 

@@ -177,7 +177,13 @@ export const createPoll = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { contacts, groups, facebookGroups, question } = state.ask
+    const {
+      contacts,
+      groups,
+      facebookGroups,
+      question,
+      isLikeMinded,
+    } = state.ask
     const { pollOptions } = state.question
     await request({
       method: 'POST',
@@ -189,6 +195,7 @@ export const createPoll = createAsyncThunk(
         contacts,
         groups: groups.map((g) => g._id),
         facebookGroups: facebookGroups.map((g) => g._id),
+        isLikeMinded,
       },
     })
     dispatch(getQuestions())
@@ -246,7 +253,13 @@ export const createCompare = createAsyncThunk(
   async (disableUpload = false, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
-    const { contacts, groups, facebookGroups, question } = state.ask
+    const {
+      contacts,
+      groups,
+      facebookGroups,
+      question,
+      isLikeMinded,
+    } = state.ask
     const { compareImages } = state.question
 
     setTimeout(() => {
@@ -277,6 +290,7 @@ export const createCompare = createAsyncThunk(
         contacts,
         groups: groups.map((g) => g._id),
         facebookGroups: facebookGroups.map((g) => g._id),
+        isLikeMinded,
       },
     })
     dispatch(getQuestions())

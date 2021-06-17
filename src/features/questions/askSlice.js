@@ -19,6 +19,7 @@ export const askQuestion = createAsyncThunk(
       isAnonymous,
       questionImage,
       isAskExperts,
+      isLikeMinded,
     } = state.ask
 
     if (questionImage) {
@@ -51,6 +52,7 @@ export const askQuestion = createAsyncThunk(
         requestToAsk,
         image,
         isAskExperts,
+        isLikeMinded,
       },
     })
     dispatch(setQuestionImage(null))
@@ -152,6 +154,7 @@ const askSlice = createSlice({
     loading: false,
     isAnonymous: true,
     isAskExperts: false,
+    isLikeMinded: false,
   },
   reducers: {
     setAskQuestion: (state, action) => {
@@ -174,6 +177,9 @@ const askSlice = createSlice({
     },
     setIsAskExperts: (state, action) => {
       state.isAskExperts = action.payload
+    },
+    setLikeMinded: (state, action) => {
+      state.isLikeMinded = action.payload
     },
   },
   extraReducers: {
@@ -198,5 +204,6 @@ export const {
     setAskAnonymously,
     setQuestionImage,
     setIsAskExperts,
+    setLikeMinded,
   },
 } = askSlice

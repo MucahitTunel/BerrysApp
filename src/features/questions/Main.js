@@ -1490,9 +1490,7 @@ const Main = ({ route }) => {
                       borderRadius: 7,
                       alignSelf: 'center',
                     }}>
-                    <AppText color="black">
-                      Ask experts any questions you have
-                    </AppText>
+                    <AppText color="black">Ask Like-Minded Users</AppText>
                   </View>
                   <View
                     style={[

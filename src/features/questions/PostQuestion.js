@@ -27,7 +27,8 @@ import {
   setAskGroups,
   setAskFacebookGroups,
   askQuestion,
-  setIsAskExperts,
+  // setIsAskExperts,
+  setLikeMinded,
 } from 'features/questions/askSlice'
 import * as NavigationService from '../../services/navigation'
 import { AnswerRightButton, BackButton } from 'components/NavButton'
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   selectionRow: {
-    marginTop: 20,
+    marginTop: 10,
     width: 85,
   },
   selectionRowText: {
@@ -83,7 +84,8 @@ const PostQuestion = ({ navigation, route }) => {
   const facebookGroups = useSelector((state) => state.ask.facebookGroups)
   const loading = useSelector((state) => state.ask.loading)
   const isAnonymous = useSelector((state) => state.ask.isAnonymous)
-  const isAskExperts = useSelector((state) => state.ask.isAskExperts)
+  // const isAskExperts = useSelector((state) => state.ask.isAskExperts)
+  const isLikeMinded = useSelector((state) => state.ask.isLikeMinded)
   const allContacts = useSelector((state) => state.contacts.data)
 
   const [allContactsSelected, setAllContactsSelected] = useState(false)
@@ -104,7 +106,8 @@ const PostQuestion = ({ navigation, route }) => {
     dispatch(setAskContacts([]))
     dispatch(setAskGroups([]))
     dispatch(setAskFacebookGroups([]))
-    dispatch(setIsAskExperts(false))
+    // dispatch(setIsAskExperts(false))
+    dispatch(setLikeMinded(false))
   }, [dispatch, route])
 
   useLayoutEffect(() => {
@@ -167,7 +170,8 @@ const PostQuestion = ({ navigation, route }) => {
         return alert('You have to write a question to continue!')
     }
     if (
-      !isAskExperts &&
+      // !isAskExperts &&
+      !isLikeMinded &&
       !allContactsSelected &&
       groups.length === 0 &&
       facebookGroups.length === 0 &&
@@ -252,7 +256,7 @@ const PostQuestion = ({ navigation, route }) => {
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
         )}
-        {isAskExperts && (
+        {/* {isAskExperts && (
           <ScaleTouchable
             onPress={() => dispatch(setIsAskExperts(false))}
             style={[
@@ -269,6 +273,27 @@ const PostQuestion = ({ navigation, route }) => {
               weight="medium"
               style={{ marginRight: 10 }}>
               Berry's Experts
+            </AppText>
+            <AppIcon name="close" size={12} color={Colors.purple} />
+          </ScaleTouchable>
+        )} */}
+        {isLikeMinded && (
+          <ScaleTouchable
+            onPress={() => dispatch(setLikeMinded(false))}
+            style={[
+              styles.itemContainer,
+              {
+                width: Dimensions.Width / 2.6,
+                marginLeft: 0,
+                marginRight: 10,
+              },
+            ]}>
+            <AppText
+              color="black"
+              fontSize={FontSize.normal}
+              weight="medium"
+              style={{ marginRight: 10 }}>
+              Like-Minded Users
             </AppText>
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
@@ -446,7 +471,7 @@ const PostQuestion = ({ navigation, route }) => {
                 </AppText>
               </View>
             </ScaleTouchable>
-            <ScaleTouchable
+            {/* <ScaleTouchable
               style={styles.selectionRow}
               onPress={() => dispatch(setIsAskExperts(true))}>
               <View style={{ alignItems: 'center' }}>
@@ -468,6 +493,31 @@ const PostQuestion = ({ navigation, route }) => {
                 />
                 <AppText style={styles.selectionRowText} color="black">
                   Berry's Experts
+                </AppText>
+              </View>
+            </ScaleTouchable> */}
+            <ScaleTouchable
+              style={styles.selectionRow}
+              onPress={() => dispatch(setLikeMinded(true))}>
+              <View style={{ alignItems: 'center' }}>
+                <AppButton
+                  icon={isLikeMinded ? 'checkmark' : 'message-dot'}
+                  iconSize={18}
+                  shadow={false}
+                  style={{
+                    backgroundColor: isLikeMinded
+                      ? Colors.purple
+                      : Colors.purpleDimmed,
+                    height: 50,
+                    width: 50,
+                    borderRadius: 10,
+                    marginBottom: 10,
+                  }}
+                  disabled
+                  onPress={() => {}}
+                />
+                <AppText style={styles.selectionRowText} color="black">
+                  Like-Minded Users
                 </AppText>
               </View>
             </ScaleTouchable>

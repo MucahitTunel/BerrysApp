@@ -219,7 +219,7 @@ export default MainStackScreen = ({ navigation }) => {
                 options={({ navigation }) => ({
                     header: () => (
                     <Header
-                        title="My Skipped Posts"
+                        title="My Interests"
                         headerLeft={<BackButton navigation={navigation} />}
                     />
                     ),
