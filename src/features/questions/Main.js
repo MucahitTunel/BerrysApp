@@ -40,6 +40,7 @@ import {
   hidePoll,
   hideCompare,
   setCompares,
+  setPolls,
   getPopularQuestions,
   skipPopularQuestions,
   setPopularCompares,
@@ -329,8 +330,12 @@ export const RenderCompare = ({ compare, isPopular }) => {
 
   const imageOnPress = (index) => {
     setSelectedOption(index)
-    if (isPopular) {
+
+    if (isPopular && !compare.showInPopular)
       dispatch(votePopularQuestion({ vote: index, popularId: compare._id }))
+    else dispatch(voteCompare({ image: index, compareId: compare?._id }))
+
+    if (isPopular)
       dispatch(
         setPopularCompares(
           popularCompares.map((c) => {
@@ -346,8 +351,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
           }),
         ),
       )
-    } else {
-      dispatch(voteCompare({ image: index, compareId: compare?._id }))
+    else
       dispatch(
         setCompares(
           compares.map((c) => {
@@ -363,7 +367,6 @@ export const RenderCompare = ({ compare, isPopular }) => {
           }),
         ),
       )
-    }
   }
 
   const seeWhoVotedOnPress = () => {
@@ -622,6 +625,7 @@ export const QuestionItem = ({
     group,
     contactName,
     myContact,
+    showInPopular,
   },
   isPopular,
 }) => {
@@ -673,7 +677,7 @@ export const QuestionItem = ({
   const isFlagged = flaggedBy.includes(phoneNumber)
 
   const onPressQuestion = () => {
-    if (isPopular)
+    if (isPopular && !showInPopular)
       dispatch(
         setQuestion({
           _id,
@@ -685,7 +689,7 @@ export const QuestionItem = ({
         }),
       )
     else dispatch(getQuestion(_id))
-    NavigationService.navigate(Screens.Answers, { isPopular })
+    NavigationService.navigate(Screens.Answers, { isPopular, showInPopular })
   }
 
   const onChangeText = (value) => {
@@ -710,6 +714,7 @@ export const QuestionItem = ({
       questionId: _id,
       isAnonymous: isAnswerAnonymous,
       isPopular,
+      showInPopular,
     }
     setAnswer(null)
     dispatch(submitComment(payload))
@@ -821,6 +826,7 @@ export const RenderPoll = ({ poll, isPopular }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const popularPolls = useSelector((state) => state.questions.popularPolls)
+  const polls = useSelector((state) => state.questions.polls)
 
   const [votes, setVotes] = useState(false)
   const [isVoted, setIsVoted] = useState(false)
@@ -856,10 +862,14 @@ export const RenderPoll = ({ poll, isPopular }) => {
 
   const onPress = (selectedOption) => {
     if (isVoted) return
-    if (isPopular) {
+
+    if (isPopular && !poll.showInPopular)
       dispatch(
         votePopularQuestion({ popularId: poll._id, vote: selectedOption }),
       )
+    else dispatch(votePoll({ option: selectedOption, pollId: poll._id }))
+
+    if (isPopular) {
       dispatch(
         setPopularPolls(
           popularPolls.map((p) => {
@@ -875,7 +885,22 @@ export const RenderPoll = ({ poll, isPopular }) => {
           }),
         ),
       )
-    } else dispatch(votePoll({ option: selectedOption, pollId: poll._id }))
+    } else
+      dispatch(
+        setPolls(
+          polls.map((p) => {
+            if (p._id === poll._id)
+              return {
+                ...p,
+                votes: [
+                  ...p.votes,
+                  { userPhoneNumber: user.phoneNumber, value: selectedOption },
+                ],
+              }
+            return p
+          }),
+        ),
+      )
   }
 
   const seeWhoVotedOnPress = () => {
@@ -1118,14 +1143,14 @@ const Main = ({ route }) => {
     if (item.type === 'question') return <QuestionItem question={item} />
     if (
       item.type === 'popular-question' ||
-      item.type === 'popular-question-shared'
+      item.type === 'popular-user-question'
     )
       return <QuestionItem question={item} isPopular />
     if (item.type === 'poll') return <RenderPoll poll={item} />
     if (item.type === 'compare') return <RenderCompare compare={item} />
-    if (item.type === 'popular-compare')
+    if (item.type === 'popular-compare' || item.type === 'popular-user-compare')
       return <RenderCompare compare={item} isPopular />
-    if (item.type === 'popular-poll')
+    if (item.type === 'popular-poll' || item.type === 'popular-user-poll')
       return <RenderPoll poll={item} isPopular />
   }
 

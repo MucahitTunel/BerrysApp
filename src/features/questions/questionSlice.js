@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import request from 'services/api'
 import {
   getQuestions,
-  setPolls,
   setQuestions,
   setPopularQuestions,
 } from './questionsSlice'
@@ -115,7 +114,14 @@ export const flagQuestion = createAsyncThunk(
 export const submitComment = createAsyncThunk(
   'comment/submit',
   async (
-    { comment, questionId, isAnonymous, image = null, isPopular = false },
+    {
+      comment,
+      questionId,
+      isAnonymous,
+      image = null,
+      isPopular = false,
+      showInPopular = false,
+    },
     { getState, dispatch },
   ) => {
     const state = getState()
@@ -125,7 +131,8 @@ export const submitComment = createAsyncThunk(
     const { popularQuestions } = state.questions
     const { data } = await request({
       method: 'POST',
-      url: isPopular ? 'popular-questions/comment' : 'comment',
+      url:
+        isPopular && !showInPopular ? 'popular-questions/comment' : 'comment',
       data: {
         userPhoneNumber: user.phoneNumber,
         comment,
@@ -220,30 +227,14 @@ export const getPoll = createAsyncThunk(
 
 export const votePoll = createAsyncThunk(
   'poll/vote',
-  async ({ option, pollId }, { getState, dispatch }) => {
+  async ({ option, pollId }, { getState }) => {
     const state = getState()
     const user = state.auth.user
-    const polls = state.questions.polls
     await request({
       method: 'POST',
       url: 'poll/vote',
       data: { pollId, userPhoneNumber: user.phoneNumber, option },
     })
-    dispatch(
-      setPolls(
-        polls.map((p) => {
-          if (p._id === pollId)
-            return {
-              ...p,
-              votes: [
-                ...p.votes,
-                { userPhoneNumber: user.phoneNumber, value: option },
-              ],
-            }
-          return p
-        }),
-      ),
-    )
     return
   },
 )

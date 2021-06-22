@@ -139,7 +139,6 @@ const Comment = ({
   setComment,
   setIsMessageModalVisible,
   setCommentUserPhoneNumber,
-  isPopular,
 }) => {
   const {
     _id,
@@ -224,7 +223,6 @@ Comment.propTypes = {
   question: PropTypes.objectOf(PropTypes.any).isRequired,
   setIsMessageModalVisible: PropTypes.func.isRequired,
   setComment: PropTypes.func.isRequired,
-  isPopular: PropTypes.bool,
 }
 
 const Answers = ({ route, navigation }) => {
@@ -257,6 +255,7 @@ const Answers = ({ route, navigation }) => {
         isAnonymous,
         image: uploadedImage,
         isPopular: route.params.isPopular,
+        showInPopular: route.params.showInPopular
       }
       dispatch(submitComment(payload))
       resetForm({})
@@ -294,7 +293,7 @@ const Answers = ({ route, navigation }) => {
             title="Post"
             headerLeft={<BackButton navigation={navigation} />}
             headerRight={
-              route.params.isPopular ? null : (
+              (route.params.isPopular && !route.params.showInPopular) ? null : (
                 <AnswerRightButton
                   onPressDots={() => setIsFlagModalVisible(true)}
                 />
@@ -461,7 +460,7 @@ const Answers = ({ route, navigation }) => {
           />
         }
         headerRight={
-          route.params.isPopular ? null : (
+          (route.params.isPopular && !route.params.showInPopular) ? null : (
             <AnswerRightButton
               onPressDots={() => setIsFlagModalVisible(true)}
             />
@@ -517,7 +516,6 @@ const Answers = ({ route, navigation }) => {
                   user={user}
                   setIsMessageModalVisible={setIsMessageModalVisible}
                   setComment={setComment}
-                  isPopular={route.params.isPopular}
                   setCommentUserPhoneNumber={setCommentUserPhoneNumber}
                 />
               )}
