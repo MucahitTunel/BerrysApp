@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView, Linking } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { AppButton, AppImage, AppLink, AppText } from 'components'
 import SignInModal from 'features/auth/SignInModal'
-import { Colors } from 'constants'
+import { Colors, Dimensions } from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
 
@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
   },
   bottomView: {
     height: 90,
-    borderTopWidth: 1,
-    borderTopColor: Colors.grayLight,
     justifyContent: 'center',
   },
 })
@@ -74,9 +72,14 @@ const Onboarding = () => {
                     source={Images.logo}
                     width={160}
                     height={40}
-                    style={{ marginBottom: '10%', marginTop: 20 }}
+                    style={{ position: 'absolute', top: 10 }}
                   />
-                  <AppImage source={slide.image} width={300} height={300} />
+                  <AppImage
+                    source={slide.image}
+                    width={Dimensions.Width}
+                    height={500}
+                    style={{ marginTop: '25%' }}
+                  />
                 </View>
                 <View style={Theme.Slider.textView}>
                   <AppText text={slide.title} style={Theme.Slider.itemTitle}>

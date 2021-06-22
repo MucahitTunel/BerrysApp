@@ -28,7 +28,7 @@ export default StyleSheet.create({
   textView: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     padding: 20,
   },
   itemTitle: {
@@ -37,6 +37,7 @@ export default StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
     paddingHorizontal: 10,
+    color: 'black',
   },
   itemDescription: {
     color: Colors.gray,
