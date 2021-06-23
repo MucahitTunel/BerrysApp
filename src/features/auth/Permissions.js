@@ -1,5 +1,11 @@
-import React, { useState, useLayoutEffect } from 'react'
-import { SafeAreaView, View, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native'
 import { AppText, AppButton, AppImage, AppIcon } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import * as NavigationService from 'services/navigation'
@@ -7,6 +13,7 @@ import Images from 'assets/images'
 import { useDispatch } from 'react-redux'
 import { submitSurvey } from 'features/auth/authSlice'
 import PropTypes from 'prop-types'
+import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions'
 
 const styles = StyleSheet.create({
   container: {
@@ -38,8 +45,72 @@ const Permissions = ({ route }) => {
   const dispatch = useDispatch()
 
   const [location, setLocation] = useState(false)
-  const [notification, setNotification] = useState(false)
+  const [notification, setNotification] = useState(true)
   const [contact, setContact] = useState(false)
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      check(PERMISSIONS.ANDROID.READ_CONTACTS).then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+          case RESULTS.DENIED:
+          case RESULTS.LIMITED:
+          case RESULTS.BLOCKED:
+            request(PERMISSIONS.ANDROID.READ_CONTACTS).then((result) => {
+              if (result === RESULTS.GRANTED) setContact(true)
+            })
+            break
+          case RESULTS.GRANTED:
+            return setContact(true)
+        }
+      })
+      check(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+          case RESULTS.DENIED:
+          case RESULTS.LIMITED:
+          case RESULTS.BLOCKED:
+            request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then(
+              (result) => {
+                if (result === RESULTS.GRANTED) setLocation(true)
+              },
+            )
+            break
+          case RESULTS.GRANTED:
+            return setLocation(true)
+        }
+      })
+    } else {
+      check(PERMISSIONS.IOS.CONTACTS).then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+          case RESULTS.DENIED:
+          case RESULTS.LIMITED:
+          case RESULTS.BLOCKED:
+            request(PERMISSIONS.IOS.CONTACTS).then((result) => {
+              if (result === RESULTS.GRANTED) setContact(true)
+            })
+            break
+          case RESULTS.GRANTED:
+            return setContact(true)
+        }
+      })
+      check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+          case RESULTS.DENIED:
+          case RESULTS.LIMITED:
+          case RESULTS.BLOCKED:
+            request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
+              if (result === RESULTS.GRANTED) setLocation(true)
+            })
+            break
+          case RESULTS.GRANTED:
+            return setLocation(true)
+        }
+      })
+    }
+  })
 
   const renderItem = (type) => {
     const size = 25
@@ -89,7 +160,7 @@ const Permissions = ({ route }) => {
     }
 
     return (
-      <TouchableOpacity style={styles.itemContainer} onPress={getOnPress}>
+      <View style={styles.itemContainer} onPress={getOnPress}>
         <View style={styles.itemImage}>
           <AppImage source={Images[type]} width={size} height={size} />
         </View>
@@ -120,7 +191,7 @@ const Permissions = ({ route }) => {
           }}
           background
         />
-      </TouchableOpacity>
+      </View>
     )
   }
 

@@ -88,7 +88,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) syncs only phone numbers from your address book to $(PRODUCT_NAME) servers to help you connect with other $(PRODUCT_NAME) users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>$(PRODUCT_NAME) needs your location to find more like-minded people near your area</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The purpose for accessing the microphone, such as for a call or interactive live streaming.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

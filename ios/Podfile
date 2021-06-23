@@ -8,11 +8,17 @@ target 'Berrys' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
   # Custom pods
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
   pod 'GoogleSignIn', '~> 5.0.2'
   pod 'FacebookSDK'
   pod 'FacebookSDK/LoginKit'
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
 
   target 'BerrysTests' do
     inherit! :complete
