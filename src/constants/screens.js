@@ -48,4 +48,5 @@ export default {
   MySkipped: 'MySkippedScreen',
   SeeWhoVoted: 'SeeWhoVotedScreen',
   Interests: 'InterestsScreen',
+  Permissions: 'PermissionsScreen',
 }

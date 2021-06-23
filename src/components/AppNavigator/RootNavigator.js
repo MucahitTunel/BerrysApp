@@ -49,6 +49,7 @@ import VoiceCall from 'features/contacts/VoiceCall'
 import Account from 'features/contacts/Account'
 import FacebookIntegration from 'features/auth/FacebookIntegration'
 import Interests from 'features/auth/Interests'
+import Permissions from 'features/auth/Permissions'
 
 import MainStack from './MainNavigator'
 
@@ -60,6 +61,11 @@ const SurveyStack = () => (
   <Stack.Navigator>
     <Stack.Screen name={Screens.Survey} component={Survey} />
     <Stack.Screen name={Screens.Interests} component={Interests} />
+    <Stack.Screen
+      name={Screens.Permissions}
+      component={Permissions}
+      options={{ headerShown: false }}
+    />
   </Stack.Navigator>
 )
 

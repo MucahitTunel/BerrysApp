@@ -43,6 +43,7 @@ import newSignin from './new-design/signin.png'
 import onboardingSkip from './new-design/onboardingSkip.png'
 import onboardingShare from './new-design/onboardingShare.png'
 import bell from './new-design/bell.png'
+import bellFilled from './new-design/bellFilled.png'
 import share from './new-design/share.png'
 import emptyCard from './new-design/emptyCard.jpeg'
 import facebookIntegration from './new-design/facebookIntegration.png'
@@ -78,6 +79,7 @@ import interestRunning from './new-design/interest/running.png'
 import interestWeightlifting from './new-design/interest/weightlifting.png'
 import interestTechnology from './new-design/interest/technology.png'
 import interestBusinessNews from './new-design/interest/business.png'
+import location from './new-design/location.png'
 
 export default {
   logo,
@@ -120,6 +122,7 @@ export default {
   onboardingSkip,
   onboardingShare,
   bell,
+  bellFilled,
   profileWhite,
   profileGray,
   share,
@@ -154,4 +157,5 @@ export default {
   interestWeightlifting,
   interestTechnology,
   interestBusinessNews,
+  location,
 }
