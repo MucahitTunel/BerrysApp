@@ -1472,7 +1472,8 @@ const Main = ({ route }) => {
               {onboardingModal === 'main' && (
                 <TouchableOpacity
                   style={{ flex: 1 }}
-                  onPress={() => setOnboardingModal(auth.user.survey)}>
+                  // onPress={() => setOnboardingModal(auth.user.survey)}>
+                  onPress={() => setOnboardingModal(false)}>
                   <View
                     style={{
                       alignItems: 'center',

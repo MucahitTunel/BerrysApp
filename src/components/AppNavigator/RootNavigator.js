@@ -58,14 +58,10 @@ const Drawer = createDrawerNavigator()
 const Tab = createBottomTabNavigator()
 
 const SurveyStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name={Screens.Survey} component={Survey} />
+  <Stack.Navigator headerMode="none">
+    {/* <Stack.Screen name={Screens.Survey} component={Survey} /> */}
     <Stack.Screen name={Screens.Interests} component={Interests} />
-    <Stack.Screen
-      name={Screens.Permissions}
-      component={Permissions}
-      options={{ headerShown: false }}
-    />
+    <Stack.Screen name={Screens.Permissions} component={Permissions} />
   </Stack.Navigator>
 )
 

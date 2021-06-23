@@ -1,11 +1,9 @@
 /* eslint-disable */
-import React, { useEffect, useState, useLayoutEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react'
 import { StatusBar, StyleSheet, View, SafeAreaView, Image, ScrollView } from 'react-native'
 import { AppButton, AppText, ScaleTouchable, SimpleHeader } from 'components'
-import { Dimensions, Colors, FontSize } from 'constants'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
-import { submitSurvey } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -35,38 +33,18 @@ const styles = StyleSheet.create({
 })
 
 const Survey = ({ route, navigation }) => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-    const { value, data } = route.params
+    // const { value, data } = route.params
 
   const [interests, setInterests] = useState([])
 
   const onPressContinue = () => {
-    dispatch(submitSurvey({ value, data: {...data, interests } }))
-  }
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <View style={{ backgroundColor: 'white', height: 100, justifyContent: "flex-end", alignItems: 'center', marginBottom: 20}}>
-            <AppText
-                weight="bold"
-                color="black"
-                fontSize={FontSize.xxxLarge}
-                style={{ marginBottom: 5}}
-            >
-                Choose your interests
-            </AppText>
-            <AppText
-                color="#626579"
-                weight="normal"
-            >
-                To be able to ask like-minded users
-            </AppText>
-        </View>
-      ),
+    navigation.navigate(Screens.Permissions, {
+      surveyData: { interests }
     })
-  }, [navigation])
+    // dispatch(submitSurvey({ /* value,  */data: {/* ...data,  */interests } }))
+  }
 
   const renderItem = (image, text, isSelected) => {
     
@@ -112,6 +90,22 @@ const Survey = ({ route, navigation }) => {
   return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <View style={{ backgroundColor: 'white', height: 100, justifyContent: "flex-end", alignItems: 'center', marginBottom: 20}}>
+            <AppText
+                weight="bold"
+                color="black"
+                fontSize={FontSize.xxxLarge}
+                style={{ marginBottom: 5}}
+            >
+                Choose your interests
+            </AppText>
+            <AppText
+                color="#626579"
+                weight="normal"
+            >
+                To be able to ask like-minded users
+            </AppText>
+        </View>
         <ScrollView
           contentContainerStyle={{
             flexDirection: 'row',

@@ -195,7 +195,7 @@ export const resendVerifyCode = createAsyncThunk(
 
 export const submitSurvey = createAsyncThunk(
   'auth/submitSurvey',
-  async ({ value, data }, { getState, dispatch }) => {
+  async ({ value = 'extrovert', data }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     request({

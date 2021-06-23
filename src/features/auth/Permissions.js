@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { SafeAreaView, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { AppText, AppButton, AppImage, AppIcon } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import * as NavigationService from 'services/navigation'
 import Images from 'assets/images'
+import { useDispatch } from 'react-redux'
+import { submitSurvey } from 'features/auth/authSlice'
+import PropTypes from 'prop-types'
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +34,9 @@ const styles = StyleSheet.create({
   },
 })
 
-const Permissions = () => {
+const Permissions = ({ route }) => {
+  const dispatch = useDispatch()
+
   const [location, setLocation] = useState(false)
   const [notification, setNotification] = useState(false)
   const [contact, setContact] = useState(false)
@@ -119,7 +124,9 @@ const Permissions = () => {
     )
   }
 
-  const submit = () => {}
+  const submit = () => {
+    dispatch(submitSurvey({ data: route.params.surveyData }))
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,6 +170,10 @@ const Permissions = () => {
       />
     </SafeAreaView>
   )
+}
+
+Permissions.propTypes = {
+  route: PropTypes.object,
 }
 
 export default Permissions
