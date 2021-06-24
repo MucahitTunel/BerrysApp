@@ -19,6 +19,8 @@ import {
   RESULTS,
   request,
   openSettings,
+  checkNotifications,
+  requestNotifications,
 } from 'react-native-permissions'
 
 const styles = StyleSheet.create({
@@ -51,10 +53,24 @@ const Permissions = ({ route }) => {
   const dispatch = useDispatch()
 
   const [location, setLocation] = useState(false)
-  const [notification, setNotification] = useState(true)
+  const [notification, setNotification] = useState(false)
   const [contact, setContact] = useState(false)
 
   useEffect(() => {
+    checkNotifications().then(({ status, settings }) => {
+      switch (status) {
+        case RESULTS.UNAVAILABLE:
+        case RESULTS.DENIED:
+        case RESULTS.LIMITED:
+        case RESULTS.BLOCKED:
+          requestNotifications(['alert', 'sound']).then(({ status }) => {
+            if (status === RESULTS.GRANTED) setNotification(true)
+          })
+          break
+        case RESULTS.GRANTED:
+          return setNotification(true)
+      }
+    })
     if (Platform.OS === 'android') {
       check(PERMISSIONS.ANDROID.READ_CONTACTS).then((result) => {
         switch (result) {
@@ -70,22 +86,22 @@ const Permissions = ({ route }) => {
             return setContact(true)
         }
       })
-      check(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then((result) => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-          case RESULTS.DENIED:
-          case RESULTS.LIMITED:
-          case RESULTS.BLOCKED:
-            request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then(
-              (result) => {
-                if (result === RESULTS.GRANTED) setLocation(true)
-              },
-            )
-            break
-          case RESULTS.GRANTED:
-            return setLocation(true)
-        }
-      })
+      // check(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then((result) => {
+      //   switch (result) {
+      //     case RESULTS.UNAVAILABLE:
+      //     case RESULTS.DENIED:
+      //     case RESULTS.LIMITED:
+      //     case RESULTS.BLOCKED:
+      //       request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION).then(
+      //         (result) => {
+      //           if (result === RESULTS.GRANTED) setLocation(true)
+      //         },
+      //       )
+      //       break
+      //     case RESULTS.GRANTED:
+      //       return setLocation(true)
+      //   }
+      // })
     } else {
       check(PERMISSIONS.IOS.CONTACTS).then((result) => {
         switch (result) {
@@ -101,20 +117,20 @@ const Permissions = ({ route }) => {
             return setContact(true)
         }
       })
-      check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-          case RESULTS.DENIED:
-          case RESULTS.LIMITED:
-          case RESULTS.BLOCKED:
-            request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
-              if (result === RESULTS.GRANTED) setLocation(true)
-            })
-            break
-          case RESULTS.GRANTED:
-            return setLocation(true)
-        }
-      })
+      // check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
+      //   switch (result) {
+      //     case RESULTS.UNAVAILABLE:
+      //     case RESULTS.DENIED:
+      //     case RESULTS.LIMITED:
+      //     case RESULTS.BLOCKED:
+      //       request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then((result) => {
+      //         if (result === RESULTS.GRANTED) setLocation(true)
+      //       })
+      //       break
+      //     case RESULTS.GRANTED:
+      //       return setLocation(true)
+      //   }
+      // })
     }
   })
 
@@ -168,11 +184,13 @@ const Permissions = ({ route }) => {
     const onPress = () => {
       switch (type) {
         case 'bellFilled':
-          // if(!notification) {
-          //   request(Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS).then((result) => {
-          //     if (result === RESULTS.GRANTED) setLocation(true)
-          //   })
-          // }
+          if (!notification) {
+            requestNotifications(['alert', 'sound']).then(({ status }) => {
+              if (status === RESULTS.GRANTED) setNotification(true)
+              else
+                openSettings().catch(() => console.warn('cannot open settings'))
+            })
+          }
           return
         case 'newProfileFilled':
           if (!contact) {
@@ -273,14 +291,14 @@ const Permissions = ({ route }) => {
         honest opinions. We'll need you to allow a few permissions to get
         started
       </AppText>
-      {renderItem('location')}
+      {/* {renderItem('location')} */}
       {renderItem('newProfileFilled')}
       {renderItem('bellFilled')}
       <View style={{ flex: 1 }} />
       <AppButton
         text="Next"
         style={{ marginBottom: 30, marginHorizontal: 30 }}
-        disabled={!location || !notification || !contact}
+        disabled={/* !location ||  */ !notification || !contact}
         onPress={submit}
       />
     </SafeAreaView>
