@@ -13,7 +13,13 @@ import Images from 'assets/images'
 import { useDispatch } from 'react-redux'
 import { submitSurvey } from 'features/auth/authSlice'
 import PropTypes from 'prop-types'
-import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions'
+import {
+  check,
+  PERMISSIONS,
+  RESULTS,
+  request,
+  openSettings,
+} from 'react-native-permissions'
 
 const styles = StyleSheet.create({
   container: {
@@ -159,8 +165,46 @@ const Permissions = ({ route }) => {
       }
     }
 
+    const onPress = () => {
+      switch (type) {
+        case 'bellFilled':
+          // if(!notification) {
+          //   request(Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS).then((result) => {
+          //     if (result === RESULTS.GRANTED) setLocation(true)
+          //   })
+          // }
+          return
+        case 'newProfileFilled':
+          if (!contact) {
+            request(
+              Platform.OS === 'ios'
+                ? PERMISSIONS.IOS.CONTACTS
+                : PERMISSIONS.ANDROID.READ_CONTACTS,
+            ).then((result) => {
+              if (result === RESULTS.GRANTED) setContact(true)
+              else
+                openSettings().catch(() => console.warn('cannot open settings'))
+            })
+          }
+          return
+        case 'location':
+          if (!location) {
+            request(
+              Platform.OS === 'ios'
+                ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+                : PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
+            ).then((result) => {
+              if (result === RESULTS.GRANTED) setLocation(true)
+              else
+                openSettings().catch(() => console.warn('cannot open settings'))
+            })
+          }
+          return
+      }
+    }
+
     return (
-      <View style={styles.itemContainer} onPress={getOnPress}>
+      <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
         <View style={styles.itemImage}>
           <AppImage source={Images[type]} width={size} height={size} />
         </View>
@@ -191,7 +235,7 @@ const Permissions = ({ route }) => {
           }}
           background
         />
-      </View>
+      </TouchableOpacity>
     )
   }
 
