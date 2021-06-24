@@ -139,6 +139,7 @@ export const submitComment = createAsyncThunk(
         questionId,
         isAnonymous,
         image,
+        showInPopular,
       },
     })
     if (!isPopular) {
@@ -227,13 +228,18 @@ export const getPoll = createAsyncThunk(
 
 export const votePoll = createAsyncThunk(
   'poll/vote',
-  async ({ option, pollId }, { getState }) => {
+  async ({ option, pollId, showInPopular }, { getState }) => {
     const state = getState()
     const user = state.auth.user
     await request({
       method: 'POST',
       url: 'poll/vote',
-      data: { pollId, userPhoneNumber: user.phoneNumber, option },
+      data: {
+        pollId,
+        userPhoneNumber: user.phoneNumber,
+        option,
+        showInPopular,
+      },
     })
     return
   },
@@ -305,7 +311,7 @@ export const getCompare = createAsyncThunk(
 
 export const voteCompare = createAsyncThunk(
   'compare/vote',
-  async ({ image, compareId }, { getState }) => {
+  async ({ image, compareId, showInPopular }, { getState }) => {
     const state = getState()
     const user = state.auth.user
     const { data } = await request({
@@ -315,6 +321,7 @@ export const voteCompare = createAsyncThunk(
         compareId,
         userPhoneNumber: user.phoneNumber,
         image,
+        showInPopular,
       },
     })
     return data.compare

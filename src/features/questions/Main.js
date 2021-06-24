@@ -333,7 +333,14 @@ export const RenderCompare = ({ compare, isPopular }) => {
 
     if (isPopular && !compare.showInPopular)
       dispatch(votePopularQuestion({ vote: index, popularId: compare._id }))
-    else dispatch(voteCompare({ image: index, compareId: compare?._id }))
+    else
+      dispatch(
+        voteCompare({
+          image: index,
+          compareId: compare?._id,
+          showInPopular: compare.showInPopular,
+        }),
+      )
 
     if (isPopular)
       dispatch(
@@ -867,7 +874,14 @@ export const RenderPoll = ({ poll, isPopular }) => {
       dispatch(
         votePopularQuestion({ popularId: poll._id, vote: selectedOption }),
       )
-    else dispatch(votePoll({ option: selectedOption, pollId: poll._id }))
+    else
+      dispatch(
+        votePoll({
+          option: selectedOption,
+          pollId: poll._id,
+          showInPopular: poll.showInPopular,
+        }),
+      )
 
     if (isPopular) {
       dispatch(
