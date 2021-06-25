@@ -68,17 +68,17 @@ const Onboarding = () => {
             return (
               <View style={Theme.Slider.item} key={slide.id}>
                 <View style={Theme.Slider.imagesView}>
-                  <AppImage
+                  {/* <AppImage
                     source={Images.logo}
                     width={160}
                     height={40}
                     style={{ position: 'absolute', top: 10 }}
-                  />
+                  /> */}
                   <AppImage
                     source={slide.image}
                     width={Dimensions.Width}
                     height={500}
-                    style={{ marginTop: '25%' }}
+                    style={{ marginTop: '10%' }}
                   />
                 </View>
                 <View style={Theme.Slider.textView}>

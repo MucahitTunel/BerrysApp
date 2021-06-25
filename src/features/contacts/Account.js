@@ -268,7 +268,7 @@ const Account = () => {
               NavigationService.navigate(Screens.MyEngaged),
             )}
             {renderItem('skipped', () =>
-              NavigationService.navigate(Screens.MySkipped),
+              NavigationService.navigate(Screens.MyInterests),
             )}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}
