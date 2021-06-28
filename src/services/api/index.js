@@ -23,7 +23,7 @@ const handleError = (e) => {
   ) {
     error = new Error(e.response.data.error)
   }
-  Alert.alert('Error', error.message)
+  // Alert.alert('Error', error.message)
   console.log(e.toJSON())
   throw error
 }
