@@ -30,6 +30,7 @@ import GroupAddMembers from 'features/groups/GroupAddMembers'
 import Report from 'features/report/Report'
 import Notifications from 'features/contacts/Notifications'
 import SeeWhoVoted from 'features/questions/SeeWhoVoted'
+import AskCommonAccounts from 'features/contacts/AskCommonAccounts'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -274,6 +275,11 @@ export default MainStackScreen = ({ navigation }) => {
                     />
                     ),
                 })}
+                />
+            <MainStack.Screen
+                name={Screens.AskCommonAccounts}
+                component={AskCommonAccounts}
+                options={{ headerShown: false }}     
                 />
         </MainStack.Navigator>
     )

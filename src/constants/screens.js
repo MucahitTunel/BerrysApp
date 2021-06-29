@@ -50,4 +50,5 @@ export default {
   SeeWhoVoted: 'SeeWhoVotedScreen',
   Interests: 'InterestsScreen',
   Permissions: 'PermissionsScreen',
+  AskCommonAccounts: 'AskCommonAccountsScreen',
 }
