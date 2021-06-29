@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { View, ScrollView, StyleSheet, SafeAreaView, Image } from 'react-native'
-import { Layout, AppText } from 'components'
-import { Dimensions } from 'constants'
-import { useSelector } from 'react-redux'
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from 'react-native'
+import { Layout, AppText, AppButton } from 'components'
+import { Dimensions, Colors } from 'constants'
+import { useSelector, useDispatch } from 'react-redux'
 import request from 'services/api'
 import Images from 'assets/images'
+import { submitSurvey } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -36,11 +44,46 @@ const styles = StyleSheet.create({
     width: 20,
     marginRight: 5,
   },
+  button: {
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
 })
 
+const INTERESTS = [
+  'art',
+  'chess',
+  'cooking',
+  'cycling',
+  'dancing',
+  'drawing',
+  'fishing',
+  'entrepreneurship',
+  'golfing',
+  'hiking',
+  'hunting',
+  'kayaking',
+  'knitting',
+  'weight lifting',
+  'martial arts',
+  'military',
+  'painting',
+  'parenting',
+  'programming',
+  'photography',
+  'poker',
+  'politics',
+  'running',
+  'robotics',
+  'technology',
+  'business news',
+]
+
 const MySkipped = () => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
 
+  const [survey, setSurvey] = useState(null)
   const [interests, setInterests] = useState([])
 
   const getInterests = async () => {
@@ -52,7 +95,18 @@ const MySkipped = () => {
       },
     })
     const { interests } = data
+    setSurvey(data)
     setInterests(interests ? interests : [])
+  }
+
+  const saveInterests = async () => {
+    dispatch(
+      submitSurvey({
+        value: survey.value,
+        data: { ...survey.data, interests },
+      }),
+    )
+    alert('Your new interests are saved!')
   }
 
   useEffect(() => {
@@ -117,17 +171,30 @@ const MySkipped = () => {
     }
   }
 
-  const renderInterests = (item) => {
+  const interestOnPress = (interest) => {
+    if (interests.includes(interest))
+      setInterests(interests.filter((i) => i !== interest))
+    else setInterests([...interests, interest])
+  }
+
+  const renderInterests = (item, isActive) => {
     return (
-      <View style={styles.itemContainer}>
+      <TouchableOpacity
+        style={[
+          styles.itemContainer,
+          {
+            backgroundColor: isActive ? 'white' : Colors.grayLight,
+          },
+        ]}
+        onPress={() => interestOnPress(item)}>
         <Image source={getIcon(item.toLowerCase())} style={styles.icon} />
-        <AppText weight="medium" color="black">
+        <AppText weight="medium" color={isActive ? 'black' : Colors.gray}>
           {item
             .split(' ')
             .map((i) => i.charAt(0).toUpperCase() + i.slice(1))
             .join(' ')}
         </AppText>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -138,16 +205,23 @@ const MySkipped = () => {
           contentContainerStyle={{
             flexDirection: 'row',
             alignItems: 'center',
-            // justifyContent: 'space-between',
             paddingHorizontal: 20,
             flexWrap: 'wrap',
             paddingVertical: 5,
           }}
           style={{ flex: 1 }}>
           {interests.map((i) => {
-            return renderInterests(i)
+            return renderInterests(i, true)
+          })}
+          {INTERESTS.filter((i) => !interests.includes(i)).map((i) => {
+            return renderInterests(i, false)
           })}
         </ScrollView>
+        <AppButton
+          text="Save Interests"
+          style={styles.button}
+          onPress={saveInterests}
+        />
       </SafeAreaView>
     </Layout>
   )
