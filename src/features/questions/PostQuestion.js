@@ -7,6 +7,8 @@ import {
   ScrollView,
   Linking,
   AppState,
+  Image,
+  TouchableOpacity,
 } from 'react-native'
 import {
   AppInput,
@@ -31,7 +33,7 @@ import {
   setLikeMinded,
 } from 'features/questions/askSlice'
 import * as NavigationService from '../../services/navigation'
-import { AnswerRightButton, BackButton } from 'components/NavButton'
+import { CloseButton } from 'components/NavButton'
 import Images from 'assets/images'
 import PropTypes from 'prop-types'
 import BottomSheet from 'reanimated-bottom-sheet'
@@ -71,6 +73,31 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
+  extraSelectionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 15,
+    marginBottom: 30,
+  },
+  extraOuterContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  extraContainer: {
+    backgroundColor: 'white',
+    height: 160,
+    width: '100%',
+    marginBottom: 15,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  extraSelected: {
+    backgroundColor: Colors.purpleLight,
+    borderWidth: 1,
+    borderColor: Colors.purple,
+  },
 })
 
 const PostQuestion = ({ navigation, route }) => {
@@ -97,6 +124,9 @@ const PostQuestion = ({ navigation, route }) => {
   const swiperRef = React.useRef(null)
   const appState = React.useRef(AppState.currentState)
 
+  const [targetedSelected, setTargetedSelected] = useState(false)
+  const [likeMindedSelected, setLikeMindedSelected] = useState(false)
+
   useEffect(() => {
     if (route.params?.isSharing) {
       const { post } = route.params
@@ -115,15 +145,10 @@ const PostQuestion = ({ navigation, route }) => {
       header: () => (
         <Header
           title={route.params?.isSharing ? 'Share Question' : 'Post Question'}
-          headerLeft={
-            <BackButton
+          headerRight={
+            <CloseButton
               navigation={navigation}
               onPress={() => dispatch(setAskQuestion(null))}
-            />
-          }
-          headerRight={
-            <AnswerRightButton
-              onPressDots={() => swiperRef.current.snapTo(0)}
             />
           }
         />
@@ -293,61 +318,65 @@ const PostQuestion = ({ navigation, route }) => {
               fontSize={FontSize.normal}
               weight="medium"
               style={{ marginRight: 10 }}>
-              Like-Minded Users
+              Followed Interests
             </AppText>
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
         )}
-        {[...contacts, ...groups, ...facebookGroups, 'icon'].map((item) => {
-          if (item === 'icon') {
+        {[...contacts, ...groups, ...facebookGroups /* , 'icon' */].map(
+          (item) => {
+            // if (item === 'icon') {
+            //   return (
+            //     <AppButton
+            //       icon="plus"
+            //       iconSize={18}
+            //       iconColor="white"
+            //       shadow={false}
+            //       style={{
+            //         backgroundColor: Colors.purple,
+            //         height: 30,
+            //         width: 30,
+            //       }}
+            //       onPress={() => swiperRef.current.snapTo(0)}
+            //     />
+            //   )
+            // }
             return (
-              <AppButton
-                icon="plus"
-                iconSize={18}
-                iconColor="white"
-                shadow={false}
-                style={{
-                  backgroundColor: Colors.purple,
-                  height: 30,
-                  width: 30,
+              <ScaleTouchable
+                key={item._id}
+                onPress={() => {
+                  if (item.type === 'contact')
+                    dispatch(
+                      setAskContacts(
+                        contacts.filter((c) => c._id !== item._id),
+                      ),
+                    )
+                  else
+                    dispatch(
+                      setAskGroups(groups.filter((c) => c._id !== item._id)),
+                    )
+                  dispatch(
+                    setAskFacebookGroups(
+                      facebookGroups.filter((c) => c._id !== item._id),
+                    ),
+                  )
                 }}
-                onPress={() => swiperRef.current.snapTo(0)}
-              />
+                style={[
+                  styles.itemContainer,
+                  { marginLeft: 0, marginRight: 10 },
+                ]}>
+                <AppText
+                  color="black"
+                  fontSize={FontSize.normal}
+                  weight="medium"
+                  style={{ marginRight: 10 }}>
+                  {item.name}
+                </AppText>
+                <AppIcon name="close" size={12} color={Colors.purple} />
+              </ScaleTouchable>
             )
-          }
-          return (
-            <ScaleTouchable
-              key={item._id}
-              onPress={() => {
-                if (item.type === 'contact')
-                  dispatch(
-                    setAskContacts(contacts.filter((c) => c._id !== item._id)),
-                  )
-                else
-                  dispatch(
-                    setAskGroups(groups.filter((c) => c._id !== item._id)),
-                  )
-                dispatch(
-                  setAskFacebookGroups(
-                    facebookGroups.filter((c) => c._id !== item._id),
-                  ),
-                )
-              }}
-              style={[
-                styles.itemContainer,
-                { marginLeft: 0, marginRight: 10 },
-              ]}>
-              <AppText
-                color="black"
-                fontSize={FontSize.normal}
-                weight="medium"
-                style={{ marginRight: 10 }}>
-                {item.name}
-              </AppText>
-              <AppIcon name="close" size={12} color={Colors.purple} />
-            </ScaleTouchable>
-          )
-        })}
+          },
+        )}
       </View>
     )
   }
@@ -517,12 +546,79 @@ const PostQuestion = ({ navigation, route }) => {
                   onPress={() => {}}
                 />
                 <AppText style={styles.selectionRowText} color="black">
-                  Like-Minded Users
+                  Followed Interests
                 </AppText>
               </View>
             </ScaleTouchable>
           </View>
         </View>
+      </View>
+    )
+  }
+
+  const renderTargetedUsers = () => {
+    return (
+      <View style={styles.extraOuterContainer}>
+        <TouchableOpacity
+          style={[
+            styles.extraContainer,
+            targetedSelected && styles.extraSelected,
+          ]}
+          onPress={() => setTargetedSelected(!targetedSelected)}>
+          {targetedSelected ? (
+            <></>
+          ) : (
+            <View
+              style={{
+                height: 60,
+                width: 60,
+                borderRadius: 30,
+                backgroundColor: Colors.purple,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <AppIcon name="plus" size={30} color="white" />
+            </View>
+          )}
+        </TouchableOpacity>
+        <AppText color="black" fontSize={FontSize.normal}>
+          Targeted Users
+        </AppText>
+        <TouchableOpacity>
+          <AppText weight="medium" color="#2F80ED" fontSize={FontSize.normal}>
+            Edit
+          </AppText>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const renderLikeMindedUsers = () => {
+    return (
+      <View style={styles.extraOuterContainer}>
+        <TouchableOpacity
+          style={[
+            styles.extraContainer,
+            likeMindedSelected && styles.extraSelected,
+          ]}
+          onPress={() => setLikeMindedSelected(!likeMindedSelected)}>
+          <Image
+            source={Images.likeMinded}
+            style={{
+              resizeMode: 'contain',
+              height: 60,
+              width: 60,
+            }}
+          />
+        </TouchableOpacity>
+        <AppText color="black" fontSize={FontSize.normal}>
+          Like-Minded Users
+        </AppText>
+        <TouchableOpacity>
+          <AppText weight="medium" color="#2F80ED" fontSize={FontSize.normal}>
+            Edit
+          </AppText>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -539,7 +635,7 @@ const PostQuestion = ({ navigation, route }) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingBottom: 20,
+                paddingBottom: 10,
                 paddingHorizontal: 16,
                 paddingLeft: 30,
                 borderBottomColor: Colors.backgroundDarker,
@@ -583,16 +679,17 @@ const PostQuestion = ({ navigation, route }) => {
             )}
             <ScrollView>
               {(!route.params?.isSharing || route.params?.isPopular) && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View>
                   <AppText
                     color="black"
                     fontSize={FontSize.normal}
                     weight="medium"
-                    style={{ marginLeft: 20 }}>
-                    Me:
+                    style={{ marginLeft: 20, marginVertical: 10 }}>
+                    How I'd like to ask:
                   </AppText>
                   <View
                     style={{
+                      marginLeft: 10,
                       flexWrap: 'wrap',
                       width: '100%',
                       flexDirection: 'row',
@@ -605,7 +702,8 @@ const PostQuestion = ({ navigation, route }) => {
                         {
                           backgroundColor: isAnonymous
                             ? Colors.purpleLight
-                            : 'transparent',
+                            : 'white',
+                          borderWidth: isAnonymous ? 1 : 0,
                         },
                       ]}>
                       <Avatar
@@ -628,7 +726,8 @@ const PostQuestion = ({ navigation, route }) => {
                         {
                           backgroundColor: !isAnonymous
                             ? Colors.purpleLight
-                            : 'transparent',
+                            : 'white',
+                          borderWidth: isAnonymous ? 0 : 1,
                         },
                       ]}>
                       <Avatar
@@ -649,18 +748,37 @@ const PostQuestion = ({ navigation, route }) => {
               )}
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
                   marginTop: 20,
+                  paddingHorizontal: 10,
                 }}>
                 <AppText
                   color="black"
                   fontSize={FontSize.normal}
                   weight="medium"
-                  style={{ marginLeft: 20, marginRight: 5 }}>
-                  To:
+                  style={{ marginLeft: 10 }}>
+                  Who can see and answer my post:
                 </AppText>
-                {renderContacts()}
+                <View style={styles.extraSelectionContainer}>
+                  {renderTargetedUsers()}
+                  {renderLikeMindedUsers()}
+                </View>
+                <AppButton
+                  text="Add Contacts & Groups"
+                  style={{
+                    marginHorizontal: 10,
+                    backgroundColor: Colors.purpleLight,
+                    borderRadius: 20,
+                  }}
+                  textStyle={{ color: Colors.purpleText, fontWeight: '100' }}
+                  onPress={() => swiperRef.current.snapTo(0)}
+                />
+                <View
+                  style={[
+                    styles.contactsAndGroupsContainer,
+                    { marginBottom: 30 },
+                  ]}>
+                  {renderContacts()}
+                </View>
               </View>
             </ScrollView>
           </View>

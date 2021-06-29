@@ -80,6 +80,7 @@ import interestWeightlifting from './new-design/interest/weightlifting.png'
 import interestTechnology from './new-design/interest/technology.png'
 import interestBusinessNews from './new-design/interest/business.png'
 import location from './new-design/location.png'
+import likeMinded from './new-design/likeMinded.png'
 
 export default {
   logo,
@@ -158,4 +159,5 @@ export default {
   interestTechnology,
   interestBusinessNews,
   location,
+  likeMinded,
 }

@@ -43,6 +43,17 @@ export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
   </ScaleTouchable>
 )
 
+export const CloseButton = ({ navigation, onPress, color = Colors.white }) => (
+  <ScaleTouchable
+    onPress={() => {
+      Keyboard.dismiss()
+      if (onPress) onPress()
+      navigation.goBack()
+    }}>
+    <AppIcon name="close" color={color} size={14} />
+  </ScaleTouchable>
+)
+
 export const MainBackButton = ({ navigation }) => (
   <ScaleTouchable
     onPress={() => {
