@@ -31,6 +31,9 @@ import {
   askQuestion,
   // setIsAskExperts,
   setLikeMinded,
+  setIsFollowedInterests,
+  setTargetedInterests,
+  setTargetedCountries,
 } from 'features/questions/askSlice'
 import * as NavigationService from '../../services/navigation'
 import { CloseButton } from 'components/NavButton'
@@ -113,6 +116,11 @@ const PostQuestion = ({ navigation, route }) => {
   const isAnonymous = useSelector((state) => state.ask.isAnonymous)
   // const isAskExperts = useSelector((state) => state.ask.isAskExperts)
   const isLikeMinded = useSelector((state) => state.ask.isLikeMinded)
+  const isFollowedInterests = useSelector(
+    (state) => state.ask.isFollowedInterests,
+  )
+  const targetedInterests = useSelector((state) => state.ask.targetedInterests)
+  const targetedCountries = useSelector((state) => state.ask.targetedCountries)
   const allContacts = useSelector((state) => state.contacts.data)
 
   const [allContactsSelected, setAllContactsSelected] = useState(false)
@@ -125,7 +133,6 @@ const PostQuestion = ({ navigation, route }) => {
   const appState = React.useRef(AppState.currentState)
 
   const [targetedSelected, setTargetedSelected] = useState(false)
-  const [likeMindedSelected, setLikeMindedSelected] = useState(false)
 
   useEffect(() => {
     if (route.params?.isSharing) {
@@ -138,6 +145,9 @@ const PostQuestion = ({ navigation, route }) => {
     dispatch(setAskFacebookGroups([]))
     // dispatch(setIsAskExperts(false))
     dispatch(setLikeMinded(false))
+    dispatch(setIsFollowedInterests(false))
+    dispatch(setTargetedInterests([]))
+    dispatch(setTargetedCountries([]))
   }, [dispatch, route])
 
   useLayoutEffect(() => {
@@ -197,6 +207,9 @@ const PostQuestion = ({ navigation, route }) => {
     if (
       // !isAskExperts &&
       !isLikeMinded &&
+      !isFollowedInterests &&
+      targetedInterests.length === 0 &&
+      targetedCountries.length === 0 &&
       !allContactsSelected &&
       groups.length === 0 &&
       facebookGroups.length === 0 &&
@@ -302,15 +315,15 @@ const PostQuestion = ({ navigation, route }) => {
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
         )} */}
-        {isLikeMinded && (
+        {isFollowedInterests && (
           <ScaleTouchable
-            onPress={() => dispatch(setLikeMinded(false))}
+            onPress={() => dispatch(setIsFollowedInterests(false))}
             style={[
               styles.itemContainer,
               {
-                width: Dimensions.Width / 2.6,
+                width: Dimensions.Width / 2.2,
                 marginLeft: 0,
-                marginRight: 10,
+                marginRight: 5,
               },
             ]}>
             <AppText
@@ -323,25 +336,9 @@ const PostQuestion = ({ navigation, route }) => {
             <AppIcon name="close" size={12} color={Colors.purple} />
           </ScaleTouchable>
         )}
-        {[...contacts, ...groups, ...facebookGroups /* , 'icon' */].map(
-          (item) => {
-            // if (item === 'icon') {
-            //   return (
-            //     <AppButton
-            //       icon="plus"
-            //       iconSize={18}
-            //       iconColor="white"
-            //       shadow={false}
-            //       style={{
-            //         backgroundColor: Colors.purple,
-            //         height: 30,
-            //         width: 30,
-            //       }}
-            //       onPress={() => swiperRef.current.snapTo(0)}
-            //     />
-            //   )
-            // }
-            return (
+        {[...contacts, ...groups, ...facebookGroups].map((item, idx) => {
+          return (
+            <>
               <ScaleTouchable
                 key={item._id}
                 onPress={() => {
@@ -374,9 +371,23 @@ const PostQuestion = ({ navigation, route }) => {
                 </AppText>
                 <AppIcon name="close" size={12} color={Colors.purple} />
               </ScaleTouchable>
-            )
-          },
-        )}
+              {/* {idx === [...contacts, ...groups, ...facebookGroups].length - 1 &&
+                <AppButton
+                icon="plus"
+                iconSize={18}
+                iconColor="white"
+                shadow={false}
+                style={{
+                  backgroundColor: Colors.purple,
+                  height: 30,
+                  width: 30,
+                }}
+                onPress={() => swiperRef.current.snapTo(0)}
+              />
+              } */}
+            </>
+          )
+        })}
       </View>
     )
   }
@@ -527,14 +538,14 @@ const PostQuestion = ({ navigation, route }) => {
             </ScaleTouchable> */}
             <ScaleTouchable
               style={styles.selectionRow}
-              onPress={() => dispatch(setLikeMinded(true))}>
+              onPress={() => dispatch(setIsFollowedInterests(true))}>
               <View style={{ alignItems: 'center' }}>
                 <AppButton
-                  icon={isLikeMinded ? 'checkmark' : 'message-dot'}
+                  icon={isFollowedInterests ? 'checkmark' : 'message-dot'}
                   iconSize={18}
                   shadow={false}
                   style={{
-                    backgroundColor: isLikeMinded
+                    backgroundColor: isFollowedInterests
                       ? Colors.purple
                       : Colors.purpleDimmed,
                     height: 50,
@@ -584,9 +595,19 @@ const PostQuestion = ({ navigation, route }) => {
         <AppText color="black" fontSize={FontSize.normal}>
           Targeted Users
         </AppText>
-        <TouchableOpacity>
-          <AppText weight="medium" color="#2F80ED" fontSize={FontSize.normal}>
-            Edit
+        <TouchableOpacity
+          disabled={
+            targetedInterests.length === 0 && targetedCountries.length === 0
+          }>
+          <AppText
+            weight="medium"
+            color={
+              targetedInterests.length === 0 && targetedCountries.length === 0
+                ? 'transparent'
+                : '#2F80ED'
+            }
+            fontSize={FontSize.normal}>
+            Clear
           </AppText>
         </TouchableOpacity>
       </View>
@@ -597,11 +618,8 @@ const PostQuestion = ({ navigation, route }) => {
     return (
       <View style={styles.extraOuterContainer}>
         <TouchableOpacity
-          style={[
-            styles.extraContainer,
-            likeMindedSelected && styles.extraSelected,
-          ]}
-          onPress={() => setLikeMindedSelected(!likeMindedSelected)}>
+          style={[styles.extraContainer, isLikeMinded && styles.extraSelected]}
+          onPress={() => dispatch(setLikeMinded(!isLikeMinded))}>
           <Image
             source={Images.likeMinded}
             style={{
@@ -614,11 +632,14 @@ const PostQuestion = ({ navigation, route }) => {
         <AppText color="black" fontSize={FontSize.normal}>
           Like-Minded Users
         </AppText>
-        <TouchableOpacity>
-          <AppText weight="medium" color="#2F80ED" fontSize={FontSize.normal}>
-            Edit
+        <View>
+          <AppText
+            weight="medium"
+            color="transparent"
+            fontSize={FontSize.normal}>
+            Clear
           </AppText>
-        </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -775,7 +796,7 @@ const PostQuestion = ({ navigation, route }) => {
                 <View
                   style={[
                     styles.contactsAndGroupsContainer,
-                    { marginBottom: 30 },
+                    { marginBottom: 30, marginTop: 20 },
                   ]}>
                   {renderContacts()}
                 </View>
