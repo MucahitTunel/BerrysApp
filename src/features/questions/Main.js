@@ -1487,7 +1487,11 @@ const Main = ({ route }) => {
                 <TouchableOpacity
                   style={{ flex: 1 }}
                   // onPress={() => setOnboardingModal(auth.user.survey)}>
-                  onPress={() => setOnboardingModal(false)}>
+                  // onPress={() => setOnboardingModal(false)}>
+                  onPress={() => {
+                    setOnboardingModal(false)
+                    NavigationService.navigate(Screens.AskCommonAccounts)
+                  }}>
                   <View
                     style={{
                       alignItems: 'center',

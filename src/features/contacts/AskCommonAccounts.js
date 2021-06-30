@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { View, StyleSheet, SafeAreaView, Image, ScrollView } from 'react-native'
 import { Layout, AppText, AppButton, Avatar } from 'components'
 import { Dimensions, Colors, FontSize } from 'constants'
 import { useSelector, useDispatch } from 'react-redux'
 import Images from 'assets/images'
+import request from 'services/api'
+import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -55,10 +57,12 @@ const styles = StyleSheet.create({
 
 const CommonAccounts = () => {
   const allContacts = useSelector((state) => state.contacts.data)
+  const user = useSelector((state) => state.auth.user)
 
   const appUserCount = useMemo(() => {
     return allContacts.filter((c) => c.isAppUser).length
   }, [allContacts])
+  const [commonData, setCommonData] = useState(null)
 
   const renderInAppContacts = () => {
     return (
@@ -109,7 +113,28 @@ const CommonAccounts = () => {
     )
   }
 
-  const nextOnPress = () => {}
+  useEffect(() => {
+    const getCommonAccounts = async () => {
+      try {
+        const { data } = await request({
+          method: 'GET',
+          url: 'account/ask-common',
+          params: {
+            userPhoneNumber: user.phoneNumber,
+          },
+        })
+        if (Object.keys(data).length > 0) setCommonData(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getCommonAccounts()
+  }, [user])
+
+  const nextOnPress = () => {
+    NavigationService.goBack()
+  }
 
   return (
     <>
@@ -117,22 +142,30 @@ const CommonAccounts = () => {
       <Layout>
         <SafeAreaView style={styles.container}>
           <ScrollView style={{ flex: 1 }}>
-            {renderAskItem({
-              isLikeMinded: true,
-              name: 'Like-Minded Users',
-              count: 590,
-              description: 'These users have 3 common interests with you',
-            })}
-            {renderAskItem({
-              name: 'Art',
-              count: 3260,
-              description: 'Ask users who are into Art',
-            })}
-            {renderAskItem({
-              name: 'Business',
-              count: 1850,
-              description: 'Ask users who are into Business',
-            })}
+            {commonData && (
+              <>
+                {commonData.likeMinded &&
+                  renderAskItem({
+                    isLikeMinded: true,
+                    name: 'Like-Minded Users',
+                    count: commonData.likeMinded,
+                    description: 'These users have 3 common interests with you',
+                  })}
+                {Object.keys(commonData).map((key) => {
+                  if (key !== 'likeMinded') {
+                    const name = key
+                      .split(' ')
+                      .map((i) => i.charAt(0).toUpperCase() + i.slice(1))
+                      .join(' ')
+                    return renderAskItem({
+                      name,
+                      count: commonData[key],
+                      description: `Ask users who are into ${name}`,
+                    })
+                  }
+                })}
+              </>
+            )}
           </ScrollView>
           <AppButton
             text="Next"
