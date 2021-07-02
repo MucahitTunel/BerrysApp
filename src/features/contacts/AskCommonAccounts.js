@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { View, StyleSheet, SafeAreaView, Image, ScrollView } from 'react-native'
 import { Layout, AppText, AppButton, Avatar } from 'components'
-import { Dimensions, Colors, FontSize } from 'constants'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { useSelector, useDispatch } from 'react-redux'
 import Images from 'assets/images'
 import request from 'services/api'
@@ -86,7 +86,7 @@ const CommonAccounts = () => {
     )
   }
 
-  const renderAskItem = ({ name, count, description, isLikeMinded }) => {
+  const renderAskItem = ({ name, count, description, onPress }) => {
     return (
       <View style={styles.askItemContainer}>
         <View style={styles.askItemHeader}>
@@ -108,6 +108,7 @@ const CommonAccounts = () => {
           style={{ backgroundColor: Colors.purpleLight, borderRadius: 25 }}
           text="Ask Them"
           textStyle={{ color: Colors.purpleText, fontSize: FontSize.normal }}
+          onPress={onPress}
         />
       </View>
     )
@@ -150,6 +151,13 @@ const CommonAccounts = () => {
                     name: 'Like-Minded Users',
                     count: commonData.likeMinded,
                     description: 'These users have 3 common interests with you',
+                    onPress: () =>
+                      NavigationService.navigate(
+                        Screens.QuestionTypeSelection,
+                        {
+                          isLikeMindedSelected: true,
+                        },
+                      ),
                   })}
                 {Object.keys(commonData).map((key) => {
                   if (key !== 'likeMinded') {
@@ -159,8 +167,20 @@ const CommonAccounts = () => {
                       .join(' ')
                     return renderAskItem({
                       name,
-                      count: commonData[key],
+                      count: commonData[key].count,
                       description: `Ask users who are into ${name}`,
+                      onPress: () =>
+                        NavigationService.navigate(
+                          Screens.QuestionTypeSelection,
+                          {
+                            isTargetedInterest: [
+                              {
+                                _id: commonData[key]._id,
+                                name: name.toLowerCase(),
+                              },
+                            ],
+                          },
+                        ),
                     })
                   }
                 })}

@@ -163,9 +163,13 @@ const PostQuestion = ({ navigation, route }) => {
     dispatch(setAskGroups([]))
     dispatch(setAskFacebookGroups([]))
     // dispatch(setIsAskExperts(false))
-    dispatch(setLikeMinded(false))
+    dispatch(setLikeMinded(!!route.params.isLikeMindedSelected))
     dispatch(setIsFollowedInterests(false))
-    dispatch(setTargetedInterests([]))
+    dispatch(
+      setTargetedInterests(
+        route.params.isTargetedInterest ? route.params.isTargetedInterest : [],
+      ),
+    )
     dispatch(setTargetedCountries([]))
   }, [dispatch, route])
 
@@ -628,7 +632,10 @@ const PostQuestion = ({ navigation, route }) => {
                       fontSize={FontSize.medium}
                       color="black"
                       style={{ textAlign: 'center' }}>
-                      {item.name}
+                      {item.name
+                        .split(' ')
+                        .map((i) => i.charAt(0).toUpperCase() + i.slice(1))
+                        .join(' ')}
                     </AppText>
                   </View>
                 )

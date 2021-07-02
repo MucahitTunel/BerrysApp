@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const QuestionTypeSelection = ({ navigation }) => {
+const QuestionTypeSelection = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const questionImage = useSelector((state) => state.ask.questionImage)
 
@@ -108,7 +108,12 @@ const QuestionTypeSelection = ({ navigation }) => {
       header: () => (
         <Header
           title={getTitle()}
-          headerLeft={<BackButton navigation={navigation} />}
+          headerLeft={
+            <BackButton
+              navigation={navigation}
+              onPress={() => navigation.navigate(Screens.Main)}
+            />
+          }
         />
       ),
     })
@@ -253,12 +258,16 @@ const QuestionTypeSelection = ({ navigation }) => {
         if (!message) return alert('Please write a question to continue!')
         NavigationService.navigate(Screens.PostQuestion, {
           question: true,
+          isLikeMindedSelected: route.params?.isLikeMindedSelected,
+          isTargetedInterest: route.params?.isTargetedInterest,
         })
         break
       case 'image':
         if (!questionImage) return alert('Please add an image to continue!')
         NavigationService.navigate(Screens.PostQuestion, {
           question: true,
+          isLikeMindedSelected: route.params?.isLikeMindedSelected,
+          isTargetedInterest: route.params?.isTargetedInterest,
         })
         break
       case 'poll':
@@ -268,6 +277,8 @@ const QuestionTypeSelection = ({ navigation }) => {
         dispatch(setPollOptionsRedux(pollOptions))
         NavigationService.navigate(Screens.PostQuestion, {
           poll: true,
+          isLikeMindedSelected: route.params?.isLikeMindedSelected,
+          isTargetedInterest: route.params?.isTargetedInterest,
         })
         break
       case 'versus':
@@ -276,6 +287,8 @@ const QuestionTypeSelection = ({ navigation }) => {
         dispatch(setCompareImages([firstCompareImage, secondCompareImage]))
         NavigationService.navigate(Screens.PostQuestion, {
           compare: true,
+          isLikeMindedSelected: route.params?.isLikeMindedSelected,
+          isTargetedInterest: route.params?.isTargetedInterest,
         })
         break
     }
@@ -358,6 +371,7 @@ const QuestionTypeSelection = ({ navigation }) => {
 
 QuestionTypeSelection.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 }
 
 export default QuestionTypeSelection
