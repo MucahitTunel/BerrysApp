@@ -57,8 +57,8 @@ export const askQuestion = createAsyncThunk(
         isAskExperts,
         isLikeMinded,
         isFollowedInterests,
-        targetedInterests,
-        targetedCountries,
+        targetedInterests: targetedInterests.map((i) => i.name),
+        targetedCountries: targetedCountries.map((c) => c.name.toLowerCase()),
       },
     })
     dispatch(setQuestionImage(null))

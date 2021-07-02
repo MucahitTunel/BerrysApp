@@ -51,4 +51,5 @@ export default {
   Interests: 'InterestsScreen',
   Permissions: 'PermissionsScreen',
   AskCommonAccounts: 'AskCommonAccountsScreen',
+  SelectTargetedUsers: 'SelectTargetedUsersScreen',
 }

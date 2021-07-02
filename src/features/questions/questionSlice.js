@@ -209,8 +209,8 @@ export const createPoll = createAsyncThunk(
         facebookGroups: facebookGroups.map((g) => g._id),
         isLikeMinded,
         isFollowedInterests,
-        targetedInterests,
-        targetedCountries,
+        targetedInterests: targetedInterests.map((i) => i.name),
+        targetedCountries: targetedCountries.map((c) => c.name.toLowerCase()),
       },
     })
     dispatch(getQuestions())
@@ -299,8 +299,8 @@ export const createCompare = createAsyncThunk(
         facebookGroups: facebookGroups.map((g) => g._id),
         isLikeMinded,
         isFollowedInterests,
-        targetedInterests,
-        targetedCountries,
+        targetedInterests: targetedInterests.map((i) => i.name),
+        targetedCountries: targetedCountries.map((c) => c.name.toLowerCase()),
       },
     })
     dispatch(getQuestions())

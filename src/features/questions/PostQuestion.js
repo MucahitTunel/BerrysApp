@@ -101,6 +101,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.purple,
   },
+  targetedInnerCircle: {
+    height: 85,
+    width: 85,
+    borderRadius: 42.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    opacity: 0.5,
+  },
+  targetedInnerCircleFirst: {
+    backgroundColor: '#EEC9F4',
+    left: -10,
+  },
+  targetedInnerCircleSecond: {
+    backgroundColor: '#F3C0AA',
+    right: -10,
+  },
+  targetedInnerCircleThird: {
+    backgroundColor: '#C9C9F2',
+    top: -15,
+  },
 })
 
 const PostQuestion = ({ navigation, route }) => {
@@ -132,8 +153,6 @@ const PostQuestion = ({ navigation, route }) => {
   const swiperRef = React.useRef(null)
   const appState = React.useRef(AppState.currentState)
 
-  const [targetedSelected, setTargetedSelected] = useState(false)
-
   useEffect(() => {
     if (route.params?.isSharing) {
       const { post } = route.params
@@ -164,7 +183,7 @@ const PostQuestion = ({ navigation, route }) => {
         />
       ),
     })
-  }, [navigation, dispatch, swiperRef, route])
+  }, [navigation, dispatch, route])
 
   useEffect(() => {
     if (allContacts.length === 0) dispatch(loadContacts())
@@ -567,17 +586,54 @@ const PostQuestion = ({ navigation, route }) => {
     )
   }
 
+  const getInnerCircleStyle = (idx) => {
+    const totalLength = targetedInterests.length + targetedCountries.length
+    switch (totalLength) {
+      case 1:
+        return { ...styles.targetedInnerCircleFirst, left: null }
+      case 2:
+        if (idx === 0) return styles.targetedInnerCircleFirst
+        else return styles.targetedInnerCircleSecond
+      case 3:
+        if (idx === 0)
+          return { ...styles.targetedInnerCircleFirst, bottom: -20 }
+        if (idx === 1)
+          return { ...styles.targetedInnerCircleSecond, bottom: -20 }
+        else return styles.targetedInnerCircleThird
+    }
+  }
+
   const renderTargetedUsers = () => {
     return (
       <View style={styles.extraOuterContainer}>
         <TouchableOpacity
           style={[
             styles.extraContainer,
-            targetedSelected && styles.extraSelected,
+            (targetedInterests.length > 0 || targetedCountries.length > 0) &&
+              styles.extraSelected,
           ]}
-          onPress={() => setTargetedSelected(!targetedSelected)}>
-          {targetedSelected ? (
-            <></>
+          onPress={() =>
+            NavigationService.navigate(Screens.SelectTargetedUsers)
+          }>
+          {targetedInterests.length > 0 || targetedCountries.length > 0 ? (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              {[...targetedInterests, ...targetedCountries].map((item, idx) => {
+                return (
+                  <View
+                    style={[
+                      styles.targetedInnerCircle,
+                      getInnerCircleStyle(idx),
+                    ]}>
+                    <AppText
+                      fontSize={FontSize.medium}
+                      color="black"
+                      style={{ textAlign: 'center' }}>
+                      {item.name}
+                    </AppText>
+                  </View>
+                )
+              })}
+            </View>
           ) : (
             <View
               style={{
@@ -598,7 +654,11 @@ const PostQuestion = ({ navigation, route }) => {
         <TouchableOpacity
           disabled={
             targetedInterests.length === 0 && targetedCountries.length === 0
-          }>
+          }
+          onPress={() => {
+            dispatch(setTargetedCountries([]))
+            dispatch(setTargetedInterests([]))
+          }}>
           <AppText
             weight="medium"
             color={

@@ -31,6 +31,7 @@ import Report from 'features/report/Report'
 import Notifications from 'features/contacts/Notifications'
 import SeeWhoVoted from 'features/questions/SeeWhoVoted'
 import AskCommonAccounts from 'features/contacts/AskCommonAccounts'
+import SelectTargetedUsers from 'features/questions/SelectTargetedUsers'
 
 const MainStack = createStackNavigator()
 export default MainStackScreen = ({ navigation }) => {
@@ -280,6 +281,11 @@ export default MainStackScreen = ({ navigation }) => {
                 name={Screens.AskCommonAccounts}
                 component={AskCommonAccounts}
                 options={{ headerShown: false }}     
+                />
+            <MainStack.Screen
+                name={Screens.SelectTargetedUsers}
+                component={SelectTargetedUsers}
+                options={{ header: () => <></> }}     
                 />
         </MainStack.Navigator>
     )
