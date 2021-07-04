@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: 15,
-    marginBottom: 30,
   },
   extraOuterContainer: {
     flex: 1,
@@ -850,23 +849,24 @@ const PostQuestion = ({ navigation, route }) => {
                   {renderTargetedUsers()}
                   {renderLikeMindedUsers()}
                 </View>
+                <View
+                  style={[
+                    styles.contactsAndGroupsContainer,
+                    { marginBottom: 15 },
+                  ]}>
+                  {renderContacts()}
+                </View>
                 <AppButton
                   text="Add Contacts & Groups"
                   style={{
                     marginHorizontal: 10,
                     backgroundColor: Colors.purpleLight,
                     borderRadius: 20,
+                    marginBottom: 20,
                   }}
                   textStyle={{ color: Colors.purpleText, fontWeight: '100' }}
                   onPress={() => swiperRef.current.snapTo(0)}
                 />
-                <View
-                  style={[
-                    styles.contactsAndGroupsContainer,
-                    { marginBottom: 30, marginTop: 20 },
-                  ]}>
-                  {renderContacts()}
-                </View>
               </View>
             </ScrollView>
           </View>
