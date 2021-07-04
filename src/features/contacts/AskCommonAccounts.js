@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { View, StyleSheet, SafeAreaView, Image, ScrollView } from 'react-native'
 import { Layout, AppText, AppButton, Avatar } from 'components'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Images from 'assets/images'
-import request from 'services/api'
 import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
@@ -57,9 +56,7 @@ const styles = StyleSheet.create({
 
 const CommonAccounts = () => {
   const appUserCount = useSelector((state) => state.contacts.appUserCount)
-  const user = useSelector((state) => state.auth.user)
-
-  const [commonData, setCommonData] = useState(null)
+  const commonData = useSelector((state) => state.contacts.commonAccountCounts)
 
   const renderInAppContacts = () => {
     return (
@@ -110,25 +107,6 @@ const CommonAccounts = () => {
       </View>
     )
   }
-
-  useEffect(() => {
-    const getCommonAccounts = async () => {
-      try {
-        const { data } = await request({
-          method: 'GET',
-          url: 'account/ask-common',
-          params: {
-            userPhoneNumber: user.phoneNumber,
-          },
-        })
-        if (Object.keys(data).length > 0) setCommonData(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    getCommonAccounts()
-  }, [user])
 
   const nextOnPress = () => {
     NavigationService.goBack()

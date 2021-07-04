@@ -246,6 +246,22 @@ export const getLeaderboard = createAsyncThunk(
   },
 )
 
+export const getCommonAccountCounts = createAsyncThunk(
+  'account/ask-common',
+  async (_, { getState }) => {
+    const state = getState()
+    const user = state.auth.user
+    const { data } = await request({
+      method: 'GET',
+      url: 'account/ask-common',
+      params: {
+        userPhoneNumber: user.phoneNumber,
+      },
+    })
+    return data
+  },
+)
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
@@ -254,6 +270,7 @@ const contactsSlice = createSlice({
     contactPermission: false,
     leaderboard: [],
     appUserCount: 0,
+    commonAccountCounts: {},
   },
   reducers: {},
   extraReducers: {
@@ -299,6 +316,9 @@ const contactsSlice = createSlice({
       })
       state.data = updatedContacts
       state.loading = false
+    },
+    [getCommonAccountCounts.fulfilled]: (state, action) => {
+      state.commonAccountCounts = action.payload
     },
   },
 })

@@ -13,6 +13,7 @@ import { addRoomWithNewMessages } from '../messages/messagesSlice'
 import KochavaTracker from 'react-native-kochava-tracker'
 import firebase from '../../services/firebase'
 import facebookService from '../../services/facebook'
+import { getCommonAccountCounts } from '../contacts/contactsSlice'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -213,6 +214,7 @@ export const submitSurvey = createAsyncThunk(
     }
     await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
     if (!user.surveyResetted) dispatch(setOnBoarding(true))
+    dispatch(getCommonAccountCounts())
     return value
   },
 )
