@@ -253,6 +253,7 @@ const contactsSlice = createSlice({
     loading: false,
     contactPermission: false,
     leaderboard: [],
+    appUserCount: 0,
   },
   reducers: {},
   extraReducers: {
@@ -276,6 +277,7 @@ const contactsSlice = createSlice({
     [saveContacts.fulfilled]: (state, action) => {
       state.loading = false
       state.data = action.payload
+      state.appUserCount = action.payload.filter((c) => c.isAppUser).length
     },
     [blacklistContacts.pending]: (state) => {
       state.loading = true

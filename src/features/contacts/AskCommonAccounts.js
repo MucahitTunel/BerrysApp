@@ -56,12 +56,9 @@ const styles = StyleSheet.create({
 })
 
 const CommonAccounts = () => {
-  const allContacts = useSelector((state) => state.contacts.data)
+  const appUserCount = useSelector((state) => state.contacts.appUserCount)
   const user = useSelector((state) => state.auth.user)
 
-  const appUserCount = useMemo(() => {
-    return allContacts.filter((c) => c.isAppUser).length
-  }, [allContacts])
   const [commonData, setCommonData] = useState(null)
 
   const renderInAppContacts = () => {
