@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import request from '../../services/api'
 import { setHasNotifications } from 'features/auth/authSlice'
 import { getQuestion } from 'features/questions/questionSlice'
+import KochavaTracker from 'react-native-kochava-tracker'
 
 const styles = StyleSheet.create({
   container: {
@@ -44,6 +45,13 @@ const Notifications = () => {
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   useEffect(() => {
+    KochavaTracker.sendEventMapObject(
+      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
+      {
+        screen: 'Notifications',
+        user: user.phoneNumber,
+      },
+    )
     dispatch(setHasNotifications(false))
     fetchNotifications()
     readNotifications()

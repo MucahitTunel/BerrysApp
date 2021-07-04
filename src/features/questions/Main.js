@@ -65,6 +65,7 @@ import store from 'state/store'
 import getConversationName from 'utils/get-conversation-name'
 import Images from 'assets/images'
 import request from '../../services/api'
+import KochavaTracker from 'react-native-kochava-tracker'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -1043,6 +1044,13 @@ const Main = ({ route }) => {
   }
 
   useEffect(() => {
+    KochavaTracker.sendEventMapObject(
+      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
+      {
+        screen: 'Main Screen',
+        user: auth.user.phoneNumber,
+      },
+    )
     dispatch(loadContacts())
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)
