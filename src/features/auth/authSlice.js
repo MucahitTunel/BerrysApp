@@ -196,7 +196,10 @@ export const resendVerifyCode = createAsyncThunk(
 
 export const submitSurvey = createAsyncThunk(
   'auth/submitSurvey',
-  async ({ value = 'extrovert', data }, { getState, dispatch }) => {
+  async (
+    { value = 'extrovert', data, bypassOnboarding = false },
+    { getState, dispatch },
+  ) => {
     const state = getState()
     const user = state.auth.user
     request({
@@ -213,7 +216,7 @@ export const submitSurvey = createAsyncThunk(
       survey: value,
     }
     await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
-    if (!user.surveyResetted) dispatch(setOnBoarding(true))
+    if (!bypassOnboarding) dispatch(setOnBoarding(true))
     dispatch(getCommonAccountCounts())
     return value
   },

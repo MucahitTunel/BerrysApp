@@ -104,6 +104,7 @@ const MySkipped = () => {
       submitSurvey({
         value: survey.value,
         data: { ...survey.data, interests },
+        bypassOnboarding: true,
       }),
     )
     alert('Your new interests are saved!')
