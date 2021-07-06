@@ -16,7 +16,7 @@ import facebookService from '../../services/facebook'
 import { getCommonAccountCounts, loadContacts } from '../contacts/contactsSlice'
 
 // Enable pusher logging - don't include this in production
-Pusher.logToConsole = true
+// Pusher.logToConsole = true
 
 export const pusher = new Pusher(Config.PUSHER_CHANNELS_APP_KEY, {
   cluster: Config.PUSHER_CHANNELS_APP_CLUSTER,

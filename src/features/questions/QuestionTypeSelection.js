@@ -264,6 +264,7 @@ const QuestionTypeSelection = ({ navigation, route }) => {
           question: true,
           isLikeMindedSelected: route.params?.isLikeMindedSelected,
           isTargetedInterest: route.params?.isTargetedInterest,
+          showOnboarding: route.params?.showOnboarding,
         })
         break
       case 'image':
@@ -272,6 +273,7 @@ const QuestionTypeSelection = ({ navigation, route }) => {
           question: true,
           isLikeMindedSelected: route.params?.isLikeMindedSelected,
           isTargetedInterest: route.params?.isTargetedInterest,
+          showOnboarding: route.params?.showOnboarding,
         })
         break
       case 'poll':
@@ -283,6 +285,7 @@ const QuestionTypeSelection = ({ navigation, route }) => {
           poll: true,
           isLikeMindedSelected: route.params?.isLikeMindedSelected,
           isTargetedInterest: route.params?.isTargetedInterest,
+          showOnboarding: route.params?.showOnboarding,
         })
         break
       case 'versus':
@@ -293,6 +296,7 @@ const QuestionTypeSelection = ({ navigation, route }) => {
           compare: true,
           isLikeMindedSelected: route.params?.isLikeMindedSelected,
           isTargetedInterest: route.params?.isTargetedInterest,
+          showOnboarding: route.params?.showOnboarding,
         })
         break
     }

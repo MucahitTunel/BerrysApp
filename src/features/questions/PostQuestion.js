@@ -252,13 +252,22 @@ const PostQuestion = ({ navigation, route }) => {
         if (allContactsSelected) dispatch(setAskContacts(allContacts))
         if (post.type === 'popular-poll') {
           dispatch(setPollOptions(post.options))
-          return dispatch(createPoll())
+          return dispatch(
+            createPoll({ showOnboarding: !!route.params?.showOnboarding }),
+          )
         }
         if (post.type === 'popular-compare') {
           dispatch(setCompareImages([post.images[0], post.images[0]]))
-          return dispatch(createCompare(true))
+          return dispatch(
+            createCompare({
+              disableUpload: true,
+              showOnboarding: !!route.params?.showOnboarding,
+            }),
+          )
         }
-        dispatch(askQuestion())
+        dispatch(
+          askQuestion({ showOnboarding: !!route.params?.showOnboarding }),
+        )
         return
       }
 
@@ -275,9 +284,15 @@ const PostQuestion = ({ navigation, route }) => {
     }
 
     if (allContactsSelected) dispatch(setAskContacts(allContacts))
-    if (route.params?.poll) return dispatch(createPoll())
-    if (route.params?.compare) return dispatch(createCompare())
-    dispatch(askQuestion())
+    if (route.params?.poll)
+      return dispatch(
+        createPoll({ showOnboarding: !!route.params?.showOnboarding }),
+      )
+    if (route.params?.compare)
+      return dispatch(
+        createCompare({ showOnboarding: !!route.params?.showOnboarding }),
+      )
+    dispatch(askQuestion({ showOnboarding: !!route.params?.showOnboarding }))
     KochavaTracker.sendEventMapObject(
       KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
       {

@@ -182,7 +182,7 @@ export const submitComment = createAsyncThunk(
 
 export const createPoll = createAsyncThunk(
   'poll/create',
-  async (_, { getState, dispatch }) => {
+  async ({ showOnboarding }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const {
@@ -214,7 +214,10 @@ export const createPoll = createAsyncThunk(
       },
     })
     dispatch(getQuestions())
-    NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+    NavigationService.navigate(Screens.Main, {
+      showSuccessModal: true,
+      showOnboarding,
+    })
   },
 )
 
@@ -254,7 +257,7 @@ export const votePoll = createAsyncThunk(
 
 export const createCompare = createAsyncThunk(
   'compare/create',
-  async (disableUpload = false, { getState, dispatch }) => {
+  async ({ disableUpload = false, showOnboarding }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const {
@@ -270,7 +273,10 @@ export const createCompare = createAsyncThunk(
     const { compareImages } = state.question
 
     setTimeout(() => {
-      NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+      NavigationService.navigate(Screens.Main, {
+        showSuccessModal: true,
+        showOnboarding,
+      })
     }, 2000)
 
     let uploadedImages = []

@@ -8,7 +8,7 @@ import firebase from '../../services/firebase'
 
 export const askQuestion = createAsyncThunk(
   'ask/submit',
-  async (requestToAsk, { getState, dispatch }) => {
+  async ({ requestToAsk, showOnboarding }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const {
@@ -27,7 +27,10 @@ export const askQuestion = createAsyncThunk(
 
     if (questionImage) {
       setTimeout(() => {
-        NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+        NavigationService.navigate(Screens.Main, {
+          showSuccessModal: true,
+          showOnboarding,
+        })
       }, 1200)
     }
 
@@ -64,7 +67,10 @@ export const askQuestion = createAsyncThunk(
     dispatch(setQuestionImage(null))
     dispatch(getQuestions())
     if (!questionImage)
-      NavigationService.navigate(Screens.Main, { showSuccessModal: true })
+      NavigationService.navigate(Screens.Main, {
+        showSuccessModal: true,
+        showOnboarding,
+      })
   },
 )
 

@@ -12,6 +12,7 @@ import * as NavigationService from 'services/navigation'
 import Images from 'assets/images'
 import { useDispatch } from 'react-redux'
 import { submitSurvey } from 'features/auth/authSlice'
+import { loadContacts } from 'features/contacts/contactsSlice'
 import PropTypes from 'prop-types'
 import {
   check,
@@ -199,8 +200,10 @@ const Permissions = ({ route }) => {
                 ? PERMISSIONS.IOS.CONTACTS
                 : PERMISSIONS.ANDROID.READ_CONTACTS,
             ).then((result) => {
-              if (result === RESULTS.GRANTED) setContact(true)
-              else
+              if (result === RESULTS.GRANTED) {
+                dispatch(loadContacts())
+                setContact(true)
+              } else
                 openSettings().catch(() => console.warn('cannot open settings'))
             })
           }

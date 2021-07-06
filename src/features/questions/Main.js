@@ -1018,7 +1018,13 @@ const Main = ({ route }) => {
   useEffect(() => {
     if (auth.onboarding)
       delay(() => NavigationService.navigate(Screens.AskCommonAccounts))
-    if (route.params?.showOnboarding) setOnboardingModal('main')
+    if (route.params?.showOnboarding) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      if (!showSuccessModal) {
+        delay(() => setOnboardingModal('main'))
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route, auth])
 
   useEffect(() => {
@@ -1159,8 +1165,13 @@ const Main = ({ route }) => {
   useEffect(() => {
     if (showSuccessModal) {
       setSuccessModalVisible(true)
-      NavigationService.updateParams({ showSuccessModal: false })
+      NavigationService.updateParams({
+        showSuccessModal: false,
+        showOnboarding: false,
+        forceOnboarding: !!route.params?.showOnboarding,
+      })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSuccessModal])
 
   const renderItem = (item) => {
@@ -1485,8 +1496,12 @@ const Main = ({ route }) => {
 
         {isSuccessModalVisible && (
           <SuccessModal
-            isModalVisible={true}
-            closeModal={() => setSuccessModalVisible(false)}
+            isModalVisible={isSuccessModalVisible}
+            closeModal={() => {
+              setSuccessModalVisible(false)
+              if (route.params?.forceOnboarding)
+                delay(() => setOnboardingModal('main'))
+            }}
           />
         )}
 
