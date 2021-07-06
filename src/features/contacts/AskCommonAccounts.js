@@ -2,9 +2,10 @@ import React from 'react'
 import { View, StyleSheet, SafeAreaView, Image, ScrollView } from 'react-native'
 import { Layout, AppText, AppButton, Avatar } from 'components'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Images from 'assets/images'
 import * as NavigationService from 'services/navigation'
+import { setOnboarding } from 'features/auth/authSlice'
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
 })
 
 const CommonAccounts = () => {
+  const dispatch = useDispatch()
   const appUserCount = useSelector((state) => state.contacts.appUserCount)
   const commonData = useSelector((state) => state.contacts.commonAccountCounts)
 
@@ -109,7 +111,10 @@ const CommonAccounts = () => {
   }
 
   const nextOnPress = () => {
-    NavigationService.goBack()
+    dispatch(setOnboarding(false))
+    NavigationService.navigate(Screens.Main, {
+      showOnboarding: true,
+    })
   }
 
   return (
@@ -126,13 +131,16 @@ const CommonAccounts = () => {
                     name: 'Like-Minded Users',
                     count: commonData.likeMinded,
                     description: 'These users have 3 common interests with you',
-                    onPress: () =>
+                    onPress: () => {
+                      dispatch(setOnboarding(false))
                       NavigationService.navigate(
                         Screens.QuestionTypeSelection,
                         {
                           isLikeMindedSelected: true,
+                          showOnboarding: true,
                         },
-                      ),
+                      )
+                    },
                   })}
                 {Object.keys(commonData).map((key) => {
                   if (key !== 'likeMinded') {
@@ -144,7 +152,8 @@ const CommonAccounts = () => {
                       name,
                       count: commonData[key].count,
                       description: `Ask users who are into ${name}`,
-                      onPress: () =>
+                      onPress: () => {
+                        dispatch(setOnboarding(false))
                         NavigationService.navigate(
                           Screens.QuestionTypeSelection,
                           {
@@ -154,8 +163,10 @@ const CommonAccounts = () => {
                                 name: name.toLowerCase(),
                               },
                             ],
+                            showOnboarding: true,
                           },
-                        ),
+                        )
+                      },
                     })
                   }
                 })}

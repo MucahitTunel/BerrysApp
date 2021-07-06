@@ -37,7 +37,7 @@ export const BackButton = ({ navigation, onPress, color = Colors.white }) => (
     onPress={() => {
       Keyboard.dismiss()
       if (onPress) onPress()
-      navigation.goBack()
+      else navigation.goBack()
     }}>
     <AppIcon name="chevron-left" color={color} size={30} />
   </ScaleTouchable>

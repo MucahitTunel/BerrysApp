@@ -1016,8 +1016,10 @@ const Main = ({ route }) => {
   const swiperRef = useRef(null)
 
   useEffect(() => {
-    if (auth.onboarding) setOnboardingModal('main')
-  }, [auth])
+    if (auth.onboarding)
+      delay(() => NavigationService.navigate(Screens.AskCommonAccounts))
+    if (route.params?.showOnboarding) setOnboardingModal('main')
+  }, [route, auth])
 
   useEffect(() => {
     setMyPosts(
@@ -1498,7 +1500,6 @@ const Main = ({ route }) => {
                   // onPress={() => setOnboardingModal(false)}>
                   onPress={() => {
                     setOnboardingModal(false)
-                    NavigationService.navigate(Screens.AskCommonAccounts)
                   }}>
                   <View
                     style={{

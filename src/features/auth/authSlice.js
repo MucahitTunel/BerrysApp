@@ -216,7 +216,7 @@ export const submitSurvey = createAsyncThunk(
       survey: value,
     }
     await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
-    if (!bypassOnboarding) dispatch(setOnBoarding(true))
+    if (!bypassOnboarding) dispatch(setOnboarding(true))
     dispatch(getCommonAccountCounts())
     return value
   },
@@ -322,7 +322,7 @@ export const sendInvite = createAsyncThunk(
         name,
       },
     })
-    dispatch(setOnBoarding(false))
+    dispatch(setOnboarding(false))
     NavigationService.navigate(Screens.Main)
   },
 )
@@ -349,7 +349,7 @@ const authSlice = createSlice({
     setBooting: (state, action) => {
       state.booting = action.payload
     },
-    setOnBoarding: (state, action) => {
+    setOnboarding: (state, action) => {
       state.onboarding = action.payload
     },
     updatePoints: (state, action) => {
@@ -435,7 +435,7 @@ export const {
     setUserIsNew,
     resetSurvey,
     setUser,
-    setOnBoarding,
+    setOnboarding,
     setBooting,
     setHasNotifications,
   },

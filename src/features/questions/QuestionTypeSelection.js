@@ -111,14 +111,18 @@ const QuestionTypeSelection = ({ navigation, route }) => {
           headerLeft={
             <BackButton
               navigation={navigation}
-              onPress={() => navigation.navigate(Screens.Main)}
+              onPress={() =>
+                navigation.navigate(Screens.Main, {
+                  showOnboarding: route.params?.showOnboarding,
+                })
+              }
             />
           }
         />
       ),
     })
     // eslint-disable-next-line
-      }, [navigation, selected])
+      }, [route, navigation, selected])
 
   const renderType = (type) => {
     return (
