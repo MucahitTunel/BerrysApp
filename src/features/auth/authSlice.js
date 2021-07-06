@@ -13,7 +13,7 @@ import { addRoomWithNewMessages } from '../messages/messagesSlice'
 import KochavaTracker from 'react-native-kochava-tracker'
 import firebase from '../../services/firebase'
 import facebookService from '../../services/facebook'
-import { getCommonAccountCounts } from '../contacts/contactsSlice'
+import { getCommonAccountCounts, loadContacts } from '../contacts/contactsSlice'
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true
@@ -98,7 +98,8 @@ export const getUser = createAsyncThunk(
     })
     dispatch(setBooting(false))
     const { user } = data
-    return user
+    dispatch(setUser(user))
+    dispatch(loadContacts())
   },
 )
 
@@ -407,7 +408,7 @@ const authSlice = createSlice({
       state.user = null
     },
     [getUser.fulfilled]: (state, action) => {
-      state.user = action.payload
+      // state.user = action.payload
     },
     [resendVerifyCode.fulfilled]: (state, action) => {
       state.user = action.payload

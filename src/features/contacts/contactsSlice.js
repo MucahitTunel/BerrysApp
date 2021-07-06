@@ -143,7 +143,7 @@ export const reportUser = createAsyncThunk(
 
 export const saveContacts = createAsyncThunk(
   'contacts/save',
-  async (contacts, { getState }) => {
+  async (contacts, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const { data } = await request({
@@ -155,6 +155,7 @@ export const saveContacts = createAsyncThunk(
       },
     })
     const { updatedContacts } = data
+    dispatch(setAppUserCount(updatedContacts.filter((c) => c.isAppUser).length))
     return updatedContacts
   },
 )
@@ -272,7 +273,11 @@ const contactsSlice = createSlice({
     appUserCount: 0,
     commonAccountCounts: {},
   },
-  reducers: {},
+  reducers: {
+    setAppUserCount: (state, action) => {
+      state.appUserCount = action.payload
+    },
+  },
   extraReducers: {
     [fetchContactsFromGoogle.pending]: (state) => {
       state.loading = true
@@ -294,7 +299,6 @@ const contactsSlice = createSlice({
     [saveContacts.fulfilled]: (state, action) => {
       state.loading = false
       state.data = action.payload
-      state.appUserCount = action.payload.filter((c) => c.isAppUser).length
     },
     [blacklistContacts.pending]: (state) => {
       state.loading = true
@@ -325,5 +329,5 @@ const contactsSlice = createSlice({
 
 export const {
   reducer: contactsReducer,
-  actions: {},
+  actions: { setAppUserCount },
 } = contactsSlice

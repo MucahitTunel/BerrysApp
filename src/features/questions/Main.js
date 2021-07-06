@@ -1053,7 +1053,7 @@ const Main = ({ route }) => {
         user: auth.user.phoneNumber,
       },
     )
-    dispatch(loadContacts())
+    // dispatch(loadContacts())
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)
     const onOpened = (openResult) => {

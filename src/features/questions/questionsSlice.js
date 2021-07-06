@@ -7,7 +7,7 @@ export const getQuestions = createAsyncThunk(
   'questions/get',
   async (phoneNumber, { getState, dispatch }) => {
     return new Promise(async (resolve) => {
-      dispatch(loadContacts())
+      // dispatch(loadContacts())
       const state = getState()
       const { user } = state.auth
       const contacts = state.contacts.data

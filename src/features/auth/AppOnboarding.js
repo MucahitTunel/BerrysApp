@@ -68,7 +68,7 @@ const AppOnboarding = () => {
   const [name, setName] = useState('')
 
   useEffect(() => {
-    dispatch(loadContacts())
+    // dispatch(loadContacts())
   }, [dispatch])
 
   const handleNextSwiper = () => {

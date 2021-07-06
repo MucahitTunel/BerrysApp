@@ -42,7 +42,7 @@ const Survey = ({ navigation }) => {
   const [hometown, setHometown] = useState(null)
 
   useEffect(() => {
-    dispatch(loadContacts())
+    // dispatch(loadContacts())
   }, [dispatch])
 
   const onSelectItem = (value) => setOption(value)
