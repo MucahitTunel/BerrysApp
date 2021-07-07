@@ -469,13 +469,13 @@ export const RenderCompare = ({ compare, isPopular }) => {
         <AppText fontSize={15} color={Colors.gray}>
           {`Versus - ${compare.votes.length} Votes`}
         </AppText>
-        {compare.votes.length > 0 && !isPopular && (
+        {/* {compare.votes.length > 0 && !isPopular && (
           <TouchableOpacity onPress={seeWhoVotedOnPress}>
             <AppText fontSize={15} color={Colors.purpleText}>
               See who voted
             </AppText>
           </TouchableOpacity>
-        )}
+        )} */}
       </View>
     </View>
   )
@@ -971,13 +971,13 @@ export const RenderPoll = ({ poll, isPopular }) => {
           <AppText fontSize={15} color={Colors.gray}>
             {`Poll - ${poll.votes.length} Votes`}
           </AppText>
-          {poll.votes.length > 0 && !isPopular && (
+          {/* {poll.votes.length > 0 && !isPopular && (
             <TouchableOpacity onPress={seeWhoVotedOnPress}>
               <AppText fontSize={15} color={Colors.purpleText}>
                 See who voted
               </AppText>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
       </View>
     </View>
