@@ -203,7 +203,7 @@ export const submitSurvey = createAsyncThunk(
   ) => {
     const state = getState()
     const user = state.auth.user
-    request({
+    await request({
       method: 'POST',
       url: 'survey',
       data: {
@@ -212,13 +212,13 @@ export const submitSurvey = createAsyncThunk(
         data,
       },
     })
+    dispatch(getCommonAccountCounts())
     const newUserData = {
       ...user,
       survey: value,
     }
     await AsyncStorage.setItem('userData', JSON.stringify(newUserData))
     if (!bypassOnboarding) dispatch(setOnboarding(true))
-    dispatch(getCommonAccountCounts())
     return value
   },
 )
