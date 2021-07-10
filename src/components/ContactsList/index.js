@@ -12,6 +12,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  Linking,
 } from 'react-native'
 import { useKeyboard } from '@react-native-community/hooks'
 import { Colors, Dimensions, FontSize } from 'constants'
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
   },
   filterWrapper: {
     paddingVertical: 14,
+    paddingTop: 0,
     paddingHorizontal: 16,
   },
   searchInput: { paddingLeft: 10, flex: 1 },
@@ -87,6 +89,9 @@ const ContactsList = ({
   useEffect(() => {
     dispatch(getGroups())
   }, [dispatch])
+  const contactPermission = useSelector(
+    (state) => state.contacts.contactPermission,
+  )
   const ask = useSelector((state) => state.ask)
   const user = useSelector((state) => state.auth.user)
   const questionImage = useSelector((state) => state.ask.questionImage)
@@ -337,6 +342,19 @@ const ContactsList = ({
     <Layout>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
+        {!contactPermission && (
+          <AppButton
+            text="Sync Your Contacts"
+            onPress={() => Linking.openSettings()}
+            style={{
+              height: 50,
+              marginBottom: 10,
+              marginHorizontal: 20,
+              backgroundColor: Colors.purpleLight,
+            }}
+            textStyle={{ fontSize: FontSize.large, color: Colors.purpleText }}
+          />
+        )}
         <ScrollView>
           {isPostQuestion && (
             <>

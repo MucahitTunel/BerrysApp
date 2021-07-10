@@ -301,7 +301,7 @@ const Permissions = ({ route }) => {
       <AppButton
         text="Next"
         style={{ marginBottom: 30, marginHorizontal: 30 }}
-        disabled={/* !location ||  */ !notification || !contact}
+        disabled={/* !location ||  */ !notification /*  || !contact */}
         onPress={submit}
       />
     </SafeAreaView>

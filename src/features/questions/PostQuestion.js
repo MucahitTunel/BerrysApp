@@ -129,9 +129,6 @@ const PostQuestion = ({ navigation, route }) => {
   const user = useSelector((state) => state.auth.user)
   const question = useSelector((state) => state.ask.question)
   const contacts = useSelector((state) => state.ask.contacts)
-  const contactPermission = useSelector(
-    (state) => state.contacts.contactPermission,
-  )
   const groups = useSelector((state) => state.ask.groups)
   const facebookGroups = useSelector((state) => state.ask.facebookGroups)
   const loading = useSelector((state) => state.ask.loading)
@@ -775,19 +772,6 @@ const PostQuestion = ({ navigation, route }) => {
                 editable={!route.params?.isSharing}
               />
             </View>
-            {!contactPermission && (
-              <AppButton
-                text="Sync Your Contacts"
-                onPress={() => Linking.openSettings()}
-                style={{
-                  height: 30,
-                  marginTop: 10,
-                  marginHorizontal: 20,
-                  backgroundColor: Colors.primary,
-                }}
-                textStyle={{ fontSize: FontSize.large }}
-              />
-            )}
             <ScrollView>
               {(!route.params?.isSharing || route.params?.isPopular) && (
                 <View>

@@ -151,11 +151,11 @@ const Survey = ({ route, navigation }) => {
             paddingBottom: 10,
           }}>
           <AppButton text="Continue" onPress={onPressContinue} style={{ marginBottom: 10}}/>
-          <AppButton
+          {/* <AppButton
           text="Skip for now"
           onPress={onPressContinue} style={{ backgroundColor: 'transparent'}}
             textStyle={{ color: '#AAA'}}
-          />
+          /> */}
         </View>
       </SafeAreaView>
   )
