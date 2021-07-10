@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     borderRadius: 5,
+    marginRight: 10,
   },
   questionItem: {
     height: '50%',
@@ -553,6 +554,8 @@ const renderCardHeader = ({
   isVoted,
   commonGroup,
   myContact,
+  commonInterests,
+  commonCountries,
 }) => {
   return (
     <View>
@@ -598,7 +601,7 @@ const renderCardHeader = ({
           marginTop: commonGroup || myContact ? 10 : 0,
         }}>
         {commonGroup && (
-          <View style={[styles.cardItemRelatedContact, { marginRight: 10 }]}>
+          <View style={[styles.cardItemRelatedContact]}>
             <Avatar source={Images.groupEmpty} size={18} />
             <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
               {commonGroup.name}
@@ -613,6 +616,26 @@ const renderCardHeader = ({
             </AppText>
           </View>
         )}
+        {commonInterests?.map((item) => (
+          <View style={styles.cardItemRelatedContact}>
+            <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+              {item
+                .split(' ')
+                .map((i) => i.charAt(0).toUpperCase() + i.slice(1))
+                .join(' ')}
+            </AppText>
+          </View>
+        ))}
+        {commonCountries?.map((item) => (
+          <View style={styles.cardItemRelatedContact}>
+            <AppText fontSize={FontSize.normal} style={{ marginLeft: 5 }}>
+              {item
+                .split(' ')
+                .map((i) => i.charAt(0).toUpperCase() + i.slice(1))
+                .join(' ')}
+            </AppText>
+          </View>
+        ))}
       </View>
     </View>
   )
@@ -634,6 +657,9 @@ export const QuestionItem = ({
     contactName,
     myContact,
     showInPopular,
+    commonInterests,
+    commonCountries,
+    isLikeMinded,
   },
   isPopular,
 }) => {
@@ -677,6 +703,9 @@ export const QuestionItem = ({
         contactName={contactName}
         myContact={myContact}
         isPopular={isPopular}
+        commonInterests={commonInterests}
+        commonCountries={commonCountries}
+        isLikeMinded={isLikeMinded}
       />
     )
 
@@ -744,6 +773,9 @@ export const QuestionItem = ({
           isVoted,
           commonGroup: group,
           myContact,
+          commonInterests,
+          commonCountries,
+          isLikeMinded,
         })}
         <AppText
           style={{ marginTop: 20 }}
