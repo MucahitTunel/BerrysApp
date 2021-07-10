@@ -62,6 +62,7 @@ const SignInModal = ({ isVisible, onClose }) => {
     const payload = {
       phoneNumber: formattedPhoneNumber,
       countryCode: country.cca2,
+      countryName: country.name,
     }
     dispatch(signIn(payload))
     setSubmitting(false)

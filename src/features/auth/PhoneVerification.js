@@ -48,7 +48,7 @@ const PhoneVerification = ({ route }) => {
   const loading = useSelector((state) => state.auth.loading)
   const onSubmit = (values) => {
     const { verifyCode } = values
-    const payload = { verifyCode }
+    const payload = { verifyCode, countryName: route.params.countryName }
     dispatch(verifyPhoneNumber(payload))
   }
   const onPressResendCode = () => dispatch(resendVerifyCode())

@@ -105,7 +105,7 @@ export const getUser = createAsyncThunk(
 
 export const signIn = createAsyncThunk(
   'auth/signIn',
-  async ({ phoneNumber, countryCode }) => {
+  async ({ phoneNumber, countryCode, countryName }) => {
     const { number, isValid } = formatPhoneNumber(phoneNumber, countryCode)
     if (!isValid) {
       return Alert.alert(
@@ -129,14 +129,14 @@ export const signIn = createAsyncThunk(
       service: Services.PhoneNumber,
       isVerifying: true,
     }
-    NavigationService.navigate(Screens.PhoneVerification)
+    NavigationService.navigate(Screens.PhoneVerification, { countryName })
     return userData
   },
 )
 
 export const verifyPhoneNumber = createAsyncThunk(
   'auth/verifyPhoneNumber',
-  async ({ verifyCode }, { getState, dispatch }) => {
+  async ({ verifyCode, countryName }, { getState, dispatch }) => {
     const state = getState()
     const user = state.auth.user
     const { verifyCode: actualVerifyCode } = user
@@ -146,7 +146,7 @@ export const verifyPhoneNumber = createAsyncThunk(
       Alert.alert('Error', error.message)
       throw error
     } else {
-      dispatch(createAccount(user))
+      dispatch(createAccount({ ...user, countryName }))
       // NavigationService.navigate(Screens.FacebookIntegration)
     }
   },
