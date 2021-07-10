@@ -143,7 +143,7 @@ const Permissions = ({ route }) => {
         case 'bellFilled':
           return 'Notifications'
         case 'newProfileFilled':
-          return 'Contacts (optional)'
+          return 'Contacts'
         case 'location':
           return 'Location'
       }

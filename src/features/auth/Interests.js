@@ -150,7 +150,7 @@ const Survey = ({ route, navigation }) => {
             justifyContent: 'flex-end',
             paddingBottom: 10,
           }}>
-          <AppButton text="Continue" onPress={onPressContinue} style={{ marginBottom: 10}}/>
+          <AppButton text="Continue" onPress={onPressContinue} style={{ marginBottom: 10}} disabled={interests.length === 0}/>
           {/* <AppButton
           text="Skip for now"
           onPress={onPressContinue} style={{ backgroundColor: 'transparent'}}
