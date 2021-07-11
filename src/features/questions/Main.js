@@ -65,7 +65,7 @@ import store from 'state/store'
 import getConversationName from 'utils/get-conversation-name'
 import Images from 'assets/images'
 import request from '../../services/api'
-import KochavaTracker from 'react-native-kochava-tracker'
+import firebase from 'services/firebase'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -603,8 +603,8 @@ const renderCardHeader = ({
           marginTop:
             commonGroup ||
             myContact ||
-            commonInterests.length > 0 ||
-            commonCountries.length > 0
+            commonInterests?.length > 0 ||
+            commonCountries?.length > 0
               ? 10
               : 0,
         }}>
@@ -1094,13 +1094,10 @@ const Main = ({ route }) => {
   }
 
   useEffect(() => {
-    KochavaTracker.sendEventMapObject(
-      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
-      {
-        screen: 'Main Screen',
-        user: auth.user.phoneNumber,
-      },
-    )
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'Main Screen',
+      user: auth.user.phoneNumber,
+    })
     // dispatch(loadContacts())
     const onReceived = (notification) =>
       console.log(`Notification received: ${notification}`)

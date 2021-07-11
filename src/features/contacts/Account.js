@@ -24,7 +24,7 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import Theme from 'theme'
 import { BlurView } from '@react-native-community/blur'
 import Modal from 'react-native-modal'
-import KochavaTracker from 'react-native-kochava-tracker'
+import firebase from 'services/firebase'
 
 const styles = StyleSheet.create({
   container: {
@@ -108,13 +108,10 @@ const Account = () => {
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null)
 
   useEffect(() => {
-    KochavaTracker.sendEventMapObject(
-      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
-      {
-        screen: 'My Profile',
-        user: user.phoneNumber,
-      },
-    )
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'My Profile',
+      user: user.phoneNumber,
+    })
     setName(user?.name ? user.name : '')
   }, [user, dispatch])
 

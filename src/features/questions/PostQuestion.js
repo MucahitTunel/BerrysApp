@@ -51,7 +51,7 @@ import {
   setCompareImages,
 } from '../questions/questionSlice'
 // import { contactSettingsAlert } from 'features/contacts/helpers'
-import KochavaTracker from 'react-native-kochava-tracker'
+import firebase from 'services/firebase'
 
 const styles = StyleSheet.create({
   container: {
@@ -290,13 +290,10 @@ const PostQuestion = ({ navigation, route }) => {
         createCompare({ showOnboarding: !!route.params?.showOnboarding }),
       )
     dispatch(askQuestion({ showOnboarding: !!route.params?.showOnboarding }))
-    KochavaTracker.sendEventMapObject(
-      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
-      {
-        screen: 'Create Post',
-        user: user.phoneNumber,
-      },
-    )
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'Create Post',
+      user: user.phoneNumber,
+    })
   }
 
   const navigateContactList = (isContact) => {

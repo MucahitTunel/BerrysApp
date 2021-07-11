@@ -45,7 +45,6 @@ import { hideKeyBoard, showKeyboard } from 'utils'
 import FinishAskingModal from './FinishAskingModal'
 import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
-import KochavaTracker from 'react-native-kochava-tracker'
 
 const styles = StyleSheet.create({
   container: {
@@ -163,13 +162,10 @@ const Conversation = ({ navigation }) => {
   )
 
   useEffect(() => {
-    KochavaTracker.sendEventMapObject(
-      KochavaTracker.EVENT_TYPE_VIEW_STRING_KEY,
-      {
-        screen: 'Message List',
-        user: user.phoneNumber,
-      },
-    )
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'Message List',
+      user: user.phoneNumber,
+    })
     const getCommonGroup = async () => {
       const { data } = await request({
         method: 'GET',
