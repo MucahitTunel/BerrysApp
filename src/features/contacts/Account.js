@@ -132,8 +132,10 @@ const Account = () => {
         return 'Logout'
       case 'report':
         return 'Report'
-      case 'skipped':
+      case 'interests':
         return 'My Interests'
+      case 'skipped':
+        return 'My Skipped Posts'
     }
   }
 
@@ -145,6 +147,7 @@ const Account = () => {
         return Images.groupFilled
       case 'posts':
       case 'engaged':
+      case 'interests':
       case 'skipped':
         return Images.graphFilled
       case 'logout':
@@ -269,6 +272,9 @@ const Account = () => {
             {renderItem('contacts', () =>
               NavigationService.navigate(Screens.FollowContacts),
             )}
+            {renderItem('interests', () =>
+              NavigationService.navigate(Screens.MyInterests),
+            )}
             {renderItem('posts', () =>
               NavigationService.navigate(Screens.MyPosts),
             )}
@@ -276,7 +282,7 @@ const Account = () => {
               NavigationService.navigate(Screens.MyEngaged),
             )}
             {renderItem('skipped', () =>
-              NavigationService.navigate(Screens.MyInterests),
+              NavigationService.navigate(Screens.MySkipped),
             )}
             <View
               style={{ height: 1, backgroundColor: Colors.backgroundDarker }}

@@ -403,6 +403,8 @@ export const RenderCompare = ({ compare, isPopular }) => {
         createdAt: compare.createdAt,
         commonGroup: compare.group,
         myContact: compare.myContact,
+        commonInterests: compare.commonInterests,
+        commonCountries: compare.commonCountries,
       })}
       {compare.question && (
         <AppText
@@ -598,7 +600,13 @@ const renderCardHeader = ({
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: commonGroup || myContact ? 10 : 0,
+          marginTop:
+            commonGroup ||
+            myContact ||
+            commonInterests.length > 0 ||
+            commonCountries.length > 0
+              ? 10
+              : 0,
         }}>
         {commonGroup && (
           <View style={[styles.cardItemRelatedContact]}>
@@ -970,6 +978,8 @@ export const RenderPoll = ({ poll, isPopular }) => {
           createdAt: poll.createdAt,
           commonGroup: poll.group,
           myContact: poll.myContact,
+          commonInterests: poll.commonInterests,
+          commonCountries: poll.commonCountries,
         })}
         <AppText
           style={{ marginTop: 20 }}
