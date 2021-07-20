@@ -123,7 +123,7 @@ export const MenuButton = ({ navigation }) => (
 // the 3 dots button
 export const AnswerRightButton = ({ onPressDots, color = Colors.white }) => {
   return (
-    <ScaleTouchable style={{ padding: 10 }} onPress={onPressDots}>
+    <ScaleTouchable style={{ padding: 3 }} onPress={onPressDots}>
       <AppIcon name="more-vertical" size={24} color={color} />
     </ScaleTouchable>
   )

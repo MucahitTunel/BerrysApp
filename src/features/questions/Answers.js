@@ -561,13 +561,14 @@ const Answers = ({ route, navigation }) => {
                   <View style={styles.inputView}>
                     <AppInput
                       style={styles.input}
-                      placeholder={
-                        question.isAbleToAnswer
-                          ? 'Type a message...'
-                          : 'You cannot answer this question'
-                      }
+                      // placeholder={
+                      //   question.isAbleToAnswer
+                      //     ? 'Type a message...'
+                      //     : 'You cannot answer this question'
+                      // }
+                      placeholder="Type a message..."
                       placeholderTextColor={Colors.gray}
-                      editable={question.isAbleToAnswer}
+                      // editable={question.isAbleToAnswer}
                       onChange={handleChange('cmt')}
                       value={values.cmt}
                     />

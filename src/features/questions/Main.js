@@ -1494,8 +1494,9 @@ const Main = ({ route }) => {
     <ScrollView
       style={{ backgroundColor: Colors.purple }}
       pagingEnabled
-      showsVerticalScrollIndicator={false}>
-      <MainScreenExtension />
+      showsVerticalScrollIndicator={false}
+      scrollEnabled={!auth.user.isNew}>
+      {!auth.user.isNew && <MainScreenExtension />}
       <Layout innerStyle={{ paddingTop: 15 }}>
         <View style={styles.container}>
           <StatusBar barStyle="light-content" />
