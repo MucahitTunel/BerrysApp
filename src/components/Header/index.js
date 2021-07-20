@@ -11,7 +11,7 @@ const linearGradient = [Colors.purple, Colors.purple]
 
 const styles = StyleSheet.create({
   header: {
-    // height: 100,
+    height: 100,
     paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',

@@ -96,7 +96,7 @@ const swipeoutBtns = [
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.Height,
+    height: Dimensions.Height - 145,
     width: Dimensions.Width,
     backgroundColor: 'transparent',
     flex: 1,
@@ -1492,9 +1492,7 @@ const Main = ({ route }) => {
 
   return (
     <ScrollView
-      style={{
-        backgroundColor: 'red',
-      }} /* contentContainerStyle={{ height: Dimensions.Height }} */
+      style={{ backgroundColor: Colors.purple }}
       pagingEnabled
       showsVerticalScrollIndicator={false}>
       <MainScreenExtension />
