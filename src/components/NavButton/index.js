@@ -146,7 +146,7 @@ export const NotificationButton = ({ navigation }) => {
 export const ComposeButton = ({ navigation, onPress }) => {
   return (
     <ScaleTouchable
-      style={{ padding: 7, backgroundColor: 'white', borderRadius: 100 }}
+      style={{ padding: 3, backgroundColor: 'white', borderRadius: 100 }}
       onPress={() => {
         Keyboard.dismiss()
         if (onPress) onPress()

@@ -66,6 +66,7 @@ import getConversationName from 'utils/get-conversation-name'
 import Images from 'assets/images'
 import request from '../../services/api'
 import firebase from 'services/firebase'
+import MainScreenExtension from './MainScreenExtension'
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -1490,175 +1491,191 @@ const Main = ({ route }) => {
   }, [route.params?.openTab])
 
   return (
-    <Layout innerStyle={{ paddingTop: 15 }}>
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.tabContainer}>
-          <AppButton
-            style={[
-              styles.tabItem,
-              {
-                backgroundColor:
-                  selectedTab === 'my-posts' ? Colors.purple : 'transparent',
-              },
-            ]}
-            text="For Me"
-            textStyle={{
-              color: selectedTab === 'my-posts' ? 'white' : Colors.purple,
-              fontWeight: 'normal',
-            }}
-            onPress={() => setSelectedTab('my-posts')}
-          />
-          <AppButton
-            style={[
-              styles.tabItem,
-              {
-                backgroundColor:
-                  selectedTab === 'popular' ? Colors.purple : 'transparent',
-              },
-            ]}
-            text="Popular"
-            textStyle={{
-              color: selectedTab === 'popular' ? 'white' : Colors.purple,
-              fontWeight: 'normal',
-            }}
-            onPress={() => setSelectedTab('popular')}
-          />
+    <ScrollView
+      style={{
+        backgroundColor: 'red',
+      }} /* contentContainerStyle={{ height: Dimensions.Height }} */
+      pagingEnabled
+      showsVerticalScrollIndicator={false}>
+      <MainScreenExtension />
+      <Layout innerStyle={{ paddingTop: 15 }}>
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <View style={styles.tabContainer}>
+            <AppButton
+              style={[
+                styles.tabItem,
+                {
+                  backgroundColor:
+                    selectedTab === 'my-posts' ? Colors.purple : 'transparent',
+                },
+              ]}
+              text="For Me"
+              textStyle={{
+                color: selectedTab === 'my-posts' ? 'white' : Colors.purple,
+                fontWeight: 'normal',
+              }}
+              onPress={() => setSelectedTab('my-posts')}
+            />
+            <AppButton
+              style={[
+                styles.tabItem,
+                {
+                  backgroundColor:
+                    selectedTab === 'popular' ? Colors.purple : 'transparent',
+                },
+              ]}
+              text="Popular"
+              textStyle={{
+                color: selectedTab === 'popular' ? 'white' : Colors.purple,
+                fontWeight: 'normal',
+              }}
+              onPress={() => setSelectedTab('popular')}
+            />
+          </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'position' : null}
+            keyboardVerticalOffset={100}
+            style={{ flex: 1 }}>
+            {selectedTab === 'my-posts' && renderMyPosts()}
+            {selectedTab === 'popular' && renderPopularCards()}
+          </KeyboardAvoidingView>
+
+          {isSuccessModalVisible && (
+            <SuccessModal
+              isModalVisible={isSuccessModalVisible}
+              closeModal={() => {
+                setSuccessModalVisible(false)
+                if (route.params?.forceOnboarding)
+                  delay(() => setOnboardingModal('main'))
+              }}
+            />
+          )}
+
+          {!!onboardingModal && (
+            <Modal visible={!!onboardingModal} transparent>
+              <View style={{ flex: 1, backgroundColor: Colors.blackDimmed }}>
+                {onboardingModal === 'main' && (
+                  <TouchableOpacity
+                    style={{ flex: 1 }}
+                    // onPress={() => setOnboardingModal(auth.user.survey)}>
+                    // onPress={() => setOnboardingModal(false)}>
+                    onPress={() => {
+                      setOnboardingModal(false)
+                    }}>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: '40%',
+                        left: 20,
+                      }}>
+                      <Image
+                        source={Images.onboardingSkip}
+                        style={{
+                          height: 200,
+                          width: 100,
+                          resizeMode: 'contain',
+                        }}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: '40%',
+                        right: 20,
+                      }}>
+                      <Image
+                        source={Images.onboardingShare}
+                        style={{
+                          height: 200,
+                          width: 100,
+                          resizeMode: 'contain',
+                        }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
+                {onboardingModal === 'introvert' && (
+                  <TouchableOpacity
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      setOnboardingModal(false)
+                    }}>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        position: 'absolute',
+                        bottom: '14%',
+                        backgroundColor: 'white',
+                        padding: 15,
+                        borderRadius: 7,
+                        alignSelf: 'center',
+                      }}>
+                      <AppText color="black">Ask Like-Minded Users</AppText>
+                    </View>
+                    <View
+                      style={[
+                        styles.triangle,
+                        {
+                          position: 'absolute',
+                          alignSelf: 'center',
+                          bottom: '12%',
+                        },
+                      ]}
+                    />
+                  </TouchableOpacity>
+                )}
+                {onboardingModal === 'extravert' && (
+                  <TouchableOpacity
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      setOnboardingModal(false)
+                    }}>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        position: 'absolute',
+                        top: '13%',
+                        backgroundColor: 'white',
+                        padding: 15,
+                        borderRadius: 7,
+                        alignSelf: 'center',
+                      }}>
+                      <AppText color="black" weight="bold">
+                        Earn points by answering
+                      </AppText>
+                      <AppText
+                        color="black"
+                        weight="normal"
+                        style={{ marginTop: 5 }}>
+                        Ask experts any questions you have
+                      </AppText>
+                    </View>
+                    <View
+                      style={[
+                        styles.triangle,
+                        {
+                          position: 'absolute',
+                          alignSelf: 'center',
+                          top: '11%',
+                          right: '15%',
+                          transform: [{ rotate: '35deg' }],
+                          borderLeftWidth: 20,
+                          borderRightWidth: 20,
+                          borderBottomWidth: 40,
+                        },
+                      ]}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+            </Modal>
+          )}
         </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'position' : null}
-          keyboardVerticalOffset={100}
-          style={{ flex: 1 }}>
-          {selectedTab === 'my-posts' && renderMyPosts()}
-          {selectedTab === 'popular' && renderPopularCards()}
-        </KeyboardAvoidingView>
-
-        {isSuccessModalVisible && (
-          <SuccessModal
-            isModalVisible={isSuccessModalVisible}
-            closeModal={() => {
-              setSuccessModalVisible(false)
-              if (route.params?.forceOnboarding)
-                delay(() => setOnboardingModal('main'))
-            }}
-          />
-        )}
-
-        {!!onboardingModal && (
-          <Modal visible={!!onboardingModal} transparent>
-            <View style={{ flex: 1, backgroundColor: Colors.blackDimmed }}>
-              {onboardingModal === 'main' && (
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  // onPress={() => setOnboardingModal(auth.user.survey)}>
-                  // onPress={() => setOnboardingModal(false)}>
-                  onPress={() => {
-                    setOnboardingModal(false)
-                  }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      position: 'absolute',
-                      top: '40%',
-                      left: 20,
-                    }}>
-                    <Image
-                      source={Images.onboardingSkip}
-                      style={{ height: 200, width: 100, resizeMode: 'contain' }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      position: 'absolute',
-                      top: '40%',
-                      right: 20,
-                    }}>
-                    <Image
-                      source={Images.onboardingShare}
-                      style={{ height: 200, width: 100, resizeMode: 'contain' }}
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-              {onboardingModal === 'introvert' && (
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  onPress={() => {
-                    setOnboardingModal(false)
-                  }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      position: 'absolute',
-                      bottom: '14%',
-                      backgroundColor: 'white',
-                      padding: 15,
-                      borderRadius: 7,
-                      alignSelf: 'center',
-                    }}>
-                    <AppText color="black">Ask Like-Minded Users</AppText>
-                  </View>
-                  <View
-                    style={[
-                      styles.triangle,
-                      {
-                        position: 'absolute',
-                        alignSelf: 'center',
-                        bottom: '12%',
-                      },
-                    ]}
-                  />
-                </TouchableOpacity>
-              )}
-              {onboardingModal === 'extravert' && (
-                <TouchableOpacity
-                  style={{ flex: 1 }}
-                  onPress={() => {
-                    setOnboardingModal(false)
-                  }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      position: 'absolute',
-                      top: '13%',
-                      backgroundColor: 'white',
-                      padding: 15,
-                      borderRadius: 7,
-                      alignSelf: 'center',
-                    }}>
-                    <AppText color="black" weight="bold">
-                      Earn points by answering
-                    </AppText>
-                    <AppText
-                      color="black"
-                      weight="normal"
-                      style={{ marginTop: 5 }}>
-                      Ask experts any questions you have
-                    </AppText>
-                  </View>
-                  <View
-                    style={[
-                      styles.triangle,
-                      {
-                        position: 'absolute',
-                        alignSelf: 'center',
-                        top: '11%',
-                        right: '15%',
-                        transform: [{ rotate: '35deg' }],
-                        borderLeftWidth: 20,
-                        borderRightWidth: 20,
-                        borderBottomWidth: 40,
-                      },
-                    ]}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          </Modal>
-        )}
-      </SafeAreaView>
-    </Layout>
+      </Layout>
+    </ScrollView>
   )
 }
 

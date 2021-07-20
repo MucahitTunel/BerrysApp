@@ -60,7 +60,15 @@ export default TabStackScreen = ({ navigation }) => {
                       )
                     case Screens.Account: return getImage(focused ? Images.newProfileFilled : Images.newProfile)
                     default: return (
-                      <View style={{ top: -20, backgroundColor: Colors.purple, height: 50, width: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center'}}>
+                      <View style={{
+                        top: -20,
+                        backgroundColor: Colors.purple,
+                        height: 50, width: 50,
+                        borderRadius: 25,
+                        justifyContent: 'center', alignItems: 'center',
+                        borderColor: 'white',
+                        borderWidth: 0.5
+                      }}>
                           <AppIcon
                             name="plus"
                             size={30}
