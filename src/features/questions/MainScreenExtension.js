@@ -1,7 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Dimensions, Colors, FontSize } from 'constants'
+import { View, StyleSheet } from 'react-native'
+import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import { AppButton, AppText, AppInput, AppIcon } from 'components'
+import { setAskQuestion } from 'features/questions/askSlice'
+import { useDispatch } from 'react-redux'
+import * as NavigationService from 'services/navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +24,8 @@ const styles = StyleSheet.create({
 })
 
 const Extension = () => {
+  const dispatch = useDispatch()
+
   return (
     <View style={styles.container}>
       <AppText
@@ -39,7 +44,11 @@ const Extension = () => {
             marginTop: 10,
             height: 100,
             width: Dimensions.Width - 80,
+            color: Colors.purpleText,
           }}
+          onChange={(value) =>
+            dispatch(setAskQuestion(value === '' ? null : value))
+          }
           multiline
         />
         <View style={{ flex: 1 }} />
@@ -49,6 +58,11 @@ const Extension = () => {
           iconSize={20}
           iconColor={Colors.purple}
           style={{ backgroundColor: Colors.background }}
+          onPress={() =>
+            NavigationService.navigate(Screens.QuestionTypeSelection, {
+              selectedTab: 'image',
+            })
+          }
         />
       </View>
       <AppButton
@@ -59,6 +73,11 @@ const Extension = () => {
           marginTop: 20,
         }}
         textStyle={{ color: Colors.purpleText }}
+        onPress={() =>
+          NavigationService.navigate(Screens.QuestionTypeSelection, {
+            selectedTab: 'pencil',
+          })
+        }
       />
       <View style={{ flex: 1 }} />
       <View style={{ alignSelf: 'center', marginBottom: 60 }}>

@@ -28,6 +28,7 @@ import {
 } from 'features/questions/questionSlice'
 import * as NavigationService from 'services/navigation'
 import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 
 const styles = StyleSheet.create({
   container: {
@@ -80,15 +81,24 @@ const styles = StyleSheet.create({
 const QuestionTypeSelection = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const questionImage = useSelector((state) => state.ask.questionImage)
+  const askQuestion = useSelector((state) => state.ask.question)
 
-  const [selected, setSelected] = useState('pencil')
-  const [message, setMessage] = useState(null)
+  const [selected, setSelected] = useState(
+    route.params?.selectedTab ? route.params?.selectedTab : 'pencil',
+  )
+  const [message, setMessage] = useState(askQuestion || null)
   const [pollOptions, setPollOptions] = useState([
     { value: null },
     { value: null },
   ])
   const [firstCompareImage, setFirstCompareImage] = useState(null)
   const [secondCompareImage, setSecondCompareImage] = useState(null)
+
+  useEffect(() => {
+    if (route.params?.selectedTab && route.params?.selectedTab === 'image')
+      pickImage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.params?.selectedTab])
 
   const getTitle = () => {
     switch (selected) {
@@ -335,7 +345,7 @@ const QuestionTypeSelection = ({ navigation, route }) => {
                 />
               )}
               <AppInput
-                placeholder="Type you message..."
+                placeholder="Type your message..."
                 value={message}
                 onChange={messageOnChange}
                 placeholderTextColor={Colors.gray}
