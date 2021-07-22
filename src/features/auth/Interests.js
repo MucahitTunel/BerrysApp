@@ -4,6 +4,9 @@ import { StatusBar, StyleSheet, View, SafeAreaView, Image, ScrollView } from 're
 import { AppButton, AppText, ScaleTouchable, SimpleHeader } from 'components'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import Images from 'assets/images'
+import Modal from 'react-native-modal'
+import Theme from 'theme'
+import { BlurView } from '@react-native-community/blur'
 
 const styles = StyleSheet.create({
   container: {
@@ -32,24 +35,111 @@ const styles = StyleSheet.create({
   },
 })
 
+const mainInterests = [
+  'Art',
+  'Cooking',
+  'Cycling',
+  'Dancing',
+  'Drawing',
+  'Fishing',
+  'Entrepreneurship',
+  'Golfing',
+  'Hiking',
+  'Hunting',
+  'Kayaking',
+  'Weight Lifting',
+  'Martial Arts',
+  'Painting',
+  'Parenting',
+  'Programming',
+  'Photography',
+  'Poker',
+  'Politics',
+  'Running',
+  'Technology',
+  'Business News',
+]
+const extraInterests = [
+  'Camping',
+'Cars',
+'Gardening',
+'Meditation',
+'Musical Instrument',
+'Singing',
+'Skiing',
+'Skydiving',
+'Theater',
+'Writing',
+'Boardgames',
+'Chess',
+'Skating',
+'Basketball',
+'Baseball',
+'Volleyball',
+'Football',
+'Soccer',
+'Tennis',
+'Snowboarding',
+'Traveling',
+'Checkers',
+'Monopoly',
+'Hockey',
+'Cricket',
+'Table tennis',
+'Golf',
+'Climbing',
+'Yoga',
+'Reading',
+'Food',
+'Pets',
+'Music',
+'Movies',
+'Video Games',
+'Fitness',
+'Working out',
+'Gym',
+'Watching Sports',
+'Socializing',
+'Watches',
+'Jewelry',
+'Collectibles',
+'Boating',
+'Wine',
+'Fashion & style',
+'Culinary',
+'Auto Repairs',
+'Antiques',
+'Genealogy',
+'Home Improvement',
+'Chess',
+'Knitting',
+'Military',
+'Robotics'
+]
+
 const Survey = ({ route, navigation }) => {
   // const dispatch = useDispatch()
 
     // const { value, data } = route.params
 
   const [interests, setInterests] = useState([])
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const onPressContinue = () => {
     navigation.navigate(Screens.Permissions, {
-      surveyData: { interests }
+      surveyData: { interests: interests.map(i => i.toLowerCase()) }
     })
     // dispatch(submitSurvey({ /* value,  */data: {/* ...data,  */interests } }))
   }
 
-  const renderItem = (image, text, isSelected) => {
+  const renderItem = (image, text, isModal = false) => {
     
     const itemOnPress = () => {
-        text = text.toLowerCase()
+      
+        if(isModal) {
+          return setIsModalVisible(true)
+        }
+
         if(interests.includes(text)) setInterests(interests.filter(i => i !== text))
         else setInterests([...interests, text])
     }
@@ -66,20 +156,20 @@ const Survey = ({ route, navigation }) => {
                 shadowOpacity: 0.2,
                 shadowRadius: 2,
                 elevation: 1,
-                backgroundColor: interests.includes(text.toLowerCase()) ? Colors.purple : 'white',
+                backgroundColor: interests.includes(text) ? Colors.purple : 'white',
                 marginRight: 10,
                 marginBottom: 20
             }}
             onPress={itemOnPress}
           >
-              <Image source={image} style={{
+              {/* <Image source={image} style={{
                   resizeMode: 'contain',
                   height: 20,
                   width: 20,
                   marginRight: 5
-              }}/>
+              }}/> */}
               <AppText
-                color={interests.includes(text.toLowerCase()) ? 'white' : Colors.purpleText}
+                color={interests.includes(text) ? 'white' : Colors.purpleText}
               >
                   {text}
               </AppText>
@@ -90,7 +180,7 @@ const Survey = ({ route, navigation }) => {
   return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <View style={{ backgroundColor: 'white', height: 100, justifyContent: "flex-end", alignItems: 'center', marginBottom: 20}}>
+        <View style={{ backgroundColor: 'white', height: 60, justifyContent: "flex-end", alignItems: 'center', marginBottom: 10}}>
             <AppText
                 weight="bold"
                 color="black"
@@ -115,32 +205,13 @@ const Survey = ({ route, navigation }) => {
             flexWrap: 'wrap',
             paddingVertical: 5,
           }} style={{ flex: 1 }}>
-          {renderItem(Images.interestArt, 'Art')}
-          {renderItem(Images.interestChess, 'Chess')}
-          {renderItem(Images.interestCooking, 'Cooking')}
-          {renderItem(Images.interestCycling, 'Cycling')}
-          {renderItem(Images.interestDancing, 'Dancing')}
-          {renderItem(Images.interestDrawing, 'Drawing')}
-          {renderItem(Images.interestFishing, 'Fishing')}
-          {renderItem(Images.interestEntrepreneurship, 'Entrepreneurship')}
-          {renderItem(Images.interestGolfing, 'Golfing')}
-          {renderItem(Images.interestHiking, 'Hiking')}
-          {renderItem(Images.interestHunting, 'Hunting')}
-          {renderItem(Images.interestKayaking, 'Kayaking')}
-          {renderItem(Images.interestKnitting, 'Knitting')}
-          {renderItem(Images.interestWeightlifting, 'Weight Lifting')}
-          {renderItem(Images.interestMartialArts, 'Martial Arts')}
-          {renderItem(Images.interestMilitary, 'Military')}
-          {renderItem(Images.interestPainting, 'Painting')}
-          {renderItem(Images.interestParenting, 'Parenting')}
-          {renderItem(Images.interestProgramming, 'Programming')}
-          {renderItem(Images.interestPhotography, 'Photography')}
-          {renderItem(Images.interestPoker, 'Poker')}
-          {renderItem(Images.interestPolitics, 'Politics')}
-          {renderItem(Images.interestRunning, 'Running')}
-          {renderItem(Images.interestRobotics, 'Robotics')}
-          {renderItem(Images.interestTechnology, 'Technology')}
-          {renderItem(Images.interestBusinessNews, 'Business News')}
+            {interests.map(i => {
+              return renderItem(null, i)
+            })}
+          {mainInterests.filter(i => !interests.includes(i)).map(i => {
+            return renderItem(null, i)
+          })}
+          {renderItem(Images.interestBusinessNews, 'Show More...', true)}
         </ScrollView>
         <View
           style={{
@@ -157,6 +228,41 @@ const Survey = ({ route, navigation }) => {
             textStyle={{ color: '#AAA'}}
           /> */}
         </View>
+
+        <Modal
+      isVisible={isModalVisible}
+      style={[Theme.Modal.modalView]}
+      animationInTiming={300}
+      animationOutTiming={300}>
+      <View style={Theme.Modal.modalInnerView}>
+        <View style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: '100%',
+              flex: 1,
+        }}>
+          <BlurView style={{ flex: 1 }} blurType="light" blurAmount={1} />
+        </View>
+        <ScrollView
+          contentContainerStyle={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            // justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            flexWrap: 'wrap',
+            paddingVertical: 5,
+            paddingTop: 40
+          }} style={{ flex: 1 }}>
+            {extraInterests.map(i => {
+              return renderItem(null, i)
+            })}
+        </ScrollView>
+        <AppButton text="Continue" onPress={() => setIsModalVisible(false)} style={{ marginBottom: 50, marginHorizontal: 15 }} />
+        </View>
+      </Modal>
+
       </SafeAreaView>
   )
 }
