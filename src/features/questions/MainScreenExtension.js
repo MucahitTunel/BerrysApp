@@ -42,7 +42,7 @@ const Extension = () => {
           style={{
             fontSize: 16,
             marginTop: 10,
-            height: 100,
+            height: 90,
             width: Dimensions.Width - 80,
             color: Colors.purpleText,
           }}
@@ -52,7 +52,7 @@ const Extension = () => {
           multiline
         />
         <View style={{ flex: 1 }} />
-        <AppButton
+        {/* <AppButton
           shadow={false}
           icon="image"
           iconSize={20}
@@ -63,7 +63,7 @@ const Extension = () => {
               selectedTab: 'image',
             })
           }
-        />
+        /> */}
       </View>
       <AppButton
         text="Continue"

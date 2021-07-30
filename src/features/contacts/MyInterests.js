@@ -220,6 +220,94 @@ const MySkipped = () => {
         return Images.interestTechnology
       case 'business news':
         return Images.interestBusinessNews
+      case 'antiques':
+        return Images.interestAntique
+      case 'baseball':
+        return Images.interestBaseball
+      case 'basketball':
+        return Images.interestBasketball
+      case 'boardgames':
+        return Images.interestBoardGames
+      case 'boating':
+        return Images.interestBoating
+      case 'camping':
+        return Images.interestCamping
+      case 'cars':
+        return Images.interestCar
+      case 'auto repairs':
+        return Images.interestCarRepair
+      case 'checkers':
+        return Images.interestChecker
+      case 'climbing':
+        return Images.interestClimbing
+      case 'cricket':
+        return Images.interestCricket
+      case 'fashion & style':
+        return Images.interestFashion
+      case 'fitness':
+        return Images.interestFitness
+      case 'food':
+        return Images.interestFood
+      case 'football':
+        return Images.interestFootball
+      case 'gardening':
+        return Images.interestGardening
+      case 'genealogy':
+        return Images.interestGenealogy
+      case 'golf':
+        return Images.interestGolf
+      case 'hockey':
+        return Images.interestHockey
+      case 'jewelry':
+        return Images.interestJewelry
+      case 'meditation':
+        return Images.interestMeditation
+      case 'monopoly':
+        return Images.interestMonopoly
+      case 'movies':
+        return Images.interestMovies
+      case 'music':
+        return Images.interestMusic
+      case 'musical inturment':
+        return Images.interestMusicalInsturments
+      case 'pets':
+        return Images.interestPet
+      case 'reading':
+        return Images.interestReading
+      case 'singing':
+        return Images.interestSinging
+      case 'skating':
+        return Images.interestSkating
+      case 'skiing':
+        return Images.interestSkiing
+      case 'skydiving':
+        return Images.interestSkydiving
+      case 'snowboarding':
+        return Images.interesSnowboarding
+      case 'soccer':
+        return Images.interestSoccer
+      case 'socializing':
+        return Images.interestSocializing
+      case 'table tennis':
+        return Images.interestTableTennis
+      case 'tennis':
+        return Images.interestTennis
+      case 'theater':
+        return Images.interestTheater
+      case 'traveling':
+        return Images.interestTraveling
+      case 'video games':
+        return Images.interestVideogame
+      case 'volleyball':
+        return Images.interestVolleyball
+      case 'watches':
+        return Images.interestWatches
+      case 'wine':
+        return Images.interestWine
+      case 'writing':
+        return Images.interestWriting
+      case 'yoga':
+        return Images.interestYoga
     }
   }
 
@@ -239,7 +327,9 @@ const MySkipped = () => {
           },
         ]}
         onPress={() => interestOnPress(item)}>
-        {/* <Image source={getIcon(item.toLowerCase())} style={styles.icon} /> */}
+        {getIcon(item.toLowerCase()) && (
+          <Image source={getIcon(item.toLowerCase())} style={styles.icon} />
+        )}
         <AppText weight="medium" color={isActive ? 'black' : Colors.gray}>
           {item
             .split(' ')

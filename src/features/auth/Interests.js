@@ -57,7 +57,6 @@ const mainInterests = [
   'Politics',
   'Running',
   'Technology',
-  'Business News',
 ]
 const extraInterests = [
   'Camping',
@@ -71,7 +70,6 @@ const extraInterests = [
 'Theater',
 'Writing',
 'Boardgames',
-'Chess',
 'Skating',
 'Basketball',
 'Baseball',
@@ -83,6 +81,7 @@ const extraInterests = [
 'Traveling',
 'Checkers',
 'Monopoly',
+'Business News',
 'Hockey',
 'Cricket',
 'Table tennis',
@@ -132,6 +131,151 @@ const Survey = ({ route, navigation }) => {
     // dispatch(submitSurvey({ /* value,  */data: {/* ...data,  */interests } }))
   }
 
+  const getIcon = (interest) => {
+    switch(interest) {
+      case 'Art':
+      return Images.interestArt
+      case 'Chess':
+      return Images.interestChess
+      case 'Cooking':
+      return Images.interestCooking
+      case 'Cycling':
+      return Images.interestCycling
+      case 'Dancing':
+      return Images.interestDancing
+      case 'Drawing':
+      return Images.interestDrawing
+      case 'Fishing':
+      return Images.interestFishing
+      case 'Entrepreneurship':
+      return Images.interestEntrepreneurship
+      case 'Golfing':
+      return Images.interestGolfing
+      case 'Hiking':
+      return Images.interestHiking
+      case 'Hunting':
+      return Images.interestHunting
+      case 'Kayaking':
+      return Images.interestKayaking
+      case 'Knitting':
+      return Images.interestKnitting
+      case 'Weight Lifting':
+      return Images.interestWeightlifting
+      case 'Martial Arts':
+      return Images.interestMartialArts
+      case 'Military':
+      return Images.interestMilitary
+      case 'Painting':
+      return Images.interestPainting
+      case 'Parenting':
+      return Images.interestParenting
+      case 'Programming':
+      return Images.interestProgramming
+      case 'Photography':
+      return Images.interestPhotography
+      case 'Poker':
+      return Images.interestPoker
+      case 'Politics':
+      return Images.interestPolitics
+      case 'Running':
+      return Images.interestRunning
+      case 'Robotics':
+      return Images.interestRobotics
+      case 'Technology':
+      return Images.interestTechnology
+      case 'Business News':
+      return Images.interestBusinessNews
+      case 'Antiques':
+          return Images.interestAntique
+          case 'Baseball':
+    return Images.interestBaseball
+    case 'Basketball':
+    return Images.interestBasketball
+    case 'Boardgames':
+    return Images.interestBoardGames
+    case 'Boating':
+    return Images.interestBoating
+    case 'Camping':
+    return Images.interestCamping
+    case 'Cars':
+    return Images.interestCar
+    case 'Auto Repairs':
+    return Images.interestCarRepair
+    case 'Checkers':
+    return Images.interestChecker
+    case 'Climbing':
+    return Images.interestClimbing
+    case 'Cricket':
+    return Images.interestCricket
+    case 'Fashion & style':
+    return Images.interestFashion
+    case 'Fitness':
+    return Images.interestFitness
+    case 'Food':
+    return Images.interestFood
+    case 'Football':
+    return Images.interestFootball
+    case 'Gardening':
+    return Images.interestGardening
+    case 'Genealogy':
+    return Images.interestGenealogy
+    case 'Golf':
+    return Images.interestGolf
+    case 'Hockey':
+    return Images.interestHockey
+    case 'Jewelry':
+    return Images.interestJewelry
+    case 'Meditation':
+    return Images.interestMeditation
+    case 'Monopoly':
+    return Images.interestMonopoly
+    case 'Movies':
+    return Images.interestMovies
+    case 'Music':
+    return Images.interestMusic
+    case 'Musical Inturment':
+    return Images.interestMusicalInsturments
+    case 'Pets':
+    return Images.interestPet
+    case 'Reading':
+    return Images.interestReading
+    case 'Singing':
+    return Images.interestSinging
+    case 'Skating':
+    return Images.interestSkating
+    case 'Skiing':
+    return Images.interestSkiing
+    case 'Skydiving':
+    return Images.interestSkydiving
+    case 'Snowboarding':
+    return Images.interesSnowboarding
+    case 'Soccer':
+    return Images.interestSoccer
+    case 'Socializing':
+    return Images.interestSocializing
+    case 'Table Tennis':
+    return Images.interestTableTennis
+    case 'Tennis':
+    return Images.interestTennis
+    case 'Theater':
+    return Images.interestTheater
+    case 'Traveling':
+    return Images.interestTraveling
+    case 'Video Games':
+    return Images.interestVideogame
+    case 'Volleyball':
+    return Images.interestVolleyball
+    case 'Watches':
+    return Images.interestWatches
+    case 'Wine':
+    return Images.interestWine
+    case 'Writing':
+    return Images.interestWriting
+    case 'Yoga':
+    return Images.interestYoga
+    }
+  }
+
   const renderItem = (image, text, isModal = false) => {
     
     const itemOnPress = () => {
@@ -146,30 +290,33 @@ const Survey = ({ route, navigation }) => {
 
       return (
           <ScaleTouchable
-            style={{
+            style={[{
                 flexDirection: 'row', alignItems: 'center',
                 padding: 10,
                 paddingHorizontal: 15,
                 borderRadius: 30,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 1.5 },
-                shadowOpacity: 0.2,
-                shadowRadius: 2,
-                elevation: 1,
+                
                 backgroundColor: interests.includes(text) ? Colors.purple : 'white',
                 marginRight: 10,
                 marginBottom: 20
-            }}
+            }, !isModal && {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 1.5 },
+              shadowOpacity: 0.2,
+              shadowRadius: 2,
+              elevation: 1,
+            }]}
             onPress={itemOnPress}
           >
-              {/* <Image source={image} style={{
+              {image && <Image source={image} style={{
                   resizeMode: 'contain',
                   height: 20,
                   width: 20,
                   marginRight: 5
-              }}/> */}
+              }}/>}
               <AppText
                 color={interests.includes(text) ? 'white' : Colors.purpleText}
+                style={{ textDecorationLine: isModal ? 'underline' : 'none' }}
               >
                   {text}
               </AppText>
@@ -206,12 +353,12 @@ const Survey = ({ route, navigation }) => {
             paddingVertical: 5,
           }} style={{ flex: 1 }}>
             {interests.map(i => {
-              return renderItem(null, i)
+              return renderItem(getIcon(i), i)
             })}
           {mainInterests.filter(i => !interests.includes(i)).map(i => {
-            return renderItem(null, i)
+            return renderItem(getIcon(i), i)
           })}
-          {renderItem(Images.interestBusinessNews, 'Show More...', true)}
+          {renderItem(null, 'Show More...', true)}
         </ScrollView>
         <View
           style={{
@@ -256,7 +403,7 @@ const Survey = ({ route, navigation }) => {
             paddingTop: 40
           }} style={{ flex: 1 }}>
             {extraInterests.map(i => {
-              return renderItem(null, i)
+              return renderItem(getIcon(i), i)
             })}
         </ScrollView>
         <AppButton text="Continue" onPress={() => setIsModalVisible(false)} style={{ marginBottom: 50, marginHorizontal: 15 }} />
@@ -268,3 +415,6 @@ const Survey = ({ route, navigation }) => {
 }
 
 export default Survey
+
+
+

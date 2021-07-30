@@ -81,6 +81,50 @@ import interestTechnology from './new-design/interest/technology.png'
 import interestBusinessNews from './new-design/interest/business.png'
 import location from './new-design/location.png'
 import likeMinded from './new-design/likeMinded.png'
+import interestAntique from './new-design/interest/antique.png'
+import interestBaseball from './new-design/interest/baseball.png'
+import interestBasketball from './new-design/interest/basketball.png'
+import interestBoardGames from './new-design/interest/boardgames.png'
+import interestBoating from './new-design/interest/boating.png'
+import interestCamping from './new-design/interest/camping.png'
+import interestCar from './new-design/interest/car.png'
+import interestCarRepair from './new-design/interest/carrepair.png'
+import interestChecker from './new-design/interest/checker.png'
+import interestClimbing from './new-design/interest/climbing.png'
+import interestCricket from './new-design/interest/cricket.png'
+import interestFashion from './new-design/interest/fashion.png'
+import interestFitness from './new-design/interest/fitness.png'
+import interestFood from './new-design/interest/food.png'
+import interestFootball from './new-design/interest/football.png'
+import interestGardening from './new-design/interest/gardening.png'
+import interestGenealogy from './new-design/interest/genealogy.png'
+import interestGolf from './new-design/interest/golf.png'
+import interestHockey from './new-design/interest/hockey.png'
+import interestJewelry from './new-design/interest/jewelry.png'
+import interestMeditation from './new-design/interest/meditation.png'
+import interestMonopoly from './new-design/interest/monopoly.png'
+import interestMovies from './new-design/interest/movies.png'
+import interestMusic from './new-design/interest/music.png'
+import interestMusicalInsturments from './new-design/interest/musicalinsturments.png'
+import interestPet from './new-design/interest/pet.png'
+import interestReading from './new-design/interest/reading.png'
+import interestSinging from './new-design/interest/singing.png'
+import interestSkating from './new-design/interest/skating.png'
+import interestSkiing from './new-design/interest/skiing.png'
+import interestSkydiving from './new-design/interest/skydiving.png'
+import interesSnowboarding from './new-design/interest/snowboarding.png'
+import interestSoccer from './new-design/interest/soccer.png'
+import interestSocializing from './new-design/interest/socializing.png'
+import interestTableTennis from './new-design/interest/tabletennis.png'
+import interestTennis from './new-design/interest/tennis.png'
+import interestTheater from './new-design/interest/theater.png'
+import interestTraveling from './new-design/interest/traveling.png'
+import interestVideogame from './new-design/interest/videogame.png'
+import interestVolleyball from './new-design/interest/volleyball.png'
+import interestWatches from './new-design/interest/watches.png'
+import interestWine from './new-design/interest/wine.png'
+import interestWriting from './new-design/interest/writing.png'
+import interestYoga from './new-design/interest/yoga.png'
 
 export default {
   logo,
@@ -160,4 +204,48 @@ export default {
   interestBusinessNews,
   location,
   likeMinded,
+  interestAntique,
+  interestBaseball,
+  interestBasketball,
+  interestBoardGames,
+  interestBoating,
+  interestCamping,
+  interestCar,
+  interestCarRepair,
+  interestChecker,
+  interestClimbing,
+  interestCricket,
+  interestFashion,
+  interestFitness,
+  interestFood,
+  interestFootball,
+  interestGardening,
+  interestGenealogy,
+  interestGolf,
+  interestHockey,
+  interestJewelry,
+  interestMeditation,
+  interestMonopoly,
+  interestMovies,
+  interestMusic,
+  interestMusicalInsturments,
+  interestPet,
+  interestReading,
+  interestSinging,
+  interestSkating,
+  interestSkiing,
+  interestSkydiving,
+  interesSnowboarding,
+  interestSoccer,
+  interestSocializing,
+  interestTableTennis,
+  interestTennis,
+  interestTheater,
+  interestTraveling,
+  interestVideogame,
+  interestVolleyball,
+  interestWatches,
+  interestWine,
+  interestWriting,
+  interestYoga,
 }
