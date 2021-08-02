@@ -109,9 +109,9 @@ const INTERESTS = [
   'movies',
   'video games',
   'fitness',
-  'working out',
-  'gym',
-  'watching sports',
+  // 'working out',
+  // 'gym',
+  // 'watching sports',
   'socializing',
   'watches',
   'jewelry',
@@ -119,7 +119,7 @@ const INTERESTS = [
   'boating',
   'wine',
   'fashion & style',
-  'culinary',
+  // 'culinary',
   'auto repairs',
   'antiques',
   'genealogy',
@@ -268,7 +268,7 @@ const MySkipped = () => {
         return Images.interestMovies
       case 'music':
         return Images.interestMusic
-      case 'musical inturment':
+      case 'musical instrument':
         return Images.interestMusicalInsturments
       case 'pets':
         return Images.interestPet
@@ -308,6 +308,8 @@ const MySkipped = () => {
         return Images.interestWriting
       case 'yoga':
         return Images.interestYoga
+      case 'collectibles':
+        return Images.interestCollectible
     }
   }
 

@@ -97,9 +97,9 @@ const extraInterests = [
 'Movies',
 'Video Games',
 'Fitness',
-'Working out',
-'Gym',
-'Watching Sports',
+// 'Working out',
+// 'Gym',
+// 'Watching Sports',
 'Socializing',
 'Watches',
 'Jewelry',
@@ -107,7 +107,7 @@ const extraInterests = [
 'Boating',
 'Wine',
 'Fashion & style',
-'Culinary',
+// 'Culinary',
 'Auto Repairs',
 'Antiques',
 'Genealogy',
@@ -244,7 +244,7 @@ const Survey = ({ route, navigation }) => {
     return Images.interestMovies
     case 'Music':
     return Images.interestMusic
-    case 'Musical Inturment':
+    case 'Musical Instrument':
     return Images.interestMusicalInsturments
     case 'Pets':
     return Images.interestPet
@@ -284,6 +284,8 @@ const Survey = ({ route, navigation }) => {
     return Images.interestWriting
     case 'Yoga':
     return Images.interestYoga
+    case 'Collectibles':
+    return Images.interestCollectible
     }
   }
 

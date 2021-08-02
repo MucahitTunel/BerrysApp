@@ -125,6 +125,7 @@ import interestWatches from './new-design/interest/watches.png'
 import interestWine from './new-design/interest/wine.png'
 import interestWriting from './new-design/interest/writing.png'
 import interestYoga from './new-design/interest/yoga.png'
+import interestCollectible from './new-design/interest/collectible.png'
 
 export default {
   logo,
@@ -248,4 +249,5 @@ export default {
   interestWine,
   interestWriting,
   interestYoga,
+  interestCollectible,
 }
