@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar, StyleSheet, View, SafeAreaView, Image, ScrollView } from 'react-native'
 import { AppButton, AppText, ScaleTouchable, SimpleHeader } from 'components'
 import { Dimensions, Colors, FontSize, Screens } from 'constants'
@@ -7,6 +7,8 @@ import Images from 'assets/images'
 import Modal from 'react-native-modal'
 import Theme from 'theme'
 import { BlurView } from '@react-native-community/blur'
+import firebase from 'services/firebase'
+import { useSelector } from 'react-redux'
 
 const styles = StyleSheet.create({
   container: {
@@ -121,8 +123,17 @@ const Survey = ({ route, navigation }) => {
 
     // const { value, data } = route.params
 
+  const user = useSelector(state => state.auth.user)
+
   const [interests, setInterests] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+
+  useEffect(() => {
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'Interest Screen',
+      user: user.phoneNumber,
+    })
+  })
 
   const onPressContinue = () => {
     navigation.navigate(Screens.Permissions, {

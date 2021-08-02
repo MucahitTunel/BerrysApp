@@ -10,7 +10,7 @@ import { AppText, AppButton, AppImage, AppIcon } from 'components'
 import { Colors, Dimensions, FontSize } from 'constants'
 import * as NavigationService from 'services/navigation'
 import Images from 'assets/images'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { submitSurvey } from 'features/auth/authSlice'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import PropTypes from 'prop-types'
@@ -23,6 +23,7 @@ import {
   checkNotifications,
   requestNotifications,
 } from 'react-native-permissions'
+import firebase from 'services/firebase'
 
 const styles = StyleSheet.create({
   container: {
@@ -53,9 +54,18 @@ const styles = StyleSheet.create({
 const Permissions = ({ route }) => {
   const dispatch = useDispatch()
 
+  const user = useSelector((state) => state.auth.user)
+
   const [location, setLocation] = useState(false)
   const [notification, setNotification] = useState(false)
   const [contact, setContact] = useState(false)
+
+  useEffect(() => {
+    firebase.analytics.logEvent(firebase.analytics.events.SCREEN_NAVIGATION, {
+      screen: 'Permission Screen',
+      user: user.phoneNumber,
+    })
+  })
 
   // useEffect(() => {
   //   checkNotifications().then(({ status, settings }) => {
