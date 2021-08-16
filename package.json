@@ -72,6 +72,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^2.15.2",
     "react-native-url-preview": "^1.1.8",
+    "react-native-ux-cam": "^5.3.4-beta.2",
     "react-native-vector-icons": "^7.0.0",
     "react-redux": "^7.2.0",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",

@@ -15,6 +15,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 import AppNavigator from 'components/AppNavigator'
 import store, { persistor } from './state/store'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.optIntoSchematicRecordings()
+RNUxcam.startWithKey(process.env.UXCAM_APP_KEY)
+
 enableScreens()
 
 const App = () => {

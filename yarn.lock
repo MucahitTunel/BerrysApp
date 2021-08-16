@@ -7866,6 +7866,11 @@ react-native-url-preview@^1.1.8:
   dependencies:
     link-preview-js "2.0.4"
 
+react-native-ux-cam@^5.3.4-beta.2:
+  version "5.3.4-beta.2"
+  resolved "https://registry.yarnpkg.com/react-native-ux-cam/-/react-native-ux-cam-5.3.4-beta.2.tgz#e1ab792ef86e52c2b5034ee14d41f96474184cd7"
+  integrity sha512-z8UUumiE+s92nxxcIM3qVubGqtOrkC7fgvWvzr6i10F882H5LAp+DbcnlX8jOjOv7zr1iQhZnWvUBFTitQaH8w==
+
 react-native-vector-icons@^7.0.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-7.1.0.tgz#145487d617b2a81d395d2cf64e6e065fcab3a454"

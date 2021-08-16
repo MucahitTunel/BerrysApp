@@ -524,8 +524,12 @@ PODS:
     - RNSound/Core (= 0.11.0)
   - RNSound/Core (0.11.0):
     - React
+  - RNUxcam (5.3.4-beta.2):
+    - React-Core
+    - UXCam (~> 3.3.6)
   - RNVectorIcons (7.1.0):
     - React
+  - UXCam (3.3.6)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -617,6 +621,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSound (from `../node_modules/react-native-sound`)
+  - RNUxcam (from `../node_modules/react-native-ux-cam`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -657,6 +662,7 @@ SPEC REPOS:
     - OneSignal
     - OpenSSL-Universal
     - PromisesObjC
+    - UXCam
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -782,6 +788,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSound:
     :path: "../node_modules/react-native-sound"
+  RNUxcam:
+    :path: "../node_modules/react-native-ux-cam"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -884,7 +892,9 @@ SPEC CHECKSUMS:
   RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNShare: 106a76243ac90f43ddb9028dcb78ade406b8adff
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
+  RNUxcam: 6bb9ff68ebcdd360e6082f12c8f4872ffd7fdd58
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  UXCam: 0160e973e6ea68486916220e710b7d63fbb179d8
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
