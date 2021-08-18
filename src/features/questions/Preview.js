@@ -14,6 +14,9 @@ import { Avatar, AppText, AppIcon, AppButton, AppImage } from 'components'
 import { askQuestion, setAskAnonymously } from 'features/questions/askSlice'
 import PropTypes from 'prop-types'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Preview')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

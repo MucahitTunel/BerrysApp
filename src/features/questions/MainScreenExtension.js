@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import * as NavigationService from 'services/navigation'
 
 import RNUxcam from 'react-native-ux-cam'
-RNUxcam.tagScreenName('Main Screen')
+RNUxcam.tagScreenName('Main Screen Welcome')
 
 const styles = StyleSheet.create({
   container: {

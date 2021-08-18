@@ -9,6 +9,9 @@ import { Dimensions, Colors, FontSize } from 'constants'
 import { AppButton, AppText } from 'components'
 import Theme from 'theme'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Voice Call Modal')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

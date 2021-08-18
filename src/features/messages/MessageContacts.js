@@ -5,6 +5,9 @@ import { ContactsList, AppText, AppIcon } from 'components'
 import { joinRoom } from 'features/messages/messagesSlice'
 import { FontSize, Colors } from 'constants'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Message Contacts')
+
 const MessageContacts = (props) => {
   const dispatch = useDispatch()
 

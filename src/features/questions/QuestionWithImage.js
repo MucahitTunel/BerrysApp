@@ -15,6 +15,9 @@ import AppText from '../../components/AppText'
 import { setAskQuestion, setQuestionImage } from 'features/questions/askSlice'
 import * as NavigationService from '../../services/navigation'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Question With Image')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

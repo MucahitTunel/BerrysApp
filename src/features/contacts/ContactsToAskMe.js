@@ -5,6 +5,9 @@ import { ContactsList } from 'components'
 import { requestToAsk } from 'features/auth/authSlice'
 import { Dimensions, Colors } from 'constants'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Contacts to Ask Me')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

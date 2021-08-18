@@ -17,6 +17,9 @@ import {
 } from 'features/questions/askSlice'
 import { directMessage } from 'features/messages/messagesSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Ask My Question Modal')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

@@ -12,6 +12,9 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import KeyboardListener from 'react-native-keyboard-listener'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Report')
+
 import { Dimensions, Colors } from 'constants'
 import { AppInput, AppButton, Layout } from 'components'
 import { submitReport } from 'features/report/reportSlice'

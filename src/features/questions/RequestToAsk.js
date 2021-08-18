@@ -14,6 +14,9 @@ import { AppButton, AppText, Header, Loading, Avatar, Layout } from 'components'
 import { BackButton } from 'components/NavButton'
 import AskMyQuestionModal from './AskMyQuestionModal'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Request to Ask')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

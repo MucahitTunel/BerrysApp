@@ -6,6 +6,9 @@ import { Loading } from 'components'
 import { Dimensions, Colors } from 'constants'
 import PropTypes from 'prop-types'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Direct Message')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

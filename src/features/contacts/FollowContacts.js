@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ContactsList } from 'components'
 import { blacklistContacts } from 'features/contacts/contactsSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Follow Contacts')
+
 const FollowContacts = (props) => {
   const dispatch = useDispatch()
   const contacts = useSelector((state) => state.contacts)

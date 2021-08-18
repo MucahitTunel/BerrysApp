@@ -13,6 +13,9 @@ import AppButton from '../../components/AppButton'
 import AppText from '../../components/AppText'
 import Picker from '../../components/Picker'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Ask User Name Modal')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

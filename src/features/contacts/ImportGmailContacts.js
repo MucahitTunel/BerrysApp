@@ -12,6 +12,9 @@ import ScaleTouchable from '../../components/ScaleTouchable'
 import { AppImage, AppText } from 'components'
 import Images from 'assets/images'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Import Gmail Contacts')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

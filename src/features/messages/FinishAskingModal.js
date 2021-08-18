@@ -10,6 +10,9 @@ import { AppButton, AppText } from 'components'
 import Theme from 'theme'
 import { finishAskingAskRequest } from 'features/questions/askSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Finish Asking Modal')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

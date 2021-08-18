@@ -13,6 +13,9 @@ import { sendInvite } from 'features/auth/authSlice'
 import { Colors } from 'constants'
 import { createPoll, createCompare } from '../questions/questionSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Select Contacts')
+
 const SelectContacts = (props) => {
   const dispatch = useDispatch()
   const ask = useSelector((state) => state.ask)
