@@ -49,6 +49,9 @@ import * as NavigationService from '../../services/navigation'
 import { blacklistContacts, reportUser } from 'features/contacts/contactsSlice'
 import RNUrlPreview from 'react-native-url-preview'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Question Detail Screen')
+
 const styles = StyleSheet.create({
   headerView: {
     backgroundColor: Colors.white,

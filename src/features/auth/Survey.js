@@ -8,6 +8,9 @@ import Images from 'assets/images'
 import { loadContacts } from 'features/contacts/contactsSlice'
 import * as NavigationService from 'services/navigation'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Survey')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

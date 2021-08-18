@@ -7,6 +7,9 @@ import Images from 'assets/images'
 import * as NavigationService from 'services/navigation'
 import { setOnboarding } from 'features/auth/authSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Ask Common Accounts')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

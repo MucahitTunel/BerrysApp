@@ -25,6 +25,9 @@ import {
 } from 'react-native-permissions'
 import firebase from 'services/firebase'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Permissions')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -11,6 +11,9 @@ import { Layout, AppText, AppButton, AppInput } from 'components'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateSelectedPoints } from 'features/auth/authSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Points Input')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

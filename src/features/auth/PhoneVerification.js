@@ -8,6 +8,9 @@ import { Colors, Dimensions, FontSize } from 'constants'
 import { verifyPhoneNumber, resendVerifyCode } from 'features/auth/authSlice'
 import PropTypes from 'prop-types'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Phone Verfification')
+
 const linearGradientColors = [Colors.purple, Colors.purple]
 
 const styles = {

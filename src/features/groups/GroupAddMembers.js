@@ -14,6 +14,9 @@ import {
   setCurrentGroupAdmins,
 } from './groupSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Group Add Members')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

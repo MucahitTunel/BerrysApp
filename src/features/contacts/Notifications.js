@@ -15,6 +15,9 @@ import { setHasNotifications } from 'features/auth/authSlice'
 import { getQuestion } from 'features/questions/questionSlice'
 import firebase from 'services/firebase'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Notifications')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

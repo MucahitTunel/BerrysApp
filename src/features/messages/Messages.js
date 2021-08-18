@@ -27,6 +27,9 @@ import { getRooms, setRoom } from 'features/messages/messagesSlice'
 import Images from 'assets/images'
 import Fonts from 'assets/fonts'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Message List')
+
 moment.locale('en', {
   relativeTime: {
     future: 'in %s',

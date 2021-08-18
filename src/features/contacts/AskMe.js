@@ -8,6 +8,9 @@ import { Dimensions, Colors, FontSize, Screens } from 'constants'
 import ScaleTouchable from '../../components/ScaleTouchable'
 import * as NavigationService from 'services/navigation'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Ask Me')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

@@ -8,6 +8,9 @@ import { skipFacebook } from './authSlice'
 import { getFacebookGroups } from 'features/groups/groupSlice'
 import facebookService from '../../services/facebook'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('FacebookIntegration')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

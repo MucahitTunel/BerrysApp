@@ -14,6 +14,9 @@ import request from 'services/api'
 import Images from 'assets/images'
 import { submitSurvey } from 'features/auth/authSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('My Interests')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

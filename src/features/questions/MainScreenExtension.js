@@ -6,6 +6,9 @@ import { setAskQuestion } from 'features/questions/askSlice'
 import { useDispatch } from 'react-redux'
 import * as NavigationService from 'services/navigation'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Main Screen')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height - 145,

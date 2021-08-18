@@ -12,8 +12,9 @@ import {
   TouchableOpacity,
   Platform,
   ScrollView,
-  Modal,
+  Alert,
 } from 'react-native'
+import Modal from 'react-native-modal'
 import moment from 'moment'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 import OneSignal from 'react-native-onesignal'
@@ -67,6 +68,11 @@ import Images from 'assets/images'
 import request from '../../services/api'
 import firebase from 'services/firebase'
 import MainScreenExtension from './MainScreenExtension'
+import Theme from 'theme'
+import { BlurView } from '@react-native-community/blur'
+
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Main Screen')
 
 ReceiveSharingIntent.getReceivedFiles(
   (files) => {
@@ -291,7 +297,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const RenderCompare = ({ compare, isPopular }) => {
+export const RenderCompare = ({ compare, isPopular, onLongPress }) => {
   const user = useSelector((state) => state.auth.user)
   const popularCompares = useSelector(
     (state) => state.questions.popularCompares,
@@ -395,7 +401,11 @@ export const RenderCompare = ({ compare, isPopular }) => {
   const selectedWidth = Dimensions.Width / 3.8
 
   return (
-    <View style={styles.cardItemContainer}>
+    <TouchableOpacity
+      style={styles.cardItemContainer}
+      onLongPress={() => {
+        if (!isPopular) onLongPress()
+      }}>
       {renderCardHeader({
         isPopular,
         type: 'compare',
@@ -481,7 +491,7 @@ export const RenderCompare = ({ compare, isPopular }) => {
           </TouchableOpacity>
         )} */}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -498,6 +508,7 @@ const RenderQuestionImage = ({
   group,
   contactName,
   myContact,
+  onLongPress,
 }) => {
   const onPressQuestion = () => {
     dispatch(getQuestion(questionId))
@@ -507,7 +518,10 @@ const RenderQuestionImage = ({
   return (
     <TouchableOpacity
       style={styles.cardItemContainer}
-      onPress={onPressQuestion}>
+      onPress={onPressQuestion}
+      onLongPress={() => {
+        if (!isPopular) onLongPress()
+      }}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
           isPopular,
@@ -671,6 +685,7 @@ export const QuestionItem = ({
     isLikeMinded,
   },
   isPopular,
+  onLongPress,
 }) => {
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
@@ -715,6 +730,7 @@ export const QuestionItem = ({
         commonInterests={commonInterests}
         commonCountries={commonCountries}
         isLikeMinded={isLikeMinded}
+        onLongPress={onLongPress}
       />
     )
 
@@ -770,7 +786,10 @@ export const QuestionItem = ({
   return (
     <TouchableOpacity
       style={styles.cardItemContainer}
-      onPress={onPressQuestion}>
+      onPress={onPressQuestion}
+      onLongPress={() => {
+        if (!isPopular) onLongPress()
+      }}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
           isPopular,
@@ -871,7 +890,7 @@ QuestionItem.propTypes = {
   }),
 }
 
-export const RenderPoll = ({ poll, isPopular }) => {
+export const RenderPoll = ({ poll, isPopular, onLongPress }) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth.user)
   const popularPolls = useSelector((state) => state.questions.popularPolls)
@@ -969,7 +988,11 @@ export const RenderPoll = ({ poll, isPopular }) => {
   }
 
   return (
-    <View style={styles.cardItemContainer}>
+    <TouchableOpacity
+      style={styles.cardItemContainer}
+      onLongPress={() => {
+        if (!isPopular) onLongPress()
+      }}>
       <View style={{ flex: 1 }}>
         {renderCardHeader({
           isPopular,
@@ -1023,7 +1046,7 @@ export const RenderPoll = ({ poll, isPopular }) => {
           )} */}
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -1046,6 +1069,7 @@ const Main = ({ route }) => {
   const auth = useSelector((state) => state.auth)
   const leaderboard = useSelector((state) => state.contacts.leaderboard)
 
+  const [shareHideModal, setShareHideModal] = useState(false)
   const [onboardingModal, setOnboardingModal] = useState(false)
   const [isSuccessModalVisible, setSuccessModalVisible] = useState(false)
   const [myPosts, setMyPosts] = useState([])
@@ -1215,18 +1239,25 @@ const Main = ({ route }) => {
   }, [showSuccessModal])
 
   const renderItem = (item) => {
-    if (item.type === 'question') return <QuestionItem question={item} />
+    if (item.type === 'question')
+      return <QuestionItem question={item} onLongPress={postOnLongPress} />
     if (
       item.type === 'popular-question' ||
       item.type === 'popular-user-question'
     )
       return <QuestionItem question={item} isPopular />
-    if (item.type === 'poll') return <RenderPoll poll={item} />
-    if (item.type === 'compare') return <RenderCompare compare={item} />
+    if (item.type === 'poll')
+      return <RenderPoll poll={item} onLongPress={postOnLongPress} />
+    if (item.type === 'compare')
+      return <RenderCompare compare={item} onLongPress={postOnLongPress} />
     if (item.type === 'popular-compare' || item.type === 'popular-user-compare')
       return <RenderCompare compare={item} isPopular />
     if (item.type === 'popular-poll' || item.type === 'popular-user-poll')
       return <RenderPoll poll={item} isPopular />
+  }
+
+  const postOnLongPress = () => {
+    return setShareHideModal(true)
   }
 
   const renderCard = (card) => {
@@ -1236,15 +1267,15 @@ const Main = ({ route }) => {
 
   const myPostsOnSwipedLeft = (index) => {
     setMyPostsIndex(index + 1)
-    const post = myPosts[index]
-    switch (post.type) {
-      case 'question':
-        return dispatch(hideQuestion(post._id))
-      case 'poll':
-        return dispatch(hidePoll(post._id))
-      case 'compare':
-        return dispatch(hideCompare(post._id))
-    }
+    // const post = myPosts[index]
+    // switch (post.type) {
+    //   case 'question':
+    //     return dispatch(hideQuestion(post._id))
+    //   case 'poll':
+    //     return dispatch(hidePoll(post._id))
+    //   case 'compare':
+    //     return dispatch(hideCompare(post._id))
+    // }
   }
 
   const myPostsOnSwipedRight = (index) => {
@@ -1669,6 +1700,69 @@ const Main = ({ route }) => {
                     />
                   </TouchableOpacity>
                 )}
+              </View>
+            </Modal>
+          )}
+
+          {shareHideModal && (
+            <Modal
+              isVisible={shareHideModal}
+              style={[Theme.Modal.modalView]}
+              animationInTiming={300}
+              animationOutTiming={300}>
+              <View style={Theme.Modal.modalInnerView}>
+                <View style={styles.modalBackdrop}>
+                  <BlurView
+                    style={{ flex: 1 }}
+                    blurType="dark"
+                    blurAmount={1}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    paddingHorizontal: 30,
+                  }}>
+                  <View style={{ marginVertical: 16 }}>
+                    <AppButton
+                      text={'Share Question'}
+                      onPress={() => {
+                        setShareHideModal(false)
+                        myPostsOnSwipedRight(myPostsIndex)
+                      }}
+                    />
+                  </View>
+                  <View style={{ marginBottom: 16 }}>
+                    <AppButton
+                      text={'Hide Question'}
+                      onPress={() => {
+                        setShareHideModal(false)
+                        const index = myPostsIndex
+                        const post = myPosts[index]
+                        switch (post.type) {
+                          case 'question':
+                            dispatch(hideQuestion(post._id))
+                            break
+                          case 'poll':
+                            dispatch(hidePoll(post._id))
+                            break
+                          case 'compare':
+                            dispatch(hideCompare(post._id))
+                            break
+                        }
+                        if (swiperRef && swiperRef.current)
+                          swiperRef.current.swipeLeft()
+                      }}
+                    />
+                  </View>
+                  <AppButton
+                    text="Close"
+                    textStyle={{ color: Colors.purple }}
+                    style={{ backgroundColor: Colors.white }}
+                    onPress={() => setShareHideModal(false)}
+                  />
+                </View>
               </View>
             </Modal>
           )}

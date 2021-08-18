@@ -26,6 +26,9 @@ import { BlurView } from '@react-native-community/blur'
 import Modal from 'react-native-modal'
 import firebase from 'services/firebase'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('My Profile')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

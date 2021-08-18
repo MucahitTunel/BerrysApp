@@ -53,6 +53,9 @@ import {
 // import { contactSettingsAlert } from 'features/contacts/helpers'
 import firebase from 'services/firebase'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Post Question Screen')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

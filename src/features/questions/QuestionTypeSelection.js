@@ -30,6 +30,9 @@ import * as NavigationService from 'services/navigation'
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Question Type Selection Screen')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

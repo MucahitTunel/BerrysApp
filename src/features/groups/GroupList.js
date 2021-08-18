@@ -23,6 +23,9 @@ import {
 import { getGroups, getGroup } from './groupSlice'
 import Images from 'assets/images'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Group List')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

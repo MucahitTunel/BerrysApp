@@ -14,6 +14,7 @@ import KochavaTracker from 'react-native-kochava-tracker'
 import firebase from '../../services/firebase'
 import facebookService from '../../services/facebook'
 import { getCommonAccountCounts, loadContacts } from '../contacts/contactsSlice'
+import RNUxcam from 'react-native-ux-cam'
 
 // Enable pusher logging - don't include this in production
 // Pusher.logToConsole = true
@@ -98,6 +99,13 @@ export const getUser = createAsyncThunk(
     })
     dispatch(setBooting(false))
     const { user } = data
+    RNUxcam.setUserIdentity(user._id)
+    RNUxcam.setUserProperty('phoneNumber', user.phoneNumber)
+    if (user.profilePicture)
+      RNUxcam.setUserProperty('profilePicture', user.profilePicture)
+    if (user.name) RNUxcam.setUserProperty('profilePicture', user.name)
+    if (user.totalPoints)
+      RNUxcam.setUserProperty('profilePicture', user.totalPoints)
     dispatch(setUser(user))
     dispatch(loadContacts())
   },

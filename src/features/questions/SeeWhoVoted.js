@@ -9,6 +9,9 @@ import { Dimensions, FontSize, Colors } from 'constants'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('See Who Voted Modal')
+
 const styles = StyleSheet.create({
     container: {
       height: Dimensions.Height,

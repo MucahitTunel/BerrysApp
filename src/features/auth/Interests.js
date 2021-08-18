@@ -10,6 +10,9 @@ import { BlurView } from '@react-native-community/blur'
 import firebase from 'services/firebase'
 import { useSelector } from 'react-redux'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Interests Selection')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

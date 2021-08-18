@@ -7,6 +7,9 @@ import * as NavigationService from 'services/navigation'
 import { AppIcon, AppText, ScaleTouchable, Layout } from 'components'
 import { setNewGroupTemplate } from './groupSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Group Create Template')
+
 const GROUP_TEMPLATE_OWN = { name: 'My Own' }
 
 const GROUP_TEMPLATES = [

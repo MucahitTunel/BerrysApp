@@ -7,6 +7,9 @@ import { Colors, Dimensions } from 'constants'
 import Images from 'assets/images'
 import Theme from 'theme'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Onboarding')
+
 const slider = [
   {
     id: 0,

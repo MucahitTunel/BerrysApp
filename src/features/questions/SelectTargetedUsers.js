@@ -23,6 +23,9 @@ import countryData from 'utils/countries.json'
 import shuffleArray from 'utils/shuffleArray'
 import { setTargetedCountries, setTargetedInterests } from './askSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Select Targeted Users Screen')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

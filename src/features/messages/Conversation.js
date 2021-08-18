@@ -46,6 +46,9 @@ import FinishAskingModal from './FinishAskingModal'
 import { launchImageLibrary } from 'react-native-image-picker'
 import firebase from '../../services/firebase'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Conversation Screen')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

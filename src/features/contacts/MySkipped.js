@@ -6,6 +6,9 @@ import { getMySkipped } from 'features/questions/questionsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { RenderCompare, QuestionItem, RenderPoll } from '../questions/Main'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('My Skipped Posts')
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

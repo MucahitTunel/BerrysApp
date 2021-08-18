@@ -27,6 +27,9 @@ import { signIn } from 'features/auth/authSlice'
 import Images from 'assets/images'
 import ScaleTouchable from '../../components/ScaleTouchable'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('SignIn Modal')
+
 const linearGradient = [Colors.purple, Colors.purple]
 
 const styles = StyleSheet.create({

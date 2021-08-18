@@ -12,6 +12,9 @@ import { useDispatch } from 'react-redux'
 import { createVoiceCall } from 'features/contacts/contactsSlice'
 import Sound from 'react-native-sound'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Voice Call')
+
 Sound.setCategory('Playback')
 
 const styles = StyleSheet.create({

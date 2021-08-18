@@ -7,6 +7,9 @@ import { Colors } from 'constants'
 import Images from 'assets/images'
 import { authBoot } from 'features/auth/authSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Splash')
+
 const linearGradient = [Colors.purple, Colors.purple]
 
 const Splash = () => {

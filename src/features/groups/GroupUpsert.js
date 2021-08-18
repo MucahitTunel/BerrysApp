@@ -56,6 +56,9 @@ import { QuestionItem, RenderPoll, RenderCompare } from '../questions/Main'
 import Images from 'assets/images'
 import { launchImageLibrary } from 'react-native-image-picker'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('Group Create/Update')
+
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.Height,

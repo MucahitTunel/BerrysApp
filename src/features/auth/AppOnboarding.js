@@ -9,6 +9,9 @@ import { setOnBoarding } from './authSlice'
 import * as NavigationService from '../../services/navigation'
 import { loadContacts } from 'features/contacts/contactsSlice'
 
+import RNUxcam from 'react-native-ux-cam'
+RNUxcam.tagScreenName('AppOnboarding')
+
 const slider = [
   {
     id: 0,
