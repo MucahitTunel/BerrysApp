@@ -64,6 +64,8 @@ fastlane/report.xml
 google-services*.json
 GoogleService-Info*.plist
 .env.*
+__secrets__
+docs/
 
 .ruby-version
 
